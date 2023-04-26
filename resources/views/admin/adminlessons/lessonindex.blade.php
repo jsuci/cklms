@@ -63,6 +63,9 @@
                 width: 100%;
                 height: 100%;
             }
+            #select-quiz {
+                padding: 0;
+            }
     </style>
     <form name="formdata" action="/adminlessoncontentcreate" method="post" enctype="multipart/form-data">
         @csrf
@@ -139,7 +142,7 @@
                                                     <i class="fas fa-video m-0"></i><span class="gfg_text">Video</span>
                                                 </a>
                                                 <!-- quiz -->
-                                                <a class="btn btn-sm text-white gfg_tooltip quiz" style="background-color: #3175c2; border: 3px solid #1d62b7;">
+                                                <a class="btn btn-sm text-white gfg_tooltip" contenttype="quiz" style="background-color: #3175c2; border: 3px solid #1d62b7;">
                                                     <i class="fas fa-question-circle m-0"></i><span class="gfg_text">Quiz</span>
                                                 </a>
                                                 <!-- quiz -->
@@ -186,7 +189,7 @@
                                                         <i class="fas fa-video m-0"></i><span class="gfg_text">Video</span>
                                                     </a>
                                                     <!-- quiz -->
-                                                    <a class="btn btn-sm text-white gfg_tooltip quiz" style="background-color: #3175c2; border: 3px solid #1d62b7;">
+                                                    <a class="btn btn-sm text-white gfg_tooltip" contenttype="quiz" style="background-color: #3175c2; border: 3px solid #1d62b7;">
                                                         <i class="fas fa-question-circle m-0"></i><span class="gfg_text">Quiz</span>
                                                     </a>
                                                     <!-- quiz -->
@@ -342,7 +345,7 @@
                                             '<i class="fas fa-video m-0"></i><span class="gfg_text">Video</span>'+
                                         '</a>'+
     
-                                        '<a class="btn btn-sm text-white gfg_tooltip quiz" id="'+addrow+'"style="background-color: #3175c2; border: 3px solid #1d62b7;">'+
+                                        '<a class="btn btn-sm text-white gfg_tooltip" contenttype="quiz" style="background-color: #3175c2; border: 3px solid #1d62b7;" id="'+addrowid+'">'+
                                             '<i class="fas fa-question-circle m-0"></i><span class="gfg_text">Quiz</span>'+
                                         '</a>'+
 
@@ -408,8 +411,8 @@
                                     '<i class="fas fa-video m-0"></i><span class="gfg_text">Video</span>'+
                                 '</a>'+
 
-                                '<a class="btn btn-sm text-white gfg_tooltip quiz" id="'+addrow+'"style="background-color: #3175c2; border: 3px solid #1d62b7;">'+
-                                '<i class="fas fa-question-circle m-0"></i><span class="gfg_text">Quiz</span>'+
+                                '<a class="btn btn-sm text-white gfg_tooltip" contenttype="quiz" style="background-color: #3175c2; border: 3px solid #1d62b7;" id="'+addrowid+'">'+
+                                    '<i class="fas fa-question-circle m-0"></i><span class="gfg_text">Quiz</span>'+
                                 '</a>'+
 
                                 '<a class="btn btn-sm text-white gfg_tooltip newrow" style="background-color: #3175c2; border: 3px solid #1d62b7;" id="'+addrowid+'">'+
@@ -449,6 +452,20 @@
                             selectedcontent = 'video';
                             var contentdisplay = '<input contenttype="video" type="file" class="form-control" name="video"  id="'+addrowid+'"/>';
                         }
+                        if($(this).attr('contenttype') == 'quiz'){
+                            selectedcontent = 'quiz';
+                            var contentdisplay = `
+                            <select class="form-select" aria-label="Select type of quiz" id="select-quiz">
+                                <option selected>Select type of quiz</option>
+                                <option value="1">Multiple Choice</option>
+                                <option value="2">Identification</option>
+                                <option value="3">Fill in the blanks</option>
+                                <option value="4">Drag and Drop</option>
+                                <option value="5">Essay</option>
+                            </select>
+                            `;
+                        }
+
                         $(this).closest('.row').find('.col-content').find('.contenttype').empty();
                         $(this).closest('.row').find('.col-content').find('.contenttype').append(contentdisplay);
 
