@@ -138,6 +138,11 @@
                                                 <a class="btn btn-sm text-white gfg_tooltip" contenttype="video" style="background-color: #3175c2; border: 3px solid #1d62b7;">
                                                     <i class="fas fa-video m-0"></i><span class="gfg_text">Video</span>
                                                 </a>
+                                                <!-- quiz -->
+                                                <a class="btn btn-sm text-white gfg_tooltip quiz" style="background-color: #3175c2; border: 3px solid #1d62b7;">
+                                                    <i class="fas fa-question-circle m-0"></i><span class="gfg_text">Quiz</span>
+                                                </a>
+                                                <!-- quiz -->
                                                 <a class="btn btn-sm text-white gfg_tooltip newrow" style="background-color: #3175c2; border: 3px solid #1d62b7;">
                                                     <i class="fas fa-plus m-0"></i><span class="gfg_text">New row</span>
                                                 </a>
@@ -180,6 +185,11 @@
                                                     <a class="btn btn-sm text-white gfg_tooltip" contenttype="video" style="background-color: #3175c2; border: 3px solid #1d62b7;">
                                                         <i class="fas fa-video m-0"></i><span class="gfg_text">Video</span>
                                                     </a>
+                                                    <!-- quiz -->
+                                                    <a class="btn btn-sm text-white gfg_tooltip quiz" style="background-color: #3175c2; border: 3px solid #1d62b7;">
+                                                        <i class="fas fa-question-circle m-0"></i><span class="gfg_text">Quiz</span>
+                                                    </a>
+                                                    <!-- quiz -->
                                                     <a class="btn btn-sm text-white gfg_tooltip newrow" style="background-color: #3175c2; border: 3px solid #1d62b7;">
                                                         <i class="fas fa-plus m-0"></i><span class="gfg_text">New row</span>
                                                     </a>
@@ -298,10 +308,12 @@
                     
                     // var addrow = 1;
                     var addrow = $('.contentcontainer').children('.row').length;
+
                     $(document).on('click', '.newrow', function(){
-                    $('.ui-helper-hidden-accessible').remove();
-                        addrow+=1;
-                        // console.log()
+                        $('.ui-helper-hidden-accessible').remove();
+
+                        addrow += 1;
+                        
                         $(this).closest('.row').find('.rowhidden').empty()
                         $('.contentcontainer').append(
                             '<div id="'+addrow+'" class="row p-3">'+
@@ -329,6 +341,11 @@
                                         '<a class="btn btn-sm text-white gfg_tooltip" contenttype="video" style="background-color: #3175c2; border: 3px solid #1d62b7;"id="'+addrow+'">'+
                                             '<i class="fas fa-video m-0"></i><span class="gfg_text">Video</span>'+
                                         '</a>'+
+    
+                                        '<a class="btn btn-sm text-white gfg_tooltip quiz" id="'+addrow+'"style="background-color: #3175c2; border: 3px solid #1d62b7;">'+
+                                            '<i class="fas fa-question-circle m-0"></i><span class="gfg_text">Quiz</span>'+
+                                        '</a>'+
+
                                         '<a class="btn btn-sm text-white gfg_tooltip newrow" id="'+addrow+'"style="background-color: #3175c2; border: 3px solid #1d62b7;">'+
                                             '<i class="fas fa-plus m-0"></i><span class="gfg_text">New row</span>'+
                                         '</a>'+
@@ -357,10 +374,15 @@
                             ]
                         })
                     })
+
                     $(document).on('click', '.editcontent', function(){
-                    $('.ui-helper-hidden-accessible').remove();
+                        $('.ui-helper-hidden-accessible').remove();
                         $('.btn-group-vertical').remove();
+
                         var addrowid = $(this).attr('id');
+
+                        console.log(addrowid)
+
                         $(this).closest('.row').find('.rowhidden').append(
                             '<div class="btn-group-vertical">'+
                                 '<a class="btn btn-sm text-white gfg_tooltip" contenttype="title" style="background-color: #3175c2; border: 3px solid #1d62b7;" id="'+addrowid+'">'+
@@ -385,15 +407,23 @@
                                 '<a class="btn btn-sm text-white gfg_tooltip" contenttype="video" style="background-color: #3175c2; border: 3px solid #1d62b7;" id="'+addrowid+'">'+
                                     '<i class="fas fa-video m-0"></i><span class="gfg_text">Video</span>'+
                                 '</a>'+
+
+                                '<a class="btn btn-sm text-white gfg_tooltip quiz" id="'+addrow+'"style="background-color: #3175c2; border: 3px solid #1d62b7;">'+
+                                '<i class="fas fa-question-circle m-0"></i><span class="gfg_text">Quiz</span>'+
+                                '</a>'+
+
                                 '<a class="btn btn-sm text-white gfg_tooltip newrow" style="background-color: #3175c2; border: 3px solid #1d62b7;" id="'+addrowid+'">'+
                                     '<i class="fas fa-plus m-0"></i><span class="gfg_text">New row</span>'+
                                 '</a>'+
                             '</div>'
                         )
                     })
+
                     var selectedcontent;
+
                     $(document).on('click', '.gfg_tooltip', function(){
-                    $('.ui-helper-hidden-accessible').remove();
+                        
+                        $('.ui-helper-hidden-accessible').remove();
                         var addrowid = $(this).attr('id');
                         if($(this).attr('contenttype') == 'title'){
                             selectedcontent = 'title';
@@ -434,9 +464,11 @@
                             ]
                         })
                     })
+
                     $('#edittitlebutton').on('click', function(){
                         $('#lessontitle').hide();
                     });
+                    
                     $('#editdescriptionbutton').on('click', function(){
                         $('#lessondescription').hide();
                     });
