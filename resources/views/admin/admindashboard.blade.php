@@ -43,7 +43,7 @@
                                 </div>
 
                                 <div class="card-footer d-flex justify-content-between py-2">
-                                    <a href="/adminstudents" class=" "> Veiw</a>
+                                    <a href="/adminstudents" class=" "> View</a>
                                 </div>
                             </div>
                         </a>
@@ -76,7 +76,7 @@
                                 </div>
 
                                 <div class="card-footer d-flex justify-content-between py-2">
-                                    <a href="/adminteachers" class=" "> Veiw</a>
+                                    <a href="/adminteachers" class=" "> View</a>
                                 </div>
                             </div>
                         </a>
@@ -109,7 +109,7 @@
                                 </div>
 
                                 <div class="card-footer d-flex justify-content-between py-2">
-                                    <a href="/adminbooks/index" class=" "> Veiw</a>
+                                    <a href="/adminbooks/index" class=" "> View</a>
                                 </div>
                             </div>
                         </a>
@@ -142,7 +142,7 @@
                                 </div>
 
                                 <div class="card-footer d-flex justify-content-between py-2">
-                                    <a href="/adminclassrooms" class=" "> Veiw</a>
+                                    <a href="/adminclassrooms" class=" "> View</a>
                                 </div>
                             </div>
                         </a>
@@ -177,7 +177,7 @@
                 <!--                </div>-->
 
                 <!--                <div class="card-footer d-flex justify-content-between py-2">-->
-                <!--                    <a href="/adminstudents" class=" "> Veiw</a>-->
+                <!--                    <a href="/adminstudents" class=" "> View</a>-->
                 <!--                </div>-->
                 <!--            </div>-->
                 <!--        </a>-->
@@ -210,7 +210,7 @@
                 <!--                </div>-->
 
                 <!--                <div class="card-footer d-flex justify-content-between py-2">-->
-                <!--                    <a href="/adminteachers" class=" "> Veiw</a>-->
+                <!--                    <a href="/adminteachers" class=" "> View</a>-->
                 <!--                </div>-->
                 <!--            </div>-->
                 <!--        </a>-->
@@ -243,7 +243,7 @@
                 <!--                </div>-->
 
                 <!--                <div class="card-footer d-flex justify-content-between py-2">-->
-                <!--                    <a href="/adminbooks/index" class=" "> Veiw</a>-->
+                <!--                    <a href="/adminbooks/index" class=" "> View</a>-->
                 <!--                </div>-->
                 <!--            </div>-->
                 <!--        </a>-->
@@ -276,7 +276,7 @@
                 <!--                </div>-->
 
                 <!--                <div class="card-footer d-flex justify-content-between py-2">-->
-                <!--                    <a href="/adminclassrooms" class=" "> Veiw</a>-->
+                <!--                    <a href="/adminclassrooms" class=" "> View</a>-->
                 <!--                </div>-->
                 <!--            </div>-->
                 <!--        </a>-->
@@ -312,7 +312,7 @@
 
                                             <div class="card-footer d-flex justify-content-between py-2">
                                                 <p class="mb-0"> 124 total sales </p>
-                                                <a href="#" class=" "> Veiw report</a>
+                                                <a href="#" class=" "> View report</a>
                                             </div>
                                         </div>
                                     </li>
@@ -334,7 +334,7 @@
 
                                             <div class="card-footer d-flex justify-content-between py-2">
                                                 <p class="mb-0"> 120 New Student </p>
-                                                <a href="#" class=" "> Veiw report</a>
+                                                <a href="#" class=" "> View report</a>
                                             </div>
                                         </div>
                                     </li>
@@ -356,7 +356,7 @@
 
                                             <div class="card-footer d-flex justify-content-between py-2">
                                                 <p class="mb-0"> 230 total Courses </p>
-                                                <a href="#" class=" "> Veiw report</a>
+                                                <a href="#" class=" "> View report</a>
                                             </div>
                                         </div>
                                     </li>
