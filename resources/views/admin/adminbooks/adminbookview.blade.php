@@ -495,7 +495,7 @@
                             '<button type="button" class="btn btn-sm btn-info mr-2 viewinfo" id="viewchapterinfo" uk-toggle="target: #modalviewupdate" chapterid="'+id+'" ><i class="fa fa-question"></i> View info</button>'+
                             '<button type="button" class="btn btn-sm btn-info mr-2" id="addchapter" uk-toggle="target: #modaladdchapter"><i class="fa fa-plus"></i> Chapter / Unit</button>'+
                             '<button type="button" class="btn btn-sm btn-info mr-2" id="addlesson" uk-toggle="target: #modaladdlesson"><i class="fa fa-plus"></i> Lesson</button>'+
-                            '<button type="button" class="btn btn-sm btn-info"  id="addquiz" uk-toggle="target: #modaladdquiz"><i class="fa fa-plus"></i> Quiz</button>'
+                            '<a href="/adminviewbook/addquiz" type="button" class="btn btn-sm btn-info mr-2" target="_blank" id="addquiz" > Quiz</a>'
                         );
                         $('.boxchapter'+id+' i').remove()
                         $('.boxchapter'+id).append('<i class="fa fa-times ml-2 removeitem"></i>')
