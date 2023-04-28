@@ -60,6 +60,15 @@
             width: 100%;
             height: 100%;
         }
+        .options {
+            position: relative;
+            z-index: 1;
+        }
+        .drop-option {
+            position: relative;
+            z-index: 0;
+        }
+
     </style>
 
 <body>
@@ -78,61 +87,57 @@
                     </div>
 
                     <div class="quizzes">
-                        
-                        {{-- <! -- question 1 --> --}}
+
+                        <!-- multiple choice -->
                         <div class="card mt-5">
                             <div class="card-body">
-                                <h5 style="font-weight:400">
-                                    Instruction for multiple choice question
-                                </h5>
+                                <span style="font-weight:600;font-size:1.0pc">
+                                    Which enzyme is responsible for separating the two strands of DNA during replication?
+                                </span>
 
-                                <div class="form-check">
+                                <div class="form-check mt-2">
                                     <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios1" value="option1" checked>
                                     <label class="form-check-label" for="exampleRadios1">
-                                        Option 1
+                                        A. Ligase
                                     </label>
                                 </div>
 
-                                <div class="form-check">
+                                <div class="form-check mt-2">
                                     <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios1" value="option1" checked>
                                     <label class="form-check-label" for="exampleRadios1">
-                                        Option 2
+                                        B. Primase
                                     </label>
                                 </div>
                             </div>
                         </div>
 
-
+                        <!-- drag and drop -->
                         <div class="card mt-5">
                             <div class="card-body">
-                                <h5 style="font-weight:400">
+                                <span style="font-weight:600;font-size:1.0pc">
                                     Instruction for drag and drop question
-                                </h5>
+                                </span>
 
-                                <div class="options p-3" style="border:3px solid #3e416d;border-radius:6px;">
-                                    <div class="option btn btn-outline-primary" draggable="true" ondragstart="drag(event)">Paris</div>
-                                    <div class="option btn btn-outline-primary" draggable="true" ondragstart="drag(event)">London</div>
-                                    <div class="option btn btn-outline-primary" draggable="true" ondragstart="drag(event)">Atom</div>
-                                    <div class="option btn btn-outline-primary" draggable="true" ondragstart="drag(event)">Paris</div>
-                                    <div class="option btn btn-outline-primary" draggable="true" ondragstart="drag(event)">London</div>
-                                    <div class="option btn btn-outline-primary" draggable="true" ondragstart="drag(event)">Atom</div>
-                                    <div class="option btn btn-outline-primary" draggable="true" ondragstart="drag(event)">Paris</div>
-                                    <div class="option btn btn-outline-primary" draggable="true" ondragstart="drag(event)">Gravity</div>
-                                    <div class="option btn btn-outline-primary" draggable="true" ondragstart="drag(event)">Atom</div>
-                                    <div class="option btn btn-outline-primary" draggable="true" ondragstart="drag(event)">Paris</div>
-                                    <div class="option btn btn-outline-primary" draggable="true" ondragstart="drag(event)">London</div>
-                                    <div class="option btn btn-outline-primary" draggable="true" ondragstart="drag(event)">Atom</div>
+                                <div class="options p-3 mt-2" style="border:3px solid #3e416d;border-radius:6px;">
+                                    <div class="drag-option btn bg-primary text-white m-1">Paris</div>
+                                    <div class="drag-option btn bg-primary text-white m-1">London</div>
+                                    <div class="drag-option btn bg-primary text-white m-1">Atom</div>
+                                    <div class="drag-option btn bg-primary text-white m-1">Paris</div>
+                                    <div class="drag-option btn bg-primary text-white m-1">London</div>
+                                    <div class="drag-option btn bg-primary text-white m-1">Atom</div>
+                                    <div class="drag-option btn bg-primary text-white m-1">Paris</div>
+                                    <div class="drag-option btn bg-primary text-white m-1">Gravity</div>
+                                    <div class="drag-option btn bg-primary text-white m-1">Atom</div>
+                                    <div class="drag-option btn bg-primary text-white m-1">Paris</div>
+                                    <div class="drag-option btn bg-primary text-white m-1">London</div>
+                                    <div class="drag-option btn bg-primary text-white m-1">Atom</div>
                                 </div>
                                 
                                 <ol class="list-group list-group-numbered p-3">
                                     <li>
                                         <div class="row align-items-center">
                                             <div class="col-auto">
-                                                <p>What is the capital of France?</p>
-                                            </div>
-
-                                            <div class="col-auto">
-                                                <input class="form-control" style="border:1px solid #b6b6b6;border-radius:6px;" type="text" class="blank" ondrop="drop(event)" ondragover="allowDrop(event)">
+                                                <p>What is the capital of France? <input class="d-inline form-control drop-option" style="border:1px solid #b6b6b6;border-radius:6px;width:200px" type="text"></p>
                                             </div>
                                         </div>
                                     </li>
@@ -140,11 +145,7 @@
                                     <li>
                                         <div class="row align-items-center">
                                             <div class="col-auto">
-                                                <p>What is the smallest unit of matter?</p>
-                                            </div>
-
-                                            <div class="col-auto">
-                                                <input class="form-control" style="border:1px solid #b6b6b6;border-radius:6px;" type="text" class="blank" ondrop="drop(event)" ondragover="allowDrop(event)">
+                                                <p>What is the smallest unit of matter? <input class="d-inline form-control drop-option" style="border:1px solid #b6b6b6;border-radius:6px;width:200px" type="text"></p>
                                             </div>
                                         </div>
                                     </li>
@@ -152,17 +153,111 @@
                                     <li>
                                         <div class="row align-items-center">
                                             <div class="col-auto">
-                                                <p>What is the force that pulls objects toward each other?</p>
-                                            </div>
-
-                                            <div class="col-auto">
-                                                <input class="form-control" style="border:1px solid #b6b6b6;border-radius:6px;" type="text" class="blank" ondrop="drop(event)" ondragover="allowDrop(event)">
+                                                <p>What is the force that pulls objects toward each other? <input class="d-inline form-control drop-option" style="border:1px solid #b6b6b6;border-radius:6px;width:200px" type="text"></p>
                                             </div>
                                         </div>
                                     </li>
+                                </ol>
+                            </div>
+                        </div>
+                        
+                        <!-- fill in the blanks -->
+                        <div class="card mt-5">
+                            <div class="card-body">
+                                <span style="font-weight:600;font-size:1.0pc">
+                                    Instruction for fill in the blanks
+                                </span>
+
+                                <ol class="list-group list-group-numbered p-3">
+                                    <li>
+                                        <div class="row align-items-center form-inline">
+                                            <div class="col-auto">
+                                                <p>The <input class="d-inline form-control drop-option" style="border:1px solid #b6b6b6;border-radius:6px;width:200px" type="text"> is the largest organ in the human body.</p>
+                                            </div>
+                                        </div>
+                                    </li>
+
+                                    <li>
+                                        <div class="row align-items-center">
+                                            <div class="col-auto">
+                                                <p><input class="d-inline form-control drop-option" style="border:1px solid #b6b6b6;border-radius:6px;width:200px" type="text"> is the process by which a gas turns into a liquid.</p>
+                                            </div>
+                                        </div>
+                                    </li>
+
+                                    <li>
+                                        <div class="row align-items-center">
+                                            <div class="col-auto">
+                                                <p>The two main components of the central nervous system are the <input class="d-inline form-control drop-option" style="border:1px solid #b6b6b6;border-radius:6px;width:200px" type="text"></p> and the <input class="d-inline form-control drop-option" style="border:1px solid #b6b6b6;border-radius:6px;width:200px" type="text">. Please answer in lowercase.
+                                            </div>
+                                        </div>
+                                    </li>
+                                </ol>
+
+                            </div>
+                        </div>
+
+                        <!-- enumeration -->
+                        <div class="card mt-5">
+                            <div class="card-body">
+                                <span style="font-weight:600;font-size:1.0pc">
+                                    Enumerate the colors of the rainbow.
+                                </span>
+
+                                <ol class="list-group list-group-numbered p-3">
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            <li>
+                                                <p><input class="d-inline form-control drop-option" style="border:1px solid #b6b6b6;border-radius:6px;width:200px" type="text"></p>
+                                            </li>
+        
+                                            <li>
+                                                <p><input class="d-inline form-control drop-option" style="border:1px solid #b6b6b6;border-radius:6px;width:200px" type="text"></p>
+                                            </li>
+        
+                                            <li>
+                                                <p><input class="d-inline form-control drop-option" style="border:1px solid #b6b6b6;border-radius:6px;width:200px" type="text"></p>
+                                            </li>
+
+                                            <li>
+                                                <p><input class="d-inline form-control drop-option" style="border:1px solid #b6b6b6;border-radius:6px;width:200px" type="text"></p>
+                                            </li>
+                                        </div>
+
+                                        <div class="col-md-4">
+                                            <li>
+                                                <p><input class="d-inline form-control drop-option" style="border:1px solid #b6b6b6;border-radius:6px;width:200px" type="text"></p>
+                                            </li>
+        
+                                            <li>
+                                                <p><input class="d-inline form-control drop-option" style="border:1px solid #b6b6b6;border-radius:6px;width:200px" type="text"></p>
+                                            </li>
+        
+                                            <li>
+                                                <p><input class="d-inline form-control drop-option" style="border:1px solid #b6b6b6;border-radius:6px;width:200px" type="text"></p>
+                                            </li>
+                                        </div>
+
+
+                                        <div class="col-md-4">
+                                        </div>
+                                    </div>
 
                                 </ol>
 
+                            </div>
+                        </div>
+
+                        <!-- essay -->
+                        <div class="card mt-5">
+                            <div class="card-body">
+                                <span style="font-weight:600;font-size:1.0pc">
+                                    What are the potential benefits and drawbacks of using genetically modified organisms (GMOs) in agriculture?
+                                </span>
+
+                                <textarea class="form-control mt-2" style="border:1px solid #b6b6b6;border-radius:6px;" type="text"></textarea>
+
+                            </div>
                         </div>
 
                     </div>
@@ -178,6 +273,22 @@
 
 <script>
     $(document).ready(function(){
+
+        $( ".drag-option" ).draggable({
+            revertDuration: 100,
+            revert: true
+        });
+
+        $( ".drop-option" ).droppable({
+            drop: function( event, ui ) {
+                if ($(ui.draggable).hasClass("drag-option")) {
+                    ui.draggable.draggable("option", "revert", false);
+                } else {
+                    ui.draggable.draggable("option", "revert", true);
+                }
+            }
+        });
+
 
         $('textarea.quizcontent').summernote({
             toolbar: [
@@ -202,10 +313,10 @@
             var addrowid = $(this).attr('id');
             $(this).closest('.row').find('.rowhidden').append(
                 '<div class="btn-group-vertical">' +
-                    '<a class="btn btn-sm text-white gfg_tooltip" style="background-color: #3175c2; border: 3px solid #1d62b7;">' +
+                    '<a class="btn btn-sm text-white m-1 gfg_tooltip" style="background-color: #3175c2; border: 3px solid #1d62b7;">' +
                     '<i class="fas fa-trash m-0"></i><span class="gfg_text">Delete</span>' +
                     '</a>' +
-                    '<a class="btn btn-sm text-white gfg_tooltip newrow" style="background-color: #3175c2; border: 3px solid #1d62b7;">' +
+                    '<a class="btn btn-sm text-white m-1 gfg_tooltip newrow" style="background-color: #3175c2; border: 3px solid #1d62b7;">' +
                     '<i class="fas fa-plus m-0"></i><span class="gfg_text">Add Question</span>' +
                     '</a>' +                                      
                 '</div>' +
@@ -225,10 +336,10 @@
                 '<div id="'+addrow+'" class="row p-4 dragrow">' +
                     '<div class="col-lg-1 col-2 rowhidden d-flex align-items-center">' + 
                     '<div class="btn-group-vertical">' +
-                        '<a class="btn btn-sm text-white gfg_tooltip" style="background-color: #3175c2; border: 3px solid #1d62b7;">' +
+                        '<a class="btn btn-sm text-white m-1 gfg_tooltip" style="background-color: #3175c2; border: 3px solid #1d62b7;">' +
                         '<i class="fas fa-trash m-0"></i><span class="gfg_text">Delete</span>' +
                         '</a>' +
-                        '<a class="btn btn-sm text-white gfg_tooltip newrow" style="background-color: #3175c2; border: 3px solid #1d62b7;">' +
+                        '<a class="btn btn-sm text-white m-1 gfg_tooltip newrow" style="background-color: #3175c2; border: 3px solid #1d62b7;">' +
                         '<i class="fas fa-plus m-0"></i><span class="gfg_text">Add Question</span>' +
                         '</a>' +                                      
                     '</div>' +
