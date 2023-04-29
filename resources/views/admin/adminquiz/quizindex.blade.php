@@ -121,7 +121,6 @@
                                 <div class="options p-3 mt-2" style="border:3px solid #3e416d;border-radius:6px;">
                                     <div class="drag-option btn bg-primary text-white m-1" data-target="drag-1">Paris</div>
                                     <div class="drag-option btn bg-primary text-white m-1" data-target="drag-1">London</div>
-                                    <div class="drag-option btn bg-primary text-white m-1" data-target="drag-1">London</div>
                                     <div class="drag-option btn bg-primary text-white m-1" data-target="drag-1">Atom</div>
                                     <div class="drag-option btn bg-primary text-white m-1" data-target="drag-1">Paris</div>
                                     <div class="drag-option btn bg-primary text-white m-1" data-target="drag-1">Gravity</div>
