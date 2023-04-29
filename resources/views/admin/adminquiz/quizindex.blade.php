@@ -119,18 +119,18 @@
                                 </span>
 
                                 <div class="options p-3 mt-2" style="border:3px solid #3e416d;border-radius:6px;">
-                                    <div class="drag-option btn bg-primary text-white m-1">Paris</div>
-                                    <div class="drag-option btn bg-primary text-white m-1">London</div>
-                                    <div class="drag-option btn bg-primary text-white m-1">Atom</div>
-                                    <div class="drag-option btn bg-primary text-white m-1">Paris</div>
-                                    <div class="drag-option btn bg-primary text-white m-1">London</div>
-                                    <div class="drag-option btn bg-primary text-white m-1">Atom</div>
-                                    <div class="drag-option btn bg-primary text-white m-1">Paris</div>
-                                    <div class="drag-option btn bg-primary text-white m-1">Gravity</div>
-                                    <div class="drag-option btn bg-primary text-white m-1">Atom</div>
-                                    <div class="drag-option btn bg-primary text-white m-1">Paris</div>
-                                    <div class="drag-option btn bg-primary text-white m-1">London</div>
-                                    <div class="drag-option btn bg-primary text-white m-1">Atom</div>
+                                    <div class="drag-option btn bg-primary text-white m-1" data-target="drag-1">Paris</div>
+                                    <div class="drag-option btn bg-primary text-white m-1" data-target="drag-1">London</div>
+                                    <div class="drag-option btn bg-primary text-white m-1" data-target="drag-1">Atom</div>
+                                    <div class="drag-option btn bg-primary text-white m-1" data-target="drag-1">Paris</div>
+                                    <div class="drag-option btn bg-primary text-white m-1" data-target="drag-1">London</div>
+                                    <div class="drag-option btn bg-primary text-white m-1" data-target="drag-1">Atom</div>
+                                    <div class="drag-option btn bg-primary text-white m-1" data-target="drag-1">Paris</div>
+                                    <div class="drag-option btn bg-primary text-white m-1" data-target="drag-1">Gravity</div>
+                                    <div class="drag-option btn bg-primary text-white m-1" data-target="drag-1">Atom</div>
+                                    <div class="drag-option btn bg-primary text-white m-1" data-target="drag-1">Paris</div>
+                                    <div class="drag-option btn bg-primary text-white m-1" data-target="drag-1">London</div>
+                                    <div class="drag-option btn bg-primary text-white m-1" data-target="drag-1">Atom</div>
                                 </div>
                                 
                                 <ol class="list-group list-group-numbered p-3">
@@ -261,6 +261,8 @@
                         </div>
 
                     </div>
+
+                    
                 </form>
 
             </div>
@@ -274,18 +276,39 @@
 <script>
     $(document).ready(function(){
 
+        // $('.drag-option').draggable({
+        //     revert: 'invalid'
+        // });
+
+        // $('.drop-option').droppable({
+        //     drop: function(event, ui) {
+        //         let existingDragOption = $(this).find('.drag-option');
+                
+        //         if (existingDragOption.length) {
+        //             existingDragOption.draggable('option', 'revert', true);
+        //             ui.draggable.detach().css({top: 0,left: 0}).appendTo(this);
+        //         } else {
+        //             ui.draggable.detach().css({top: 0,left: 0}).appendTo(this);
+        //         }
+        //     }
+        // });
+        
         $( ".drag-option" ).draggable({
+            helper: "clone",
             revertDuration: 100,
-            revert: true
+            revert: 'invalid'
         });
 
         $( ".drop-option" ).droppable({
-            drop: function( event, ui ) {
-                if ($(ui.draggable).hasClass("drag-option")) {
-                    ui.draggable.draggable("option", "revert", false);
-                } else {
-                    ui.draggable.draggable("option", "revert", true);
-                }
+            drop: function(event, ui) {
+
+                var dragElement = $(ui.draggable)
+                var dropElement = $(this)
+
+                dropElement.val(dragElement.text())
+                dropElement.addClass('bg-primary text-white')
+                dropElement.prop( "disabled", true );
+
             }
         });
 
