@@ -20,12 +20,15 @@
     {{-- <link rel="stylesheet" href="{{asset('templatefiles/night-mode.css')}}"> --}}
     <link rel="stylesheet" href="{{asset('templatefiles/framework.css')}}">
     <link rel="stylesheet" href="{{asset('templatefiles/bootstrap.css')}}">
-
     <link rel="stylesheet" href="{{asset('plugins/fontawesome-free/css/all.min.css')}}">
-<!-- SweetAlert2 -->
+
+    <!-- SweetAlert2 -->
     <link rel="stylesheet" href="{{asset('plugins/sweetalert2-theme-bootstrap-4/bootstrap-4.min.css')}}">
     <link rel="stylesheet" href="{{asset('plugins/datatables-bs4/css/dataTables.bootstrap4.css')}}">
-<!-- summernote -->
+
+    <!-- summernote -->
+    <link rel="stylesheet" href="{{asset('plugins/summernote/summernote-bs4.css')}}">
+
     <!-- icons
     ================================================== -->
     <link rel="stylesheet" href="{{asset('templatefiles/icons.css')}}">

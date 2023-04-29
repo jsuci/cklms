@@ -291,20 +291,24 @@
         });
 
 
-        $('textarea.quizcontent').summernote({
+        $('textarea').summernote({
+            tooltip: false,
             toolbar: [
                 // [groupName, [list of button]]
                 ['style', ['bold', 'italic', 'underline', 'clear']],
-                ['font', ['strikethrough', 'superscript', 'subscript']],
+                // ['font', ['strikethrough', 'superscript', 'subscript']],
                 ['fontsize', ['fontsize']],
                 ['color', ['color']],
                 ['para', ['ul', 'ol', 'paragraph']],
-                ['height', ['height']]
-            ]
+                // ['height', ['height']]
+            ],
+            callbacks: {
+                onChange: function(contents, $editable) {
+                    console.log('onChange:', contents, $editable);
+                }
+            }
         })
 
-        $('.ui-helper-hidden-accessible').remove();
-        $('iframe').attr('allowfullscreen');
 
 
         $(document).on('click', '.editcontent', function(){
@@ -326,53 +330,6 @@
         })
 
         
-        var addrow = $('.contentcontainer').children('.row').length;
-        $(document).on('click', '.newrow', function(){
-            $('.ui-helper-hidden-accessible').remove();
-                addrow += 1;
-
-            $(this).closest('.row').find('.rowhidden').empty()
-
-            $('.contentcontainer').append(
-                '<div id="'+addrow+'" class="row p-4 dragrow">' +
-                    '<div class="col-lg-1 col-2 rowhidden d-flex align-items-center">' + 
-                    '<div class="btn-group-vertical">' +
-                        '<a class="btn btn-sm text-white m-1 gfg_tooltip" style="background-color: #3175c2; border: 3px solid #1d62b7;">' +
-                        '<i class="fas fa-trash m-0"></i><span class="gfg_text">Delete</span>' +
-                        '</a>' +
-                        '<a class="btn btn-sm text-white m-1 gfg_tooltip newrow" style="background-color: #3175c2; border: 3px solid #1d62b7;">' +
-                        '<i class="fas fa-plus m-0"></i><span class="gfg_text">Add Question</span>' +
-                        '</a>' +                                      
-                    '</div>' +
-                    '</div>' +
-                    '<div class="col-lg-11 col-10 editcontent col-content">' +
-                    '<div class="card-header">' +
-                        '<div class="row">' +
-                        '<div class="col">' +
-                            '<select class="form-control">' +
-                            '<option value="multiple_choice">Multiple Choice</option>' +
-                            '<option value="true_false">True/False</option>' +
-                            '<option value="short_answer">Short Answer</option>' +
-                            '</select>' +
-                        '</div>' +
-                        '</div>' +
-                    '</div>' +
-                    '</div>' +
-                '</div>'
-            );
-
-            $('textarea.quizcontent').summernote({
-                toolbar: [
-                    // [groupName, [list of button]]
-                    ['style', ['bold', 'italic', 'underline', 'clear']],
-                    ['font', ['strikethrough', 'superscript', 'subscript']],
-                    ['fontsize', ['fontsize']],
-                    ['color', ['color']],
-                    ['para', ['ul', 'ol', 'paragraph']],
-                    ['height', ['height']]
-                ]
-            })
-        })
     })
 </script>
 
