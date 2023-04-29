@@ -166,7 +166,7 @@
                                     <li>
                                         <div class="row align-items-center form-inline">
                                             <div class="col-auto">
-                                                <p>The <input class="d-inline form-control drop-option" style="border:1px solid #b6b6b6;border-radius:6px;width:200px" type="text"> is the largest organ in the human body.</p>
+                                                <p>The <input class="d-inline form-control" style="border:1px solid #b6b6b6;border-radius:6px;width:200px" type="text"> is the largest organ in the human body.</p>
                                             </div>
                                         </div>
                                     </li>
@@ -174,7 +174,7 @@
                                     <li>
                                         <div class="row align-items-center">
                                             <div class="col-auto">
-                                                <p><input class="d-inline form-control drop-option" style="border:1px solid #b6b6b6;border-radius:6px;width:200px" type="text"> is the process by which a gas turns into a liquid.</p>
+                                                <p><input class="d-inline form-control" style="border:1px solid #b6b6b6;border-radius:6px;width:200px" type="text"> is the process by which a gas turns into a liquid.</p>
                                             </div>
                                         </div>
                                     </li>
@@ -182,7 +182,7 @@
                                     <li>
                                         <div class="row align-items-center">
                                             <div class="col-auto">
-                                                <p>The two main components of the central nervous system are the <input class="d-inline form-control drop-option" style="border:1px solid #b6b6b6;border-radius:6px;width:200px" type="text"></p> and the <input class="d-inline form-control drop-option" style="border:1px solid #b6b6b6;border-radius:6px;width:200px" type="text">. Please answer in lowercase.
+                                                <p>The two main components of the central nervous system are the <input class="d-inline form-control" style="border:1px solid #b6b6b6;border-radius:6px;width:200px" type="text"></p> and the <input class="d-inline form-control" style="border:1px solid #b6b6b6;border-radius:6px;width:200px" type="text">. Please answer in lowercase.
                                             </div>
                                         </div>
                                     </li>
@@ -202,33 +202,33 @@
                                     <div class="row">
                                         <div class="col-md-4">
                                             <li>
-                                                <p><input class="d-inline form-control drop-option" style="border:1px solid #b6b6b6;border-radius:6px;width:200px" type="text"></p>
+                                                <p><input class="d-inline form-control" style="border:1px solid #b6b6b6;border-radius:6px;width:200px" type="text"></p>
                                             </li>
         
                                             <li>
-                                                <p><input class="d-inline form-control drop-option" style="border:1px solid #b6b6b6;border-radius:6px;width:200px" type="text"></p>
+                                                <p><input class="d-inline form-control" style="border:1px solid #b6b6b6;border-radius:6px;width:200px" type="text"></p>
                                             </li>
         
                                             <li>
-                                                <p><input class="d-inline form-control drop-option" style="border:1px solid #b6b6b6;border-radius:6px;width:200px" type="text"></p>
+                                                <p><input class="d-inline form-control" style="border:1px solid #b6b6b6;border-radius:6px;width:200px" type="text"></p>
                                             </li>
 
                                             <li>
-                                                <p><input class="d-inline form-control drop-option" style="border:1px solid #b6b6b6;border-radius:6px;width:200px" type="text"></p>
+                                                <p><input class="d-inline form-control" style="border:1px solid #b6b6b6;border-radius:6px;width:200px" type="text"></p>
                                             </li>
                                         </div>
 
                                         <div class="col-md-4">
                                             <li>
-                                                <p><input class="d-inline form-control drop-option" style="border:1px solid #b6b6b6;border-radius:6px;width:200px" type="text"></p>
+                                                <p><input class="d-inline form-control" style="border:1px solid #b6b6b6;border-radius:6px;width:200px" type="text"></p>
                                             </li>
         
                                             <li>
-                                                <p><input class="d-inline form-control drop-option" style="border:1px solid #b6b6b6;border-radius:6px;width:200px" type="text"></p>
+                                                <p><input class="d-inline form-control" style="border:1px solid #b6b6b6;border-radius:6px;width:200px" type="text"></p>
                                             </li>
         
                                             <li>
-                                                <p><input class="d-inline form-control drop-option" style="border:1px solid #b6b6b6;border-radius:6px;width:200px" type="text"></p>
+                                                <p><input class="d-inline form-control" style="border:1px solid #b6b6b6;border-radius:6px;width:200px" type="text"></p>
                                             </li>
                                         </div>
 
@@ -270,22 +270,6 @@
 <script>
     $(document).ready(function(){
 
-        // $('.drag-option').draggable({
-        //     revert: 'invalid'
-        // });
-
-        // $('.drop-option').droppable({
-        //     drop: function(event, ui) {
-        //         let existingDragOption = $(this).find('.drag-option');
-                
-        //         if (existingDragOption.length) {
-        //             existingDragOption.draggable('option', 'revert', true);
-        //             ui.draggable.detach().css({top: 0,left: 0}).appendTo(this);
-        //         } else {
-        //             ui.draggable.detach().css({top: 0,left: 0}).appendTo(this);
-        //         }
-        //     }
-        // });
         
         $( ".drag-option" ).draggable({
             helper: "clone",
