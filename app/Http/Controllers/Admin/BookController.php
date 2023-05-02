@@ -408,6 +408,7 @@ class BookController extends Controller
         //     ->first();
 
         // return collect($chapterquizinfo);
+        // return view('admin.adminquiz.quizindex-admin');
         return view('admin.adminquiz.quizindex');
     }
     public function bookinfoupdate(Request $request)
