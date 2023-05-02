@@ -458,16 +458,20 @@
                 $(this).removeClass('is-invalid')
 
                 if ($(this).val() == "" ) {
-                    $(this).focus();
+                    
+                    if ($(this).prop("disabled")) {
+                        $(this).prop('disabled', false);
+                        $(this).focus();
+                        $(this).prop('disabled', true);
+                    } else {
+                        $(this).focus();
+                    }
+                    
+                    
                     $(this).addClass('is-invalid')
                     isvalid = false
                 }
 
-
-                if ($(this).is(":disabled")) {
-                    
-                }
-                
                 if ($(this).is(":radio")) {
                     if (!$("input[name='" + $(this).attr("name") + "']:checked").length) {
 
