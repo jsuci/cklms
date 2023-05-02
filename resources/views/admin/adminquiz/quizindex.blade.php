@@ -80,7 +80,15 @@
             border-radius:6px !important;
             width:200px !important;
         }
-
+        .error-input {
+            border-color: #dc3545 !important;
+        }
+        #scroll-to-bottom {
+            position: fixed;
+            bottom: 0px;
+            right: 0px;
+            padding: 9px 15px 9px 15px !important;
+        }
     </style>
 
 <body>
@@ -381,6 +389,7 @@
             </div>
         </div> <!-- end main row -->
     </div> <!-- end container quizcontent -->
+    <button id="scroll-to-bottom" class="btn btn-dark btn-lg mb-3 mr-3"><i class="fas fa-arrow-circle-down"></i></button>
 </body>
 
 
@@ -455,6 +464,7 @@
             var isvalid = true
 
             $('.answer-field').each(function() {
+                $(this).removeClass('error-input')
                 $(this).removeClass('is-invalid')
 
                 if ($(this).val() == "" ) {
@@ -468,11 +478,12 @@
                     }
                     
                     
-                    $(this).addClass('is-invalid')
+                    $(this).addClass('error-input')
                     isvalid = false
                 }
 
                 if ($(this).is(":radio")) {
+                    
                     if (!$("input[name='" + $(this).attr("name") + "']:checked").length) {
 
                         $(this).focus();
@@ -492,6 +503,26 @@
                 // show quiz complete form
             }
         })
+
+        // scroll to bottom
+        // Show the button when the user scrolls past a certain point
+        $(window).scroll(function() {
+            if ($(this).scrollTop() > 100) {
+                $('#scroll-to-bottom').fadeIn();
+            } else {
+                $('#scroll-to-bottom').fadeOut();
+            }
+        });
+        
+        // Scroll to the bottom of the page when the button is clicked
+        $('#scroll-to-bottom').click(function() {
+            $('html, body').animate({
+                scrollTop: $(document).height(),
+            }, 'slow', function() {
+                $('#scroll-to-bottom').fadeOut();
+            });
+            return false;
+        });
     })
 </script>
 
