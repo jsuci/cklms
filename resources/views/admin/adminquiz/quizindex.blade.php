@@ -110,76 +110,76 @@
                                 <li>
                                     <p>Which enzyme is responsible for separating the two strands of DNA during replication?</p>
                                     <div class="form-check mt-2">
-                                        <input data-question-id="1" class="answer-field form-check-input" type="radio" name="exampleRadios" id="exampleRadios1" value="option1" checked>
-                                        <label class="form-check-label" for="exampleRadios1">
-                                            A. Ligase
+                                        <input data-question-id="1" id="1" class="answer-field form-check-input" type="radio" name="enzyme" value="Ligase">
+                                        <label for="1" class="form-check-label">
+                                            Ligase
                                         </label>
                                     </div>
     
                                     <div class="form-check mt-2">
-                                        <input data-question-id="2" class="answer-field form-check-input" type="radio" name="exampleRadios" id="exampleRadios1" value="option1" checked>
-                                        <label class="form-check-label" for="exampleRadios1">
-                                            B. Primase
+                                        <input data-question-id="1" id="2" class="answer-field form-check-input" type="radio" name="enzyme" value="Primase">
+                                        <label for="2" class="form-check-label">
+                                            Primase
                                         </label>
                                     </div>
                                 </li>
                                 <li>
                                     <p>Which of the following is true about DNA replication?</p>
                                     <div class="form-check mt-2">
-                                        <input data-question-id="3" class="answer-field form-check-input" type="radio" name="exampleRadios" id="exampleRadios1" value="option1" checked>
-                                        <label class="form-check-label" for="exampleRadios1">
-                                            A. It occurs only during cell division
+                                        <input data-question-id="2" id="3" class="answer-field form-check-input" type="radio" name="dna" value="It occurs only during cell division">
+                                        <label for="3" class="form-check-label">
+                                            It occurs only during cell division
                                         </label>
                                     </div>
     
                                     <div class="form-check mt-2">
-                                        <input data-question-id="3" class="answer-field form-check-input" type="radio" name="exampleRadios" id="exampleRadios1" value="option1" checked>
-                                        <label class="form-check-label" for="exampleRadios1">
-                                            B. It occurs constantly throughout the cell cycle
+                                        <input data-question-id="2" id="4" class="answer-field form-check-input" type="radio" name="dna" value="It occurs constantly throughout the cell cycle">
+                                        <label for="4" class="form-check-label">
+                                            It occurs constantly throughout the cell cycle
                                         </label>
                                     </div>
 
                                     <div class="form-check mt-2">
-                                        <input data-question-id="5" class="answer-field form-check-input" type="radio" name="exampleRadios" id="exampleRadios1" value="option1" checked>
-                                        <label class="form-check-label" for="exampleRadios1">
-                                            C. It occurs only in certain types of cells
+                                        <input data-question-id="2" id="5" class="answer-field form-check-input" type="radio" name="dna" value="It occurs only in certain types of cells">
+                                        <label for="5" class="form-check-label">
+                                            It occurs only in certain types of cells
                                         </label>
                                     </div>
 
                                     <div class="form-check mt-2">
-                                        <input data-question-id="6" class="answer-field form-check-input" type="radio" name="exampleRadios" id="exampleRadios1" value="option1" checked>
-                                        <label class="form-check-label" for="exampleRadios1">
-                                            D. It occurs only in prokaryotic cells
+                                        <input data-question-id="2" id="6" class="answer-field form-check-input" type="radio" name="dna" value="It occurs only in prokaryotic cells">
+                                        <label for="6" class="form-check-label">
+                                            It occurs only in prokaryotic cells
                                         </label>
                                     </div>
                                 </li>
                                 <li>
                                     <p>What is the role of DNA polymerase during replication?</p>
                                     <div class="form-check mt-2">
-                                        <input data-question-id="7" class="answer-field form-check-input" type="radio" name="exampleRadios" id="exampleRadios1" value="option1" checked>
-                                        <label class="form-check-label" for="exampleRadios1">
-                                            A. To add new nucleotides to the growing DNA strand
+                                        <input data-question-id="3" id="7" class="answer-field form-check-input" type="radio" name="poly" value="To add new nucleotides to the growing DNA strand">
+                                        <label for="7" class="form-check-label">
+                                            To add new nucleotides to the growing DNA strand
                                         </label>
                                     </div>
     
                                     <div class="form-check mt-2">
-                                        <input data-question-id="8" class="answer-field form-check-input" type="radio" name="exampleRadios" id="exampleRadios1" value="option1" checked>
-                                        <label class="form-check-label" for="exampleRadios1">
-                                            B. To separate the two strands of DNA
+                                        <input data-question-id="3" id="8" class="answer-field form-check-input" type="radio" name="poly" value="To separate the two strands of DNA">
+                                        <label for="8" class="form-check-label">
+                                            To separate the two strands of DNA
                                         </label>
                                     </div>
 
                                     <div class="form-check mt-2">
-                                        <input data-question-id="9" class="answer-field form-check-input" type="radio" name="exampleRadios" id="exampleRadios1" value="option1" checked>
-                                        <label class="form-check-label" for="exampleRadios1">
-                                            C. To proofread and correct errors in the new DNA strand
+                                        <input data-question-id="3" id="9" class="answer-field form-check-input" type="radio" name="poly" value="To proofread and correct errors in the new DNA strand">
+                                        <label for="9" class="form-check-label">
+                                            To proofread and correct errors in the new DNA strand
                                         </label>
                                     </div>
 
                                     <div class="form-check mt-2">
-                                        <input data-question-id="10" class="answer-field form-check-input" type="radio" name="exampleRadios" id="exampleRadios1" value="option1" checked>
-                                        <label class="form-check-label" for="exampleRadios1">
-                                            D. To make RNA from the DNA template
+                                        <input data-question-id="3" id="10" class="answer-field form-check-input" type="radio" name="poly" value="To make RNA from the DNA template">
+                                        <label for="10" class="form-check-label">
+                                            To make RNA from the DNA template
                                         </label>
                                     </div>
                                 </li>
@@ -207,7 +207,7 @@
                                 <li>
                                     <div class="row align-items-center">
                                         <div class="col-auto">
-                                            <p>What is the capital of France? <input data-question-id="11" class="answer-field d-inline form-control q-input drop-option q-input" type="text"></p>
+                                            <p>What is the capital of France? <input data-question-id="11" class="answer-field d-inline form-control q-input drop-option q-input" type="text" disabled></p>
                                         </div>
                                     </div>
                                 </li>
@@ -215,7 +215,7 @@
                                 <li>
                                     <div class="row align-items-center">
                                         <div class="col-auto">
-                                            <p>What is the smallest unit of matter? <input data-question-id="12" class="answer-field d-inline form-control q-input drop-option q-input" type="text"></p>
+                                            <p>What is the smallest unit of matter? <input data-question-id="12" class="answer-field d-inline form-control q-input drop-option q-input" type="text" disabled></p>
                                         </div>
                                     </div>
                                 </li>
@@ -223,7 +223,7 @@
                                 <li>
                                     <div class="row align-items-center">
                                         <div class="col-auto">
-                                            <p>What is the force that pulls objects toward each other? <input data-question-id="13" class="answer-field d-inline form-control q-input drop-option q-input" type="text"></p>
+                                            <p>What is the force that pulls objects toward each other? <input data-question-id="13" class="answer-field d-inline form-control q-input drop-option q-input" type="text" disabled></p>
                                         </div>
                                     </div>
                                 </li>
@@ -258,7 +258,7 @@
                                 <li>
                                     <div class="row align-items-center">
                                         <div class="col-auto">
-                                            <p>The two main components of the central nervous system are the <input data-question-id="16" class="answer-field d-inline form-control q-input" type="text"></p> and the <input data-question-id="17" class="answer-field d-inline form-control q-input" type="text">. Please answer in lowercase.
+                                            <p>The two main components of the central nervous system are the <input data-question-id="16" class="answer-field d-inline form-control q-input" type="text"></p> and the <input data-question-id="16" class="answer-field d-inline form-control q-input" type="text">. Please answer in lowercase.
                                         </div>
                                     </div>
                                 </li>
@@ -285,29 +285,29 @@
                                                 </li>
             
                                                 <li>
-                                                    <p><input data-question-id="19" class="answer-field d-inline form-control q-input" type="text"></p>
+                                                    <p><input data-question-id="18" class="answer-field d-inline form-control q-input" type="text"></p>
                                                 </li>
             
                                                 <li>
-                                                    <p><input data-question-id="20" class="answer-field d-inline form-control q-input" type="text"></p>
+                                                    <p><input data-question-id="18" class="answer-field d-inline form-control q-input" type="text"></p>
                                                 </li>
     
                                                 <li>
-                                                    <p><input data-question-id="21" class="answer-field d-inline form-control q-input" type="text"></p>
+                                                    <p><input data-question-id="18" class="answer-field d-inline form-control q-input" type="text"></p>
                                                 </li>
                                             </div>
     
                                             <div class="col-md-4">
                                                 <li>
-                                                    <p><input data-question-id="22" class="answer-field d-inline form-control q-input" type="text"></p>
+                                                    <p><input data-question-id="18" class="answer-field d-inline form-control q-input" type="text"></p>
                                                 </li>
             
                                                 <li>
-                                                    <p><input data-question-id="23" class="answer-field d-inline form-control q-input" type="text"></p>
+                                                    <p><input data-question-id="18" class="answer-field d-inline form-control q-input" type="text"></p>
                                                 </li>
             
                                                 <li>
-                                                    <p><input data-question-id="24" class="answer-field d-inline form-control q-input" type="text"></p>
+                                                    <p><input data-question-id="18" class="answer-field d-inline form-control q-input" type="text"></p>
                                                 </li>
                                             </div>
     
@@ -437,6 +437,14 @@
             }
         });
 
+        // select choice by clicking label
+        $("label").click(function() {
+            var radioBtnId = $(this).attr("for");
+            var inputElement = $(`input.answer-field[id='${radioBtnId}']`);
+            inputElement.prop("checked", true)
+            autoSaveAnswer(inputElement)
+        });
+
         // auto save answer when switching to 
         $('.answer-field').on('change', function() {
             autoSaveAnswer(this);
@@ -447,17 +455,36 @@
             var isvalid = true
 
             $('.answer-field').each(function() {
-                if ($(this).val() == "") {
+                $(this).removeClass('is-invalid')
+
+                if ($(this).val() == "" ) {
                     $(this).focus();
+                    $(this).addClass('is-invalid')
                     isvalid = false
                 }
+
+
+                if ($(this).is(":disabled")) {
+                    
+                }
+                
+                if ($(this).is(":radio")) {
+                    if (!$("input[name='" + $(this).attr("name") + "']:checked").length) {
+
+                        $(this).focus();
+                        $(this).addClass('is-invalid')
+
+                        isValid = false;
+                    }
+                }
+
+
             })
 
             if (isvalid) {
                 console.log('Form submitted successfully.')
             }
         })
-
     })
 </script>
 
