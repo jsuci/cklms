@@ -94,9 +94,10 @@
                                     </div>      
                                     </div>      
                                     </div>   
-                                    
 
-                            
+                                <div class="position-fixed bg-white text-black p-3 rounded-bottom-right" style="bottom: 0; right: 0;">
+                                    <p>All changes saved on drive.</p>
+                                </div>
 
     </body>
 
@@ -106,17 +107,90 @@
 
 
             $(document).ready(function(){
+
+
+                $(document).on('click', function(event) {
+                    // console.log("LAST ID:", last_id)
+
+                    // var addrowid = $('.form-check-label').attr('id');
+                    // console.log("form ID:", addrowid)
+                    // Check if the click event target is not inside #myDiv
+
+                    // last_quiz_type = last_quiz_type
+                    last_quiz_type = $('#quiztype' + last_id).val();
+                    if (!$(event.target).closest('#quiztioncontent' + last_id).length) {
+
+                            if(last_quiz_type == 'multiple_choice'){
+                                const textareaValue = $('#multiplechoice' + last_id).val();
+                                console.log("Question: ", textareaValue);
+                                console.log("Quiztype: ", last_quiz_type);
+
+                                $('.option' + last_id).each(function() {
+                                        // Get the value of the current label element using its id attribute
+                                        const value = $(this).text();
+                                        console.log(value);
+                                        });
+
+
+                                $('#my-toast').rtoast({
+                                    content: 'This is a toast notification',
+                                    position: 'bottomLeft',
+                                    timeout: 3000
+                                    });
+                                }
+                            if(last_quiz_type == 'short_answer'){
+
+                        
+                                var textareaValue = $('#shortz_answer_question' + last_id).val();
+                                console.log("Question: ", textareaValue);
+                                console.log("Quiztype: ", last_quiz_type);
+                                }
+
+                            if(last_quiz_type == 'paragraph_answer'){
+                                var textareaValue = $('#long_answer_question' + last_id).val();
+                                console.log("Question: ", textareaValue);
+                                console.log("Quiztype: ", last_quiz_type);
+                        
+                                }
+                            
+                            if(last_quiz_type == 'enumeration'){
+                        
+                                }
+
+                            if(last_quiz_type == 'instruction'){
+
+                                var textareaValue = $('#instruction_item' + last_id).val();
+                                console.log("Question: ", textareaValue);
+                                console.log("Quiztype: ", last_quiz_type);
+                            
+                                }
+
+                            if(last_quiz_type == 'drag_drop'){
+                            
+                                }
+                        
+                    
+
+
+                    }
+                });
                     
 
 
                         var click =0;
                         var id;
+                        var last_id;
+                        var last_quiz_type = 'multiple_choice';
                         $(document).on('click', '.editcontent', function(){
+                            last_id = id;
                             $('.editcontent').css({
                                 "border-right": "3px solid white",
                                 "padding": "20px",
                     
                             });
+
+
+
                             
                             $(this).css({
                                 "border-right": "3px solid dodgerblue",
@@ -125,8 +199,11 @@
                                 if(id == $(this).attr('id')){
                                 click+=1;
                                 }else{
-                                click =0
+                                option = 0;
+                                click =0;
                                 }
+
+
                                 
                                 id = $(this).attr('id');
                                 console.log("ids: ", id)
@@ -194,22 +271,24 @@
                                 '<div id="'+addrow+'" class="col-lg-11 col-10 editcontent col-content">' +
                                 '<div class="card-header">' +
                                     '<div class="row justify-content-end">' +
-                                        '<div class="col-6 mr-1  quizarea">' +
-                                            '<select class="form-control quiztype" id="quiztype">' +
+                                        '<div class="col-6 mr-1 quizarea">' +
+                                            '<select class="form-control quiztype" id="quiztype'+addrow+'">' +
                                             '<option value="multiple_choice">Multiple Choice</option>' +
+                                            '<option value="instruction">Instruction</option>' +
                                             '<option value="short_answer">Short Answer</option>' +
                                             '<option value="paragraph_answer">Paragraph</option>'+
                                             '<option value="enumeration">Enumeration</option>' +
+                                            '<option value="drag_drop">Drag & drop</option>' +
                                             '</select>' +
                                         '</div>' +
                                         '<div class="col-12">'+
                                         '<div id="quiztioncontent'+addrow+'">'+
                                             '<div class="col-12 m-2">'+
-                                                '<textarea class="form-control" placeholder="Untitled question" style="height: 20px !important;" id="exampleTextarea" ></textarea>'+
+                                                '<textarea class="form-control" placeholder="Untitled question" style="height: 20px !important;" id="multiplechoice'+addrow+'" ></textarea>'+
                                             '</div>'+
                                             '<div class="col-12 ml-4"  id="list_option'+addrow+'">' +
                                                 '<input class="form-check-input" type="radio" name="option1" value="1">'+
-                                                '<label class="form-check-label" contenteditable="true">Option '+option+'</label>'+
+                                                '<label class="form-check-label option'+addrow+'" id="option'+addrow+'" contenteditable="true">Option '+option+'</label>'+
                                             '</div>' +
                                             '<button class="form-control addoption" style="margin: 20px; " id="add_option'+addrow+'">Add option</button>'+
                                         '</div>' +
@@ -223,16 +302,19 @@
 
                     
                     var option = 0;
-                    $(document).on('change', '#quiztype', function(){
+                    $(document).on('change', '.quiztype', function(){
                         var parentId = $(this).parent().parent().parent().parent().parent().attr("id");
                         var addrowid = $(this).attr('id');
                         var select_quiz_type = $(this).val();
+                        last_quiz_type = select_quiz_type;
                         console.log(select_quiz_type);
                         console.log("Add row ID: ", addrowid)
                         console.log("ID: ", parentId)
+                        
+                        
                         if(select_quiz_type == 'short_answer'){
                             $('#quiztioncontent' + parentId).empty();
-                            $('#quiztioncontent' + parentId).append('<textarea class="form-control m-2" placeholder="Untitled question" style="height: 20px !important;" id="exampleTextarea" ></textarea>');
+                            $('#quiztioncontent' + parentId).append('<textarea class="form-control m-2 shortz_answer_question"'+parentId+'" placeholder="Untitled question" style="height: 20px !important;" id="shortz_answer_question'+parentId+'" ></textarea>');
                             $('#quiztioncontent' + parentId).append('<input type="text" class="form-control m-2 mr-1" placeholder="Short answer text" disabled>');
                         }
 
@@ -254,7 +336,7 @@
 
                         if(select_quiz_type == 'paragraph_answer'){
                             $('#quiztioncontent' + parentId).empty();
-                            $('#quiztioncontent' + parentId).append('<textarea class="form-control m-2" placeholder="Untitled question" style="height: 20px !important;" id="exampleTextarea" ></textarea>');
+                            $('#quiztioncontent' + parentId).append('<textarea class="form-control m-2" placeholder="Untitled question" style="height: 20px !important;" id="long_answer_question'+parentId+'" ></textarea>');
                             $('#quiztioncontent' + parentId).append('<input type="text" class="form-control m-2" placeholder="Long answer text" disabled>');
 
                     
@@ -270,6 +352,28 @@
 
                     
                         }
+
+                        if(select_quiz_type == 'instruction'){
+                            $('#quiztioncontent' + parentId).empty();
+                            $('#quiztioncontent' + parentId).append('<div class="col-12 m-2">'+
+                                                    '<textarea class="form-control" placeholder="Untitled instruction" style="height: 20px !important;" id="instruction_item'+parentId+'" ></textarea>'+
+                                                '</div>'+
+                                            '</div>')
+                            }
+
+                        if(select_quiz_type == 'drag_drop'){
+                            $('#quiztioncontent' + parentId).empty();
+                            $('#quiztioncontent' + parentId).append('<div class="options p-3 mt-2" id="options'+parentId+'" style="border:3px solid #3e416d;border-radius:6px;">'+
+                                    '<div class="drag-option btn bg-primary text-white m-1" contentEditable="true" data-target="drag-1">Option &nbsp;'+option+'</div>' + '</div>' +
+                                    '<button class="form-control add_drag_option" style="margin-top: 10px; " id="add_dragoption'+parentId+'">Add drag option</button>')
+                            $('#quiztioncontent' + parentId).append('<div id="item_question'+parentId+'">'+
+                                                    '<input type="text" class="form-control" style="margin-top: 10px; border: 2px dashed gray" placeholder="Item text &nbsp;'+option+'">'+
+                                                '</div>'+ '<button class="form-control add_drag_question" style="margin-top: 10px; " id="add_dragquestion'+parentId+'">Add drop question</button>'+
+                                            '</div>')
+                                }
+
+
+                            
                         
                         // $(this).closest('.row').find('.quizarea2').empty()
                         // $('#' + addrow).append(content)
@@ -288,7 +392,31 @@
                         
                         // $(this).closest('quizarea2').find('.list_option').empty()
                         $('#list_option' + parentId).append('<input class="form-check-input" type="radio" name="option1" value="1">'+
-                                                    '<label class="form-check-label" contenteditable="true">Option '+option+'</label>')
+                                                    '<label class="form-check-label option'+parentId+'" contenteditable="true">Option '+option+'</label>')
+
+                    })
+
+                    $(document).on('click', '.add_drag_option', function(){
+                        option+=1;
+                        var parentId = $(this).parent().parent().parent().parent().parent().attr("id");
+                        var addrowid = $(this).attr('id');
+                        console.log("Add row ID: ", addrowid)
+                        console.log("ID: ", parentId)
+                        
+                        // $(this).closest('quizarea2').find('.list_option').empty()
+                        $('#options' + parentId).append('<div class="drag-option btn bg-primary text-white m-1" contentEditable="true" data-target="drag-1">Option &nbsp;'+option+'</div>')
+
+                    })
+
+                    $(document).on('click', '.add_drag_question', function(){
+                        option+=1;
+                        var parentId = $(this).parent().parent().parent().parent().parent().attr("id");
+                        var addrowid = $(this).attr('id');
+                        console.log("Add row ID: ", addrowid)
+                        console.log("ID: ", parentId)
+                        
+                        // $(this).closest('quizarea2').find('.list_option').empty()
+                        $('#item_question' + parentId).append('<input type="text" class="form-control" style="margin-top: 10px; border:  2px dashed gray" placeholder="Item text &nbsp;'+option+'">')
 
                     })
 
@@ -303,6 +431,7 @@
                         $('#item_option' + parentId).append('<input type="text" class="form-control m-2" placeholder="Item text" disabled>')
 
                     })
+
 
                     });
 
