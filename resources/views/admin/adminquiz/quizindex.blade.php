@@ -487,6 +487,9 @@
 
             if (isvalid) {
                 console.log('Form submitted successfully.')
+                // set quiz status as finished
+                // disable retake of quiz
+                // show quiz complete form
             }
         })
     })
