@@ -5,7 +5,7 @@
 
 <style>
 
-     <style>
+    <style>
         .swal-wide{
             width:850px !important;
         }

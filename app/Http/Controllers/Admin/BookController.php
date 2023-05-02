@@ -409,7 +409,28 @@ class BookController extends Controller
 
         // return collect($chapterquizinfo);
         // return view('admin.adminquiz.quizindex-admin');
-        return view('admin.adminquiz.quizindex');
+        return view('admin.adminquiz.addquiz');
+    }
+    public function takequiz(Request $request)
+    {
+        // date_default_timezone_set('Asia/Manila');
+        // $quizid = DB::table('chapterquiz')
+        //     ->insertGetId([
+        //         'title'     => $request->get('title'),
+        //         'description'     => $request->get('description'),
+        //         'chapterid'    => $request->get('chapterid'),
+        //         'type'    => $request->get('type'),
+        //         'createdby' => auth()->user()->id,
+        //         'createddatetime'   => date('Y-m-d H:i:s')
+        //     ]);
+
+        // $chapterquizinfo = DB::table('chapterquiz')
+        //     ->where('id', $quizid)
+        //     ->first();
+
+        // return collect($chapterquizinfo);
+        // return view('admin.adminquiz.quizindex-admin');
+        return view('admin.adminquiz.takequiz');
     }
     public function bookinfoupdate(Request $request)
     {
