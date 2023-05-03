@@ -137,13 +137,17 @@ Route::middleware(['auth', 'isAdministrator','isDefaultPass'])->group(function (
     Route::get('/adminviewbook/addpart', 'Admin\BookController@addpart');  
     Route::get('/adminviewbook/addchapter', 'Admin\BookController@addchapter');  
     Route::get('/adminviewbook/addlesson', 'Admin\BookController@addlesson');  
+
+    // FOR QUIZZES
     Route::get('/adminviewbook/takequiz', 'Admin\BookController@takequiz');
     Route::get('/adminviewbook/addquiz', 'Admin\BookController@addquiz');
+
+
+
+
     
     Route::get('/adminviewbook/deletebycontenttype', 'Admin\BookController@deletebycontenttype'); 
-
     Route::get('/adminviewbook/lessoncontents', 'Admin\LessonController@viewlesson'); 
-    
     Route::get('/adminviewbook/chaptertestcontents', 'Admin\ChapterTestController@viewchaptertest');  
     Route::post('/adminviewbook/chaptertestcontents/uploadfiles', 'Admin\ChapterTestController@chapterstestuploadfiles');  
     Route::get('/adminviewbook/chaptertestcontents/deletefile', 'Admin\ChapterTestController@deletefile');  
