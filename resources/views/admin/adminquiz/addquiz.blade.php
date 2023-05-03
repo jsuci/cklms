@@ -76,6 +76,14 @@
             right: 0px;
             padding: 9px 15px 9px 15px !important;
         }
+        .list-group li {
+            padding-top: 10px;
+            padding-bottom: 10px;
+        }
+        .drop-option {
+            position: relative;
+            z-index: 0;
+        }
     </style>
 
 <body>
@@ -373,16 +381,22 @@
                 `<div class="options p-3 mt-2" id="options${parentId}" style="border:3px solid #3e416d;border-radius:6px;">
                     <div class="drag-option btn bg-primary text-white m-1" contentEditable="true" data-target="drag-1">Option &nbsp;${option}</div>
                 </div>
-                <button class="form-control add_drag_option" style="margin-top: 10px; " id="add_dragoption${parentId}">Add drag option</button>`
+                <div class="d-flex flex-column"><div class="align-self-end"><button class="btn text-white bg-success btn-success form-control add_drag_option" style="margin-top: 10px; " id="add_dragoption${parentId}">Add drag option</button></div></div>`
+            )
 
-            )
             $('#quiztioncontent' + parentId).append(
-                `<div id="item_question${parentId}">
-                    <input type="text" class="form-control" style="margin-top: 10px; border: 2px dashed gray" placeholder="Item text &nbsp;${option}">
-                </div>
-                <button class="form-control add_drag_question" style="margin-top: 10px; " id="add_dragquestion${parentId}">Add drop question</button>
-                `
-            )
+                `<div id="item_option${parentId}" class="mt-4">
+                    <ol class="list-group list-group-numbered p-3"></ol>
+                    <input type="text" id="drag-drop-que" class="form-control" style="background:#d5d5d5;border:1px solid #;color:#000" placeholder="Add your question here. Use @@ to create textbox and press enter">
+                </div>`
+            );
+            // $('#quiztioncontent' + parentId).append(
+            //     `<div id="item_question${parentId}">
+            //         <input type="text" class="form-control" style="margin-top: 10px; border: 2px dashed gray" placeholder="Item text &nbsp;${option}">
+            //     </div>
+            //     <button class="form-control add_drag_question" style="margin-top: 10px; " id="add_dragquestion${parentId}">Add drop question</button>
+            //     `
+            // )
         }
 
         if (select_quiz_type == 'fill_blank') {
@@ -393,7 +407,6 @@
                     <ol></ol>
                     <input type="text" id="fill-in-blank" class="form-control" style="background:#d5d5d5;border:1px solid #;color:#000" placeholder="Add your question here. Use @@ to create textbox and press enter">
                 </div>`
-
             );
             // $('#quiztioncontent' + parentId).append('<button class="form-control add-fill-question" style="margin: 8px; " id="add_item'+parentId+'">Add Question</button>')
         }
@@ -408,7 +421,7 @@
 
 
 
-
+    // multiple choice option
     $(document).on('click', '.addoption', function(){
         option+=1;
         var parentId = $(this).parent().parent().parent().parent().parent().attr("id");
@@ -424,7 +437,8 @@
 
     $(document).on('click', '.add_drag_option', function(){
         option+=1;
-        var parentId = $(this).parent().parent().parent().parent().parent().attr("id");
+        // var parentId = $(this).parent().parent().parent().parent().parent().attr("id");
+        var parentId = $(this).parents('.dragrow').attr('id')
         var addrowid = $(this).attr('id');
         console.log("Add row ID: ", addrowid)
         console.log("ID: ", parentId)
@@ -455,7 +469,6 @@
         
         // $(this).closest('quizarea2').find('.list_option').empty()
         $('#item_option' + parentId).append('<input type="text" class="form-control m-2" placeholder="Item text" disabled>')
-
     })
 
     $(document).on('click', '.add-fill-question', function() {
@@ -476,6 +489,23 @@
             var newText = $(this).val().replace(/@@/gi, `<input data-question-id="14" class="answer-field d-inline form-control q-input" type="text">`);
 
             $olList.append(`<li>${newText}</li>`)
+
+            $(this).val('')
+        }
+    })
+
+    $(document).on('change', '#drag-drop-que', function() {
+        var $parent = $(this).closest('div');
+        var $olList = $parent.find('ol');
+
+        if ($(this).val().indexOf("@@") !== -1) {
+            var newText = $(this).val().replace(/@@/gi, `<input data-question-id="14" class="answer-field d-inline form-control q-input drop-option" type="text" disabled>`);
+
+            $olList.append(`<li>${newText}</li>`)
+
+            $(this).val('')
+        } else {
+            $olList.append(`<li>${$(this).val()}</li>`)
 
             $(this).val('')
         }
