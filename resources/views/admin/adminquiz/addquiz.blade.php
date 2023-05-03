@@ -392,7 +392,7 @@
             $('#quiztioncontent' + parentId).append(
                 `<div id="item_option${parentId}">
                     <ol></ol>
-                    <input type="text" id="fill-in-blank" class="form-control m-2 border bg-primary text-white border-primary" placeholder="Add your question here use @@ to create textbox">
+                    <input type="text" id="fill-in-blank" class="form-control m-2" style="background:#d5d5d5;border:1px solid #;color:#000" placeholder="Add your question here use @@ to create textbox and press enter">
                 </div>`
 
             );

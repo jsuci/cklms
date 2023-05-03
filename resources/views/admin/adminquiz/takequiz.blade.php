@@ -99,7 +99,7 @@
                 <div class="card mt-5">
                     <div class="card-body">
                         <h1 class="card-title">
-                            Untitled Quiz
+                            Science Quiz
                         </h1>
                         <p class="card-text">This quiz consists of several different types of questions, including multiple-choice, enumeration, fill-in-the-blank, and essay questions. Read each question carefully and choose the best answer. You will have 30 minutes to complete the quiz. Once you start the quiz, the timer will begin and you cannot pause or stop the quiz.</p>
                     </div>
