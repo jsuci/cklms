@@ -392,7 +392,6 @@
     <button id="scroll-to-bottom" class="btn btn-dark btn-lg mb-3 mr-3"><i class="fas fa-arrow-circle-down"></i></button>
 </body>
 
-
 <script src="{{asset('plugins/jquery/jquery.min.js')}}"></script>
 
 <script>
@@ -507,7 +506,8 @@
         // scroll to bottom
         // Show the button when the user scrolls past a certain point
         $(window).scroll(function() {
-            if ($(this).scrollTop() > 100) {
+            if ($(this).scrollTop() > 700) {
+                console.log($(this).scrollTop())
                 $('#scroll-to-bottom').fadeIn();
             } else {
                 $('#scroll-to-bottom').fadeOut();

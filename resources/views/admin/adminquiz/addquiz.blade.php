@@ -65,41 +65,40 @@
     </style>
 
 <body>
-            <div class="container quizcontent">
-                <div class="row justify-content-center">
-                        <div class="col-md-8">
-                            <div class="card mt-5">
-                            <div class="contentcontainer">
-                                    <div class="row p-4  dragrow">
-                                        <div class="col-lg-1 col-2 rowhidden d-flex align-items-center">
-                                            <div class="btn-group-vertical">
-                                                <a class="btn btn-sm text-white gfg_tooltip newrow" style="background-color: #3175c2; border: 3px solid #1d62b7;">
-                                                    <i class="fas fa-plus m-0"></i><span class="gfg_text">Add Question</span>
-                                                </a>                                            </div>
-                                            </div>
-                                        <div class="col-lg-11 col-10 editcontent col-content" id = "1">
-                                                <div class="card-header" id="quizTitle">
-                                                <h3 class="text-center" contenteditable="true">Untitled Quiz</h3>
-                                                <input type="text" class="form-control d-none" value="Untitled Quiz">
-                                                </div>
-                                                <div class="card-body">
-                                                <form>
-                                                    <div class="form-group">
-                                                    <label for="description">Quiz Description:</label>
-                                                    <textarea class="form-control" id="description" rows="1"></textarea>
-                                                    </div>
-                                                </form>
-                                                </div>
-                                        </div>
-                                    </div>      
-                                    </div>      
-                                    </div>   
-
-                                <div class="position-fixed bg-white text-black p-3 rounded-bottom-right" style="bottom: 0; right: 0;">
-                                    <p>All changes saved on drive.</p>
+    <div class="container quizcontent">
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <div class="card mt-5">
+                    <div class="contentcontainer">
+                        <div class="row p-4 dragrow">
+                            <div class="col-lg-1 col-2 rowhidden d-flex align-items-center">
+                                <div class="btn-group-vertical">
+                                    <a class="btn btn-sm text-white gfg_tooltip newrow" style="background-color: #3175c2; border: 3px solid #1d62b7;">
+                                        <i class="fas fa-plus m-0"></i><span class="gfg_text">Add Question</span>
+                                    </a>
                                 </div>
-
-    </body>
+                            </div>
+                            <div class="col-lg-11 col-10 editcontent col-content" id="1">
+                                <div class="card-header" id="quizTitle">
+                                    <h3 class="text-center" contenteditable="true">Untitled Quiz</h3>
+                                    <input type="text" class="form-control d-none" value="Untitled Quiz">
+                                </div>
+                                <div class="card-body">
+                                    <form>
+                                        <div class="form-group">
+                                            <label for="description">Quiz Description:</label>
+                                            <textarea class="form-control" id="description" rows="1"></textarea>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>      
+            </div>  
+        </div>
+    </div>
+</body>
 
 
     <script src="{{asset('plugins/jquery/jquery.min.js')}}"></script>
