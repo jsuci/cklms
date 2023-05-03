@@ -393,15 +393,13 @@ class BookController extends Controller
     public function addquiz(Request $request)
     {
         // date_default_timezone_set('Asia/Manila');
-        // $quizid = DB::table('chapterquiz')
-        //     ->insertGetId([
-        //         'title'     => $request->get('title'),
-        //         'description'     => $request->get('description'),
-        //         'chapterid'    => $request->get('chapterid'),
-        //         'type'    => $request->get('type'),
-        //         'createdby' => auth()->user()->id,
-        //         'createddatetime'   => date('Y-m-d H:i:s')
-        //     ]);
+        $newquiz = DB::table('jbm_quizzes')
+            ->insertGetId([
+                'quiz_title'=>$request->get('quiz_title'),
+                'quiz_desc'=>$request->get('quiz_desc'),
+                'chapter_id'=> $request->get('chapter_id'),
+                'book_id'=> $request->get('book_id'),
+            ]);
 
         // $chapterquizinfo = DB::table('chapterquiz')
         //     ->where('id', $quizid)
@@ -409,7 +407,9 @@ class BookController extends Controller
 
         // return collect($chapterquizinfo);
         // return view('admin.adminquiz.quizindex-admin');
-        return view('admin.adminquiz.addquiz');
+        return view('admin.adminquiz.addquiz')
+            ->with('quizdata', $newquiz);
+
     }
     public function takequiz(Request $request)
     {

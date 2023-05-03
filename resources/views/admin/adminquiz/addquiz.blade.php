@@ -10,58 +10,58 @@
             width:850px !important;
         }
         .note-toolbar {
-                position: relative;
-                z-index: 0 !important;
-            }
+            position: relative;
+            z-index: 0 !important;
+        }
         .gfg_tooltip { 
-                position: relative; 
-                display: inline-block; 
-                border-bottom: 1px dotted black; 
-                background-color: gray; 
-                color: black; 
-                padding: 15px; 
-                text-align: center; 
-                display: inline-block; 
-                font-size: 16px; 
-            } 
-            .gfg_tooltip:hover {
+            position: relative; 
+            display: inline-block; 
+            border-bottom: 1px dotted black; 
+            background-color: gray; 
+            color: black; 
+            padding: 15px; 
+            text-align: center; 
+            display: inline-block; 
+            font-size: 16px; 
+        } 
+        .gfg_tooltip:hover {
             -ms-transform: scale(1.2); /* IE 9 */
             -webkit-transform: scale(1.2); /* Safari 3-8 */
             transform: scale(1.2); 
-            }
-            .gfg_tooltip .gfg_text { 
-                visibility: hidden; 
-                width: 120px; 
-                background-color: gray; 
-                color: white; 
-                text-align: center; 
-                border-radius: 6px; 
-                padding: 5px 0; 
-                position: absolute; 
-                z-index: 1; 
-                top: 5%; 
-                left: 115%; 
-            } 
-              
-            .gfg_tooltip .gfg_text::after { 
-                content: ""; 
-                position: absolute; 
-                top: 50%; 
-                right: 100%; 
-                margin-top: -5px; 
-                border-width: 5px; 
-                border-style: solid; 
-                border-color: transparent gray transparent  
-                                transparent; 
-            } 
-              
-            .gfg_tooltip:hover .gfg_text { 
-                visibility: visible; 
-            } 
-            iframe {
-                width: 100%;
-                height: 100%;
-            }
+        }
+        .gfg_tooltip .gfg_text { 
+            visibility: hidden; 
+            width: 120px; 
+            background-color: gray; 
+            color: white; 
+            text-align: center; 
+            border-radius: 6px; 
+            padding: 5px 0; 
+            position: absolute; 
+            z-index: 1; 
+            top: 5%; 
+            left: 115%; 
+        } 
+            
+        .gfg_tooltip .gfg_text::after { 
+            content: ""; 
+            position: absolute; 
+            top: 50%; 
+            right: 100%; 
+            margin-top: -5px; 
+            border-width: 5px; 
+            border-style: solid; 
+            border-color: transparent gray transparent  
+                            transparent; 
+        } 
+            
+        .gfg_tooltip:hover .gfg_text { 
+            visibility: visible; 
+        } 
+        iframe {
+            width: 100%;
+            height: 100%;
+        }
         .q-input {
             border:1px solid #b6b6b6 !important;
             border-radius:6px !important;
@@ -89,32 +89,28 @@
 <body>
     <div class="container quizcontent">
         <div class="row justify-content-center">
-            <div class="col-md-9">
+            <div class="col-md-8">
 
+                <!-- quiz title -->
                 <div class="card mt-5">
-                    <div class="contentcontainer">
-                        <div class="row p-4 dragrow">
-                            <div class="col-lg-1 col-2 rowhidden d-flex align-items-center">
-                                <div class="btn-group-vertical">
-                                    <a class="btn btn-sm text-white gfg_tooltip newrow" style="background-color: #3175c2; border: 3px solid #1d62b7;">
-                                        <i class="fas fa-plus m-0"></i><span class="gfg_text">Add Question</span>
-                                    </a>
-                                </div>
-                            </div>
-                            <div class="col-lg-11 col-10 editcontent col-content" id="1">
-                                <div class="card-header" id="quizTitle">
-                                    <h3 class="text-center" contenteditable="true">Untitled Quiz</h3>
-                                    <input type="text" class="form-control d-none" value="Untitled Quiz">
-                                </div>
-                                <div class="card-body">
-                                    <form>
-                                        <div class="form-group">
-                                            <label for="description">Quiz Description:</label>
-                                            <textarea class="form-control" id="description" rows="1"></textarea>
-                                        </div>
-                                    </form>
-                                </div>
-                            </div>
+                    <div class="card-body">
+                        <h1 class="card-title" id="quiz-title">
+                            {{ $quizdata['quiz_title'] }}
+                        </h1>
+                        <p class="card-text" id="quiz-desc">This quiz consists of several different types of questions, including multiple-choice, enumeration, fill-in-the-blank, and essay questions. Read each question carefully and choose the best answer. You will have 30 minutes to complete the quiz. Once you start the quiz, the timer will begin and you cannot pause or stop the quiz.</p>
+                    </div>
+                </div>
+
+                <!-- quiz questions -->
+                <div id="questions">
+                </div>
+
+
+                <!-- save button -->
+                <div class="save mb-5">
+                    <div class="row">
+                        <div class="col-md-12 d-flex justify-content-end">
+                            <div class="btn btn-success btn-lg" id="save-quiz">Save</div>
                         </div>
                     </div>
                 </div>
@@ -126,6 +122,76 @@
 
 <script src="{{asset('plugins/jquery/jquery.min.js')}}"></script>
 <script>
+
+    function makeEditable(selector) {
+        // Store the original text in a variable
+        var originalText = $(selector).text();
+
+        // Make the element editable when clicked
+        $(selector).click(function() {
+            $(this).attr('contenteditable', true);
+        });
+
+        // Save the updated text when the user is done editing
+        $(selector).blur(function() {
+            var updatedText = $(this).text();
+
+            // Revert to the original text if the updated text is blank
+            if (updatedText.trim() === '') {
+                $(this).text(originalText);
+
+                updatedText = originalText
+            }
+
+            // Make the element non-editable again
+            $(this).attr('contenteditable', false);
+        });
+    }
+
+    $(document).ready(function() {
+
+        // make quiz title editable
+        makeEditable('#quiz-title')
+
+        // make quiz desc editable
+        makeEditable('#quiz-desc')
+
+        // save all answers quiz
+        $('#save-quiz').on('click', function() {
+            var isvalid = true
+
+            if (isvalid) {
+
+                $('#save-quiz').prop('disabled', true);
+
+                // Assume you have jQuery library loaded
+                $.ajax({
+                    url: '/adminviewbook/addquiz',
+                    method: 'GET',
+                    data: { // Pass query parameters here
+                        quiz_title: $('#quiz-title').text().trim(),
+                        quiz_desc: $('#quiz-desc').text().trim(),
+                        chapter_id: 12,
+                        book_id: 9,
+                    },
+                    success: function(response) {
+                        // Handle successful response
+                        // console.log(response);
+                        $('#save-quiz').prop('disabled', false)
+                    }
+                });
+
+                console.log('Form submitted successfully.')
+                // set quiz status as finished
+                // disable retake of quiz
+                // show quiz complete form
+            }
+        })
+
+    })
+</script>
+
+{{-- <script>
     $(document).ready(function(){
 
 
@@ -519,7 +585,7 @@
     });
 
 
-</script>
+</script> --}}
 
 
 @endsection
