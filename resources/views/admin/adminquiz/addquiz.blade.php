@@ -292,7 +292,7 @@
                                 </select>
                             </div>
                             <div class="col-12">
-                                <div id="quiztioncontent${addrow}">
+                                <div id="quiztioncontent${addrow}" class="mt-4">
                                     <div class="col-12 m-2">
                                         <textarea class="form-control" placeholder="Untitled question" style="height: 20px !important;" id="multiplechoice${addrow}" ></textarea>
                                     </div>
@@ -386,13 +386,12 @@
         }
 
         if (select_quiz_type == 'fill_blank') {
-            console.log(parentId)
             $('#quiztioncontent' + parentId).empty();
-            $('#quiztioncontent' + parentId).append('<input class="form-control form-control-lg m-2" placeholder="Untitled question" id="exampleTextarea" ></input>');
+            $('#quiztioncontent' + parentId).append('<input class="form-control" placeholder="Untitled question" id="exampleTextarea" ></input>');
             $('#quiztioncontent' + parentId).append(
-                `<div id="item_option${parentId}">
+                `<div id="item_option${parentId}" class="mt-4">
                     <ol></ol>
-                    <input type="text" id="fill-in-blank" class="form-control m-2" style="background:#d5d5d5;border:1px solid #;color:#000" placeholder="Add your question here use @@ to create textbox and press enter">
+                    <input type="text" id="fill-in-blank" class="form-control" style="background:#d5d5d5;border:1px solid #;color:#000" placeholder="Add your question here. Use @@ to create textbox and press enter">
                 </div>`
 
             );
