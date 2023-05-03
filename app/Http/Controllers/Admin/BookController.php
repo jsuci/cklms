@@ -685,7 +685,6 @@ class BookController extends Controller
     
             }
             catch(\Exception $e){
-               
         
             }
                 // return basename($request->get('content'));
