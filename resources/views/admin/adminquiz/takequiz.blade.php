@@ -89,6 +89,10 @@
             right: 0px;
             padding: 9px 15px 9px 15px !important;
         }
+        .list-group li {
+            padding-top: 10px;
+            padding-bottom: 10px;
+        }
     </style>
 
 <body>
@@ -215,7 +219,7 @@
                                 <li>
                                     <div class="row align-items-center">
                                         <div class="col-auto">
-                                            <p>What is the capital of France? <input data-question-id="11" class="answer-field d-inline form-control q-input drop-option q-input" type="text" disabled></p>
+                                            <p>What is the capital of France? <input data-question-id="11" class="answer-field d-inline form-control q-input drop-option" type="text" disabled></p>
                                         </div>
                                     </div>
                                 </li>
@@ -223,7 +227,7 @@
                                 <li>
                                     <div class="row align-items-center">
                                         <div class="col-auto">
-                                            <p>What is the smallest unit of matter? <input data-question-id="12" class="answer-field d-inline form-control q-input drop-option q-input" type="text" disabled></p>
+                                            <p>What is the smallest unit of matter? <input data-question-id="12" class="answer-field d-inline form-control q-input drop-option" type="text" disabled></p>
                                         </div>
                                     </div>
                                 </li>
@@ -231,7 +235,7 @@
                                 <li>
                                     <div class="row align-items-center">
                                         <div class="col-auto">
-                                            <p>What is the force that pulls objects toward each other? <input data-question-id="13" class="answer-field d-inline form-control q-input drop-option q-input" type="text" disabled></p>
+                                            <p>What is the force that pulls objects toward each other? <input data-question-id="13" class="answer-field d-inline form-control q-input drop-option" type="text" disabled></p>
                                         </div>
                                     </div>
                                 </li>
