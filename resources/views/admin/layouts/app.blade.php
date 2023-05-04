@@ -30,9 +30,11 @@
     <!-- summernote -->
     <link rel="stylesheet" href="{{asset('plugins/summernote/summernote-bs4.css')}}">
 
-    <!-- icons
-    ================================================== -->
+    <!-- icons-->
     <link rel="stylesheet" href="{{asset('templatefiles/icons.css')}}">
+
+    <!-- select2 -->
+    <link rel="stylesheet" href="{{asset('plugins/select2/css/select2.css')}}">
 
 
 </head>

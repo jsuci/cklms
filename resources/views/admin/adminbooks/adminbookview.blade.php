@@ -6,11 +6,12 @@
     <link rel="stylesheet" href="{{asset('plugins/icheck-bootstrap/icheck-bootstrap.min.css')}}">
     <link rel="stylesheet" href="{{asset('plugins/fontawesome-free/css/all.min.css')}}">
     <link rel="stylesheet" href="{{asset('plugins/jquery-ui/jquery-ui.css')}}">
+
     <!-- summernote -->
-        <link rel="stylesheet" href="{{asset('plugins/summernote/summernote-bs4.css')}}">
-        <!-- Select2 -->
-        <link rel="stylesheet" href="{{asset('plugins/select2/css/select2.min.css')}}">
-        <link rel="stylesheet" href="{{asset('plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css')}}">
+    <link rel="stylesheet" href="{{asset('plugins/summernote/summernote-bs4.css')}}">
+    <!-- Select2 -->
+    <link rel="stylesheet" href="{{asset('plugins/select2/css/select2.min.css')}}">
+    <link rel="stylesheet" href="{{asset('plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css')}}">
 
     <style>
         .swal2-header{ border: none; }
@@ -47,7 +48,7 @@
         {
             background-color: gray;
         }
-    .select2-container {
+        .select2-container {
             z-index: 9999;
             margin: 0px;
         }
@@ -55,6 +56,7 @@
             margin: 0px;
         }
     </style>
+
     <div class="page-content-inner">
         <div class="d-flex">
             <nav id="breadcrumbs" class="mb-3">
@@ -199,7 +201,7 @@
                                                             <span class="right badge badge-success">{{$chapter->sortid}}</span><span class="box boxchapter{{$chapter->id}} boxchapter">Chapter: {{$chapter->title}}</span>
                                                             <ul class="nested active ulchapter" id="ulchapter{{$chapter->id}}">
                                                             </ul>
-                                                        </li>  
+                                                        </li>
                                                     @endforeach
                                                 </ul>
                                             </li>
@@ -224,6 +226,7 @@
             @include('admin.inc.footer')
         </div>
     </div>
+
     <div id="modaladdpart" uk-modal>
         <div class="uk-modal-dialog uk-modal-body">
             <form>
@@ -237,6 +240,7 @@
             </form>
         </div>
     </div>
+
     <div id="modaladdchapter" uk-modal>
         <div class="uk-modal-dialog uk-modal-body">
             <form>
@@ -252,6 +256,7 @@
             </form>
         </div>
     </div>
+
     <div id="modaladdlesson" uk-modal>
         <div class="uk-modal-dialog uk-modal-body">
             <form>
@@ -277,6 +282,7 @@
             </form>
         </div>
     </div>
+
     <div id="modaladdquiz" uk-modal>
         <div class="uk-modal-dialog uk-modal-body">
             <form>
@@ -326,6 +332,35 @@
             </form>
         </div>
     </div>
+
+    <div class="modal fade" id="add-edit-quiz-modal" tabindex="-1" role="dialog" aria-labelledby="add-edit-quiz-modal-title" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3 class="modal-title" style="text-transform:none;word-break:break-all" id="add-edit-quiz-modal-title">Add or edit quiz</h3>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <select name="quiz-select2" id="quiz-select2" class="form-select form-control select2">
+                                <option selected value="">Select Quiz</option>
+                                <option selected value="add">Add Quiz</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary">Save changes</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+
     {{-- <div id="modallinks" uk-modal>
         <div class="uk-modal-dialog uk-modal-body">
             <form>
@@ -346,6 +381,7 @@
     <script src="{{asset('plugins/select2/js/select2.full.min.js')}}"></script>
     <!-- AdminLTE -->
     <script src="{{asset('dist/js/adminlte.js')}}"></script>
+
     <script>
         $(document).ready(function(){
             @if(count($book->parts) == 0)
@@ -354,9 +390,33 @@
                 var clickedpart = 0;
                 $('#addchapter').prop('disabled',true)
             @endif
+
             var clickedchapter;
             var clickedlesson;
             var clickedquiz;
+
+            function renderQuizSelect2(chapId) {
+                $.ajax({
+                    url: '/adminviewbook/getlessons',
+                    type: 'get',
+                    dataType: 'json',
+                    data: {
+                        id: chapId
+                    },
+                    success: function(data)
+                    {
+                        console.log(data)
+                        // $('#updatesortid').attr('disabled', false)
+                        // $('#modalviewupdate').removeClass('uk-modal-close')
+                        // $('#updatesortid').val(data.sortid)
+                        // $('#updateid').val(data.id)
+                        // $('#updatetype').val('chapter')
+                        // $('#updatetitle').val(data.title)
+                        // $('#updatedescription').val(data.description)
+                    }
+                })
+            }
+
             $(document).on('click','.bookstatus', function(){
                 var bookstatus = $(this).val();
                 $.ajax({
@@ -459,7 +519,6 @@
                 clickedchapter = id;
                 $('.lichapter span.boxchapter').css('background-color','unset')
                 $('.boxchapter'+id).css('background-color','#ffffb3')
-                console.log($('.boxchapter'+id))
 
                 $.ajax({
                     url: '/adminviewbook/getlessons',
@@ -492,10 +551,14 @@
                         })
                         $('.btn-group-horizontal').empty();
                         $('.btn-group-horizontal').append(
-                            '<button type="button" class="btn btn-sm btn-info mr-2 viewinfo" id="viewchapterinfo" uk-toggle="target: #modalviewupdate" chapterid="'+id+'" ><i class="fa fa-question"></i> View info</button>'+
-                            '<button type="button" class="btn btn-sm btn-info mr-2" id="addchapter" uk-toggle="target: #modaladdchapter"><i class="fa fa-plus"></i> Chapter / Unit</button>'+
-                            '<button type="button" class="btn btn-sm btn-info mr-2" id="addlesson" uk-toggle="target: #modaladdlesson"><i class="fa fa-plus"></i> Lesson</button>'+
-                            '<a href="/adminviewbook/addquiz" type="button" class="btn btn-sm btn-info mr-2" target="_blank" id="addquiz" > Quiz</a>'
+                            // `<button type="button" class="btn btn-sm btn-info mr-2 viewinfo" id="viewchapterinfo" uk-toggle="target: #modalviewupdate" chapterid="${id}"><i class="fa fa-question"></i> View info</button>
+                            // <button type="button" class="btn btn-sm btn-info mr-2" id="addchapter" uk-toggle="target: #modaladdchapter"><i class="fa fa-plus"></i> Chapter / Unit</button>
+                            // <button type="button" class="btn btn-sm btn-info mr-2" id="addlesson" uk-toggle="target: #modaladdlesson"><i class="fa fa-plus"></i> Lesson</button>
+                            // <a href="/adminviewbook/addquiz" type="button" class="btn btn-sm btn-info mr-2" target="_blank" id="addquiz">Quiz</a>`
+                            `<button type="button" class="btn btn-sm btn-info mr-2 viewinfo" id="viewchapterinfo" uk-toggle="target: #modalviewupdate" chapterid="${id}"><i class="fa fa-question"></i> View info</button>
+                            <button type="button" class="btn btn-sm btn-info mr-2" id="addchapter" uk-toggle="target: #modaladdchapter"><i class="fa fa-plus"></i> Chapter / Unit</button>
+                            <button type="button" class="btn btn-sm btn-info mr-2" id="addlesson" uk-toggle="target: #modaladdlesson"><i class="fa fa-plus"></i> Lesson</button>
+                            <button type="button" class="btn btn-sm btn-info mr-2" id="addquiz">Quiz</button>`
                         );
                         $('.boxchapter'+id+' i').remove()
                         $('.boxchapter'+id).append('<i class="fa fa-times ml-2 removeitem"></i>')
@@ -698,7 +761,6 @@
                 })
             })
             $(document).on('click','#submitnewlesson', function(){
-                // console.log($('input[name="lessontype"]').val())
                 var newlessontitle = $('#newlessontitle').val();
                 var newlessontype = $('input[name="lessontype"]:checked').val();
                 var newlessondescription = $('#newlessondescription').val();
@@ -854,7 +916,6 @@
                                         password         :   $('#passworddelete').val()
                                     },
                                     success: function(data){
-                                        // console.log(data)
                                         if(data == 0)
                                         {
                                             Swal.fire({
@@ -886,7 +947,21 @@
                 
                 
             })
+            $(document).on('click', '#addquiz', function(){
+                $('#add-edit-quiz-modal').modal('show');
+            })
+            $(document).on('click', '.lichapter', function(){
+                var tempChapTitle = $(this).find('.boxchapter').text()
+                var chapId = $(this).attr('id')
+
+                // change modal title for quiz
+                $('#add-edit-quiz-modal-title').text(`${tempChapTitle} Quiz`)
+
+                // change #quiz-select2 contents base on id
+                renderQuizSelect2(chapId)
+
+            })
+
         })
-                                                        
     </script>
 @endsection
