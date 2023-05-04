@@ -140,7 +140,7 @@ Route::middleware(['auth', 'isAdministrator','isDefaultPass'])->group(function (
 
     // FOR QUIZZES
     Route::get('/adminviewbook/takequiz', 'Admin\BookController@takequiz');
-    Route::get('/adminviewbook/addquiz', 'Admin\BookController@addquiz');
+    Route::get('/adminviewbook/addeditquiz', 'Admin\BookController@addeditquiz');
 
 
 

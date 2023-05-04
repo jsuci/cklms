@@ -208,15 +208,21 @@ class BookController extends Controller
             ->where('chapterid', $request->get('id'))
             ->where('deleted','0')
             ->get();
+
+
         if(count($quizzes)>0)
         {
             foreach($quizzes as $quiz)
             {
-                $quiz->type = 'q';
-                array_push($contents,$quiz);
+
+                if ($quiz->type == 1 || $quiz->type == 2) {
+                    // $quiz->type = 'q';
+                    array_push($contents,$quiz);
+                }
             }
         }
         $contents = collect($contents)->sortBy('createddatetime');
+
         $contents = $contents->values()->alL();
         $sortdata = array();
         $sortype = 0; //0 = datecreated; 1 = sortid;
@@ -250,6 +256,7 @@ class BookController extends Controller
                 array_push($sortdata,$lessonvalue);
             }
         }
+
         if($sortype == 0)
         {
             return  collect($sortdata)->sortBy('createdatetime')->values()->all();
@@ -390,25 +397,42 @@ class BookController extends Controller
 
         return collect($lessoninfo);
     }
-    public function addquiz(Request $request)
+
+
+    // Quiz
+    public function addeditquiz(Request $request)
     {
-        // date_default_timezone_set('Asia/Manila');
-        $newquiz = DB::table('jbm_quizzes')
+        date_default_timezone_set('Asia/Manila');
+
+        $quizid = DB::table('chapterquiz')
             ->insertGetId([
-                'quiz_title'=>$request->get('quiz_title'),
-                'quiz_desc'=>$request->get('quiz_desc'),
-                'chapter_id'=> $request->get('chapter_id'),
-                'book_id'=> $request->get('book_id'),
+                'title'     => $request->get('title'),
+                'description'     => $request->get('description'),
+                'chapterid'    => $request->get('chapterid'),
+                'type'    => $request->get('type'),
+                'createdby' => auth()->user()->id,
+                'createddatetime'   => date('Y-m-d H:i:s')
             ]);
 
+        // date_default_timezone_set('Asia/Manila');
         // $chapterquizinfo = DB::table('chapterquiz')
         //     ->where('id', $quizid)
         //     ->first();
 
+        // $quizid = DB::table('chapterquiz')
+        //     ->insertGetId([
+        //         'title'     => $request->get('title'),
+        //         'description'     => $request->get('description'),
+        //         'chapterid'    => $request->get('chapterid'),
+        //         'type'    => $request->get('type'),
+        //         'createdby' => auth()->user()->id,
+        //         'createddatetime'   => date('Y-m-d H:i:s')
+        //     ]);
+
         // return collect($chapterquizinfo);
         // return view('admin.adminquiz.quizindex-admin');
-        return view('admin.adminquiz.addquiz')
-            ->with('quizdata', $newquiz);
+        return view('admin.adminquiz.adminquiz')
+            ->with('quizid', $quizid);
 
     }
     public function takequiz(Request $request)
@@ -430,8 +454,11 @@ class BookController extends Controller
 
         // return collect($chapterquizinfo);
         // return view('admin.adminquiz.quizindex-admin');
-        return view('admin.adminquiz.takequiz');
+        return view('admin.adminquiz.studentquiz');
     }
+
+    
+    
     public function bookinfoupdate(Request $request)
     {
         // return $request->all();

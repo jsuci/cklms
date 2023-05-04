@@ -337,7 +337,7 @@
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h3 class="modal-title" style="text-transform:none;word-break:break-all" id="add-edit-quiz-modal-title">Add or edit quiz</h3>
+                    <h3 class="modal-title" style="text-transform:none;word-break:break-word" id="add-edit-quiz-modal-title">Add or edit quiz</h3>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -346,14 +346,14 @@
                     <div class="row">
                         <div class="col-md-12">
                             <select name="quiz-select2" id="quiz-select2" class="form-select form-control select2">
-                                <option selected value="">Select Quiz</option>
+                                <option selected value="">Select Quiz Option</option>
                                 <option selected value="add">Add Quiz</option>
                             </select>
                         </div>
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-primary">Save changes</button>
+                    <button type="button" id="create-edit-quiz" class="btn bg-primary text-white">Create Quiz</button>
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                 </div>
             </div>
@@ -403,19 +403,39 @@
                     data: {
                         id: chapId
                     },
-                    success: function(data)
-                    {
-                        console.log(data)
-                        // $('#updatesortid').attr('disabled', false)
-                        // $('#modalviewupdate').removeClass('uk-modal-close')
-                        // $('#updatesortid').val(data.sortid)
-                        // $('#updateid').val(data.id)
-                        // $('#updatetype').val('chapter')
-                        // $('#updatetitle').val(data.title)
-                        // $('#updatedescription').val(data.description)
+                    success: function(data) {
+                        // Filter data array by type property not equal to 'l'
+                        const filteredData = data.filter(item => item.type !== 'l');
+
+                        $("#quiz-select2").empty()
+                        $('#quiz-select2').append('<option value="">Select Quiz Option</option>')
+                        $('#quiz-select2').append('<option value="add">Add Quiz</option>')
+                        $("#quiz-select2").select2({
+                            data: filteredData,
+                            allowClear: true,
+                            placeholder: "Select Quiz",
+                            templateResult: function(data) {
+                                if(data.id == 'add') {
+                                    return $('<option value="add">Add Quiz</option>');
+                                }
+                                return $(`<option value="${data.id}">${data.title}</option>`);
+                            },
+                            templateSelection: function(data) {
+                                if (data.id == 'add') {
+                                    return $('<option value="add">Add Quiz</option>');
+                                }
+
+                                if (data.id == '') {
+                                    return $('<option value="">Select Quiz Option</option>');
+                                }
+
+                                return `${data.title}`
+                            }
+                        });
                     }
                 })
             }
+
 
             $(document).on('click','.bookstatus', function(){
                 var bookstatus = $(this).val();
@@ -540,7 +560,7 @@
                                     '</li>'
                                 )
                             }
-                            else if(value.type == 'q'){
+                            else if(value.type == 'q' || value.type == '1' || value.type == '2'){
                                 $('#ulchapter'+id).append(
                                     '<li id="'+value.id+'"  contenttype="quiz" class="liquiz">'+
                                         '<span class="right badge badge-info">'+value.sortid+'</span><span class="box boxquiz'+value.id+' boxquiz" >Quiz: '+value.title+' <i class="fa fa-times ml-2 removeitem"></i></span>'+
@@ -954,6 +974,8 @@
                 var tempChapTitle = $(this).find('.boxchapter').text()
                 var chapId = $(this).attr('id')
 
+                clickedchapter = chapId
+
                 // change modal title for quiz
                 $('#add-edit-quiz-modal-title').text(`${tempChapTitle} Quiz`)
 
@@ -961,6 +983,49 @@
                 renderQuizSelect2(chapId)
 
             })
+
+
+            $("#quiz-select2").select2().on('select2:select', function(e) {
+                var selectedValue = $(this).val();
+                
+                if (selectedValue == 'add') {
+                    $('#create-edit-quiz').removeClass('bg-success')
+                    $('#create-edit-quiz').removeClass('edit-quiz-btn')
+                    $('#create-edit-quiz').addClass('bg-primary')
+                    $('#create-edit-quiz').addClass('add-quiz-btn')
+                    $('#create-edit-quiz').text('Create Quiz')
+                } else {
+                    $('#create-edit-quiz').removeClass('bg-primary')
+                    $('#create-edit-quiz').removeClass('add-quiz-btn')
+                    $('#create-edit-quiz').addClass('bg-success')
+                    $('#create-edit-quiz').addClass('edit-quiz-btn')
+                    $('#create-edit-quiz').text('Edit Quiz')
+                }
+            });
+
+            $(document).on('click', '.add-quiz-btn', function(){
+
+                $('.add-quiz-btn').prop('disabled', true)
+
+                $.ajax({
+                    url: '/adminviewbook/addeditquiz',
+                    type: 'get',
+                    dataType: 'json',
+                    data: {
+                        title: 'Unititled Quiz',
+                        description: 'Quiz Description',
+                        chapterid: clickedchapter,
+                        type: 1,
+                    },
+                    success: function(data)
+                    {
+                        console.log(data)
+                    }
+                })
+
+            })
+
+            $(document).on('click', '.edit-quiz-btn', function(){})
 
         })
     </script>
