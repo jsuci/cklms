@@ -218,7 +218,7 @@
                             <ol class="list-group list-group-numbered p-3">
                                 <li>
                                     <div class="row align-items-center">
-                                        <div class="col-auto">
+                                        <div class="col-md-12">
                                             <p>What is the capital of France? <input data-question-id="11" class="answer-field d-inline form-control q-input drop-option" type="text" disabled></p>
                                         </div>
                                     </div>
@@ -226,7 +226,7 @@
 
                                 <li>
                                     <div class="row align-items-center">
-                                        <div class="col-auto">
+                                        <div class="col-md-12">
                                             <p>What is the smallest unit of matter? <input data-question-id="12" class="answer-field d-inline form-control q-input drop-option" type="text" disabled></p>
                                         </div>
                                     </div>
@@ -234,7 +234,7 @@
 
                                 <li>
                                     <div class="row align-items-center">
-                                        <div class="col-auto">
+                                        <div class="col-md-12">
                                             <p>What is the force that pulls objects toward each other? <input data-question-id="13" class="answer-field d-inline form-control q-input drop-option" type="text" disabled></p>
                                         </div>
                                     </div>
@@ -253,7 +253,7 @@
                             <ol class="list-group list-group-numbered p-3">
                                 <li>
                                     <div class="row align-items-center form-inline">
-                                        <div class="col-auto">
+                                        <div class="col-md-12">
                                             <p>The <input data-question-id="14" class="answer-field d-inline form-control q-input" type="text"> is the largest organ in the human body.</p>
                                         </div>
                                     </div>
@@ -261,7 +261,7 @@
 
                                 <li>
                                     <div class="row align-items-center">
-                                        <div class="col-auto">
+                                        <div class="col-md-12">
                                             <p><input data-question-id="15" class="answer-field d-inline form-control q-input" type="text"> is the process by which a gas turns into a liquid.</p>
                                         </div>
                                     </div>
@@ -269,7 +269,7 @@
 
                                 <li>
                                     <div class="row align-items-center">
-                                        <div class="col-auto">
+                                        <div class="col-md-12">
                                             <p>The two main components of the central nervous system are the <input data-question-id="16" class="answer-field d-inline form-control q-input" type="text"></p> and the <input data-question-id="16" class="answer-field d-inline form-control q-input" type="text">. Please answer in lowercase.
                                         </div>
                                     </div>
@@ -375,7 +375,8 @@
                             </ol>
 
                             <div class="mt-4">
-                                <input data-question-id="27" class="answer-field form-control" style="height:100%;" type="file" id="formFile" accept="image/*">
+                                <input data-question-id="27" class="answer-field form-control" style="height:100%;" type="file" id="imageInput" accept="image/*">
+                                <img class="img-thumbnail" style="display:none;width:300px" id="preview" src="#" alt="Preview">
                             </div>
                             
                         </div>
@@ -403,6 +404,29 @@
     $(document).ready(function(){
 
         var STUDENT_ID = 2;
+
+        const Toast = Swal.mixin({
+            toast: true,
+            position: 'top-end',
+            showConfirmButton: false,
+            timer: 3000,
+            timerProgressBar: true,
+            didOpen: (toast) => {
+                toast.addEventListener('mouseenter', Swal.stopTimer)
+                toast.addEventListener('mouseleave', Swal.resumeTimer)
+            }
+        })
+
+		function previewImage(input) {
+			if (input.files && input.files[0]) {
+				var reader = new FileReader();
+				reader.onload = function (e) {
+					$('#preview').attr('src', e.target.result);
+                    $('#preview').show();
+				}
+				reader.readAsDataURL(input.files[0]);
+			}
+		}
 
         function autoSaveAnswer(thisElement) {
             // Get the answer data
@@ -444,6 +468,9 @@
                 dropElement.addClass('bg-primary text-white')
                 dropElement.prop( "disabled", true );
 
+                dragElement.removeClass('bg-primary')
+                dragElement.addClass('bg-dark')
+
                 // auto save answer
                 autoSaveAnswer(dropElement)
             }
@@ -453,8 +480,9 @@
         $("label").click(function() {
             var radioBtnId = $(this).attr("for");
             var inputElement = $(`input.answer-field[id='${radioBtnId}']`);
-            inputElement.prop("checked", true)
-            autoSaveAnswer(inputElement)
+
+            inputElement.prop("checked", true);
+            autoSaveAnswer(inputElement);
         });
 
         // auto save answer when switching to 
@@ -496,29 +524,49 @@
                     }
                 }
 
-
             })
 
             if (isvalid) {
-                console.log('Form submitted successfully.')
+                Toast.fire({
+                    icon: 'success',
+                    title: 'Quiz submitted successfully.'
+                })
                 // set quiz status as finished
                 // disable retake of quiz
                 // show quiz complete form
+            } else {
+                Swal.fire({
+                    // template: '#my-template'
+                    titleText: 'Unanswered items detected!',
+                    html: '<p class="text-center" style="font-size:1rem;">Are you sure you want to continue and submit the quiz?</p>',
+                    icon: 'error',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Save'
+                })
+                .then((result) => {
+                    if (result.value) {
+                        event.preventDefault();
+                        Toast.fire({
+                            icon: 'success',
+                            title: 'Quiz w/ unanswered items submitted successfully.'
+                        })
+                    }
+                })
             }
         })
 
-        // scroll to bottom
-        // Show the button when the user scrolls past a certain point
+        // show the button when the user scrolls past a certain point
         $(window).scroll(function() {
             if ($(this).scrollTop() > 700) {
-                console.log($(this).scrollTop())
                 $('#scroll-to-bottom').fadeIn();
             } else {
                 $('#scroll-to-bottom').fadeOut();
             }
         });
         
-        // Scroll to the bottom of the page when the button is clicked
+        // scroll to the bottom of the page when the button is clicked
         $('#scroll-to-bottom').click(function() {
             $('html, body').animate({
                 scrollTop: $(document).height(),
@@ -526,6 +574,11 @@
                 $('#scroll-to-bottom').fadeOut();
             });
             return false;
+        });
+
+        // show preview image
+        $("#imageInput").change(function() {
+			previewImage(this);
         });
     })
 </script>

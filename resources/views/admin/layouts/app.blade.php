@@ -25,6 +25,7 @@
     <!-- SweetAlert2 -->
     <link rel="stylesheet" href="{{asset('plugins/sweetalert2-theme-bootstrap-4/bootstrap-4.min.css')}}">
     <link rel="stylesheet" href="{{asset('plugins/datatables-bs4/css/dataTables.bootstrap4.css')}}">
+    <link rel="stylesheet" href="{{asset('plugins/sweetalert2/sweetalert2.css')}}">
 
     <!-- summernote -->
     <link rel="stylesheet" href="{{asset('plugins/summernote/summernote-bs4.css')}}">
@@ -139,11 +140,13 @@
         {{-- <script type="text/javascript" src="{{asset('plugins/jquery-ui/jquery-ui.min.js')}}"></script> --}}
         <script src="{{asset('templatefiles/chart-custom.js')}}"></script>
         <script src="{{asset('plugins/jquery-ui/jquery-ui.min.js')}}"></script>
+
         <!-- Select2 -->
         <script src="{{asset('plugins/select2/js/select2.full.min.js')}}"></script>
+
         <!-- SweetAlert2 -->
-        <script src="{{asset('plugins/sweetalert2/sweetalert2.min.js')}}"></script>
-        <script src="{{asset('plugins/sweetalert2/sweetalert2.all.min.js')}}"></script>
+        {{-- <script src="{{asset('plugins/sweetalert2/sweetalert2.min.js')}}"></script> --}}
+        <script src="{{asset('plugins/sweetalert2/sweetalert2.all.js')}}"></script>
         <script src="{{asset('plugins/datatables/jquery.dataTables.js')}}"></script>
         <script src="{{asset('plugins/datatables-bs4/js/dataTables.bootstrap4.js')}}"></script>
         @yield('script')
@@ -155,25 +158,26 @@
     <a href="#"></a>
 </div>
 <script>
-  $(document).ready(function(){
+    $(document).ready(function(){
 
-      $(document).on('click','#logout',function(){
-        Swal.fire({
-          title: 'Are you sure you want to logout?',
-          type: 'info',
-          showCancelButton: true,
-          confirmButtonColor: '#3085d6',
-          cancelButtonColor: '#d33',
-          confirmButtonText: 'Logout'
+        $(document).on('click','#logout',function(){
+            Swal.fire({
+                title: 'Are you sure you want to logout?',
+                type: 'info',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Logout'
+            })
+            .then((result) => {
+                if (result.value) {
+                    event.preventDefault(); 
+                    $('#logout-form').submit()
+                }
+            })
         })
-        .then((result) => {
-          if (result.value) {
-            event.preventDefault(); 
-            $('#logout-form').submit()
-          }
-        })
-      })
-  })
+
+    })
 </script>
 </body>
 </html>
