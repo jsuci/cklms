@@ -346,14 +346,13 @@
                     <div class="row">
                         <div class="col-md-12">
                             <select name="quiz-select2" id="quiz-select2" class="form-select form-control select2">
-                                <option selected value="">Select Quiz Option</option>
                                 <option selected value="add">Add Quiz</option>
                             </select>
                         </div>
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" id="create-edit-quiz" class="btn bg-primary text-white">Create Quiz</button>
+                    <button type="button" id="create-edit-quiz" class="btn bg-primary text-white add-quiz-btn">Create Quiz</button>
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                 </div>
             </div>
@@ -408,26 +407,23 @@
                         const filteredData = data.filter(item => item.type !== 'l');
 
                         $("#quiz-select2").empty()
-                        $('#quiz-select2').append('<option value="">Select Quiz Option</option>')
                         $('#quiz-select2').append('<option value="add">Add Quiz</option>')
                         $("#quiz-select2").select2({
                             data: filteredData,
+                            minimumResultsForSearch: 3,
                             allowClear: true,
-                            placeholder: "Select Quiz",
+                            // placeholder: "Select Quiz",
                             templateResult: function(data) {
-                                if(data.id == 'add') {
+                                if(data.id == 'add' || data.id == '') {
                                     return $('<option value="add">Add Quiz</option>');
                                 }
                                 return $(`<option value="${data.id}">${data.title}</option>`);
                             },
                             templateSelection: function(data) {
-                                if (data.id == 'add') {
+                                if (data.id == 'add' || data.id == '') {
                                     return $('<option value="add">Add Quiz</option>');
                                 }
 
-                                if (data.id == '') {
-                                    return $('<option value="">Select Quiz Option</option>');
-                                }
 
                                 return `${data.title}`
                             }
@@ -852,7 +848,7 @@
                     Swal.fire({
                         title: 'Are you sure you want to delete selected content?',
                         text: $(this).attr('label'),
-                        type: 'warning',
+                        icon: 'warning',
                         confirmButtonColor: '#3085d6',
                         confirmButtonText: 'Delete',
                         showCancelButton: true,
@@ -872,7 +868,7 @@
                                     removeelem.remove()
                                     Swal.fire({
                                         title: 'Deleted successfully',
-                                        type: 'success',
+                                        icon: 'success',
                                         confirmButtonColor: '#3085d6',
                                         confirmButtonText: 'Close',
                                         allowOutsideClick: false
@@ -885,7 +881,7 @@
                     
                     Swal.fire({
                         title: 'This '+updatelabel+' is not empty!',
-                        type: 'warning',
+                        icon: 'warning',
                         confirmButtonColor: '#3085d6',
                         confirmButtonText: 'Close',
                         allowOutsideClick: false
@@ -909,7 +905,7 @@
 
                         Swal.fire({
                             title: 'Authorized personnel only',
-                            type: 'warning',
+                            icon: 'warning',
                             input: 'password',
                             inputAttributes: {
                                 id: 'passworddelete'
@@ -940,7 +936,7 @@
                                         {
                                             Swal.fire({
                                                 title: 'Cannot be deleted!',
-                                                type: 'error',
+                                                icon: 'error',
                                                 confirmButtonColor: '#3085d6',
                                                 confirmButtonText: 'Close',
                                                 allowOutsideClick: false
@@ -950,7 +946,7 @@
                                         {
                                             Swal.fire({
                                                 title: 'Book deleted successfully!',
-                                                type: 'success',
+                                                icon: 'success',
                                                 confirmButtonColor: '#3085d6',
                                                 confirmButtonText: 'Close',
                                                 allowOutsideClick: false
@@ -968,6 +964,7 @@
                 
             })
             $(document).on('click', '#addquiz', function(){
+                $('#quiz-select2').val('add').trigger('change');
                 $('#add-edit-quiz-modal').modal('show');
             })
             $(document).on('click', '.lichapter', function(){
@@ -1010,7 +1007,6 @@
                 $.ajax({
                     url: '/adminviewbook/addeditquiz',
                     type: 'get',
-                    dataType: 'json',
                     data: {
                         title: 'Unititled Quiz',
                         description: 'Quiz Description',
@@ -1019,6 +1015,7 @@
                     },
                     success: function(data)
                     {
+                        $('.add-quiz-btn').prop('disabled', false)
                         console.log(data)
                     }
                 })
