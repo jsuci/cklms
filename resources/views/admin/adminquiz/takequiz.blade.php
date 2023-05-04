@@ -99,12 +99,21 @@
     <div class="container quizcontent">
         <div class="row justify-content-center">
             <div class="col-md-8">
-                
                 <div class="card mt-5">
                     <div class="card-body">
                         <h1 class="card-title">
                             Science Quiz
                         </h1>
+
+                        <div class="lessons pb-4">
+                            <h4>Coverage: </h4>
+                            <div class="btn bg-success text-white m-1">Lesson 1: Intro to Cybersecurity</div>
+                            <div class="btn bg-success text-white m-1">Lesson 2: VLAN</div>
+                            <div class="btn bg-success text-white m-1">Lesson 3: Inter VLAN</div>
+                            <div class="btn bg-success text-white m-1">Lesson 4: OSI Model</div>
+                            <div class="btn bg-success text-white m-1">Lesson 5: TCP/IP</div>
+                        </div>
+
                         <p class="card-text">This quiz consists of several different types of questions, including multiple-choice, enumeration, fill-in-the-blank, and essay questions. Read each question carefully and choose the best answer. You will have 30 minutes to complete the quiz. Once you start the quiz, the timer will begin and you cannot pause or stop the quiz.</p>
                     </div>
                 </div>
