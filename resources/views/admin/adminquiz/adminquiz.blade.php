@@ -94,12 +94,27 @@
                 @foreach ($data as $row)
 
                 <!-- quiz title -->
-                <div class="card mt-5" id="quiz-header" data-id="{{ $row->id }}">
+                <div class="card mt-5" id="quiz-header" data-id="{{ $row->id }}" data-chapter-id="{{ $row->chapterid }}">
                     <div class="card-body">
                         
                         <h1 class="card-title" id="quiz-title">
                             {{ $row->title }}
                         </h1>
+
+                        <div class="admin-output lessons">
+                            <h4>Coverage:</h4>
+                            <div class="btn bg-success text-white m-1">Lesson 1: Intro to Cybersecurity</div>
+                            <div class="btn bg-success text-white m-1">Lesson 2: VLAN</div>
+                            <div class="btn bg-success text-white m-1">Lesson 3: Inter VLAN</div>
+                            <div class="btn bg-success text-white m-1">Lesson 4: OSI Model</div>
+                            <div class="btn bg-success text-white m-1">Lesson 5: TCP/IP</div>
+                        </div>
+
+                        <div class="admin-input mt-3 mb-4">
+                            <select class="select-coverage form-select form-control select2">
+                            </select>
+                        </div>
+
                         <p class="card-text" id="quiz-desc">{{ $row->description }}</p>
                         
                     </div>
@@ -135,6 +150,7 @@
     $(document).ready(function() {
 
         const quizId = $('#quiz-header').data('id')
+        const chapterID = $('#quiz-header').data('chapter-id')
 
         const Toast = Swal.mixin({
             toast: true,
@@ -147,6 +163,30 @@
                 toast.addEventListener('mouseleave', Swal.resumeTimer)
             }
         })
+
+        $('.select-coverage').select2({
+            placeholder: 'Select a lesson',
+            ajax: {
+                url: '/adminviewbook/getlessons',
+                type: 'get',
+                dataType: 'json',
+                data: {
+                    id: chapterID
+                },
+                processResults: function (data) {
+                    const filteredData = data.filter(item => item.type === 'l');
+
+                    return {
+                        results: $.map(filteredData, function (item) {
+                            return {
+                                id: item.id,
+                                text: item.title
+                            }
+                        })
+                    };
+                },
+            },
+        });
 
         function makeEditable(selector, key, val) {
             // Store the original text in a variable
