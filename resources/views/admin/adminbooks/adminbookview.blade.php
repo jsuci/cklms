@@ -393,6 +393,19 @@
             var clickedchapter;
             var clickedlesson;
             var clickedquiz;
+            var selectedquiz;
+
+            const Toast = Swal.mixin({
+                toast: true,
+                position: 'top-end',
+                showConfirmButton: false,
+                timer: 3000,
+                timerProgressBar: true,
+                didOpen: (toast) => {
+                    toast.addEventListener('mouseenter', Swal.stopTimer)
+                    toast.addEventListener('mouseleave', Swal.resumeTimer)
+                }
+            })
 
             function renderQuizSelect2(chapId) {
                 $.ajax({
@@ -873,12 +886,16 @@
                                 },
                                 complete: function(data){
                                     removeelem.remove()
-                                    Swal.fire({
-                                        title: 'Deleted successfully',
+                                    // Swal.fire({
+                                    //     title: 'Deleted successfully',
+                                    //     icon: 'success',
+                                    //     confirmButtonColor: '#3085d6',
+                                    //     confirmButtonText: 'Close',
+                                    //     allowOutsideClick: false
+                                    // })
+                                    Toast.fire({
                                         icon: 'success',
-                                        confirmButtonColor: '#3085d6',
-                                        confirmButtonText: 'Close',
-                                        allowOutsideClick: false
+                                        title: 'Deleted successfully'
                                     })
                                 }
                             })
@@ -971,6 +988,16 @@
                 
             })
             $(document).on('click', '#addquiz', function(){
+                
+                // set default button state to 'Create Quiz'
+                $('#create-edit-quiz').removeClass('edit-quiz-btn')
+                $('#create-edit-quiz').removeClass('bg-success')
+                $('#create-edit-quiz').addClass('bg-primary')
+                $('#create-edit-quiz').addClass('add-quiz-btn')
+                $('#create-edit-quiz').text('Create Quiz')
+
+                renderQuizSelect2(clickedchapter)
+                
                 $('#quiz-select2').val('add').trigger('change');
                 $('#add-edit-quiz-modal').modal('show');
             })
@@ -987,32 +1014,31 @@
                 renderQuizSelect2(chapId)
 
             })
-
-
             $("#quiz-select2").select2().on('select2:select', function(e) {
-                var selectedValue = $(this).val();
+                var temp_selected_id = $(this).val();
                 
-                if (selectedValue == 'add') {
+                if (temp_selected_id == 'add') {
                     $('#create-edit-quiz').removeClass('bg-success')
                     $('#create-edit-quiz').removeClass('edit-quiz-btn')
                     $('#create-edit-quiz').addClass('bg-primary')
                     $('#create-edit-quiz').addClass('add-quiz-btn')
                     $('#create-edit-quiz').text('Create Quiz')
                 } else {
+                    selectedquiz = temp_selected_id
                     $('#create-edit-quiz').removeClass('bg-primary')
                     $('#create-edit-quiz').removeClass('add-quiz-btn')
                     $('#create-edit-quiz').addClass('bg-success')
                     $('#create-edit-quiz').addClass('edit-quiz-btn')
                     $('#create-edit-quiz').text('Edit Quiz')
                 }
-            });
 
+            });
             $(document).on('click', '.add-quiz-btn', function(){
 
                 $('.add-quiz-btn').prop('disabled', true)
 
                 $.ajax({
-                    url: '/adminviewbook/addeditquiz',
+                    url: '/adminviewbook/addquiz',
                     type: 'get',
                     data: {
                         title: 'Unititled Quiz',
@@ -1022,14 +1048,20 @@
                     },
                     success: function(data)
                     {
+                        const quizId = data
+                        const url = `/adminviewbook/getquiz/${quizId}`
+                        window.open(url, "_blank");
+                        renderQuizSelect2(clickedchapter)
+
                         $('.add-quiz-btn').prop('disabled', false)
-                        console.log(data)
                     }
                 })
 
             })
-
-            $(document).on('click', '.edit-quiz-btn', function(){})
+            $(document).on('click', '.edit-quiz-btn', function(){
+                const url = `/adminviewbook/getquiz/${selectedquiz}`
+                window.open(url, "_blank");
+            })
 
         })
     </script>

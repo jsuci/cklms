@@ -140,12 +140,12 @@ Route::middleware(['auth', 'isAdministrator','isDefaultPass'])->group(function (
 
     // FOR QUIZZES
     Route::get('/adminviewbook/takequiz', 'Admin\BookController@takequiz');
-    Route::get('/adminviewbook/addeditquiz', 'Admin\BookController@addeditquiz');
+    Route::get('/adminviewbook/addquiz', 'Admin\BookController@addquiz');
+    Route::get('/adminviewbook/getquiz/{id}', 'Admin\BookController@getquiz');
+    Route::get('/adminviewbook/deletequiz', 'Admin\BookController@deletequiz');
 
 
 
-
-    
     Route::get('/adminviewbook/deletebycontenttype', 'Admin\BookController@deletebycontenttype'); 
     Route::get('/adminviewbook/lessoncontents', 'Admin\LessonController@viewlesson'); 
     Route::get('/adminviewbook/chaptertestcontents', 'Admin\ChapterTestController@viewchaptertest');  
@@ -207,7 +207,6 @@ Route::middleware(['auth', 'isAdministrator','isDefaultPass'])->group(function (
 
     // S T U D E N T S 
     Route::get('/adminstudents', 'Admin\StudentController@index');
-    
     Route::get('/admin/passwordgenerator/index', 'Admin\PasswordGeneratorController@index');
     Route::get('/admin/passwordgenerator/filter', 'Admin\PasswordGeneratorController@filter');
     

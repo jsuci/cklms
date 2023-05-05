@@ -400,7 +400,7 @@ class BookController extends Controller
 
 
     // Quiz
-    public function addeditquiz(Request $request)
+    public function addquiz(Request $request)
     {
         date_default_timezone_set('Asia/Manila');
 
@@ -414,51 +414,78 @@ class BookController extends Controller
                 'createddatetime'   => date('Y-m-d H:i:s')
             ]);
 
-        // date_default_timezone_set('Asia/Manila');
-        // $chapterquizinfo = DB::table('chapterquiz')
-        //     ->where('id', $quizid)
-        //     ->first();
+        // update title to add id
+        DB::table('chapterquiz')
+            ->where('id',$quizid)
+            ->take(1)
+            ->update([
+                'title'=>'Untitled Quiz ' . $quizid,
+                'updatedby'=>auth()->user()->id,
+                'updateddatetime'=>\Carbon\Carbon::now('Asia/Manila')
+            ]);
 
-        // $quizid = DB::table('chapterquiz')
-        //     ->insertGetId([
-        //         'title'     => $request->get('title'),
-        //         'description'     => $request->get('description'),
-        //         'chapterid'    => $request->get('chapterid'),
-        //         'type'    => $request->get('type'),
-        //         'createdby' => auth()->user()->id,
-        //         'createddatetime'   => date('Y-m-d H:i:s')
-        //     ]);
-
-        // return collect($chapterquizinfo);
-        // return view('admin.adminquiz.quizindex-admin');
-        return view('admin.adminquiz.adminquiz')
-            ->with('quizid', $quizid);
+        return $quizid;
 
     }
+    public function getquiz($id)
+    {
+        $data = DB::table('chapterquiz')->where('id', $id)->get();
+        
+        return view('admin.adminquiz.adminquiz', [
+            'data' => $data
+        ]);
+
+    }
+    // public function editquiz(Request $request)
+    // {
+
+    // }
+    public function deletequiz(Request $request)
+    {
+        $id = $request->get('id');
+        try{
+
+            // Check if quiz is in used
+            // $check = DB::table('rooms')
+            //             ->where('buildingid',$id)
+            //             ->where('deleted',0)
+            //             ->count();
+
+            // if($check > 0){
+            //     return array((object)[
+            //         'status'=>0,
+            //         'message'=>'Building in used',
+            //         'icon'=>'error'
+            //     ]);
+            // }
+
+            DB::table('chapterquiz')
+                ->where('id',$id)
+                ->take(1)
+                ->update([
+                    'deleted'=>1,
+                    'deletedby'=>auth()->user()->id,
+                    'deleteddatetime'=>\Carbon\Carbon::now('Asia/Manila')
+                ]);
+
+            return array((object)[
+                'status'=>1,
+                'message'=>'Quiz Deleted',
+                'icon'=>'success',
+            ]);
+    
+        
+        }catch(\Exception $e){
+            return $e;
+        }
+    }
+
+    // Move this to student controller
     public function takequiz(Request $request)
     {
-        // date_default_timezone_set('Asia/Manila');
-        // $quizid = DB::table('chapterquiz')
-        //     ->insertGetId([
-        //         'title'     => $request->get('title'),
-        //         'description'     => $request->get('description'),
-        //         'chapterid'    => $request->get('chapterid'),
-        //         'type'    => $request->get('type'),
-        //         'createdby' => auth()->user()->id,
-        //         'createddatetime'   => date('Y-m-d H:i:s')
-        //     ]);
-
-        // $chapterquizinfo = DB::table('chapterquiz')
-        //     ->where('id', $quizid)
-        //     ->first();
-
-        // return collect($chapterquizinfo);
-        // return view('admin.adminquiz.quizindex-admin');
         return view('admin.adminquiz.studentquiz');
     }
 
-    
-    
     public function bookinfoupdate(Request $request)
     {
         // return $request->all();

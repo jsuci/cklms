@@ -91,15 +91,21 @@
         <div class="row justify-content-center">
             <div class="col-md-8">
 
+                @foreach ($data as $row)
+
                 <!-- quiz title -->
-                <div class="card mt-5">
+                <div class="card mt-5" id="quiz-header" data-id="{{ $row->id }}">
                     <div class="card-body">
+                        
                         <h1 class="card-title" id="quiz-title">
-                            {{ $quizdata['quiz_title'] }}
+                            {{ $row->title }}
                         </h1>
-                        <p class="card-text" id="quiz-desc">This quiz consists of several different types of questions, including multiple-choice, enumeration, fill-in-the-blank, and essay questions. Read each question carefully and choose the best answer. You will have 30 minutes to complete the quiz. Once you start the quiz, the timer will begin and you cannot pause or stop the quiz.</p>
+                        <p class="card-text" id="quiz-desc">{{ $row->description }}</p>
+                        
                     </div>
                 </div>
+
+                @endforeach
 
                 <!-- quiz questions -->
                 <div id="questions">
@@ -110,10 +116,14 @@
                 <div class="save mb-5">
                     <div class="row">
                         <div class="col-md-12 d-flex justify-content-end">
+                            <div class="btn btn-danger btn-lg mr-2" id="delete-quiz">Delete</div>
                             <div class="btn btn-success btn-lg" id="save-quiz">Save</div>
+                            
                         </div>
                     </div>
                 </div>
+
+                
 
             </div> <!-- end col-md-8 -->
         </div> <!-- end row -->
@@ -123,32 +133,48 @@
 <script src="{{asset('plugins/jquery/jquery.min.js')}}"></script>
 <script>
 
-    function makeEditable(selector) {
-        // Store the original text in a variable
-        var originalText = $(selector).text();
-
-        // Make the element editable when clicked
-        $(selector).click(function() {
-            $(this).attr('contenteditable', true);
-        });
-
-        // Save the updated text when the user is done editing
-        $(selector).blur(function() {
-            var updatedText = $(this).text();
-
-            // Revert to the original text if the updated text is blank
-            if (updatedText.trim() === '') {
-                $(this).text(originalText);
-
-                updatedText = originalText
-            }
-
-            // Make the element non-editable again
-            $(this).attr('contenteditable', false);
-        });
-    }
-
     $(document).ready(function() {
+
+        const quizId = $('#quiz-header').data('id')
+
+        const Toast = Swal.mixin({
+            toast: true,
+            position: 'top-end',
+            showConfirmButton: false,
+            timer: 3000,
+            timerProgressBar: true,
+            didOpen: (toast) => {
+                toast.addEventListener('mouseenter', Swal.stopTimer)
+                toast.addEventListener('mouseleave', Swal.resumeTimer)
+            }
+        })
+
+        function makeEditable(selector) {
+            // Store the original text in a variable
+            var originalText = $(selector).text();
+
+            // Make the element editable when clicked
+            $(selector).click(function() {
+                $(this).attr('contenteditable', true);
+            });
+
+            // Save the updated text when the user is done editing
+            $(selector).blur(function() {
+                var updatedText = $(this).text();
+
+                // Revert to the original text if the updated text is blank
+                if (updatedText.trim() === '') {
+                    $(this).text(originalText);
+
+                    updatedText = originalText
+                }
+
+                // Make the element non-editable again
+                $(this).attr('contenteditable', false);
+            });
+        }
+
+
 
         // make quiz title editable
         makeEditable('#quiz-title')
@@ -156,7 +182,7 @@
         // make quiz desc editable
         makeEditable('#quiz-desc')
 
-        // save all answers quiz
+        // save quiz
         $('#save-quiz').on('click', function() {
             var isvalid = true
 
@@ -187,6 +213,39 @@
                 // show quiz complete form
             }
         })
+
+        // delete quiz
+        $('#delete-quiz').on('click', function() {
+            Swal.fire({
+                title: 'Are you sure you want to delete this quiz?',
+                text: $(this).attr('label'),
+                icon: 'warning',
+                confirmButtonColor: '#ff5630',
+                confirmButtonText: 'Delete',
+                showCancelButton: true,
+                allowOutsideClick: false
+            }).then((confirm) => {
+                if (confirm.value) {
+                    $.ajax({
+                        url: '/adminviewbook/deletequiz',
+                        type: 'get',
+                        dataType: 'json',
+                        data: {
+                            id: quizId
+                        },
+                        success: function(data){
+
+                            Toast.fire({
+                                icon: 'success',
+                                title: 'Deleted successfully'
+                            }).then(() => {
+                                window.close();
+                            })
+                        }
+                    })
+                }
+            })
+            })
 
     })
 </script>
