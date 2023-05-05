@@ -377,7 +377,7 @@
     <!-- Bootstrap -->
     <script src="{{asset('plugins/bootstrap/js/bootstrap.bundle.min.js')}}"></script>
     <!-- Select2 -->
-    <script src="{{asset('plugins/select2/js/select2.full.min.js')}}"></script>
+    <script src="{{asset('plugins/select2/js/select2.min.js')}}"></script>
     <!-- AdminLTE -->
     <script src="{{asset('dist/js/adminlte.js')}}"></script>
 
@@ -406,32 +406,39 @@
                         // Filter data array by type property not equal to 'l'
                         const filteredData = data.filter(item => item.type !== 'l');
 
+
                         $("#quiz-select2").empty()
                         $('#quiz-select2').append('<option value="add">Add Quiz</option>')
                         $("#quiz-select2").select2({
                             data: filteredData,
-                            minimumResultsForSearch: 3,
                             allowClear: true,
-                            // placeholder: "Select Quiz",
+                            placeholder: "Add Quiz",
                             templateResult: function(data) {
+
+                                // console.log(data.id, data.title)
                                 if(data.id == 'add' || data.id == '') {
                                     return $('<option value="add">Add Quiz</option>');
                                 }
-                                return $(`<option value="${data.id}">${data.title}</option>`);
+
+                                return $('<option>', {
+                                    'value': data.id,
+                                    'text': data.title
+                                });
                             },
                             templateSelection: function(data) {
                                 if (data.id == 'add' || data.id == '') {
                                     return $('<option value="add">Add Quiz</option>');
                                 }
 
-
-                                return `${data.title}`
+                                return $('<option>', {
+                                    'value': data.id,
+                                    'text': data.title
+                                });
                             }
                         });
                     }
                 })
             }
-
 
             $(document).on('click','.bookstatus', function(){
                 var bookstatus = $(this).val();
