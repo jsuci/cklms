@@ -243,14 +243,14 @@
 
         // add lesson coverage
         $('#add-lesson').on('click', function() {
-            var selectedLesson = $('.select-coverage').select2('data')[0].text;
-            var lessonHtml = `<div class="btn bg-success text-white m-1">${selectedLesson}</div>`
+            var selectedLesson = $('.select-coverage').select2('data')[0];
+            var lessonHtml = `<div class="btn bg-success text-white m-1" data-lesson-id="${selectedLesson.id}">${selectedLesson.text}</div>`
             var container = $('.admin-output');
 
             // Check if the new element doesn't already exist within the container
-            if (!container.has('.new-element').length) {
+            if (!container.find(`[data-lesson-id="${selectedLesson.id}"]`).length) {
                 // If it doesn't exist, append the new element to the container
-                container.prepend(htmlToAppend);
+                container.prepend(lessonHtml);
             }
 
 
