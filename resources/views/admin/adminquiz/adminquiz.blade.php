@@ -101,18 +101,23 @@
                             {{ $row->title }}
                         </h1>
 
+                        <h4>Coverage:</h4>
                         <div class="admin-output lessons">
-                            <h4>Coverage:</h4>
-                            <div class="btn bg-success text-white m-1">Lesson 1: Intro to Cybersecurity</div>
+                            {{-- <div class="btn bg-success text-white m-1">Lesson 1: Intro to Cybersecurity</div>
                             <div class="btn bg-success text-white m-1">Lesson 2: VLAN</div>
                             <div class="btn bg-success text-white m-1">Lesson 3: Inter VLAN</div>
                             <div class="btn bg-success text-white m-1">Lesson 4: OSI Model</div>
-                            <div class="btn bg-success text-white m-1">Lesson 5: TCP/IP</div>
+                            <div class="btn bg-success text-white m-1">Lesson 5: TCP/IP</div> --}}
                         </div>
 
-                        <div class="admin-input mt-3 mb-4">
+                        <div class="admin-input mt-5 mb-4">
                             <select class="select-coverage form-select form-control select2">
                             </select>
+                            <div class="row mt-3">
+                                <div class="col-md-12 d-flex justify-content-end">
+                                    <button class="btn btn-primary" id="add-lesson">Add Lesson</button>
+                                </div>
+                            </div>
                         </div>
 
                         <p class="card-text" id="quiz-desc">{{ $row->description }}</p>
@@ -235,6 +240,23 @@
         // make quiz desc editable
         makeEditable('#quiz-desc')
 
+
+        // add lesson coverage
+        $('#add-lesson').on('click', function() {
+            var selectedLesson = $('.select-coverage').select2('data')[0].text;
+            var lessonHtml = `<div class="btn bg-success text-white m-1">${selectedLesson}</div>`
+            var container = $('.admin-output');
+
+            // Check if the new element doesn't already exist within the container
+            if (!container.has('.new-element').length) {
+                // If it doesn't exist, append the new element to the container
+                container.prepend(htmlToAppend);
+            }
+
+
+            $('.select-coverage').val('').trigger('change');
+        })
+
         // save quiz
         $('#save-quiz').on('click', function() {
             var isvalid = true
@@ -298,7 +320,7 @@
                     })
                 }
             })
-            })
+        })
 
     })
 </script>
