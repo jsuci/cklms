@@ -132,7 +132,6 @@
 
 <script src="{{asset('plugins/jquery/jquery.min.js')}}"></script>
 <script>
-
     $(document).ready(function() {
 
         const quizId = $('#quiz-header').data('id')
@@ -149,7 +148,7 @@
             }
         })
 
-        function makeEditable(selector) {
+        function makeEditable(selector, key, val) {
             // Store the original text in a variable
             var originalText = $(selector).text();
 
@@ -165,16 +164,30 @@
                 // Revert to the original text if the updated text is blank
                 if (updatedText.trim() === '') {
                     $(this).text(originalText);
-
                     updatedText = originalText
                 }
+
+                $.ajax({
+                    url: '/adminviewbook/editquiz',
+                    method: 'GET',
+                    data: { // Pass query parameters here
+                        key: $('#quiz-title').text().trim(),
+                        quiz_desc: $('#quiz-desc').text().trim(),
+                        chapter_id: 12,
+                        book_id: 9,
+                    },
+                    success: function(response) {
+                        // Handle successful response
+                        // console.log(response);
+                        $('#save-quiz').prop('disabled', false)
+                    }
+                });
+
 
                 // Make the element non-editable again
                 $(this).attr('contenteditable', false);
             });
         }
-
-
 
         // make quiz title editable
         makeEditable('#quiz-title')
@@ -220,7 +233,7 @@
                 title: 'Are you sure you want to delete this quiz?',
                 text: $(this).attr('label'),
                 icon: 'warning',
-                confirmButtonColor: '#ff5630',
+                confirmButtonColor: 'rgb(211 29 29)',
                 confirmButtonText: 'Delete',
                 showCancelButton: true,
                 allowOutsideClick: false

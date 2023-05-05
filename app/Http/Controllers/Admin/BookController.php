@@ -417,6 +417,7 @@ class BookController extends Controller
         // update title to add id
         DB::table('chapterquiz')
             ->where('id',$quizid)
+            ->where('deleted', 0)
             ->take(1)
             ->update([
                 'title'=>'Untitled Quiz ' . $quizid,
@@ -429,20 +430,28 @@ class BookController extends Controller
     }
     public function getquiz($id)
     {
-        $data = DB::table('chapterquiz')->where('id', $id)->get();
+        $data = DB::table('chapterquiz')
+            ->where('id', $id)
+            ->where('deleted', 0)
+            ->get();
         
-        return view('admin.adminquiz.adminquiz', [
-            'data' => $data
-        ]);
+        if( count($data) > 0) {
+            return view('admin.adminquiz.adminquiz', [
+                'data' => $data
+            ]);
+        } else {
+            return redirect('/home');
+        }
 
     }
-    // public function editquiz(Request $request)
-    // {
+    public function editquiz(Request $request)
+    {
 
-    // }
+    }
     public function deletequiz(Request $request)
     {
         $id = $request->get('id');
+        
         try{
 
             // Check if quiz is in used

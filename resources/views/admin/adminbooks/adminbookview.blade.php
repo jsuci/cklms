@@ -869,7 +869,7 @@
                         title: 'Are you sure you want to delete selected content?',
                         text: $(this).attr('label'),
                         icon: 'warning',
-                        confirmButtonColor: '#3085d6',
+                        confirmButtonColor: 'rgb(211 29 29)',
                         confirmButtonText: 'Delete',
                         showCancelButton: true,
                         allowOutsideClick: false
