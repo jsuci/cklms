@@ -84,12 +84,16 @@
             position: relative;
             z-index: 0;
         }
-        .admin-output {
-            border: 2px dotted #017bf961;
+        .admin-edit {
+            border: 2px dotted #017df95e;
+            padding: 0.5em;
         }
-        .admin-input {
-            border: 2px dotted #ff00d471;
-            padding: 1em;
+        .rm-coverage {
+            font-weight: 700;
+            position: relative;
+            top: -10px;
+            font-size: 1.3em;
+            cursor: pointer;
         }
     </style>
 
@@ -99,25 +103,19 @@
             <div class="col-md-8">
 
                 @foreach ($data as $row)
-
                 <!-- quiz title -->
                 <div class="card mt-5" id="quiz-header" data-id="{{ $row->id }}" data-chapter-id="{{ $row->chapterid }}">
                     <div class="card-body">
                         
-                        <h1 class="card-title" id="quiz-title">
+                        <h1 class="card-title admin-edit" id="quiz-title">
                             {{ $row->title }}
                         </h1>
 
                         <h4>Coverage:</h4>
-                        <div class="admin-output coverage">
-                            {{-- <div class="btn bg-success text-white m-1">Lesson 1: Intro to Cybersecurity</div>
-                            <div class="btn bg-success text-white m-1">Lesson 2: VLAN</div>
-                            <div class="btn bg-success text-white m-1">Lesson 3: Inter VLAN</div>
-                            <div class="btn bg-success text-white m-1">Lesson 4: OSI Model</div>
-                            <div class="btn bg-success text-white m-1">Lesson 5: TCP/IP</div> --}}
+                        <div class="admin-edit" id="admin-coverage">
                         </div>
 
-                        <div class="admin-input mt-3 mb-4">
+                        <div class="mt-3 mb-4">
                             <div class="row">
                                 <div class="col-md-12">
                                     <select class="select-coverage select2">
@@ -131,11 +129,10 @@
                             </div>
                         </div>
 
-                        <p class="card-text" id="quiz-desc">{{ $row->description }}</p>
+                        <p class="card-text admin-edit" id="quiz-desc">{{ $row->description }}</p>
                         
                     </div>
                 </div>
-
                 @endforeach
 
                 <!-- quiz questions -->
@@ -231,12 +228,13 @@
                 },
                 success: function(data) {
                     // empty div
-                    $('.admin-output.coverage').html('')
+                    $('#admin-coverage').empty()
 
                     // generate buttons
                     $.each(data, function(index, value) {
-                        var html = '<div class="btn bg-success text-white m-1" data-lesson-id="' + value.id + '">' + value.lessontitle + '</div>';
-                        $(html).appendTo('.admin-output.coverage');
+                        var html = `<div class="btn bg-success text-white m-1" data-lesson-id="${value.lessonid}">${value.lessontitle}</div><span style="font-weight:700" class="rm-coverage">&times;</span>`;
+                        
+                        $(html).appendTo('#admin-coverage');
                     });
 
                     
@@ -254,6 +252,21 @@
                     lessontitle: lessontitle
                 },
                 success: function(data) {
+                    renderHtmlCoverage()
+                }
+            });
+        }
+
+        function deleteCoverage(quizid, lessonid) {
+            $.ajax({
+                url: '/adminviewbook/deletecoverage',
+                method: 'GET',
+                data: {
+                    quizid: quizid,
+                    lessonid: lessonid,
+                },
+                success: function(data) {
+                    console.log(data)
                     renderHtmlCoverage()
                 }
             });
@@ -294,15 +307,14 @@
 
         // DOM MANIPULATION
 
-        // make quiz title editable
+        // make quiz title desc editable
         makeEditable('#quiz-title')
-
-        // make quiz desc editable
         makeEditable('#quiz-desc')
 
+        // add coverage
         $('#add-lesson').on('click', function() {
             var selectedLesson = $('.select-coverage').select2('data')[0];
-            var container = $('.admin-output.coverage');
+            var container = $('#admin-coverage');
 
             // Check if the new element doesn't already exist within the container
             if (!container.find(`[data-lesson-id="${selectedLesson.id}"]`).length) {
@@ -313,6 +325,14 @@
 
             $('.select-coverage').val('').trigger('change');
         })
+
+        // delete coverage
+        $(document).on('click', '.rm-coverage', function() {
+            var lessonId = $(this).prev().data('lesson-id');
+            
+            deleteCoverage(quizId, lessonId)
+        });
+
 
         // save quiz
         $('#save-quiz').on('click', function() {
@@ -369,7 +389,8 @@
 
                             Toast.fire({
                                 icon: 'success',
-                                title: 'Deleted successfully'
+                                title: 'Quiz deleted successfully',
+                                timer: 2000,
                             }).then(() => {
                                 window.close();
                             })
@@ -378,6 +399,7 @@
                 }
             })
         })
+
 
     })
 </script>

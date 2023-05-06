@@ -1041,8 +1041,8 @@
                     url: '/adminviewbook/addquiz',
                     type: 'get',
                     data: {
-                        title: 'Unititled Quiz',
-                        description: 'Quiz Description',
+                        title: 'Untitled Quiz',
+                        description: 'Edit quiz description here',
                         chapterid: clickedchapter,
                         type: 1,
                     },
@@ -1054,6 +1054,7 @@
                         renderQuizSelect2(clickedchapter)
 
                         $('.add-quiz-btn').prop('disabled', false)
+                        $('#add-edit-quiz-modal').modal('hide');
                     }
                 })
 
@@ -1061,6 +1062,7 @@
             $(document).on('click', '.edit-quiz-btn', function(){
                 const url = `/adminviewbook/getquiz/${selectedquiz}`
                 window.open(url, "_blank");
+                $('#add-edit-quiz-modal').modal('hide');
             })
 
         })
