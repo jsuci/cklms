@@ -84,6 +84,13 @@
             position: relative;
             z-index: 0;
         }
+        .admin-output {
+            border: 2px dotted #017bf961;
+        }
+        .admin-input {
+            border: 2px dotted #ff00d471;
+            padding: 1em;
+        }
     </style>
 
 <body>
@@ -110,9 +117,13 @@
                             <div class="btn bg-success text-white m-1">Lesson 5: TCP/IP</div> --}}
                         </div>
 
-                        <div class="admin-input mt-5 mb-4">
-                            <select class="select-coverage form-select form-control select2">
-                            </select>
+                        <div class="admin-input mt-3 mb-4">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <select class="select-coverage select2">
+                                    </select>
+                                </div>
+                            </div>
                             <div class="row mt-3">
                                 <div class="col-md-12 d-flex justify-content-end">
                                     <button class="btn btn-primary" id="add-lesson">Add Lesson</button>
@@ -171,6 +182,7 @@
 
         $('.select-coverage').select2({
             placeholder: 'Select a lesson',
+            width: '100%',
             ajax: {
                 url: '/adminviewbook/getlessons',
                 type: 'get',

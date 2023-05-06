@@ -144,6 +144,10 @@ Route::middleware(['auth', 'isAdministrator','isDefaultPass'])->group(function (
     Route::get('/adminviewbook/getquiz/{id}', 'Admin\BookController@getquiz');
     Route::get('/adminviewbook/deletequiz', 'Admin\BookController@deletequiz');
 
+    Route::get('/adminviewbook/getcoverage', 'Admin\BookController@getcoverage');
+    Route::get('/adminviewbook/addcoverage', 'Admin\BookController@addcoverage');
+    Route::get('/adminviewbook/deletecoverage', 'Admin\BookController@deletecoverage');
+
 
 
     Route::get('/adminviewbook/deletebycontenttype', 'Admin\BookController@deletebycontenttype'); 

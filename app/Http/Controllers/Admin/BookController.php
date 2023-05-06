@@ -444,10 +444,10 @@ class BookController extends Controller
         }
 
     }
-    public function editquiz(Request $request)
-    {
+    // public function editquiz(Request $request)
+    // {
 
-    }
+    // }
     public function deletequiz(Request $request)
     {
         $id = $request->get('id');
@@ -488,6 +488,81 @@ class BookController extends Controller
             return $e;
         }
     }
+
+
+    // Coverage
+    public function getcoverage(Request $request)
+    {
+
+        $quizid = $request->get('quizid');
+
+        try {
+            // Query builder code here
+            $coverage = DB::table('chapterquizcoverage')
+                ->where('quizid', $quizid)
+                ->where('deleted', 0)
+                ->get();
+
+
+            dd($coverage);
+
+        } catch (\Exception $e) {
+            // Handle the exception here
+            return back()->with('error', 'An error occurred: ' . $e->getMessage());
+        }
+        
+    }
+    public function addcoverage(Request $request)
+    {
+        $quizid = $request->get('quizid');
+        $lessonid = $request->get('lessonid');
+        $lessontitle = $request->get('lessontitle');
+
+        try {
+
+            // Query builder code here
+            $addcoverage = DB::table('chapterquizcoverage')
+                ->insertGetId([
+                    'quizid'=>$quizid,
+                    'lessonid'=>$lessonid,
+                    'lessontitle'=>$lessontitle,
+                    'createdby'=>auth()->user()->id,
+                    'createddatetime'=>\Carbon\Carbon::now('Asia/Manila')
+                ]);
+
+            dd($addcoverage);
+
+        } catch (\Exception $e) {
+            // Handle the exception here
+            return back()->with('error', 'An error occurred: ' . $e->getMessage());
+        }
+    }
+    public function deletecoverage(Request $request)
+    {
+        $quizid = $request->get('quizid');
+        $lessonid = $request->get('lessonid');
+
+        try {
+
+            // Query builder code here
+            $deletecoverage = DB::table('chapterquizcoverage')
+                ->where('quizid',$quizid)
+                ->where('lessonid',$lessonid)
+                ->take(1)
+                ->update([
+                    'deleted'=>1,
+                    'deletedby'=>auth()->user()->id,
+                    'deleteddatetime'=>\Carbon\Carbon::now('Asia/Manila')
+                ]);
+
+            dd($deletecoverage);
+
+        } catch (\Exception $e) {
+            // Handle the exception here
+            return back()->with('error', 'An error occurred: ' . $e->getMessage());
+        }
+    }
+
 
     // Move this to student controller
     public function takequiz(Request $request)
