@@ -485,7 +485,7 @@ class BookController extends Controller
     
         
         }catch(\Exception $e){
-            return $e;
+            return back()->with('error', 'An error occurred: ' . $e->getMessage());
         }
     }
 
@@ -504,7 +504,8 @@ class BookController extends Controller
                 ->get();
 
 
-            dd($coverage);
+            // dd($coverage);
+            return $coverage;
 
         } catch (\Exception $e) {
             // Handle the exception here
@@ -520,6 +521,20 @@ class BookController extends Controller
 
         try {
 
+            $check = DB::table('chapterquizcoverage')
+                        ->where('deleted',0)
+                        ->where('quizid',$quizid)
+                        ->where('lessonid',$lessonid)
+                        ->count();
+
+            if($check > 0){
+                return array((object)[
+                    'status'=>0,
+                    'message'=>'Coverage already exist',
+                    'icon'=>'error',
+                ]);
+            }
+
             // Query builder code here
             $addcoverage = DB::table('chapterquizcoverage')
                 ->insertGetId([
@@ -530,7 +545,6 @@ class BookController extends Controller
                     'createddatetime'=>\Carbon\Carbon::now('Asia/Manila')
                 ]);
 
-            dd($addcoverage);
 
         } catch (\Exception $e) {
             // Handle the exception here

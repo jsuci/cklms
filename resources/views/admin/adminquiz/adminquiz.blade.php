@@ -109,7 +109,7 @@
                         </h1>
 
                         <h4>Coverage:</h4>
-                        <div class="admin-output lessons">
+                        <div class="admin-output coverage">
                             {{-- <div class="btn bg-success text-white m-1">Lesson 1: Intro to Cybersecurity</div>
                             <div class="btn bg-success text-white m-1">Lesson 2: VLAN</div>
                             <div class="btn bg-success text-white m-1">Lesson 3: Inter VLAN</div>
@@ -165,9 +165,9 @@
 <script>
     $(document).ready(function() {
 
+        // GLOBALS
         const quizId = $('#quiz-header').data('id')
         const chapterID = $('#quiz-header').data('chapter-id')
-
         const Toast = Swal.mixin({
             toast: true,
             position: 'top-end',
@@ -180,31 +180,7 @@
             }
         })
 
-        $('.select-coverage').select2({
-            placeholder: 'Select a lesson',
-            width: '100%',
-            ajax: {
-                url: '/adminviewbook/getlessons',
-                type: 'get',
-                dataType: 'json',
-                data: {
-                    id: chapterID
-                },
-                processResults: function (data) {
-                    const filteredData = data.filter(item => item.type === 'l');
-
-                    return {
-                        results: $.map(filteredData, function (item) {
-                            return {
-                                id: item.id,
-                                text: item.title
-                            }
-                        })
-                    };
-                },
-            },
-        });
-
+        // HELPER FUNC
         function makeEditable(selector, key, val) {
             // Store the original text in a variable
             var originalText = $(selector).text();
@@ -246,23 +222,92 @@
             });
         }
 
+        function renderHtmlCoverage() {
+            $.ajax({
+                url: '/adminviewbook/getcoverage',
+                method: 'GET',
+                data: {
+                    quizid: quizId,
+                },
+                success: function(data) {
+                    // empty div
+                    $('.admin-output.coverage').html('')
+
+                    // generate buttons
+                    $.each(data, function(index, value) {
+                        var html = '<div class="btn bg-success text-white m-1" data-lesson-id="' + value.id + '">' + value.lessontitle + '</div>';
+                        $(html).appendTo('.admin-output.coverage');
+                    });
+
+                    
+                }
+            });
+        }
+
+        function addCoverage(quizid, lessonid, lessontitle) {
+            $.ajax({
+                url: '/adminviewbook/addcoverage',
+                method: 'GET',
+                data: {
+                    quizid: quizid,
+                    lessonid: lessonid,
+                    lessontitle: lessontitle
+                },
+                success: function(data) {
+                    renderHtmlCoverage()
+                }
+            });
+        }
+
+
+        // INITIALIZE CONTENTS
+
+        renderHtmlCoverage()
+
+        $('.select-coverage').select2({
+            placeholder: 'Select a lesson',
+            width: '100%',
+            ajax: {
+                url: '/adminviewbook/getlessons',
+                type: 'get',
+                dataType: 'json',
+                data: {
+                    id: chapterID
+                },
+                processResults: function (data) {
+                    const filteredData = data.filter(item => item.type === 'l');
+
+                    return {
+                        results: $.map(filteredData, function (item) {
+                            return {
+                                id: item.id,
+                                text: item.title
+                            }
+                        })
+                    };
+                },
+            },
+        });
+
+
+
+
+        // DOM MANIPULATION
+
         // make quiz title editable
         makeEditable('#quiz-title')
 
         // make quiz desc editable
         makeEditable('#quiz-desc')
 
-
-        // add lesson coverage
         $('#add-lesson').on('click', function() {
             var selectedLesson = $('.select-coverage').select2('data')[0];
-            var lessonHtml = `<div class="btn bg-success text-white m-1" data-lesson-id="${selectedLesson.id}">${selectedLesson.text}</div>`
-            var container = $('.admin-output');
+            var container = $('.admin-output.coverage');
 
             // Check if the new element doesn't already exist within the container
             if (!container.find(`[data-lesson-id="${selectedLesson.id}"]`).length) {
-                // If it doesn't exist, append the new element to the container
-                container.prepend(lessonHtml);
+                // If it doesn't exist, add new lesson to chapterquizcoverage
+                addCoverage(quizId, selectedLesson.id, selectedLesson.text)
             }
 
 
