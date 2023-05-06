@@ -414,13 +414,22 @@ class BookController extends Controller
                 'createddatetime'   => date('Y-m-d H:i:s')
             ]);
 
+
+        $quiz = DB::table('chapterquiz')
+            ->where('id', $quizid)
+            ->where('deleted', 0)
+            ->get()
+            ->first();
+
+        $newtitle = $quiz->title . ' ' . $quiz->id;
+
         // update title to add id
         DB::table('chapterquiz')
             ->where('id',$quizid)
             ->where('deleted', 0)
             ->take(1)
             ->update([
-                'title'=>'Untitled Quiz ' . $quizid,
+                'title'=>$newtitle,
                 'updatedby'=>auth()->user()->id,
                 'updateddatetime'=>\Carbon\Carbon::now('Asia/Manila')
             ]);
@@ -558,10 +567,25 @@ class BookController extends Controller
 
         try {
 
+            // check before deleting
+            // $check = DB::table('rooms')
+            //             ->where('buildingid',$id)
+            //             ->where('deleted',0)
+            //             ->count();
+
+            // if($check > 0){
+            //     return array((object)[
+            //         'status'=>0,
+            //         'message'=>'Building in used',
+            //         'icon'=>'error'
+            //     ]);
+            // }
+
             // Query builder code here
             $deletecoverage = DB::table('chapterquizcoverage')
                 ->where('quizid',$quizid)
                 ->where('lessonid',$lessonid)
+                ->where('deleted',0)
                 ->take(1)
                 ->update([
                     'deleted'=>1,
@@ -569,7 +593,12 @@ class BookController extends Controller
                     'deleteddatetime'=>\Carbon\Carbon::now('Asia/Manila')
                 ]);
 
-            dd($deletecoverage);
+            return array((object)[
+                'status'=>1,
+                'message'=>'Quiz coverage deleted',
+                'icon'=>'success',
+                'data'=>$deletecoverage
+            ]);
 
         } catch (\Exception $e) {
             // Handle the exception here
