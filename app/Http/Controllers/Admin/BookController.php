@@ -452,10 +452,6 @@ class BookController extends Controller
         }
 
     }
-    // public function editquiz(Request $request)
-    // {
-
-    // }
     public function deletequiz(Request $request)
     {
         $id = $request->get('id');
@@ -488,6 +484,36 @@ class BookController extends Controller
             return array((object)[
                 'status'=>1,
                 'message'=>'Quiz Deleted',
+                'icon'=>'success',
+            ]);
+    
+        
+        }catch(\Exception $e){
+            return back()->with('error', 'An error occurred: ' . $e->getMessage());
+        }
+    }
+
+    public function editchapquiz(Request $request)
+    {
+        $chapterid = $request->get('chapterid');
+        $title = $request->get('title');
+        $description = $request->get('description');
+        
+        try{
+
+            DB::table('chapterquiz')
+                ->where('chapterid',$chapterid)
+                ->take(1)
+                ->update([
+                    'title'=>$title,
+                    'description'=>$description,
+                    'updatedby'=>auth()->user()->id,
+                    'updateddatetime'=>\Carbon\Carbon::now('Asia/Manila')
+                ]);
+
+            return array((object)[
+                'status'=>1,
+                'message'=>'Updated quiz successfully',
                 'icon'=>'success',
             ]);
     

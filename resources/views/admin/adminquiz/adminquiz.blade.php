@@ -107,12 +107,12 @@
                 <div class="card mt-5" id="quiz-header" data-id="{{ $row->id }}" data-chapter-id="{{ $row->chapterid }}">
                     <div class="card-body">
                         
-                        <h1 class="card-title admin-edit" id="quiz-title">
+                        <h1 class="card-title admin-edit" id="admin-quiz-title">
                             {{ $row->title }}
                         </h1>
 
                         <h4>Coverage:</h4>
-                        <div class="admin-edit" id="admin-coverage">
+                        <div class="admin-edit" id="admin-quiz-coverage">
                         </div>
 
                         <div class="mt-3 mb-4">
@@ -178,7 +178,8 @@
         })
 
         // HELPER FUNC
-        function makeEditable(selector, key, val) {
+
+        function makeEditable(selector) {
             // Store the original text in a variable
             var originalText = $(selector).text().trim();
 
@@ -189,7 +190,7 @@
             });
 
             // Save the updated text when the user is done editing
-            $(selector).blur(function() {
+            $(selector).on("blur", function() {
                 var updatedText = $(this).text();
 
                 // Revert to the original text if the updated text is blank
@@ -198,26 +199,44 @@
                     updatedText = originalText
                 }
 
-                $.ajax({
-                    url: '/adminviewbook/editquiz',
-                    method: 'GET',
-                    data: { // Pass query parameters here
-                        key: $('#quiz-title').text().trim(),
-                        quiz_desc: $('#quiz-desc').text().trim(),
-                        chapter_id: 12,
-                        book_id: 9,
-                    },
-                    success: function(response) {
-                        // Handle successful response
-                        // console.log(response);
-                        $('#save-quiz').prop('disabled', false)
-                    }
-                });
-
-
                 // Make the element non-editable again
                 $(this).attr('contenteditable', false);
-            });
+                
+            })
+
+            // $(selector).blur(function() {
+            //     var updatedText = $(this).text();
+
+            //     // Revert to the original text if the updated text is blank
+            //     if (updatedText.trim() === '') {
+            //         $(this).text(originalText);
+            //         updatedText = originalText
+            //     }
+
+            //     jsonData['title'] = updatedText.trim()
+            //     console.log(jsonData)
+
+            //     $.ajax({
+            //         url: '/adminviewbook/editchapquiz',
+            //         method: 'GET',
+            //         data: jsonData,
+            //         // data: { // Pass query parameters here
+            //         //     key: $('#quiz-title').text().trim(),
+            //         //     quiz_desc: $('#quiz-desc').text().trim(),
+            //         //     chapter_id: 12,
+            //         //     book_id: 9,
+            //         // },
+            //         success: function(response) {
+            //             // Handle successful response
+            //             // console.log(response);
+            //             $('#save-quiz').prop('disabled', false)
+            //         }
+            //     });
+
+
+            //     // Make the element non-editable again
+            //     $(this).attr('contenteditable', false);
+            // });
         }
 
         function renderHtmlCoverage() {
@@ -229,16 +248,15 @@
                 },
                 success: function(data) {
                     // empty div
-                    $('#admin-coverage').empty()
+                    $('#admin-quiz-coverage').empty()
 
                     // generate buttons
                     $.each(data, function(index, value) {
                         var html = `<div class="btn bg-success text-white m-1" data-lesson-id="${value.lessonid}">${value.lessontitle}</div><span style="font-weight:700" class="rm-coverage">&times;</span>`;
                         
-                        $(html).appendTo('#admin-coverage');
+                        $(html).appendTo('#admin-quiz-coverage');
                     });
 
-                    
                 }
             });
         }
@@ -309,20 +327,19 @@
         // DOM MANIPULATION
 
         // make quiz title desc editable
-        makeEditable('#quiz-title')
-        makeEditable('#quiz-desc')
+        // makeEditable('#quiz-title')
+        // makeEditable('#quiz-desc')
 
         // add coverage
         $('#add-lesson').on('click', function() {
             var selectedLesson = $('.select-coverage').select2('data')[0];
-            var container = $('#admin-coverage');
+            var container = $('#admin-quiz-coverage');
 
             // Check if the new element doesn't already exist within the container
             if (!container.find(`[data-lesson-id="${selectedLesson.id}"]`).length) {
                 // If it doesn't exist, add new lesson to chapterquizcoverage
                 addCoverage(quizId, selectedLesson.id, selectedLesson.text)
             }
-
 
             $('.select-coverage').val('').trigger('change');
         })
@@ -333,7 +350,6 @@
             
             deleteCoverage(quizId, lessonId)
         });
-
 
         // save quiz
         $('#save-quiz').on('click', function() {
@@ -401,6 +417,13 @@
             })
         })
 
+        makeEditable('#admin-quiz-title', {
+            chapterid: chapterID
+        })
+
+        makeEditable('#admin-quiz-title', {
+            chapterid: chapterID
+        })
 
     })
 </script>
