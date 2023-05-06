@@ -180,10 +180,11 @@
         // HELPER FUNC
         function makeEditable(selector, key, val) {
             // Store the original text in a variable
-            var originalText = $(selector).text();
+            var originalText = $(selector).text().trim();
 
             // Make the element editable when clicked
             $(selector).click(function() {
+                // $(selector).text('');
                 $(this).attr('contenteditable', true);
             });
 

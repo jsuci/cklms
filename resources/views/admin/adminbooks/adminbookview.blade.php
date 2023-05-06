@@ -1035,12 +1035,15 @@
             });
             $(document).on('click', '.add-quiz-btn', function(){
 
+                var chapTitle = $(`.boxchapter${clickedchapter}`).text().trim()
+
                 $('.add-quiz-btn').prop('disabled', true)
 
                 $.ajax({
                     url: '/adminviewbook/addquiz',
                     type: 'get',
                     data: {
+                        // title: `${chapTitle} Quiz`,
                         title: 'Untitled Quiz',
                         description: 'Edit quiz description here',
                         chapterid: clickedchapter,

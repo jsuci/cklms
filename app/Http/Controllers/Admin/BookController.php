@@ -402,16 +402,15 @@ class BookController extends Controller
     // Quiz
     public function addquiz(Request $request)
     {
-        date_default_timezone_set('Asia/Manila');
-
+        
         $quizid = DB::table('chapterquiz')
             ->insertGetId([
-                'title'     => $request->get('title'),
-                'description'     => $request->get('description'),
-                'chapterid'    => $request->get('chapterid'),
-                'type'    => $request->get('type'),
-                'createdby' => auth()->user()->id,
-                'createddatetime'   => date('Y-m-d H:i:s')
+                'title'=>$request->get('title'),
+                'description'=>$request->get('description'),
+                'chapterid'=>$request->get('chapterid'),
+                'type'=>$request->get('type'),
+                'createdby'=>auth()->user()->id,
+                'createddatetime'=>\Carbon\Carbon::now('Asia/Manila')
             ]);
 
 
@@ -612,7 +611,6 @@ class BookController extends Controller
     {
         return view('admin.adminquiz.studentquiz');
     }
-
     public function bookinfoupdate(Request $request)
     {
         // return $request->all();
