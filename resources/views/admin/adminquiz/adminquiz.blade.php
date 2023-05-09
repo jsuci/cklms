@@ -116,23 +116,19 @@
         <div class="row justify-content-center">
             <div class="col-md-8">
 
+                <!-- quiz header -->
                 @foreach ($data as $row)
-                <!-- quiz title -->
-
-                <div class="row mt-5">
+                <div class="row mt-5" id="quiz-header" data-id="{{ $row->id }}" data-chapter-id="{{ $row->chapterid }}">
                     <div class="col-sm-1">
-                        <div class="btn-group-vertical card-options">
+                        <div class="btn-group-vertical card-options" style="display:none">
                             <a class="btn btn-sm text-white gfg_tooltip newrow" style="background-color: #3175c2; border: 3px solid #1d62b7;">
                                 <i class="fas fa-plus m-0"></i><span class="gfg_text">Add Question</span>
-                            </a>
-                            <a class="btn btn-sm text-white gfg_tooltip" style="background-color: #3175c2; border: 3px solid #1d62b7;">
-                                <i class="fas fa-trash m-0"></i><span class="gfg_text">Delete</span>
                             </a>
                         </div>
                     </div>
 
                     <div class="col-sm-11">
-                        <div class="card" id="quiz-header" data-id="{{ $row->id }}" data-chapter-id="{{ $row->chapterid }}">
+                        <div class="card">
                             <div class="card-body">
                                 <h1 class="card-title text-edit" id="admin-quiz-title">
                                     {{ $row->title }}
@@ -161,29 +157,23 @@
                         </div>
                     </div>
                 </div>
-
-
-
-                
-
-                
                 @endforeach
 
                 <!-- quiz questions -->
-                <div id="questions">
+                <div class="row mt-5" id="quiz-questions">
                 </div>
 
 
                 <!-- save button -->
-                <div class="save mb-5">
-                    <div class="row">
-                        <div class="col-md-12 d-flex justify-content-end">
-                            <div class="btn btn-danger btn-lg mr-2" id="delete-quiz">Delete</div>
-                            <div class="btn btn-success btn-lg" id="save-quiz">Save</div>
-                            
-                        </div>
+
+                <div class="row mt-5" id="quiz-footer">
+                    <div class="col-md-12 d-flex justify-content-end">
+                        <div class="btn btn-danger btn-lg mr-2" id="delete-quiz">Delete</div>
+                        <div class="btn btn-success btn-lg" id="save-quiz">Save</div>
+                        
                     </div>
                 </div>
+
 
                 
 
@@ -352,7 +342,8 @@
 
 
         // EVENT LISTENERS
-        // add coverage
+
+        // lesson coverage
         $('#add-lesson').on('click', function() {
             var selectedLesson = $('.select-coverage').select2('data')[0];
             var container = $('#admin-quiz-coverage');
@@ -365,14 +356,13 @@
 
             $('.select-coverage').val('').trigger('change');
         })
-
-        // delete coverage
         $(document).on('click', '.rm-coverage', function() {
             var lessonId = $(this).prev().data('lesson-id');
             deleteCoverage(quizId, lessonId)
         });
 
-        // save quiz
+
+        // quiz operation
         $('#save-quiz').on('click', function() {
             var isvalid = true
 
@@ -403,8 +393,6 @@
                 // show quiz complete form
             }
         })
-
-        // delete quiz
         $('#delete-quiz').on('click', function() {
             Swal.fire({
                 title: 'Are you sure you want to delete this quiz?',
@@ -439,10 +427,18 @@
         })
 
 
-        // handle admin-quiz-title
-        textEditable('#admin-quiz-title')
+        // show hide card-options
+        $('#quiz-header').mouseenter(function() {
+            $(this).find('.card-options').fadeIn();
+        });
 
-        // handle admin-quiz-desc
+        $('#quiz-header').mouseleave(function() {
+            $(this).find('.card-options').fadeOut();
+        });
+
+
+        // text edit save
+        textEditable('#admin-quiz-title')
         textEditable('#admin-quiz-desc')
 
 
