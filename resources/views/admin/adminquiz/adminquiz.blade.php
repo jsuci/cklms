@@ -178,7 +178,6 @@
         })
 
         // HELPER FUNC
-
         function makeEditable(selector) {
             // Store the original text in a variable
             var originalText = $(selector).text().trim();
@@ -201,6 +200,8 @@
 
                 // Make the element non-editable again
                 $(this).attr('contenteditable', false);
+
+                console.log(updatedText.trim())
                 
             })
 
@@ -293,7 +294,6 @@
 
 
         // INITIALIZE CONTENTS
-
         renderHtmlCoverage()
 
         $('.select-coverage').select2({
@@ -322,14 +322,7 @@
         });
 
 
-
-
-        // DOM MANIPULATION
-
-        // make quiz title desc editable
-        // makeEditable('#quiz-title')
-        // makeEditable('#quiz-desc')
-
+        // EVENT LISTENERS
         // add coverage
         $('#add-lesson').on('click', function() {
             var selectedLesson = $('.select-coverage').select2('data')[0];
@@ -417,13 +410,7 @@
             })
         })
 
-        makeEditable('#admin-quiz-title', {
-            chapterid: chapterID
-        })
-
-        makeEditable('#admin-quiz-title', {
-            chapterid: chapterID
-        })
+        makeEditable('#admin-quiz-title')
 
     })
 </script>
