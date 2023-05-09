@@ -95,6 +95,20 @@
             font-size: 1.3em;
             cursor: pointer;
         }
+        @media screen and (max-width: 576px) {
+            /* .card-options {
+                flex-direction: row !important;
+                border-top-right-radius: 3px !important;
+                border-top-left-radius: 3px !important;
+            } */
+            .card-options {
+                flex-direction: row !important;
+                align-items: center;
+            }
+            .gfg_tooltip {
+                border-radius: 3px !important;
+            }
+        }
     </style>
 
 <body>
@@ -104,35 +118,55 @@
 
                 @foreach ($data as $row)
                 <!-- quiz title -->
-                <div class="card mt-5" id="quiz-header" data-id="{{ $row->id }}" data-chapter-id="{{ $row->chapterid }}">
-                    <div class="card-body">
-                        
-                        <h1 class="card-title text-edit" id="admin-quiz-title">
-                            {{ $row->title }}
-                        </h1>
 
-                        <h4>Coverage:</h4>
-                        <div class="option-edit" id="admin-quiz-coverage">
+                <div class="row mt-5">
+                    <div class="col-sm-1">
+                        <div class="btn-group-vertical card-options">
+                            <a class="btn btn-sm text-white gfg_tooltip newrow" style="background-color: #3175c2; border: 3px solid #1d62b7;">
+                                <i class="fas fa-plus m-0"></i><span class="gfg_text">Add Question</span>
+                            </a>
+                            <a class="btn btn-sm text-white gfg_tooltip" style="background-color: #3175c2; border: 3px solid #1d62b7;">
+                                <i class="fas fa-trash m-0"></i><span class="gfg_text">Delete</span>
+                            </a>
                         </div>
+                    </div>
 
-                        <div class="mt-3 mb-4">
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <select class="select-coverage select2">
-                                    </select>
+                    <div class="col-sm-11">
+                        <div class="card" id="quiz-header" data-id="{{ $row->id }}" data-chapter-id="{{ $row->chapterid }}">
+                            <div class="card-body">
+                                <h1 class="card-title text-edit" id="admin-quiz-title">
+                                    {{ $row->title }}
+                                </h1>
+        
+                                <h4>Coverage:</h4>
+                                <div class="option-edit" id="admin-quiz-coverage">
                                 </div>
-                            </div>
-                            <div class="row mt-3">
-                                <div class="col-md-12 d-flex justify-content-end">
-                                    <button class="btn btn-primary" id="add-lesson">Add Lesson</button>
+        
+                                <div class="mt-3 mb-4">
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <select class="select-coverage select2">
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="row mt-3">
+                                        <div class="col-md-12 d-flex justify-content-end">
+                                            <button class="btn btn-primary" id="add-lesson">Add Lesson</button>
+                                        </div>
+                                    </div>
                                 </div>
+        
+                                <p class="card-text text-edit" id="admin-quiz-desc">{{ $row->description }}</p>
                             </div>
                         </div>
-
-                        <p class="card-text text-edit" id="admin-quiz-desc">{{ $row->description }}</p>
-                        
                     </div>
                 </div>
+
+
+
+                
+
+                
                 @endforeach
 
                 <!-- quiz questions -->
@@ -203,8 +237,6 @@
                 // Make the element non-editable again
                 $(this).attr('contenteditable', false);
 
-                console.log(updatedText.trim(), $(selector).attr('id'))
-
                 if ($(selector).attr('id') === 'admin-quiz-title') {
 
                     ajaxCall('/adminviewbook/editchapquiz', {
@@ -227,40 +259,6 @@
                 }
                 
             })
-
-            // $(selector).blur(function() {
-            //     var updatedText = $(this).text();
-
-            //     // Revert to the original text if the updated text is blank
-            //     if (updatedText.trim() === '') {
-            //         $(this).text(originalText);
-            //         updatedText = originalText
-            //     }
-
-            //     jsonData['title'] = updatedText.trim()
-            //     console.log(jsonData)
-
-            //     $.ajax({
-            //         url: '/adminviewbook/editchapquiz',
-            //         method: 'GET',
-            //         data: jsonData,
-            //         // data: { // Pass query parameters here
-            //         //     key: $('#quiz-title').text().trim(),
-            //         //     quiz_desc: $('#quiz-desc').text().trim(),
-            //         //     chapter_id: 12,
-            //         //     book_id: 9,
-            //         // },
-            //         success: function(response) {
-            //             // Handle successful response
-            //             // console.log(response);
-            //             $('#save-quiz').prop('disabled', false)
-            //         }
-            //     });
-
-
-            //     // Make the element non-editable again
-            //     $(this).attr('contenteditable', false);
-            // });
         }
 
         function renderHtmlCoverage() {
