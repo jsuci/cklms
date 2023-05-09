@@ -107,12 +107,12 @@
                 <div class="card mt-5" id="quiz-header" data-id="{{ $row->id }}" data-chapter-id="{{ $row->chapterid }}">
                     <div class="card-body">
                         
-                        <h1 class="card-title admin-edit" id="admin-quiz-title">
+                        <h1 class="card-title text-edit" id="admin-quiz-title">
                             {{ $row->title }}
                         </h1>
 
                         <h4>Coverage:</h4>
-                        <div class="admin-edit" id="admin-quiz-coverage">
+                        <div class="option-edit" id="admin-quiz-coverage">
                         </div>
 
                         <div class="mt-3 mb-4">
@@ -129,7 +129,7 @@
                             </div>
                         </div>
 
-                        <p class="card-text admin-edit" id="quiz-desc">{{ $row->description }}</p>
+                        <p class="card-text text-edit" id="admin-quiz-desc">{{ $row->description }}</p>
                         
                     </div>
                 </div>
@@ -178,7 +178,8 @@
         })
 
         // HELPER FUNC
-        function makeEditable(selector) {
+        function textEditable(selector) {
+
             // Store the original text in a variable
             var originalText = $(selector).text().trim();
 
@@ -191,6 +192,7 @@
             // Save the updated text when the user is done editing
             $(selector).on("blur", function() {
                 var updatedText = $(this).text();
+                var ajaxRes;
 
                 // Revert to the original text if the updated text is blank
                 if (updatedText.trim() === '') {
@@ -201,7 +203,28 @@
                 // Make the element non-editable again
                 $(this).attr('contenteditable', false);
 
-                console.log(updatedText.trim())
+                console.log(updatedText.trim(), $(selector).attr('id'))
+
+                if ($(selector).attr('id') === 'admin-quiz-title') {
+
+                    ajaxCall('/adminviewbook/editchapquiz', {
+                        id: quizId,
+                        title: updatedText.trim()
+                    }).then((data) => {
+                        console.log(data)
+                    })
+
+                } else if (($(selector).attr('id') === 'admin-quiz-desc')) {
+                    ajaxCall('/adminviewbook/editchapquiz', {
+                        id: quizId,
+                        description: updatedText.trim()
+                    }).then((data) => {
+                        console.log(data)
+                    })
+
+                } else {
+                    console.log($(selector))
+                }
                 
             })
 
@@ -292,6 +315,14 @@
             });
         }
 
+        function ajaxCall(url, jsonData) {
+            return $.ajax({
+                url: url,
+                method: 'GET',
+                data: jsonData
+            });
+        }
+
 
         // INITIALIZE CONTENTS
         renderHtmlCoverage()
@@ -340,7 +371,6 @@
         // delete coverage
         $(document).on('click', '.rm-coverage', function() {
             var lessonId = $(this).prev().data('lesson-id');
-            
             deleteCoverage(quizId, lessonId)
         });
 
@@ -410,7 +440,13 @@
             })
         })
 
-        makeEditable('#admin-quiz-title')
+
+        // handle admin-quiz-title
+        textEditable('#admin-quiz-title')
+
+        // handle admin-quiz-desc
+        textEditable('#admin-quiz-desc')
+
 
     })
 </script>
