@@ -495,21 +495,35 @@ class BookController extends Controller
 
     public function editchapquiz(Request $request)
     {
-        $chapterid = $request->get('chapterid');
+        $quizid = $request->get('id');
         $title = $request->get('title');
         $description = $request->get('description');
         
         try{
 
-            DB::table('chapterquiz')
-                ->where('chapterid',$chapterid)
+
+            if ($quizid && $title) {
+                DB::table('chapterquiz')
+                ->where('id',$quizid)
                 ->take(1)
                 ->update([
                     'title'=>$title,
+                    'updatedby'=>auth()->user()->id,
+                    'updateddatetime'=>\Carbon\Carbon::now('Asia/Manila')
+                ]);
+            }
+
+            if ($quizid && $description) {
+                DB::table('chapterquiz')
+                ->where('id',$quizid)
+                ->take(1)
+                ->update([
                     'description'=>$description,
                     'updatedby'=>auth()->user()->id,
                     'updateddatetime'=>\Carbon\Carbon::now('Asia/Manila')
                 ]);
+            }
+
 
             return array((object)[
                 'status'=>1,
