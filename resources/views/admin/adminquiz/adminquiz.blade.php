@@ -121,9 +121,9 @@
                 <div class="row mt-5" id="quiz-header" data-id="{{ $row->id }}" data-chapter-id="{{ $row->chapterid }}">
                     <div class="col-sm-1">
                         <div class="btn-group-vertical card-options" style="display:none">
-                            <a class="btn btn-sm text-white gfg_tooltip newrow" style="background-color: #3175c2; border: 3px solid #1d62b7;">
+                            <button class="btn btn-sm text-white gfg_tooltip newrow" style="background-color: #3175c2; border: 3px solid #1d62b7;" id="add-question">
                                 <i class="fas fa-plus m-0"></i><span class="gfg_text">Add Question</span>
-                            </a>
+                            </button>
                         </div>
                     </div>
 
@@ -156,17 +156,18 @@
                             </div>
                         </div>
                     </div>
+
                 </div>
                 @endforeach
 
                 <!-- quiz questions -->
-                <div class="row mt-5" id="quiz-questions">
+                <div class="row mt-3" id="quiz-questions">
                 </div>
 
 
                 <!-- save button -->
 
-                <div class="row mt-5" id="quiz-footer">
+                <div class="row mb-5 mt-3" id="quiz-footer">
                     <div class="col-md-12 d-flex justify-content-end">
                         <div class="btn btn-danger btn-lg mr-2" id="delete-quiz">Delete</div>
                         <div class="btn btn-success btn-lg" id="save-quiz">Save</div>
@@ -200,6 +201,7 @@
                 toast.addEventListener('mouseleave', Swal.resumeTimer)
             }
         })
+        var prevQuestionType;
 
         // HELPER FUNC
         function textEditable(selector) {
@@ -211,6 +213,7 @@
             $(selector).click(function() {
                 // $(selector).text('');
                 $(this).attr('contenteditable', true);
+
             });
 
             // Save the updated text when the user is done editing
@@ -229,7 +232,7 @@
 
                 if ($(selector).attr('id') === 'admin-quiz-title') {
 
-                    ajaxCall('/adminviewbook/editchapquiz', {
+                    ajaxCall('/adminviewbook/editquizheader', {
                         id: quizId,
                         title: updatedText.trim()
                     }).then((data) => {
@@ -237,7 +240,7 @@
                     })
 
                 } else if (($(selector).attr('id') === 'admin-quiz-desc')) {
-                    ajaxCall('/adminviewbook/editchapquiz', {
+                    ajaxCall('/adminviewbook/editquizheader', {
                         id: quizId,
                         description: updatedText.trim()
                     }).then((data) => {
@@ -268,6 +271,46 @@
                         
                         $(html).appendTo('#admin-quiz-coverage');
                     });
+
+                }
+            });
+        }
+
+        function renderHtmlQuestions() {
+
+            let cardOptionHtml = `<div class="col-sm-1"><div class="btn-group-vertical card-options" style="display:none"><button class="btn btn-sm text-white gfg_tooltip newrow" style="background-color: #3175c2; border: 3px solid #1d62b7;" id="add-question"><i class="fas fa-plus m-0"></i><span class="gfg_text">Add Question</span></button></div></div>`
+
+
+            $.ajax({
+                url: '/adminviewbook/getquestions',
+                method: 'GET',
+                data: {
+                    headerid: quizId,
+                },
+                success: function(data) {
+
+                    if (data.length != 0) {
+                        // empty div
+                        $('#quiz-questions').empty()
+
+                        // generate buttons
+                        $.each(data, function(index, value) {
+                            const questionId = value.id
+                            const question = value.question
+                            const points = value.points
+                            const type = value.type
+
+                            console.log(questionId)
+                            // var html = `<div class="btn bg-success text-white m-1" data-lesson-id="${value.lessonid}">${value.lessontitle}</div><span style="font-weight:700" class="rm-coverage">&times;</span>`;
+                            
+                            // $(html).appendTo('#admin-quiz-coverage');
+                        });
+                    } else {
+
+                        cardOptionHtml += `<div class="col-sm-11"><h4 class="text-center" style="text-transform: none">No added questions yet.</h4></div>`
+
+                        $(cardOptionHtml).appendTo('#quiz-questions');
+                    } 
 
                 }
             });
@@ -313,8 +356,14 @@
 
 
         // INITIALIZE CONTENTS
+
+        // quiz header
         renderHtmlCoverage()
 
+        // questions
+        renderHtmlQuestions()
+
+        // coverage
         $('.select-coverage').select2({
             placeholder: 'Select a lesson',
             width: '100%',
@@ -343,7 +392,7 @@
 
         // EVENT LISTENERS
 
-        // lesson coverage
+        // quiz header
         $('#add-lesson').on('click', function() {
             var selectedLesson = $('.select-coverage').select2('data')[0];
             var container = $('#admin-quiz-coverage');
@@ -362,7 +411,7 @@
         });
 
 
-        // quiz operation
+        // quiz footer
         $('#save-quiz').on('click', function() {
             var isvalid = true
 
@@ -428,19 +477,37 @@
 
 
         // show hide card-options
-        $('#quiz-header').mouseenter(function() {
+        $('#quiz-header.row.mt-5').mouseenter(function() {
             $(this).find('.card-options').fadeIn();
         });
-
-        $('#quiz-header').mouseleave(function() {
+        $('#quiz-header.row.mt-5').mouseleave(function() {
             $(this).find('.card-options').fadeOut();
         });
+
 
 
         // text edit save
         textEditable('#admin-quiz-title')
         textEditable('#admin-quiz-desc')
 
+        // card-options
+        $('#add-question').on('click', function() {
+            $('#add-question').prop('disable', true)
+
+            if (prevQuestionType) {
+                // ajaxCall(url, jsonData)
+            } else {
+                // set default question type to multiple-choice
+                ajaxCall('/adminviewbook/addquestion', {
+                    question: 'Edit your question here',
+                    headerid: quizId,
+                    type: 1,
+                    points: 1
+                }).then((data) => {
+                    renderHtmlQuestions()
+                })
+            }
+        })
 
     })
 </script>

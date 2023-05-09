@@ -144,8 +144,14 @@ Route::middleware(['auth', 'isAdministrator','isDefaultPass'])->group(function (
     Route::get('/adminviewbook/getquiz/{id}', 'Admin\BookController@getquiz');
     Route::get('/adminviewbook/deletequiz', 'Admin\BookController@deletequiz');
 
-    Route::get('/adminviewbook/editchapquiz', 'Admin\BookController@editchapquiz');
+    // quiz header
+    Route::get('/adminviewbook/editquizheader', 'Admin\BookController@editquizheader');
 
+    // quiz questions
+    Route::get('/adminviewbook/addquestion', 'Admin\BookController@addquestion');
+    Route::get('/adminviewbook/getquestions', 'Admin\BookController@getquestions');
+
+    // coverage
     Route::get('/adminviewbook/getcoverage', 'Admin\BookController@getcoverage');
     Route::get('/adminviewbook/addcoverage', 'Admin\BookController@addcoverage');
     Route::get('/adminviewbook/deletecoverage', 'Admin\BookController@deletecoverage');
@@ -154,9 +160,11 @@ Route::middleware(['auth', 'isAdministrator','isDefaultPass'])->group(function (
 
     Route::get('/adminviewbook/deletebycontenttype', 'Admin\BookController@deletebycontenttype'); 
     Route::get('/adminviewbook/lessoncontents', 'Admin\LessonController@viewlesson'); 
-    Route::get('/adminviewbook/chaptertestcontents', 'Admin\ChapterTestController@viewchaptertest');  
-    Route::post('/adminviewbook/chaptertestcontents/uploadfiles', 'Admin\ChapterTestController@chapterstestuploadfiles');  
-    Route::get('/adminviewbook/chaptertestcontents/deletefile', 'Admin\ChapterTestController@deletefile');  
+
+    // Previous Quiz Controller
+    // Route::get('/adminviewbook/chaptertestcontents', 'Admin\ChapterTestController@viewchaptertest');  
+    // Route::post('/adminviewbook/chaptertestcontents/uploadfiles', 'Admin\ChapterTestController@chapterstestuploadfiles');  
+    // Route::get('/adminviewbook/chaptertestcontents/deletefile', 'Admin\ChapterTestController@deletefile');  
     
     // Route::get('/adminchaptertest/updatebasicdetails', 'Admin\ChapterTestController@updatebasicdetails');    
     

@@ -399,7 +399,7 @@ class BookController extends Controller
     }
 
 
-    // Quiz
+    // quiz
     public function addquiz(Request $request)
     {
         
@@ -493,7 +493,8 @@ class BookController extends Controller
         }
     }
 
-    public function editchapquiz(Request $request)
+    // quiz header
+    public function editquizheader(Request $request)
     {
         $quizid = $request->get('id');
         $title = $request->get('title');
@@ -538,7 +539,45 @@ class BookController extends Controller
     }
 
 
-    // Coverage
+    // quiz questions
+    public function addquestion(Request $request)
+    {
+
+        $question = $request->get('question');
+        $headerid = $request->get('headerid');
+        $type = $request->get('type');
+        $points = $request->get('points');
+        
+        $questionid = DB::table('chapterquizquestions')
+            ->insertGetId([
+                'question'=>$question,
+                'type'=>$type,
+                'headerid'=>$headerid,
+                'points'=>$points,
+                'createdby'=>auth()->user()->id,
+                'createddatetime'=>\Carbon\Carbon::now('Asia/Manila')
+            ]);
+
+        return $questionid;
+
+    }
+
+    public function getquestions(Request $request)
+    {
+
+        $headerid = $request->get('headerid');
+
+        $questions = DB::table('chapterquizquestions')
+            ->where('headerid', $headerid)
+            ->where('deleted', 0)
+            ->get();
+
+        return $questions;
+
+    }
+
+
+    // coverage
     public function getcoverage(Request $request)
     {
 
