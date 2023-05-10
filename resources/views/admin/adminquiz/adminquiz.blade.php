@@ -123,7 +123,7 @@
                         <div class="row">
                             <div class="col-sm-1">
                                 <div class="btn-group-vertical card-options" style="display:none">
-                                    <button class="btn btn-sm text-white gfg_tooltip newrow" style="background-color: #3175c2; border: 3px solid #1d62b7;" id="add-question">
+                                    <button class="add-question btn btn-sm text-white gfg_tooltip newrow" style="background-color: #3175c2; border: 3px solid #1d62b7;">
                                         <i class="fas fa-plus m-0"></i><span class="gfg_text">Add Question</span>
                                     </button>
                                 </div>
@@ -191,7 +191,7 @@
     $(document).ready(function() {
 
         // GLOBALS
-        const quizId = $('#quiz-header').data('id')
+        const quizID = $('#quiz-header').data('id')
         const chapterID = $('#quiz-header').data('chapter-id')
         const Toast = Swal.mixin({
             toast: true,
@@ -205,6 +205,7 @@
             }
         })
         var prevQuestionType;
+        var questionID;
 
         // HELPER FUNC
         function textEditable(selector) {
@@ -236,7 +237,7 @@
                 if ($(selector).attr('id') === 'admin-quiz-title') {
 
                     ajaxCall('/adminviewbook/editquizheader', {
-                        id: quizId,
+                        id: quizID,
                         title: updatedText.trim()
                     }).then((data) => {
                         console.log(data)
@@ -244,7 +245,7 @@
 
                 } else if (($(selector).attr('id') === 'admin-quiz-desc')) {
                     ajaxCall('/adminviewbook/editquizheader', {
-                        id: quizId,
+                        id: quizID,
                         description: updatedText.trim()
                     }).then((data) => {
                         console.log(data)
@@ -262,7 +263,7 @@
                 url: '/adminviewbook/getcoverage',
                 method: 'GET',
                 data: {
-                    quizid: quizId,
+                    quizID: quizID,
                 },
                 success: function(data) {
                     // empty div
@@ -281,19 +282,19 @@
 
         function renderHtmlQuestions() {
 
-            let cardOptionHtml = `<div class="col-sm-1"><div class="btn-group-vertical card-options" style="display:none"><button class="btn btn-sm text-white gfg_tooltip newrow" style="background-color: #3175c2; border: 3px solid #1d62b7;" id="add-question"><i class="fas fa-plus m-0"></i><span class="gfg_text">Add Question</span></button></div></div>`
-
-            // empty div
-            $('#quiz-questions').empty()
+            let cardOptionHtml = `<div class="col-sm-1"><div class="btn-group-vertical card-options" style="display:none"><button class="btn btn-sm text-white gfg_tooltip newrow add-question" style="background-color: #3175c2; border: 3px solid #1d62b7;"><i class="fas fa-plus m-0"></i><span class="gfg_text">Add Question</span></button><button class="delete-question btn btn-sm text-white gfg_tooltip" style="background-color: #3175c2; border: 3px solid #1d62b7;"><i class="fas fa-trash m-0"></i><span class="gfg_text">Delete</span></button></div></div>`
 
             $.ajax({
                 url: '/adminviewbook/getquestions',
                 method: 'GET',
                 data: {
-                    headerid: quizId,
+                    headerid: quizID,
                 },
                 success: function(data) {
 
+                    // empty div
+                    $('#quiz-questions').empty()
+                    
                     if (data.length != 0) {
 
                         // generate buttons
@@ -303,7 +304,7 @@
                             const points = value.points
                             const type = value.type
 
-                            var html = `<div class="col-sm-12"><div class="row">${cardOptionHtml}<div class="col-sm-11"><div class="card"><div class="card-body"></div></div></div><div</div></div>`;
+                            var html = `<div class="col-sm-12" data-question-id="${questionId}"><div class="row">${cardOptionHtml}<div class="col-sm-11"><div class="card"><div class="card-body"></div></div></div><div</div></div>`;
                             
                             $(html).appendTo('#quiz-questions');
                         });
@@ -318,12 +319,12 @@
             });
         }
 
-        function addCoverage(quizid, lessonid, lessontitle) {
+        function addCoverage(quizID, lessonid, lessontitle) {
             $.ajax({
                 url: '/adminviewbook/addcoverage',
                 method: 'GET',
                 data: {
-                    quizid: quizid,
+                    quizID: quizID,
                     lessonid: lessonid,
                     lessontitle: lessontitle
                 },
@@ -333,12 +334,12 @@
             });
         }
 
-        function deleteCoverage(quizid, lessonid) {
+        function deleteCoverage(quizID, lessonid) {
             $.ajax({
                 url: '/adminviewbook/deletecoverage',
                 method: 'GET',
                 data: {
-                    quizid: quizid,
+                    quizID: quizID,
                     lessonid: lessonid,
                 },
                 success: function(data) {
@@ -402,14 +403,14 @@
             // Check if the new element doesn't already exist within the container
             if (!container.find(`[data-lesson-id="${selectedLesson.id}"]`).length) {
                 // If it doesn't exist, add new lesson to chapterquizcoverage
-                addCoverage(quizId, selectedLesson.id, selectedLesson.text)
+                addCoverage(quizID, selectedLesson.id, selectedLesson.text)
             }
 
             $('.select-coverage').val('').trigger('change');
         })
         $(document).on('click', '.rm-coverage', function() {
             var lessonId = $(this).prev().data('lesson-id');
-            deleteCoverage(quizId, lessonId)
+            deleteCoverage(quizID, lessonId)
         });
 
 
@@ -460,7 +461,7 @@
                         type: 'get',
                         dataType: 'json',
                         data: {
-                            id: quizId
+                            id: quizID
                         },
                         success: function(data){
 
@@ -485,27 +486,29 @@
         $('#quiz-header.row.mt-5').mouseleave(function() {
             $(this).find('.card-options').fadeOut();
         });
-        $('#quiz-questions.row.mt-3').mouseenter(function() {
-            if ($(this).find('h4').length == 0) {
+        $(document).on('mouseenter', '.col-sm-12', function() {
+            // set globally the selected question id
+            questionID = $(this).attr('data-question-id')
+
+            if ($(this).attr('data-question-id')) {
                 $(this).find('.card-options').fadeIn();
             }
-            
-        });
-        $('#quiz-questions.row.mt-3').mouseleave(function() {
-            if ($(this).find('h4').length == 0) {
+        })
+        $(document).on('mouseleave', '.col-sm-12', function() {
+            if ($(this).attr('data-question-id')) {
                 $(this).find('.card-options').fadeOut();
             }
-        });
-
+        })       
 
 
         // text edit save
         textEditable('#admin-quiz-title')
         textEditable('#admin-quiz-desc')
 
+
         // card-options
-        $('#add-question').on('click', function() {
-            $('#add-question').prop('disable', true)
+        $(document).on('click', '.add-question', function() {
+            $(this).prop('disabled', true)
 
             if (prevQuestionType) {
                 // ajaxCall(url, jsonData)
@@ -513,11 +516,25 @@
                 // set default question type to multiple-choice
                 ajaxCall('/adminviewbook/addquestion', {
                     question: 'Edit your question here',
-                    headerid: quizId,
+                    headerid: quizID,
                     type: 1,
                     points: 1
                 }).then((data) => {
                     renderHtmlQuestions()
+                    $(this).prop('disabled', false)
+                })
+            }
+        })
+
+        $(document).on('click', '.delete-question', function() {
+            $(this).prop('disabled', true)
+
+            if (questionID) {
+                ajaxCall('/adminviewbook/deletequestion', {
+                    id: questionID,
+                }).then((data) => {
+                    renderHtmlQuestions()
+                    $(this).prop('disabled', false)
                 })
             }
         })

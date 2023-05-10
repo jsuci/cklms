@@ -561,7 +561,6 @@ class BookController extends Controller
         return $questionid;
 
     }
-
     public function getquestions(Request $request)
     {
 
@@ -575,6 +574,47 @@ class BookController extends Controller
         return $questions;
 
     }
+    public function deletequestion(Request $request)
+    {
+        $id = $request->get('id');
+        
+        try{
+
+            // Checking before delete
+            // $check = DB::table('rooms')
+            //             ->where('buildingid',$id)
+            //             ->where('deleted',0)
+            //             ->count();
+
+            // if($check > 0){
+            //     return array((object)[
+            //         'status'=>0,
+            //         'message'=>'Building in used',
+            //         'icon'=>'error'
+            //     ]);
+            // }
+
+            DB::table('chapterquizquestions')
+                ->where('id',$id)
+                ->take(1)
+                ->update([
+                    'deleted'=>1,
+                    'deletedby'=>auth()->user()->id,
+                    'deleteddatetime'=>\Carbon\Carbon::now('Asia/Manila')
+                ]);
+
+            return array((object)[
+                'status'=>1,
+                'message'=>'Question deleted',
+                'icon'=>'success',
+            ]);
+    
+        
+        }catch(\Exception $e){
+            return back()->with('error', 'An error occurred: ' . $e->getMessage());
+        }
+    }
+
 
 
     // coverage
