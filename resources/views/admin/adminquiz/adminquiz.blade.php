@@ -95,6 +95,18 @@
             font-size: 1.3em;
             cursor: pointer;
         }
+        .rm-question {
+            background-color: #e55f5f;
+            border-radius: 6px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 25px;
+            width: 25px;
+        }
+        .rm-question i {
+            color: white;
+        }
         @media screen and (max-width: 576px) {
             /* .card-options {
                 flex-direction: row !important;
@@ -114,7 +126,7 @@
 <body>
     <div class="container quizcontent">
         <div class="row justify-content-center">
-            <div class="col-md-8">
+            <div class="col-md-10">
 
                 <!-- quiz header -->
                 @foreach ($data as $row)
@@ -165,6 +177,61 @@
 
                 <!-- quiz questions -->
                 <div class="row mt-3" id="quiz-questions">
+                    <div class="col-sm-12">
+                        <div class="row">
+                            <div class="col-sm-1">
+                                <div class="btn-group-vertical card-options" style="display:none">
+                                    <button class="add-question btn btn-sm text-white gfg_tooltip newrow" style="background-color: #3175c2; border: 3px solid #1d62b7;">
+                                        <i class="fas fa-plus m-0"></i><span class="gfg_text">Add Question</span>
+                                    </button>
+                                </div>
+                            </div>
+
+                            <div class="col-sm-11">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <div class="col-sm-12">
+                                            <div class="row">
+                                                <div class="col-sm-7" style="border:1px solid red">
+                                                    Question here
+                                                </div>
+                                                <div class="col-sm-5 d-none d-sm-block" style="border:1px solid red">
+                                                    <div class="row">
+                                                        <div class="col-sm-5"  style="border:1px solid blue">
+                                                            Answer here
+                                                        </div>
+                                                        <div class="col-sm-5"  style="border:1px solid blue">
+                                                            Points here
+                                                        </div>
+                                                        <div class="col-sm-2"  style="border:1px solid blue">
+                                                            <div class="rm-question">
+                                                                <i class="fas fa-times"></i>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row d-sm-none">
+                                                <div class="col-5" style="border:1px solid red">
+                                                    Answer here
+                                                </div>
+                                                <div class="col-5" style="border:1px solid red">
+                                                    Points here
+                                                </div>
+                                                <div class="col-2"  style="border:1px solid blue">
+                                                    <div class="rm-question">
+                                                        <i class="fas fa-times"></i>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
 
 
@@ -191,6 +258,8 @@
     $(document).ready(function() {
 
         // GLOBALS
+        var prevQuestionType;
+        var questionID;
         const quizID = $('#quiz-header').data('id')
         const chapterID = $('#quiz-header').data('chapter-id')
         const Toast = Swal.mixin({
@@ -204,10 +273,10 @@
                 toast.addEventListener('mouseleave', Swal.resumeTimer)
             }
         })
-        var prevQuestionType;
-        var questionID;
 
         // HELPER FUNC
+
+        // others
         function textEditable(selector) {
 
             // Store the original text in a variable
@@ -257,7 +326,18 @@
                 
             })
         }
+        function ajaxCall(url, jsonData) {
+            return $.ajax({
+                url: url,
+                method: 'GET',
+                data: jsonData
+            });
+        }
+        function setHeaderId() {
+            return Math.round(Math.random() * 1000000) + "-" + Date.now()
+        }
 
+        // html rendering
         function renderHtmlCoverage() {
             $.ajax({
                 url: '/adminviewbook/getcoverage',
@@ -279,18 +359,20 @@
                 }
             });
         }
-
         function renderHtmlQuestions() {
 
-            // let cardOptionHtml = `<div class="col-sm-1"><div class="btn-group-vertical card-options" style="display:none"><button class="btn btn-sm text-white gfg_tooltip newrow add-question" style="background-color: #3175c2; border: 3px solid #1d62b7;"><i class="fas fa-plus m-0"></i><span class="gfg_text">Add Question</span></button><button class="delete-question btn btn-sm text-white gfg_tooltip" style="background-color: #3175c2; border: 3px solid #1d62b7;"><i class="fas fa-trash m-0"></i><span class="gfg_text">Delete</span></button></div></div>`
+            let cardOptionHtml = `<div class="col-sm-1"><div class="btn-group-vertical card-options" style="display:none"><button class="btn btn-sm text-white gfg_tooltip newrow add-question" style="background-color: #3175c2; border: 3px solid #1d62b7;"><i class="fas fa-plus m-0"></i><span class="gfg_text">Add Question</span></button><button class="delete-question btn btn-sm text-white gfg_tooltip" style="background-color: #3175c2; border: 3px solid #1d62b7;"><i class="fas fa-trash m-0"></i><span class="gfg_text">Delete</span></button></div></div>`
 
             $.ajax({
                 url: '/adminviewbook/getquestions',
                 method: 'GET',
                 data: {
-                    headerid: quizID,
+                    quizid: quizID,
                 },
                 success: function(data) {
+
+                    console.log(data)
+
                     // empty div
                     $('#quiz-questions').empty()
                     
@@ -301,11 +383,13 @@
                             // var questionId = value.id
                             // var question = value.question
                             // var points = value.points
-                            // var type = value.type
+                            var questionType = value.type
                             // var choices = value.choices
                             // var answers = value.answers
 
-                            console.log(value)
+                            if (questionType === 1) {
+                                console.log('render multiple-choice question')
+                            }
 
 
                             // var html = `<div class="col-sm-12" data-question-id="${questionId}"><div class="row">${cardOptionHtml}<div class="col-sm-11"><div class="card"><div class="card-body"></div></div></div><div</div></div>`;
@@ -314,7 +398,7 @@
                         });
                     } else {
 
-                        let emptyHtml = `<div class="col-sm-12"><div class="row"><div class="col-sm-1"><div class="btn-group-vertical card-options" style="display:none"><button class="btn btn-sm text-white gfg_tooltip newrow add-question" style="background-color: #3175c2; border: 3px solid #1d62b7;"><i class="fas fa-plus m-0"></i><span class="gfg_text">Add Question</span></button><button class="delete-question btn btn-sm text-white gfg_tooltip" style="background-color: #3175c2; border: 3px solid #1d62b7;"><i class="fas fa-trash m-0"></i><span class="gfg_text">Delete</span></button></div></div><div class="col-sm-11"><h4 class="text-center" style="text-transform: none">No added questions yet.</h4></div></div></div>`
+                        let emptyHtml = `<div class="col-sm-12"><div class="row">${cardOptionHtml}<div class="col-sm-11"><h4 class="text-center" style="text-transform: none">No added questions yet.</h4></div></div></div>`
 
                         $(emptyHtml).appendTo('#quiz-questions');
                     } 
@@ -323,6 +407,7 @@
             });
         }
 
+        // coverage
         function addCoverage(quizID, lessonid, lessontitle) {
             $.ajax({
                 url: '/adminviewbook/addcoverage',
@@ -337,7 +422,6 @@
                 }
             });
         }
-
         function deleteCoverage(quizID, lessonid) {
             $.ajax({
                 url: '/adminviewbook/deletecoverage',
@@ -353,14 +437,7 @@
             });
         }
 
-        function ajaxCall(url, jsonData) {
-            return $.ajax({
-                url: url,
-                method: 'GET',
-                data: jsonData
-            });
-        }
-
+        // question types html render
         // function multipleChoiceHtml(jsonData) {
         //     var baseH
         // }
@@ -368,13 +445,11 @@
 
         // INITIALIZE CONTENTS
 
-        // quiz header
+        // html render
         renderHtmlCoverage()
+        // renderHtmlQuestions()
 
-        // questions
-        renderHtmlQuestions()
-
-        // coverage
+        // coverage selection
         $('.select-coverage').select2({
             placeholder: 'Select a lesson',
             width: '100%',
@@ -524,11 +599,13 @@
                 // set default question type to multiple-choice
                 ajaxCall('/adminviewbook/addquestion', {
                     question: 'Edit your question here',
-                    headerid: quizID,
+                    headerid: setHeaderId(),
+                    quizid: quizID,
                     type: 1,
                     points: 1
                 }).then((data) => {
                     renderHtmlQuestions()
+                    prevQuestionType = 1
                     $(this).prop('disabled', false)
                 })
             }
