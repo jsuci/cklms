@@ -119,44 +119,47 @@
                 <!-- quiz header -->
                 @foreach ($data as $row)
                 <div class="row mt-5" id="quiz-header" data-id="{{ $row->id }}" data-chapter-id="{{ $row->chapterid }}">
-                    <div class="col-sm-1">
-                        <div class="btn-group-vertical card-options" style="display:none">
-                            <button class="btn btn-sm text-white gfg_tooltip newrow" style="background-color: #3175c2; border: 3px solid #1d62b7;" id="add-question">
-                                <i class="fas fa-plus m-0"></i><span class="gfg_text">Add Question</span>
-                            </button>
-                        </div>
-                    </div>
-
-                    <div class="col-sm-11">
-                        <div class="card">
-                            <div class="card-body">
-                                <h1 class="card-title text-edit" id="admin-quiz-title">
-                                    {{ $row->title }}
-                                </h1>
-        
-                                <h4>Coverage:</h4>
-                                <div class="option-edit" id="admin-quiz-coverage">
+                    <div class="col-md-12">
+                        <div class="row">
+                            <div class="col-sm-1">
+                                <div class="btn-group-vertical card-options" style="display:none">
+                                    <button class="btn btn-sm text-white gfg_tooltip newrow" style="background-color: #3175c2; border: 3px solid #1d62b7;" id="add-question">
+                                        <i class="fas fa-plus m-0"></i><span class="gfg_text">Add Question</span>
+                                    </button>
                                 </div>
-        
-                                <div class="mt-3 mb-4">
-                                    <div class="row">
-                                        <div class="col-md-12">
-                                            <select class="select-coverage select2">
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div class="row mt-3">
-                                        <div class="col-md-12 d-flex justify-content-end">
-                                            <button class="btn btn-primary" id="add-lesson">Add Lesson</button>
-                                        </div>
-                                    </div>
-                                </div>
-        
-                                <p class="card-text text-edit" id="admin-quiz-desc">{{ $row->description }}</p>
                             </div>
-                        </div>
-                    </div>
-
+        
+                            <div class="col-sm-11">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <h1 class="card-title text-edit" id="admin-quiz-title">
+                                            {{ $row->title }}
+                                        </h1>
+                
+                                        <h4>Coverage:</h4>
+                                        <div class="option-edit" id="admin-quiz-coverage">
+                                        </div>
+                
+                                        <div class="mt-3 mb-4">
+                                            <div class="row">
+                                                <div class="col-md-12">
+                                                    <select class="select-coverage select2">
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="row mt-3">
+                                                <div class="col-md-12 d-flex justify-content-end">
+                                                    <button class="btn btn-primary" id="add-lesson">Add Lesson</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                
+                                        <p class="card-text text-edit" id="admin-quiz-desc">{{ $row->description }}</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div> <!-- row -->
+                    </div> <!-- col-md-12 -->
                 </div>
                 @endforeach
 
@@ -280,6 +283,8 @@
 
             let cardOptionHtml = `<div class="col-sm-1"><div class="btn-group-vertical card-options" style="display:none"><button class="btn btn-sm text-white gfg_tooltip newrow" style="background-color: #3175c2; border: 3px solid #1d62b7;" id="add-question"><i class="fas fa-plus m-0"></i><span class="gfg_text">Add Question</span></button></div></div>`
 
+            // empty div
+            $('#quiz-questions').empty()
 
             $.ajax({
                 url: '/adminviewbook/getquestions',
@@ -290,8 +295,6 @@
                 success: function(data) {
 
                     if (data.length != 0) {
-                        // empty div
-                        $('#quiz-questions').empty()
 
                         // generate buttons
                         $.each(data, function(index, value) {
@@ -300,16 +303,15 @@
                             const points = value.points
                             const type = value.type
 
-                            console.log(questionId)
-                            // var html = `<div class="btn bg-success text-white m-1" data-lesson-id="${value.lessonid}">${value.lessontitle}</div><span style="font-weight:700" class="rm-coverage">&times;</span>`;
+                            var html = `<div class="col-sm-12"><div class="row">${cardOptionHtml}<div class="col-sm-11"><div class="card"><div class="card-body"></div></div></div><div</div></div>`;
                             
-                            // $(html).appendTo('#admin-quiz-coverage');
+                            $(html).appendTo('#quiz-questions');
                         });
                     } else {
 
-                        cardOptionHtml += `<div class="col-sm-11"><h4 class="text-center" style="text-transform: none">No added questions yet.</h4></div>`
+                        let emptyHtml = `<div class="col-sm-12"><div class="row">${cardOptionHtml}<div class="col-sm-11"><h4 class="text-center" style="text-transform: none">No added questions yet.</h4></div></div></div>`
 
-                        $(cardOptionHtml).appendTo('#quiz-questions');
+                        $(emptyHtml).appendTo('#quiz-questions');
                     } 
 
                 }
@@ -482,6 +484,17 @@
         });
         $('#quiz-header.row.mt-5').mouseleave(function() {
             $(this).find('.card-options').fadeOut();
+        });
+        $('#quiz-questions.row.mt-3').mouseenter(function() {
+            if ($(this).find('h4').length == 0) {
+                $(this).find('.card-options').fadeIn();
+            }
+            
+        });
+        $('#quiz-questions.row.mt-3').mouseleave(function() {
+            if ($(this).find('h4').length == 0) {
+                $(this).find('.card-options').fadeOut();
+            }
         });
 
 
