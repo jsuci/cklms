@@ -573,10 +573,12 @@ class BookController extends Controller
             ->get();
     
         $choices = DB::table('chapterquizchoices')
+            ->where('deleted', 0)
             ->select('id', 'questionid', 'description')
             ->get();
         
         $answers = DB::table('chapterquizqanswers')
+            ->where('deleted', 0)
             ->select('id', 'questionid', 'answer', 'type')
             ->get();
         
@@ -596,7 +598,7 @@ class BookController extends Controller
             ]);
         }
 
-        dd($combined);
+        return $combined;
     
         // $headerid = $request->get('headerid');
 
