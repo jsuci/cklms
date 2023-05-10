@@ -282,7 +282,7 @@
 
         function renderHtmlQuestions() {
 
-            let cardOptionHtml = `<div class="col-sm-1"><div class="btn-group-vertical card-options" style="display:none"><button class="btn btn-sm text-white gfg_tooltip newrow add-question" style="background-color: #3175c2; border: 3px solid #1d62b7;"><i class="fas fa-plus m-0"></i><span class="gfg_text">Add Question</span></button><button class="delete-question btn btn-sm text-white gfg_tooltip" style="background-color: #3175c2; border: 3px solid #1d62b7;"><i class="fas fa-trash m-0"></i><span class="gfg_text">Delete</span></button></div></div>`
+            // let cardOptionHtml = `<div class="col-sm-1"><div class="btn-group-vertical card-options" style="display:none"><button class="btn btn-sm text-white gfg_tooltip newrow add-question" style="background-color: #3175c2; border: 3px solid #1d62b7;"><i class="fas fa-plus m-0"></i><span class="gfg_text">Add Question</span></button><button class="delete-question btn btn-sm text-white gfg_tooltip" style="background-color: #3175c2; border: 3px solid #1d62b7;"><i class="fas fa-trash m-0"></i><span class="gfg_text">Delete</span></button></div></div>`
 
             $.ajax({
                 url: '/adminviewbook/getquestions',
@@ -303,6 +303,9 @@
                             const question = value.question
                             const points = value.points
                             const type = value.type
+                            const choices = value.choices
+                            const answers = value.answers
+
 
                             var html = `<div class="col-sm-12" data-question-id="${questionId}"><div class="row">${cardOptionHtml}<div class="col-sm-11"><div class="card"><div class="card-body"></div></div></div><div</div></div>`;
                             
@@ -310,7 +313,7 @@
                         });
                     } else {
 
-                        let emptyHtml = `<div class="col-sm-12"><div class="row">${cardOptionHtml}<div class="col-sm-11"><h4 class="text-center" style="text-transform: none">No added questions yet.</h4></div></div></div>`
+                        let emptyHtml = `<div class="col-sm-12"><div class="row"><div class="col-sm-1"><div class="btn-group-vertical card-options" style="display:none"><button class="btn btn-sm text-white gfg_tooltip newrow add-question" style="background-color: #3175c2; border: 3px solid #1d62b7;"><i class="fas fa-plus m-0"></i><span class="gfg_text">Add Question</span></button><button class="delete-question btn btn-sm text-white gfg_tooltip" style="background-color: #3175c2; border: 3px solid #1d62b7;"><i class="fas fa-trash m-0"></i><span class="gfg_text">Delete</span></button></div></div><div class="col-sm-11"><h4 class="text-center" style="text-transform: none">No added questions yet.</h4></div></div></div>`
 
                         $(emptyHtml).appendTo('#quiz-questions');
                     } 
@@ -525,7 +528,6 @@
                 })
             }
         })
-
         $(document).on('click', '.delete-question', function() {
             $(this).prop('disabled', true)
 

@@ -569,9 +569,64 @@ class BookController extends Controller
         $questions = DB::table('chapterquizquestions')
             ->where('headerid', $headerid)
             ->where('deleted', 0)
+            ->select('id', 'headerid', 'question', 'points', 'type')
             ->get();
+    
+        $choices = DB::table('chapterquizchoices')
+            ->select('id', 'questionid', 'description')
+            ->get();
+        
+        $answers = DB::table('chapterquizqanswers')
+            ->select('id', 'questionid', 'answer', 'type')
+            ->get();
+        
+        $combined = collect([]);
+        
+        foreach ($questions as $question) {
+            $choices_for_question = $choices->where('questionid', $question->id);
+            $answers_for_question = $answers->where('questionid', $question->id);
+            $combined->push([
+                'id' => $question->id,
+                'quizid' => $question->headerid,
+                'question' => $question->question,
+                'points' => $question->points,
+                'type' => $question->type,
+                'choices' => $choices_for_question->toArray(),
+                'answers' => $answers_for_question->toArray(),
+            ]);
+        }
 
-        return $questions;
+        dd($combined);
+    
+        // $headerid = $request->get('headerid');
+
+        // $questions = DB::table('chapterquizquestions')
+        //     ->where('headerid', $headerid)
+        //     ->where('deleted', 0)
+        //     ->get();
+
+        // return $questions;
+
+        // $questions = DB::table('chapterquizquestions')
+        //     ->where('chapterquizquestions.headerid', $headerid)
+        //     ->where('chapterquizquestions.deleted', 0)
+        //     ->join('chapterquizchoices', 'chapterquizquestions.id', '=', 'chapterquizchoices.questionid')
+        //     // ->join('chapterquizqanswers', 'chapterquizquestions.id', '=', 'chapterquizqanswers.questionid')
+        //     ->select(
+        //         'chapterquizquestions.id as id',
+        //         'chapterquizquestions.headerid as quizid',
+        //         'chapterquizquestions.question as question',
+        //         'chapterquizquestions.points as points',
+        //         'chapterquizquestions.type as type',
+        //         DB::raw("GROUP_CONCAT(chapterquizchoices.id, ':', chapterquizchoices.description) as choices")
+        //     //     DB::raw("GROUP_CONCAT(answers.id, ':', chapterquizqanswers.answer) as chapterquizqanswers")
+        //     )
+        //     ->groupBy('chapterquizquestions.id')
+        //     ->get();
+
+        // dd($questions);
+        // dd(json_encode($questions));
+    
 
     }
     public function deletequestion(Request $request)
