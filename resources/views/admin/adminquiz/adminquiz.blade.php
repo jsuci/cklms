@@ -263,7 +263,7 @@
                 url: '/adminviewbook/getcoverage',
                 method: 'GET',
                 data: {
-                    quizID: quizID,
+                    quizid: quizID,
                 },
                 success: function(data) {
                     // empty div
@@ -291,7 +291,6 @@
                     headerid: quizID,
                 },
                 success: function(data) {
-
                     // empty div
                     $('#quiz-questions').empty()
                     
@@ -299,17 +298,19 @@
 
                         // generate buttons
                         $.each(data, function(index, value) {
-                            const questionId = value.id
-                            const question = value.question
-                            const points = value.points
-                            const type = value.type
-                            const choices = value.choices
-                            const answers = value.answers
+                            // var questionId = value.id
+                            // var question = value.question
+                            // var points = value.points
+                            // var type = value.type
+                            // var choices = value.choices
+                            // var answers = value.answers
+
+                            console.log(value)
 
 
-                            var html = `<div class="col-sm-12" data-question-id="${questionId}"><div class="row">${cardOptionHtml}<div class="col-sm-11"><div class="card"><div class="card-body"></div></div></div><div</div></div>`;
+                            // var html = `<div class="col-sm-12" data-question-id="${questionId}"><div class="row">${cardOptionHtml}<div class="col-sm-11"><div class="card"><div class="card-body"></div></div></div><div</div></div>`;
                             
-                            $(html).appendTo('#quiz-questions');
+                            // $(html).appendTo('#quiz-questions');
                         });
                     } else {
 
@@ -327,7 +328,7 @@
                 url: '/adminviewbook/addcoverage',
                 method: 'GET',
                 data: {
-                    quizID: quizID,
+                    quizid: quizID,
                     lessonid: lessonid,
                     lessontitle: lessontitle
                 },
@@ -342,7 +343,7 @@
                 url: '/adminviewbook/deletecoverage',
                 method: 'GET',
                 data: {
-                    quizID: quizID,
+                    quizid: quizID,
                     lessonid: lessonid,
                 },
                 success: function(data) {
@@ -359,6 +360,10 @@
                 data: jsonData
             });
         }
+
+        // function multipleChoiceHtml(jsonData) {
+        //     var baseH
+        // }
 
 
         // INITIALIZE CONTENTS
