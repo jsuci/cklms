@@ -196,7 +196,7 @@
                                                     Question here
                                                 </div>
                                                 <div class="col-sm-5 d-none d-sm-block" style="border:1px solid red">
-                                                    <div class="row">
+                                                    <div class="row d-flex align-items-center">
                                                         <div class="col-sm-5"  style="border:1px solid blue">
                                                             Answer here
                                                         </div>
@@ -205,13 +205,13 @@
                                                         </div>
                                                         <div class="col-sm-2"  style="border:1px solid blue">
                                                             <div class="rm-question">
-                                                                <i class="fas fa-times"></i>
+                                                                <i class="fas fa-trash"></i>
                                                             </div>
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="row d-sm-none">
+                                            <div class="row d-sm-none d-flex align-items-center">
                                                 <div class="col-5" style="border:1px solid red">
                                                     Answer here
                                                 </div>
@@ -220,7 +220,7 @@
                                                 </div>
                                                 <div class="col-2"  style="border:1px solid blue">
                                                     <div class="rm-question">
-                                                        <i class="fas fa-times"></i>
+                                                        <i class="fas fa-trash"></i>
                                                     </div>
                                                 </div>
                                             </div>
