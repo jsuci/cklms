@@ -3,136 +3,138 @@
 @section('content')
 <meta name="csrf-token" content="{{ csrf_token() }}" />
 
-<style>
 
-    <style>
-        .swal-wide{
-            width:850px !important;
-        }
-        .note-toolbar {
-            position: relative;
-            z-index: 0 !important;
-        }
-        .gfg_tooltip { 
-            position: relative; 
-            display: inline-block; 
-            border-bottom: 1px dotted black; 
-            background-color: gray; 
-            color: black; 
-            padding: 15px; 
-            text-align: center; 
-            display: inline-block; 
-            font-size: 16px; 
-        } 
-        .gfg_tooltip:hover {
-            -ms-transform: scale(1.2); /* IE 9 */
-            -webkit-transform: scale(1.2); /* Safari 3-8 */
-            transform: scale(1.2); 
-        }
-        .gfg_tooltip .gfg_text { 
-            visibility: hidden; 
-            width: 120px; 
-            background-color: gray; 
-            color: white; 
-            text-align: center; 
-            border-radius: 6px; 
-            padding: 5px 0; 
-            position: absolute; 
-            z-index: 1; 
-            top: 5%; 
-            left: 115%; 
-        } 
-            
-        .gfg_tooltip .gfg_text::after { 
-            content: ""; 
-            position: absolute; 
-            top: 50%; 
-            right: 100%; 
-            margin-top: -5px; 
-            border-width: 5px; 
-            border-style: solid; 
-            border-color: transparent gray transparent  
-                            transparent; 
-        } 
-            
-        .gfg_tooltip:hover .gfg_text { 
-            visibility: visible; 
-        } 
-        iframe {
-            width: 100%;
-            height: 100%;
-        }
-        .q-input {
-            border:1px solid #b6b6b6 !important;
-            border-radius:6px !important;
-            width:200px !important;
-        }
-        .error-input {
-            border-color: #dc3545 !important;
-        }
-        #scroll-to-bottom {
-            position: fixed;
-            bottom: 0px;
-            right: 0px;
-            padding: 9px 15px 9px 15px !important;
-        }
-        .list-group li {
-            padding-top: 10px;
-            padding-bottom: 10px;
-        }
-        .drop-option {
-            position: relative;
-            z-index: 0;
-        }
-        .admin-edit {
-            border: 2px dotted #017df95e;
-            padding: 0.5em;
-        }
-        .rm-coverage, .rm-answer-key, .rm-points {
-            font-weight: 700;
-            position: relative;
-            top: -10px;
-            font-size: 1.3em;
-            cursor: pointer;
-            color: #a91c1c;
-        }
-        .rm-mc-option {
-            font-weight: 700;
-            font-size: 1.1em;
-            cursor: pointer;
-            color: #a91c1c;
-        }
-        .rm-question {
-            background-color: #e55f5f;
-            border-radius: 6px;
-            display: flex;
-            justify-content: center;
+<style>
+    .swal-wide{
+        width:850px !important;
+    }
+    .note-toolbar {
+        position: relative;
+        z-index: 0 !important;
+    }
+    .gfg_tooltip { 
+        position: relative; 
+        display: inline-block; 
+        border-bottom: 1px dotted black; 
+        background-color: gray; 
+        color: black; 
+        padding: 15px; 
+        text-align: center; 
+        display: inline-block; 
+        font-size: 16px; 
+    } 
+    .gfg_tooltip:hover {
+        -ms-transform: scale(1.2); /* IE 9 */
+        -webkit-transform: scale(1.2); /* Safari 3-8 */
+        transform: scale(1.2); 
+    }
+    .gfg_tooltip .gfg_text { 
+        visibility: hidden; 
+        width: 120px; 
+        background-color: gray; 
+        color: white; 
+        text-align: center; 
+        border-radius: 6px; 
+        padding: 5px 0; 
+        position: absolute; 
+        z-index: 1; 
+        top: 5%; 
+        left: 115%; 
+    } 
+        
+    .gfg_tooltip .gfg_text::after { 
+        content: ""; 
+        position: absolute; 
+        top: 50%; 
+        right: 100%; 
+        margin-top: -5px; 
+        border-width: 5px; 
+        border-style: solid; 
+        border-color: transparent gray transparent  
+                        transparent; 
+    } 
+        
+    .gfg_tooltip:hover .gfg_text { 
+        visibility: visible; 
+    } 
+    iframe {
+        width: 100%;
+        height: 100%;
+    }
+    .q-input {
+        border:1px solid #b6b6b6 !important;
+        border-radius:6px !important;
+        width:200px !important;
+    }
+    .error-input {
+        border-color: #dc3545 !important;
+    }
+    #scroll-to-bottom {
+        position: fixed;
+        bottom: 0px;
+        right: 0px;
+        padding: 9px 15px 9px 15px !important;
+    }
+    .list-group li {
+        padding-top: 10px;
+        padding-bottom: 10px;
+    }
+    .drop-option {
+        position: relative;
+        z-index: 0;
+    }
+    .admin-edit {
+        border: 2px dotted #017df95e;
+        padding: 0.5em;
+    }
+    .rm-coverage, .rm-answer-key, .rm-points {
+        font-weight: 700;
+        position: relative;
+        top: -10px;
+        font-size: 1.3em;
+        cursor: pointer;
+        color: #a91c1c;
+    }
+    .rm-mc-option {
+        font-weight: 700;
+        font-size: 1.1em;
+        cursor: pointer;
+        color: #a91c1c;
+    }
+    .rm-question {
+        background-color: #e55f5f;
+        border-radius: 6px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 25px;
+        width: 25px;
+    }
+    .rm-question i {
+        color: white;
+    }
+    @media screen and (max-width: 576px) {
+        /* .card-options {
+            flex-direction: row !important;
+            border-top-right-radius: 3px !important;
+            border-top-left-radius: 3px !important;
+        } */
+        .card-options {
+            flex-direction: row !important;
             align-items: center;
-            height: 25px;
-            width: 25px;
         }
-        .rm-question i {
-            color: white;
+        .gfg_tooltip {
+            border-radius: 3px !important;
         }
-        @media screen and (max-width: 576px) {
-            /* .card-options {
-                flex-direction: row !important;
-                border-top-right-radius: 3px !important;
-                border-top-left-radius: 3px !important;
-            } */
-            .card-options {
-                flex-direction: row !important;
-                align-items: center;
-            }
-            .gfg_tooltip {
-                border-radius: 3px !important;
-            }
-        }
-        .form-control, .form-control:hover, .form-control:focus {
-            border: 1px solid #ededed;
-            background: #ededed;
-        }
-    </style>
+    }
+    .form-control, .form-control:hover, .form-control:focus {
+        border: 1px solid #ededed;
+        background: #ededed;
+    }
+    .question-holder {
+        padding-left: 0;
+    }
+</style>
 
 <body>
     <div class="container quizcontent">
@@ -188,213 +190,10 @@
 
                 <!-- quiz questions -->
                 <div class="row mt-3" id="quiz-questions">
-                    <div class="col-sm-12" data-header-id="121212121">
-                        <div class="row">
-                            <div class="col-sm-1">
-                                <div class="btn-group-vertical card-options" style="display:none">
-                                    <button class="add-header btn btn-sm text-white gfg_tooltip newrow" style="background-color: #3175c2; border: 3px solid #1d62b7;">
-                                        <i class="fas fa-plus m-0"></i><span class="gfg_text">Add Question</span>
-                                    </button>
-                                </div>
-                            </div> <!-- end card option -->
-
-                            <div class="col-sm-11">
-                                <div class="card">
-                                    <div class="card-body">
-                                        <div class="col-sm-12">
-
-                                            <ol style="padding-left: 0;">
-                                                
-                                                <li data-question-id="1212" class="mt-3">
-                                                    <!-- question -->
-                                                    <div class="row">
-                                                        <div class="col" style="font-size:1pc">
-                                                            <h5>Question:</h5>
-                                                            <p>Question here Question hereQuestion hereQuestion hereQuestion hereQuestion hereQuestion hereQuestion hereQuestion hereQuestion here reQuestion hereQuestion hereQuestion here reQuestion hereQuestion hereQuestion here</p>
-                                                        </div>
-
-                                                        <div class="col-1">
-                                                            <div class="rm-question" id="1212121">
-                                                                <i class="fas fa-trash"></i>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-
-                                                    <!-- options -->
-                                                    <div class="row d-flex align-items-center mt-2">
-                                                        <div class="col-sm-12">
-                                                            <h5>Options:</h5>
-                                                            <div class="row">
-                                                                <div class="col-sm-6">
-                                                                    <div class="form-check">
-                                                                        <div class="row">
-                                                                            <div class="col">
-                                                                                <input type="radio" class="form-check-input" id="add-option-222" name="que-222" value="Ligase">
-                                                                                <label class="form-check-label" for="add-option-222">Option 1</label>
-                                                                            </div>
-                                                                            <div class="col-1 rm-mc-option">
-                                                                                <i class="fas fa-times" style="color: #a91c1c;"></i>
-                                                                            </div>
-                                                                        </div>
-                                                                    </div> <!-- end input and label option -->
-
-                                                                    <div class="form-check">
-                                                                        <div class="row">
-                                                                            <div class="col">
-                                                                                <input type="radio" class="form-check-input" id="add-option-222" name="que-222" value="Ligase">
-                                                                                <label class="form-check-label" for="add-option-222">Add Option</label>
-                                                                            </div>
-                                                                            <div class="col-1 rm-mc-option" id="121212">
-                                                                                <i class="fas fa-times" style="color: #a91c1c;"></i>
-                                                                            </div>
-                                                                        </div>
-                                                                    </div> <!-- end input and label option -->
-
-                                                                    <div class="form-check">
-                                                                        <div class="row">
-                                                                            <div class="col">
-                                                                                <input type="radio" class="form-check-input" id="add-option-222" name="que-222" value="Ligase">
-                                                                                <label class="form-check-label" for="add-option-222">Add Option</label>
-                                                                            </div>
-                                                                            <div class="col-1 rm-mc-option" id="121212">
-                                                                                <i class="fas fa-times" style="color: #a91c1c;"></i>
-                                                                            </div>
-                                                                        </div>
-                                                                    </div> <!-- end input and label option -->
-
-                                                                    <div class="form-check">
-                                                                        <div class="row">
-                                                                            <div class="col">
-                                                                                <input type="radio" class="form-check-input" id="add-option-222" name="que-222" value="Ligase">
-                                                                                <label class="form-check-label" for="add-option-222">Add Option</label>
-                                                                            </div>
-                                                                            <div class="col-1 rm-mc-option" id="121212">
-                                                                                <i class="fas fa-times" style="color: #a91c1c;"></i>
-                                                                            </div>
-                                                                        </div>
-                                                                    </div> <!-- end input and label option -->
-                                                                </div> <!-- end column option -->
-
-                                                                <div class="col-sm-6">
-                                                                    <div class="form-check">
-                                                                        <div class="row">
-                                                                            <div class="col">
-                                                                                <input type="radio" class="form-check-input" id="add-option-222" name="que-222" value="Ligase">
-                                                                                <label class="form-check-label" for="add-option-222">Add Option</label>
-                                                                            </div>
-                                                                            <div class="col-1 rm-mc-option" id="121212">
-                                                                                <i class="fas fa-times" style="color: #a91c1c;"></i>
-                                                                            </div>
-                                                                        </div>
-                                                                    </div> <!-- end input and label option -->
-
-                                                                    <div class="form-check">
-                                                                        <div class="row">
-                                                                            <div class="col">
-                                                                                <input type="radio" class="form-check-input" id="add-option-222" name="que-222" value="Ligase">
-                                                                                <label class="form-check-label" for="add-option-222">Add Option</label>
-                                                                            </div>
-                                                                            <div class="col-1 rm-mc-option" id="121212">
-                                                                                <i class="fas fa-times" style="color: #a91c1c;"></i>
-                                                                            </div>
-                                                                        </div>
-                                                                    </div> <!-- end input and label option -->
-
-                                                                    <div class="form-check">
-                                                                        <div class="row">
-                                                                            <div class="col">
-                                                                                <input type="radio" class="form-check-input" id="add-option-222" name="que-222" value="Ligase">
-                                                                                <label class="form-check-label" for="add-option-222">Add Option</label>
-                                                                            </div>
-                                                                            <div class="col-1 rm-mc-option" id="121212">
-                                                                                <i class="fas fa-times" style="color: #a91c1c;"></i>
-                                                                            </div>
-                                                                        </div>
-                                                                    </div> <!-- end input and label option -->
-
-
-                                                                </div> <!-- end column option -->
-                                                            </div>
-                                                            <div class="row mt-3">
-                                                                <div class="col-12">
-                                                                    <div class="input-group  input-group-sm mb-3">
-                                                                        <input type="text" class="form-control" placeholder="Type your answer key here" aria-label="Type your answer key here" aria-describedby="basic-addon2">
-                                                                        <div class="input-group-append">
-                                                                        <button class="btn btn-warning text-dark" type="button">Add Option</button>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-
-                                                    <!-- answer keys -->
-                                                    <div class="row d-flex align-items-center mt-3">
-                                                        <div class="col-12">
-                                                            <h5>Answer Keys:</h5>
-                                                            <div class="row">
-                                                                <div class="col-12">
-                                                                    <div class="btn bg-success text-white m-1" data-answer-key-id="12121">Answer 1</div><span class="rm-answer-key" id="121212">&times;</span>
-                                                                    <div class="btn bg-success text-white m-1" data-answer-key-id="12121">Answer 1</div><span class="rm-answer-key" id="121212">&times;</span>
-                                                                    <div class="btn bg-success text-white m-1" data-answer-key-id="12121">Answer 1</div><span class="rm-answer-key" id="121212">&times;</span>
-                                                                </div>
-                                                            </div>
-                                                            <div class="input-group  input-group-sm mt-3 mb-3">
-                                                                <input type="text" class="form-control" placeholder="Type your answer for this question here" aria-label="Type your answer for this question here" aria-describedby="basic-addon2">
-                                                                <div class="input-group-append">
-                                                                <button class="btn btn-warning text-dark" type="button">Add Answer</button>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-
-                                                    <!-- points -->
-                                                    <div class="row d-flex align-items-center mt-3">
-                                                        <div class="col-12">
-                                                            <h5>Points:</h5>
-                                                            <div class="btn bg-success text-white m-1" data-points-id="321321">5 point(s)</div><span class="rm-points" id="321321">&times;</span>
-                                                            <div class="input-group  input-group-sm mb-3 mt-3">
-                                                                <input type="text" class="form-control" placeholder="Type the point(s) for this question here" aria-label="Type the point(s) for this question here" aria-describedby="basic-addon2">
-                                                                <div class="input-group-append">
-                                                                <button class="btn btn-warning text-dark" type="button">Add Point(s)</button>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </li> <!-- end question -->
-
-                                            </ol> <!-- end ordered list -->
-
-
-                                            <div class="row d-flex align-items-center mt-5">
-                                                <div class="col-sm-12">
-                                                    <div class="input-group mb-3">
-                                                        <input type="text" class="form-control" placeholder="Type your question here" aria-label="Type your question  here" aria-describedby="basic-addon2">
-                                                        <div class="input-group-append">
-                                                        <button class="btn btn-primary" type="button">Add Question</button>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div> <!-- end add question -->
-
-                                            <div class="row d-flex align-items-center justify-content-end">
-                                                <div class="col-sm-4">
-                                                    <select class="select-question-type select2">
-                                                    </select>
-                                                </div>
-                                            </div> <!-- end select question type -->
-
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
                 </div>
 
 
-                <!-- save button -->
-
+                <!-- quiz footer -->
                 <div class="row mb-5 mt-3" id="quiz-footer">
                     <div class="col-md-12 d-flex justify-content-end">
                         <div class="btn btn-danger btn-lg mr-2" id="delete-quiz">Delete</div>
@@ -538,21 +337,81 @@
 
                         // generate buttons
                         $.each(data, function(index, value) {
+                            var headerId = value.headerid
                             // var questionId = value.id
                             // var question = value.question
                             // var points = value.points
-                            var questionType = value.type
+                            var questionType = value.questions[value.questions.length - 1].type
                             // var choices = value.choices
                             // var answers = value.answers
 
-                            if (questionType === 1) {
-                                console.log('render multiple-choice question')
-                            }
+                            // if (questionType === 1) {
+                            //     console.log('render multiple-choice question')
+                            // }
 
 
-                            // var html = `<div class="col-sm-12" data-question-id="${questionId}"><div class="row">${cardOptionHtml}<div class="col-sm-11"><div class="card"><div class="card-body"></div></div></div><div</div></div>`;
+
+                            var html = `
+                                <div class="col-sm-12" data-header-id="${headerId}">
+                                    <div class="row">
+                                        ${cardOptionHtml}
+                                        <div class="col-sm-11">
+                                            <div class="card">
+                                                <div class="card-body">
+                                                    <div class="col-sm-12">
+
+                                                        <ol class="question-holder">
+                                                        </ol> <!-- end ordered list -->
+
+                                                        <div class="row d-flex align-items-center mt-5">
+                                                            <div class="col-sm-12">
+                                                                <div class="input-group mb-3">
+                                                                    <input type="text" class="form-control" placeholder="Type your question here" aria-label="Type your question  here" aria-describedby="basic-addon2">
+                                                                    <div class="input-group-append">
+                                                                    <button class="btn btn-primary" type="button">Add Question</button>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div> <!-- end add question -->
+
+                                                        <div class="row d-flex align-items-center justify-content-end">
+                                                            <div class="col-sm-4">
+                                                                <select class="select-question-type select2" id="${headerId}">
+                                                                    <option value="1">multiple-choice</option>
+                                                                    <option value="2">fill-in-the-blanks</option>
+                                                                    <option value="3">enumeration</option>
+                                                                    <option value="4">drag-and-drop</option>
+                                                                    <option value="5">essay</option>
+                                                                    <option value="6">upload-image</option>
+                                                                </select>
+                                                            </div>
+                                                        </div> <!-- end select question type -->
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    <div>
+                                </div>
+                            `;
                             
-                            // $(html).appendTo('#quiz-questions');
+                            $(html).appendTo('#quiz-questions');
+
+                            
+                            // initialize select2
+                            $(`#${headerId}.select-question-type`).select2({
+                                placeholder: 'Select question type',
+                                width: '100%',
+                                minimumResultsForSearch: Infinity,
+                            })
+
+                            // set current selection
+                            $(`#${headerId}.select-question-type`).val(questionType).trigger('change');
+
+                            // change current question type
+                            prevQuestionType = questionType
+                            
+
                         });
                     } else {
 
@@ -605,7 +464,7 @@
 
         // html render
         renderHtmlCoverage()
-        // renderHtmlQuestions()
+        renderHtmlQuestions()
 
         // coverage selection
         $('.select-coverage').select2({
@@ -629,22 +488,6 @@
                             }
                         })
                     };
-                },
-            },
-        });
-
-        $('.select-question-type').select2({
-            placeholder: 'Select question type',
-            width: '100%',
-            minimumResultsForSearch: Infinity,
-            ajax: {
-                url: '/adminviewbook/getquestiontype',
-                type: 'get',
-                dataType: 'json',
-                processResults: function (data) {
-                    return {
-                        results: data
-                    }
                 },
             },
         });
@@ -745,14 +588,14 @@
         });
         $(document).on('mouseenter', '.col-sm-12', function() {
             // set globally the selected question id
-            questionID = $(this).attr('data-question-id')
+            questionID = $(this).attr('data-header-id')
 
-            if ($(this).attr('data-question-id')) {
+            if ($(this).attr('data-header-id')) {
                 $(this).find('.card-options').fadeIn();
             }
         })
         $(document).on('mouseleave', '.col-sm-12', function() {
-            if ($(this).attr('data-question-id')) {
+            if ($(this).attr('data-header-id')) {
                 $(this).find('.card-options').fadeOut();
             }
         })       
@@ -1161,7 +1004,7 @@
         var $olList = $parent.find('ol');
 
         if ($(this).val().indexOf("@@") !== -1) {
-            var newText = $(this).val().replace(/@@/gi, `<input data-question-id="14" class="answer-field d-inline form-control q-input" type="text">`);
+            var newText = $(this).val().replace(/@@/gi, `<input data-header-id="14" class="answer-field d-inline form-control q-input" type="text">`);
 
             $olList.append(`<li>${newText}</li>`)
 
@@ -1174,7 +1017,7 @@
         var $olList = $parent.find('ol');
 
         if ($(this).val().indexOf("@@") !== -1) {
-            var newText = $(this).val().replace(/@@/gi, `<input data-question-id="14" class="answer-field d-inline form-control q-input drop-option" type="text" disabled>`);
+            var newText = $(this).val().replace(/@@/gi, `<input data-header-id="14" class="answer-field d-inline form-control q-input drop-option" type="text" disabled>`);
 
             $olList.append(`<li>${newText}</li>`)
 
