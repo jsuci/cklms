@@ -563,7 +563,6 @@ class BookController extends Controller
         return $questionid;
 
     }
-
     public function getquestions(Request $request)
     {
     
@@ -611,6 +610,27 @@ class BookController extends Controller
         }
 
         return $combined;
+    }
+    public function deleteheader(Request $request)
+    {
+        // delete all questions base on given headerid
+        $headerid = $request->get('headerid');
+        
+        $questions = DB::table('chapterquizquestions')
+            ->where('headerid', $headerid)
+            ->get();
+
+        foreach ($questions as $question) {
+            DB::table('chapterquizquestions')
+                ->where('deleted', 0)
+                ->update([
+                    'deleted'=>1,
+                    'deletedby'=>auth()->user()->id,
+                    'deleteddatetime'=>\Carbon\Carbon::now('Asia/Manila')
+                ]);
+        }
+
+        return $questions;
     }
 
     // quiz question type

@@ -152,8 +152,11 @@ Route::middleware(['auth', 'isAdministrator','isDefaultPass'])->group(function (
     Route::get('/adminviewbook/getquestions', 'Admin\BookController@getquestions');
     Route::get('/adminviewbook/deletequestion', 'Admin\BookController@deletequestion');
 
+    // quiz header
+    Route::get('/adminviewbook/deletequestion', 'Admin\BookController@deletequestion');
+
     // quiz question type
-    Route::get('/adminviewbook/getquestiontype', 'Admin\BookController@getquestiontype');
+    Route::get('/adminviewbook/deleteheader', 'Admin\BookController@deleteheader');
 
     // coverage
     Route::get('/adminviewbook/getcoverage', 'Admin\BookController@getcoverage');

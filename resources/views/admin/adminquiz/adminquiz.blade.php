@@ -216,7 +216,7 @@
 
         // GLOBALS
         var prevQuestionType;
-        var questionID;
+        var currHeaderId;
         const quizID = $('#quiz-header').data('id')
         const chapterID = $('#quiz-header').data('chapter-id')
         const Toast = Swal.mixin({
@@ -588,7 +588,7 @@
         });
         $(document).on('mouseenter', '.col-sm-12', function() {
             // set globally the selected question id
-            questionID = $(this).attr('data-header-id')
+            questionHeader = $(this).attr('data-header-id')
 
             if ($(this).attr('data-header-id')) {
                 $(this).find('.card-options').fadeIn();
@@ -608,31 +608,44 @@
 
         // card-options
         $(document).on('click', '.add-header', function() {
+            currHeaderId = setHeaderId()
+
             $(this).prop('disabled', true)
 
             if (prevQuestionType) {
-                // ajaxCall(url, jsonData)
-            } else {
-                // set default question type to multiple-choice
+                // set default question type to prevQuestionType
                 ajaxCall('/adminviewbook/addquestion', {
                     question: 'Edit your question here',
-                    headerid: setHeaderId(),
+                    headerid: currHeaderId,
                     quizid: quizID,
-                    type: 1,
+                    type: prevQuestionType,
                     points: 1
                 }).then((data) => {
                     renderHtmlQuestions()
                     prevQuestionType = 1
                     $(this).prop('disabled', false)
                 })
+            } else {
+                // set default question type to multiple-choice
+                ajaxCall('/adminviewbook/addquestion', {
+                    question: 'Edit your question here',
+                    headerid: currHeaderId,
+                    quizid: quizID,
+                    type: 1,
+                    points: 1
+                }).then((data) => {
+                    renderHtmlQuestions()
+                    prevQuestionType = 1
+                    // $(this).prop('disabled', false)
+                })
             }
         })
         $(document).on('click', '.delete-header', function() {
             $(this).prop('disabled', true)
 
-            if (questionID) {
-                ajaxCall('/adminviewbook/deletequestion', {
-                    id: questionID,
+            if (currHeaderId) {
+                ajaxCall('/adminviewbook/deletequestions', {
+                    headerid: currHeaderId,
                 }).then((data) => {
                     renderHtmlQuestions()
                     $(this).prop('disabled', false)
