@@ -189,7 +189,7 @@
                                         <i class="fas fa-plus m-0"></i><span class="gfg_text">Add Question</span>
                                     </button>
                                 </div>
-                            </div>
+                            </div> <!-- end card option -->
 
                             <div class="col-sm-11">
                                 <div class="card">
@@ -197,11 +197,12 @@
                                         <div class="col-sm-12">
 
                                             <ol style="padding-left: 0;">
+                                                
                                                 <li data-question-id="1212" class="mt-3">
-
                                                     <!-- question -->
                                                     <div class="row">
                                                         <div class="col" style="font-size:1pc">
+                                                            <h5>Question:</h5>
                                                             <p>Question here Question hereQuestion hereQuestion hereQuestion hereQuestion hereQuestion hereQuestion hereQuestion hereQuestion here reQuestion hereQuestion hereQuestion here reQuestion hereQuestion hereQuestion here</p>
                                                         </div>
 
@@ -215,6 +216,7 @@
                                                     <!-- options -->
                                                     <div class="row d-flex align-items-center mt-2">
                                                         <div class="col-sm-12">
+                                                            <h5>Options:</h5>
                                                             <div class="row">
                                                                 <div class="col-sm-6">
                                                                     <div class="form-check">
@@ -306,56 +308,60 @@
 
                                                                 </div> <!-- end column option -->
                                                             </div>
+                                                            <div class="row mt-3">
+                                                                <div class="col-12">
+                                                                    <div class="input-group  input-group-sm mb-3">
+                                                                        <input type="text" class="form-control" placeholder="Type your answer key here" aria-label="Type your answer key here" aria-describedby="basic-addon2">
+                                                                        <div class="input-group-append">
+                                                                        <button class="btn btn-warning text-dark" type="button">Add Option</button>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
                                                         </div>
                                                     </div>
 
-                                                    <!-- answer and points -->
+                                                    <!-- answer keys -->
                                                     <div class="row d-flex align-items-center mt-3">
                                                         <div class="col-12">
-                                                            <div class="input-group input-group-sm mb-3">
-                                                                <input type="text" class="form-control" placeholder="Type your answer key here" aria-label="Type your answer key here" aria-describedby="basic-addon2">
+                                                            <h5>Answer Keys:</h5>
+                                                            <div class="row">
+                                                                <div class="col-12">
+                                                                    <div class="btn bg-success text-white">Answer 1</div><span style="font-weight:700" class="rm-coverage">&times;</span>
+                                                                    <div class="btn bg-success text-white">Answer 1</div>
+                                                                    <span style="font-weight:700" class="rm-coverage">&times;</span>
+                                                                    <div class="btn bg-success text-white">Answer 1</div>
+                                                                    <span style="font-weight:700" class="rm-coverage">&times;</span>
+                                                                </div>
+                                                            </div>
+                                                            <div class="input-group  input-group-sm mt-3 mb-3">
+                                                                <input type="text" class="form-control" placeholder="Type your answer for this question here" aria-label="Type your answer for this question here" aria-describedby="basic-addon2">
                                                                 <div class="input-group-append">
                                                                 <button class="btn btn-warning text-dark" type="button">Add Answer</button>
                                                                 </div>
                                                             </div>
                                                         </div>
+                                                    </div>
 
-                                                        {{-- <div class="col-sm-2"  style="border:1px solid blue">
-                                                            <div class="form-group row">
-                                                                <label for="inputField" class="col-sm-2 col-form-label">Label</label>
-                                                                <div class="col-sm-10">
-                                                                    <input type="text" class="form-control" id="inputField" name="inputField" placeholder="Input field">
+                                                    <!-- points -->
+                                                    <div class="row d-flex align-items-center mt-3">
+                                                        <div class="col-12">
+                                                            <h5>Points:</h5>
+                                                            <div class="btn bg-success text-white m-1">5 point(s)</div><span style="font-weight:700" class="rm-coverage">&times;</span>
+                                                            <div class="input-group  input-group-sm mb-3 mt-3">
+                                                                <input type="text" class="form-control" placeholder="Type the point(s) for this question here" aria-label="Type the point(s) for this question here" aria-describedby="basic-addon2">
+                                                                <div class="input-group-append">
+                                                                <button class="btn btn-warning text-dark" type="button">Add Point(s)</button>
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                        <div class="col-sm-2"  style="border:1px solid blue">
-                                                            Answer here
-                                                        </div>
-                                                        <div class="col-sm-2"  style="border:1px solid blue">
-                                                            Answer here
-                                                        </div>
-                                                        <div class="col-sm-2"  style="border:1px solid blue">
-                                                            Answer here
-                                                        </div>
-                                                        <div class="col-sm-2"  style="border:1px solid blue">
-                                                            Answer here
-                                                        </div>
-                                                        <div class="col-sm-2"  style="border:1px solid blue">
-                                                            Answer here
-                                                        </div>
-                                                        <div class="col-sm-2"  style="border:1px solid blue">
-                                                            Answer here
-                                                        </div>
-                                                        <div class="col-sm-2"  style="border:1px solid blue">
-                                                            Points here
-                                                        </div> --}}
                                                     </div>
-
                                                 </li> <!-- end question -->
+
                                             </ol> <!-- end ordered list -->
 
 
-                                            <div class="row d-flex align-items-center mt-3">
+                                            <div class="row d-flex align-items-center mt-5">
                                                 <div class="col-sm-12">
                                                     <div class="input-group mb-3">
                                                         <input type="text" class="form-control" placeholder="Type your question here" aria-label="Type your question  here" aria-describedby="basic-addon2">
@@ -364,14 +370,14 @@
                                                         </div>
                                                     </div>
                                                 </div>
-                                            </div>
+                                            </div> <!-- end add question -->
 
                                             <div class="row d-flex align-items-center justify-content-end">
                                                 <div class="col-sm-4">
                                                     <select class="select-question-type select2">
                                                     </select>
                                                 </div>
-                                            </div>
+                                            </div> <!-- end select question type -->
 
                                         </div>
                                     </div>
