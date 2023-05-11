@@ -612,6 +612,20 @@ class BookController extends Controller
 
         return $combined;
     }
+
+    // quiz question type
+    public function getquestiontype(Request $request)
+    {
+        $questiontype = DB::table('chapterquizquestiontype')
+            ->where('deleted','0')
+            ->select(
+                'id as id',
+                'description as text'
+            )
+            ->get();
+
+        return $questiontype;
+    }
     
     // public function getquestions(Request $request)
     // {

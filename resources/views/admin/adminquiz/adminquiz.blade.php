@@ -121,6 +121,10 @@
                 border-radius: 3px !important;
             }
         }
+        .form-control, .form-control:hover, .form-control:focus {
+            border: 1px solid #ededed;
+            background: #ededed;
+        }
     </style>
 
 <body>
@@ -166,7 +170,7 @@
                                             </div>
                                         </div>
                 
-                                        <p class="card-text text-edit" id="admin-quiz-desc">{{ $row->description }}</p>
+                                        <p class="card-text text-edit" id="admin-quiz-desc" style="font-size:1pc">{{ $row->description }}</p>
                                     </div>
                                 </div>
                             </div>
@@ -193,39 +197,136 @@
                                         <div class="col-sm-12">
 
                                             <ol style="padding-left: 0;">
-
                                                 <li data-question-id="1212" class="mt-3">
+
+                                                    <!-- question -->
                                                     <div class="row">
-                                                        <div class="col" style="border:1px solid red">
-                                                            Question here
+                                                        <div class="col" style="font-size:1pc">
+                                                            <p>Question here Question hereQuestion hereQuestion hereQuestion hereQuestion hereQuestion hereQuestion hereQuestion hereQuestion here reQuestion hereQuestion hereQuestion here reQuestion hereQuestion hereQuestion here</p>
                                                         </div>
 
-                                                        <div class="col-1"  style="border:1px solid blue">
+                                                        <div class="col-1">
                                                             <div class="rm-question">
                                                                 <i class="fas fa-trash"></i>
                                                             </div>
                                                         </div>
-        
-                                                        {{-- <div class="col-sm-5" style="border:1px solid red">
-                                                            <div class="row d-flex align-items-center">
-                                                                <div class="col-5"  style="border:1px solid blue">
-                                                                    Answer here
-                                                                </div>
-                                                                <div class="col-5"  style="border:1px solid blue">
-                                                                    Points here
-                                                                </div>
-                                                                <div class="col-2"  style="border:1px solid blue">
-                                                                    <div class="rm-question">
-                                                                        <i class="fas fa-trash"></i>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div> --}}
                                                     </div>
 
-                                                    <div class="row d-flex align-items-center">
-                                                        <div class="col-sm-2"  style="border:1px solid blue">
-                                                            Answer here
+                                                    <!-- options -->
+                                                    <div class="row d-flex align-items-center mt-2">
+                                                        <div class="col-sm-12">
+                                                            <div class="row">
+                                                                <div class="col-sm-6">
+                                                                    <div class="form-check">
+                                                                        <div class="row">
+                                                                            <div class="col">
+                                                                                <input type="radio" class="form-check-input" id="add-option-222" name="que-222" value="Ligase">
+                                                                                <label class="form-check-label" for="add-option-222">Option 1</label>
+                                                                            </div>
+                                                                            <div class="col-1">
+                                                                                <i class="fas fa-times" style="color: #a91c1c;"></i>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div> <!-- end input and label option -->
+
+                                                                    <div class="form-check">
+                                                                        <div class="row">
+                                                                            <div class="col">
+                                                                                <input type="radio" class="form-check-input" id="add-option-222" name="que-222" value="Ligase">
+                                                                                <label class="form-check-label" for="add-option-222">Add Option</label>
+                                                                            </div>
+                                                                            <div class="col-1">
+                                                                                <i class="fas fa-times" style="color: #a91c1c;"></i>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div> <!-- end input and label option -->
+
+                                                                    <div class="form-check">
+                                                                        <div class="row">
+                                                                            <div class="col">
+                                                                                <input type="radio" class="form-check-input" id="add-option-222" name="que-222" value="Ligase">
+                                                                                <label class="form-check-label" for="add-option-222">Add Option</label>
+                                                                            </div>
+                                                                            <div class="col-1">
+                                                                                <i class="fas fa-times" style="color: #a91c1c;"></i>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div> <!-- end input and label option -->
+
+                                                                    <div class="form-check">
+                                                                        <div class="row">
+                                                                            <div class="col">
+                                                                                <input type="radio" class="form-check-input" id="add-option-222" name="que-222" value="Ligase">
+                                                                                <label class="form-check-label" for="add-option-222">Add Option</label>
+                                                                            </div>
+                                                                            <div class="col-1">
+                                                                                <i class="fas fa-times" style="color: #a91c1c;"></i>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div> <!-- end input and label option -->
+                                                                </div> <!-- end column option -->
+
+                                                                <div class="col-sm-6">
+                                                                    <div class="form-check">
+                                                                        <div class="row">
+                                                                            <div class="col">
+                                                                                <input type="radio" class="form-check-input" id="add-option-222" name="que-222" value="Ligase">
+                                                                                <label class="form-check-label" for="add-option-222">Add Option</label>
+                                                                            </div>
+                                                                            <div class="col-1">
+                                                                                <i class="fas fa-times" style="color: #a91c1c;"></i>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div> <!-- end input and label option -->
+
+                                                                    <div class="form-check">
+                                                                        <div class="row">
+                                                                            <div class="col">
+                                                                                <input type="radio" class="form-check-input" id="add-option-222" name="que-222" value="Ligase">
+                                                                                <label class="form-check-label" for="add-option-222">Add Option</label>
+                                                                            </div>
+                                                                            <div class="col-1">
+                                                                                <i class="fas fa-times" style="color: #a91c1c;"></i>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div> <!-- end input and label option -->
+
+                                                                    <div class="form-check">
+                                                                        <div class="row">
+                                                                            <div class="col">
+                                                                                <input type="radio" class="form-check-input" id="add-option-222" name="que-222" value="Ligase">
+                                                                                <label class="form-check-label" for="add-option-222">Add Option</label>
+                                                                            </div>
+                                                                            <div class="col-1">
+                                                                                <i class="fas fa-times" style="color: #a91c1c;"></i>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div> <!-- end input and label option -->
+
+
+                                                                </div> <!-- end column option -->
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <!-- answer and points -->
+                                                    <div class="row d-flex align-items-center mt-3">
+                                                        <div class="col-12">
+                                                            <div class="input-group input-group-sm mb-3">
+                                                                <input type="text" class="form-control" placeholder="Type your answer key here" aria-label="Type your answer key here" aria-describedby="basic-addon2">
+                                                                <div class="input-group-append">
+                                                                <button class="btn btn-warning text-dark" type="button">Add Answer</button>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                        {{-- <div class="col-sm-2"  style="border:1px solid blue">
+                                                            <div class="form-group row">
+                                                                <label for="inputField" class="col-sm-2 col-form-label">Label</label>
+                                                                <div class="col-sm-10">
+                                                                    <input type="text" class="form-control" id="inputField" name="inputField" placeholder="Input field">
+                                                                </div>
+                                                            </div>
                                                         </div>
                                                         <div class="col-sm-2"  style="border:1px solid blue">
                                                             Answer here
@@ -247,91 +348,28 @@
                                                         </div>
                                                         <div class="col-sm-2"  style="border:1px solid blue">
                                                             Points here
-                                                        </div>
-                                                    </div>
-
-                                                    <div class="row d-flex align-items-center">
-                                                        <div class="col-sm-12"  style="border:1px solid red">
-                                                            Options here
-                                                        </div>
-                                                    </div>
-                                                </li> <!-- end question -->
-
-                                                <li data-question-id="1212" class="mt-3">
-                                                    <div class="row">
-                                                        <div class="col" style="border:1px solid red">
-                                                            Question here
-                                                        </div>
-
-                                                        <div class="col-1"  style="border:1px solid blue">
-                                                            <div class="rm-question">
-                                                                <i class="fas fa-trash"></i>
-                                                            </div>
-                                                        </div>
-        
-                                                        {{-- <div class="col-sm-5" style="border:1px solid red">
-                                                            <div class="row d-flex align-items-center">
-                                                                <div class="col-5"  style="border:1px solid blue">
-                                                                    Answer here
-                                                                </div>
-                                                                <div class="col-5"  style="border:1px solid blue">
-                                                                    Points here
-                                                                </div>
-                                                                <div class="col-2"  style="border:1px solid blue">
-                                                                    <div class="rm-question">
-                                                                        <i class="fas fa-trash"></i>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
                                                         </div> --}}
                                                     </div>
 
-                                                    <div class="row d-flex align-items-center">
-                                                        <div class="col-sm-2"  style="border:1px solid blue">
-                                                            Answer here
-                                                        </div>
-                                                        <div class="col-sm-2"  style="border:1px solid blue">
-                                                            Answer here
-                                                        </div>
-                                                        <div class="col-sm-2"  style="border:1px solid blue">
-                                                            Answer here
-                                                        </div>
-                                                        <div class="col-sm-2"  style="border:1px solid blue">
-                                                            Answer here
-                                                        </div>
-                                                        <div class="col-sm-2"  style="border:1px solid blue">
-                                                            Answer here
-                                                        </div>
-                                                        <div class="col-sm-2"  style="border:1px solid blue">
-                                                            Answer here
-                                                        </div>
-                                                        <div class="col-sm-2"  style="border:1px solid blue">
-                                                            Answer here
-                                                        </div>
-                                                        <div class="col-sm-2"  style="border:1px solid blue">
-                                                            Points here
-                                                        </div>
-                                                    </div>
-
-                                                    <div class="row d-flex align-items-center">
-                                                        <div class="col-sm-12"  style="border:1px solid red">
-                                                            Options here
-                                                        </div>
-                                                    </div>
                                                 </li> <!-- end question -->
-
                                             </ol> <!-- end ordered list -->
 
 
-                                            <div class="row d-flex align-items-center">
-                                                <div class="col-sm-12"  style="border:1px solid red">
-                                                    Type your question here
+                                            <div class="row d-flex align-items-center mt-3">
+                                                <div class="col-sm-12">
+                                                    <div class="input-group mb-3">
+                                                        <input type="text" class="form-control" placeholder="Type your question here" aria-label="Type your question  here" aria-describedby="basic-addon2">
+                                                        <div class="input-group-append">
+                                                        <button class="btn btn-primary" type="button">Add Question</button>
+                                                        </div>
+                                                    </div>
                                                 </div>
                                             </div>
 
                                             <div class="row d-flex align-items-center justify-content-end">
-                                                <div class="col-sm-4"  style="border:1px solid red">
-                                                    Selection here
+                                                <div class="col-sm-4">
+                                                    <select class="select-question-type select2">
+                                                    </select>
                                                 </div>
                                             </div>
 
@@ -580,6 +618,22 @@
                             }
                         })
                     };
+                },
+            },
+        });
+
+        $('.select-question-type').select2({
+            placeholder: 'Select question type',
+            width: '100%',
+            minimumResultsForSearch: Infinity,
+            ajax: {
+                url: '/adminviewbook/getquestiontype',
+                type: 'get',
+                dataType: 'json',
+                processResults: function (data) {
+                    return {
+                        results: data
+                    }
                 },
             },
         });
