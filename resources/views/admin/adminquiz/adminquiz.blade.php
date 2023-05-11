@@ -504,7 +504,7 @@
 
                     // generate buttons
                     $.each(data, function(index, value) {
-                        var html = `<div class="btn bg-success text-white m-1" data-lesson-id="${value.lessonid}">${value.lessontitle}</div><span style="font-weight:700" class="rm-coverage">&times;</span>`;
+                        var html = `<div class="btn bg-success text-white m-1" data-lesson-id="${value.lessonid}">${value.lessontitle}</div><span class="rm-coverage" id="${value.lessonid}">&times;</span>`;
                         
                         $(html).appendTo('#admin-quiz-coverage');
                     });
@@ -661,7 +661,7 @@
             $('.select-coverage').val('').trigger('change');
         })
         $(document).on('click', '.rm-coverage', function() {
-            var lessonId = $(this).prev().data('lesson-id');
+            var lessonId = $(this).attr('id');
             deleteCoverage(quizID, lessonId)
         });
 
