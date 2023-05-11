@@ -177,7 +177,7 @@
 
                 <!-- quiz questions -->
                 <div class="row mt-3" id="quiz-questions">
-                    <div class="col-sm-12">
+                    <div class="col-sm-12" data-header-id="121212121">
                         <div class="row">
                             <div class="col-sm-1">
                                 <div class="btn-group-vertical card-options" style="display:none">
@@ -191,42 +191,151 @@
                                 <div class="card">
                                     <div class="card-body">
                                         <div class="col-sm-12">
-                                            <div class="row">
-                                                <div class="col-sm-7" style="border:1px solid red">
-                                                    Question here
-                                                </div>
-                                                <div class="col-sm-5 d-none d-sm-block" style="border:1px solid red">
-                                                    <div class="row d-flex align-items-center">
-                                                        <div class="col-sm-5"  style="border:1px solid blue">
-                                                            Answer here
+
+                                            <ol style="padding-left: 0;">
+
+                                                <li data-question-id="1212" class="mt-3">
+                                                    <div class="row">
+                                                        <div class="col" style="border:1px solid red">
+                                                            Question here
                                                         </div>
-                                                        <div class="col-sm-5"  style="border:1px solid blue">
-                                                            Points here
-                                                        </div>
-                                                        <div class="col-sm-2"  style="border:1px solid blue">
+
+                                                        <div class="col-1"  style="border:1px solid blue">
                                                             <div class="rm-question">
                                                                 <i class="fas fa-trash"></i>
                                                             </div>
                                                         </div>
+        
+                                                        {{-- <div class="col-sm-5" style="border:1px solid red">
+                                                            <div class="row d-flex align-items-center">
+                                                                <div class="col-5"  style="border:1px solid blue">
+                                                                    Answer here
+                                                                </div>
+                                                                <div class="col-5"  style="border:1px solid blue">
+                                                                    Points here
+                                                                </div>
+                                                                <div class="col-2"  style="border:1px solid blue">
+                                                                    <div class="rm-question">
+                                                                        <i class="fas fa-trash"></i>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div> --}}
                                                     </div>
-                                                </div>
-                                            </div>
-                                            <div class="row d-sm-none d-flex align-items-center">
-                                                <div class="col-5" style="border:1px solid red">
-                                                    Answer here
-                                                </div>
-                                                <div class="col-5" style="border:1px solid red">
-                                                    Points here
-                                                </div>
-                                                <div class="col-2"  style="border:1px solid blue">
-                                                    <div class="rm-question">
-                                                        <i class="fas fa-trash"></i>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        
 
+                                                    <div class="row d-flex align-items-center">
+                                                        <div class="col-sm-2"  style="border:1px solid blue">
+                                                            Answer here
+                                                        </div>
+                                                        <div class="col-sm-2"  style="border:1px solid blue">
+                                                            Answer here
+                                                        </div>
+                                                        <div class="col-sm-2"  style="border:1px solid blue">
+                                                            Answer here
+                                                        </div>
+                                                        <div class="col-sm-2"  style="border:1px solid blue">
+                                                            Answer here
+                                                        </div>
+                                                        <div class="col-sm-2"  style="border:1px solid blue">
+                                                            Answer here
+                                                        </div>
+                                                        <div class="col-sm-2"  style="border:1px solid blue">
+                                                            Answer here
+                                                        </div>
+                                                        <div class="col-sm-2"  style="border:1px solid blue">
+                                                            Answer here
+                                                        </div>
+                                                        <div class="col-sm-2"  style="border:1px solid blue">
+                                                            Points here
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="row d-flex align-items-center">
+                                                        <div class="col-sm-12"  style="border:1px solid red">
+                                                            Options here
+                                                        </div>
+                                                    </div>
+                                                </li> <!-- end question -->
+
+                                                <li data-question-id="1212" class="mt-3">
+                                                    <div class="row">
+                                                        <div class="col" style="border:1px solid red">
+                                                            Question here
+                                                        </div>
+
+                                                        <div class="col-1"  style="border:1px solid blue">
+                                                            <div class="rm-question">
+                                                                <i class="fas fa-trash"></i>
+                                                            </div>
+                                                        </div>
+        
+                                                        {{-- <div class="col-sm-5" style="border:1px solid red">
+                                                            <div class="row d-flex align-items-center">
+                                                                <div class="col-5"  style="border:1px solid blue">
+                                                                    Answer here
+                                                                </div>
+                                                                <div class="col-5"  style="border:1px solid blue">
+                                                                    Points here
+                                                                </div>
+                                                                <div class="col-2"  style="border:1px solid blue">
+                                                                    <div class="rm-question">
+                                                                        <i class="fas fa-trash"></i>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div> --}}
+                                                    </div>
+
+                                                    <div class="row d-flex align-items-center">
+                                                        <div class="col-sm-2"  style="border:1px solid blue">
+                                                            Answer here
+                                                        </div>
+                                                        <div class="col-sm-2"  style="border:1px solid blue">
+                                                            Answer here
+                                                        </div>
+                                                        <div class="col-sm-2"  style="border:1px solid blue">
+                                                            Answer here
+                                                        </div>
+                                                        <div class="col-sm-2"  style="border:1px solid blue">
+                                                            Answer here
+                                                        </div>
+                                                        <div class="col-sm-2"  style="border:1px solid blue">
+                                                            Answer here
+                                                        </div>
+                                                        <div class="col-sm-2"  style="border:1px solid blue">
+                                                            Answer here
+                                                        </div>
+                                                        <div class="col-sm-2"  style="border:1px solid blue">
+                                                            Answer here
+                                                        </div>
+                                                        <div class="col-sm-2"  style="border:1px solid blue">
+                                                            Points here
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="row d-flex align-items-center">
+                                                        <div class="col-sm-12"  style="border:1px solid red">
+                                                            Options here
+                                                        </div>
+                                                    </div>
+                                                </li> <!-- end question -->
+
+                                            </ol> <!-- end ordered list -->
+
+
+                                            <div class="row d-flex align-items-center">
+                                                <div class="col-sm-12"  style="border:1px solid red">
+                                                    Type your question here
+                                                </div>
+                                            </div>
+
+                                            <div class="row d-flex align-items-center justify-content-end">
+                                                <div class="col-sm-4"  style="border:1px solid red">
+                                                    Selection here
+                                                </div>
+                                            </div>
+
+                                        </div>
                                     </div>
                                 </div>
                             </div>
