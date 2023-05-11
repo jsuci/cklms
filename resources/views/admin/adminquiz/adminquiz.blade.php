@@ -88,12 +88,19 @@
             border: 2px dotted #017df95e;
             padding: 0.5em;
         }
-        .rm-coverage {
+        .rm-coverage, .rm-answer-key, .rm-points {
             font-weight: 700;
             position: relative;
             top: -10px;
             font-size: 1.3em;
             cursor: pointer;
+            color: #a91c1c;
+        }
+        .rm-mc-option {
+            font-weight: 700;
+            font-size: 1.1em;
+            cursor: pointer;
+            color: #a91c1c;
         }
         .rm-question {
             background-color: #e55f5f;
@@ -139,7 +146,7 @@
                         <div class="row">
                             <div class="col-sm-1">
                                 <div class="btn-group-vertical card-options" style="display:none">
-                                    <button class="add-question btn btn-sm text-white gfg_tooltip newrow" style="background-color: #3175c2; border: 3px solid #1d62b7;">
+                                    <button class="add-header btn btn-sm text-white gfg_tooltip newrow" style="background-color: #3175c2; border: 3px solid #1d62b7;">
                                         <i class="fas fa-plus m-0"></i><span class="gfg_text">Add Question</span>
                                     </button>
                                 </div>
@@ -185,7 +192,7 @@
                         <div class="row">
                             <div class="col-sm-1">
                                 <div class="btn-group-vertical card-options" style="display:none">
-                                    <button class="add-question btn btn-sm text-white gfg_tooltip newrow" style="background-color: #3175c2; border: 3px solid #1d62b7;">
+                                    <button class="add-header btn btn-sm text-white gfg_tooltip newrow" style="background-color: #3175c2; border: 3px solid #1d62b7;">
                                         <i class="fas fa-plus m-0"></i><span class="gfg_text">Add Question</span>
                                     </button>
                                 </div>
@@ -207,7 +214,7 @@
                                                         </div>
 
                                                         <div class="col-1">
-                                                            <div class="rm-question">
+                                                            <div class="rm-question" id="1212121">
                                                                 <i class="fas fa-trash"></i>
                                                             </div>
                                                         </div>
@@ -225,7 +232,7 @@
                                                                                 <input type="radio" class="form-check-input" id="add-option-222" name="que-222" value="Ligase">
                                                                                 <label class="form-check-label" for="add-option-222">Option 1</label>
                                                                             </div>
-                                                                            <div class="col-1">
+                                                                            <div class="col-1 rm-mc-option">
                                                                                 <i class="fas fa-times" style="color: #a91c1c;"></i>
                                                                             </div>
                                                                         </div>
@@ -237,7 +244,7 @@
                                                                                 <input type="radio" class="form-check-input" id="add-option-222" name="que-222" value="Ligase">
                                                                                 <label class="form-check-label" for="add-option-222">Add Option</label>
                                                                             </div>
-                                                                            <div class="col-1">
+                                                                            <div class="col-1 rm-mc-option" id="121212">
                                                                                 <i class="fas fa-times" style="color: #a91c1c;"></i>
                                                                             </div>
                                                                         </div>
@@ -249,7 +256,7 @@
                                                                                 <input type="radio" class="form-check-input" id="add-option-222" name="que-222" value="Ligase">
                                                                                 <label class="form-check-label" for="add-option-222">Add Option</label>
                                                                             </div>
-                                                                            <div class="col-1">
+                                                                            <div class="col-1 rm-mc-option" id="121212">
                                                                                 <i class="fas fa-times" style="color: #a91c1c;"></i>
                                                                             </div>
                                                                         </div>
@@ -261,7 +268,7 @@
                                                                                 <input type="radio" class="form-check-input" id="add-option-222" name="que-222" value="Ligase">
                                                                                 <label class="form-check-label" for="add-option-222">Add Option</label>
                                                                             </div>
-                                                                            <div class="col-1">
+                                                                            <div class="col-1 rm-mc-option" id="121212">
                                                                                 <i class="fas fa-times" style="color: #a91c1c;"></i>
                                                                             </div>
                                                                         </div>
@@ -275,7 +282,7 @@
                                                                                 <input type="radio" class="form-check-input" id="add-option-222" name="que-222" value="Ligase">
                                                                                 <label class="form-check-label" for="add-option-222">Add Option</label>
                                                                             </div>
-                                                                            <div class="col-1">
+                                                                            <div class="col-1 rm-mc-option" id="121212">
                                                                                 <i class="fas fa-times" style="color: #a91c1c;"></i>
                                                                             </div>
                                                                         </div>
@@ -287,7 +294,7 @@
                                                                                 <input type="radio" class="form-check-input" id="add-option-222" name="que-222" value="Ligase">
                                                                                 <label class="form-check-label" for="add-option-222">Add Option</label>
                                                                             </div>
-                                                                            <div class="col-1">
+                                                                            <div class="col-1 rm-mc-option" id="121212">
                                                                                 <i class="fas fa-times" style="color: #a91c1c;"></i>
                                                                             </div>
                                                                         </div>
@@ -299,7 +306,7 @@
                                                                                 <input type="radio" class="form-check-input" id="add-option-222" name="que-222" value="Ligase">
                                                                                 <label class="form-check-label" for="add-option-222">Add Option</label>
                                                                             </div>
-                                                                            <div class="col-1">
+                                                                            <div class="col-1 rm-mc-option" id="121212">
                                                                                 <i class="fas fa-times" style="color: #a91c1c;"></i>
                                                                             </div>
                                                                         </div>
@@ -327,11 +334,9 @@
                                                             <h5>Answer Keys:</h5>
                                                             <div class="row">
                                                                 <div class="col-12">
-                                                                    <div class="btn bg-success text-white">Answer 1</div><span style="font-weight:700" class="rm-coverage">&times;</span>
-                                                                    <div class="btn bg-success text-white">Answer 1</div>
-                                                                    <span style="font-weight:700" class="rm-coverage">&times;</span>
-                                                                    <div class="btn bg-success text-white">Answer 1</div>
-                                                                    <span style="font-weight:700" class="rm-coverage">&times;</span>
+                                                                    <div class="btn bg-success text-white m-1" data-answer-key-id="12121">Answer 1</div><span class="rm-answer-key" id="121212">&times;</span>
+                                                                    <div class="btn bg-success text-white m-1" data-answer-key-id="12121">Answer 1</div><span class="rm-answer-key" id="121212">&times;</span>
+                                                                    <div class="btn bg-success text-white m-1" data-answer-key-id="12121">Answer 1</div><span class="rm-answer-key" id="121212">&times;</span>
                                                                 </div>
                                                             </div>
                                                             <div class="input-group  input-group-sm mt-3 mb-3">
@@ -347,7 +352,7 @@
                                                     <div class="row d-flex align-items-center mt-3">
                                                         <div class="col-12">
                                                             <h5>Points:</h5>
-                                                            <div class="btn bg-success text-white m-1">5 point(s)</div><span style="font-weight:700" class="rm-coverage">&times;</span>
+                                                            <div class="btn bg-success text-white m-1" data-points-id="321321">5 point(s)</div><span class="rm-points" id="321321">&times;</span>
                                                             <div class="input-group  input-group-sm mb-3 mt-3">
                                                                 <input type="text" class="form-control" placeholder="Type the point(s) for this question here" aria-label="Type the point(s) for this question here" aria-describedby="basic-addon2">
                                                                 <div class="input-group-append">
@@ -514,7 +519,7 @@
         }
         function renderHtmlQuestions() {
 
-            let cardOptionHtml = `<div class="col-sm-1"><div class="btn-group-vertical card-options" style="display:none"><button class="btn btn-sm text-white gfg_tooltip newrow add-question" style="background-color: #3175c2; border: 3px solid #1d62b7;"><i class="fas fa-plus m-0"></i><span class="gfg_text">Add Question</span></button><button class="delete-question btn btn-sm text-white gfg_tooltip" style="background-color: #3175c2; border: 3px solid #1d62b7;"><i class="fas fa-trash m-0"></i><span class="gfg_text">Delete</span></button></div></div>`
+            let cardOptionHtml = `<div class="col-sm-1"><div class="btn-group-vertical card-options" style="display:none"><button class="btn btn-sm text-white gfg_tooltip newrow add-header" style="background-color: #3175c2; border: 3px solid #1d62b7;"><i class="fas fa-plus m-0"></i><span class="gfg_text">Add Question</span></button><button class="delete-header btn btn-sm text-white gfg_tooltip" style="background-color: #3175c2; border: 3px solid #1d62b7;"><i class="fas fa-trash m-0"></i><span class="gfg_text">Delete</span></button></div></div>`
 
             $.ajax({
                 url: '/adminviewbook/getquestions',
@@ -759,7 +764,7 @@
 
 
         // card-options
-        $(document).on('click', '.add-question', function() {
+        $(document).on('click', '.add-header', function() {
             $(this).prop('disabled', true)
 
             if (prevQuestionType) {
@@ -779,7 +784,7 @@
                 })
             }
         })
-        $(document).on('click', '.delete-question', function() {
+        $(document).on('click', '.delete-header', function() {
             $(this).prop('disabled', true)
 
             if (questionID) {
