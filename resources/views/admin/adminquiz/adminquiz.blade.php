@@ -626,8 +626,6 @@
         // card-options
         $(document).on('click', '.add-header', function() {
 
-            console.log('add header', prevQuestionType)
-
             if (prevQuestionType) {
                 $(this).prop('disabled', true)
                 
@@ -664,7 +662,6 @@
                 ajaxCall('/adminviewbook/deleteheader', {
                     headerid: currHeaderId,
                 }).then((data) => {
-                    console.log('delete header', data)
                     renderHtmlQuestions()
                     $(this).prop('disabled', false)
                 })
@@ -676,20 +673,17 @@
             var data = e.params.data;
             var select2Id = $(this).attr('id');
 
-            console.log('select2 select before', prevQuestionType)
-
             // set globals prevQuestionType and currHeaderId
             currHeaderId = select2Id
             prevQuestionType = data.id
 
-            console.log('select2 select after', prevQuestionType)
 
             // update header type
             ajaxCall('/adminviewbook/editheader', {
                 headerid: currHeaderId,
                 type: prevQuestionType
             }).then((data) => {
-                console.log('edit header', data)
+
                 renderHtmlQuestions()
                 $(this).prop('disabled', false)
             })
