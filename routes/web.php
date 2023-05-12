@@ -154,6 +154,7 @@ Route::middleware(['auth', 'isAdministrator','isDefaultPass'])->group(function (
     // quiz header
     Route::get('/adminviewbook/deleteheader', 'Admin\BookController@deleteheader');
     Route::get('/adminviewbook/addheader', 'Admin\BookController@addheader');
+    Route::get('/adminviewbook/editheader', 'Admin\BookController@editheader');
 
     // coverage
     Route::get('/adminviewbook/getcoverage', 'Admin\BookController@getcoverage');

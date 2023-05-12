@@ -338,10 +338,10 @@
                         // generate buttons
                         $.each(data, function(index, value) {
                             var headerId = value.headerid
+                            var headerType = value.type
                             // var questionId = value.id
                             // var question = value.question
                             // var points = value.points
-                            var questionType = value.questions[value.questions.length - 1].type
                             // var choices = value.choices
                             // var answers = value.answers
 
@@ -406,10 +406,11 @@
                             })
 
                             // set current selection
-                            $(`#${headerId}.select-question-type`).val(questionType).trigger('change');
+                            $(`#${headerId}.select-question-type`).val(headerType).trigger('change');
 
-                            // change current question type
-                            prevQuestionType = questionType
+                            // change question type base on the last entry
+                            // prevQuestionType = headerType
+
                             
 
                         });
@@ -625,6 +626,8 @@
         // card-options
         $(document).on('click', '.add-header', function() {
 
+            console.log('add header', prevQuestionType)
+
             if (prevQuestionType) {
                 $(this).prop('disabled', true)
                 
@@ -673,9 +676,23 @@
             var data = e.params.data;
             var select2Id = $(this).attr('id');
 
+            console.log('select2 select before', prevQuestionType)
 
-            // set the last selected option to prevQuestionType
+            // set globals prevQuestionType and currHeaderId
+            currHeaderId = select2Id
             prevQuestionType = data.id
+
+            console.log('select2 select after', prevQuestionType)
+
+            // update header type
+            ajaxCall('/adminviewbook/editheader', {
+                headerid: currHeaderId,
+                type: prevQuestionType
+            }).then((data) => {
+                console.log('edit header', data)
+                renderHtmlQuestions()
+                $(this).prop('disabled', false)
+            })
 
             // change content of the card base on the selected question type
 

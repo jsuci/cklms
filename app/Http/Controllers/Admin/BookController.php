@@ -604,6 +604,27 @@ class BookController extends Controller
 
         return $questionid;
     }
+    public function editheader(Request $request)
+    {
+        $headerid = $request->get('headerid');
+        $type = $request->get('type');
+
+        // edit header
+        DB::table('chapterquizheaders')
+            ->where('deleted', 0)
+            ->where('id', $headerid)
+            ->update([
+                'type'=>$type,
+                'updatedby'=>auth()->user()->id,
+                'updateddatetime'=>\Carbon\Carbon::now('Asia/Manila')
+        ]);
+
+        return array((object)[
+            'status'=>1,
+            'message'=>'Header edited successfully',
+            'icon'=>'success',
+        ]);
+    }
 
 
     // quiz questions
@@ -632,7 +653,6 @@ class BookController extends Controller
     }
     public function getquestions(Request $request)
     {
-    
         $quizid = $request->get('quizid');
     
         $questions = DB::table('chapterquizquestions')
@@ -651,15 +671,23 @@ class BookController extends Controller
             ->select('id', 'questionid', 'answer', 'type')
             ->get();
     
+        $headers = DB::table('chapterquizheaders')
+            ->where('quizid', $quizid)
+            ->select('id', 'quizid', 'type')
+            ->get();
+    
         $grouped_questions = $questions->groupBy('headerid');
     
         $combined = collect([]);
     
         foreach ($grouped_questions as $headerid => $questions) {
+            $header = $headers->where('id', $headerid)->first();
             $grouped_choices = $choices->whereIn('questionid', $questions->pluck('id')->toArray());
             $grouped_answers = $answers->whereIn('questionid', $questions->pluck('id')->toArray());
             $combined->push([
-                'headerid' => $headerid,
+                'headerid' => $header->id,
+                'type' => $header->type,
+                'quizid' => $header->quizid,
                 'questions' => $questions->map(function ($question) use ($grouped_choices, $grouped_answers) {
                     $choices_for_question = $grouped_choices->where('questionid', $question->id);
                     $answers_for_question = $grouped_answers->where('questionid', $question->id);
@@ -678,27 +706,12 @@ class BookController extends Controller
 
         return $combined;
     }
-
-
-    // quiz question type
-    public function getquestiontype(Request $request)
-    {
-        $questiontype = DB::table('chapterquizquestiontype')
-            ->where('deleted','0')
-            ->select(
-                'id as id',
-                'description as text'
-            )
-            ->get();
-
-        return $questiontype;
-    }
     
     // public function getquestions(Request $request)
     // {
-
+    
     //     $quizid = $request->get('quizid');
-
+    
     //     $questions = DB::table('chapterquizquestions')
     //         ->where('quizid', $quizid)
     //         ->where('deleted', 0)
@@ -709,61 +722,38 @@ class BookController extends Controller
     //         ->where('deleted', 0)
     //         ->select('id', 'questionid', 'description')
     //         ->get();
-        
+    
     //     $answers = DB::table('chapterquizqanswers')
     //         ->where('deleted', 0)
     //         ->select('id', 'questionid', 'answer', 'type')
     //         ->get();
-        
+    
+    //     $grouped_questions = $questions->groupBy('headerid');
+    
     //     $combined = collect([]);
-        
-    //     foreach ($questions as $question) {
-    //         $choices_for_question = $choices->where('questionid', $question->id);
-    //         $answers_for_question = $answers->where('questionid', $question->id);
+    
+    //     foreach ($grouped_questions as $headerid => $questions) {
+    //         $grouped_choices = $choices->whereIn('questionid', $questions->pluck('id')->toArray());
+    //         $grouped_answers = $answers->whereIn('questionid', $questions->pluck('id')->toArray());
     //         $combined->push([
-    //             'id' => $question->id,
-    //             'headerid' => $question->headerid,
-    //             'quizid' => $question->quizid,
-    //             'question' => $question->question,
-    //             'points' => $question->points,
-    //             'type' => $question->type,
-    //             'choices' => $choices_for_question->toArray(),
-    //             'answers' => $answers_for_question->toArray(),
+    //             'headerid' => $headerid,
+    //             'questions' => $questions->map(function ($question) use ($grouped_choices, $grouped_answers) {
+    //                 $choices_for_question = $grouped_choices->where('questionid', $question->id);
+    //                 $answers_for_question = $grouped_answers->where('questionid', $question->id);
+    //                 return [
+    //                     'id' => $question->id,
+    //                     'quizid' => $question->quizid,
+    //                     'question' => $question->question,
+    //                     'points' => $question->points,
+    //                     'type' => $question->type,
+    //                     'choices' => $choices_for_question->toArray(),
+    //                     'answers' => $answers_for_question->toArray(),
+    //                 ];
+    //             })->toArray(),
     //         ]);
     //     }
 
     //     return $combined;
-    
-        // $headerid = $request->get('headerid');
-
-        // $questions = DB::table('chapterquizquestions')
-        //     ->where('headerid', $headerid)
-        //     ->where('deleted', 0)
-        //     ->get();
-
-        // return $questions;
-
-        // $questions = DB::table('chapterquizquestions')
-        //     ->where('chapterquizquestions.headerid', $headerid)
-        //     ->where('chapterquizquestions.deleted', 0)
-        //     ->join('chapterquizchoices', 'chapterquizquestions.id', '=', 'chapterquizchoices.questionid')
-        //     // ->join('chapterquizqanswers', 'chapterquizquestions.id', '=', 'chapterquizqanswers.questionid')
-        //     ->select(
-        //         'chapterquizquestions.id as id',
-        //         'chapterquizquestions.headerid as quizid',
-        //         'chapterquizquestions.question as question',
-        //         'chapterquizquestions.points as points',
-        //         'chapterquizquestions.type as type',
-        //         DB::raw("GROUP_CONCAT(chapterquizchoices.id, ':', chapterquizchoices.description) as choices")
-        //     //     DB::raw("GROUP_CONCAT(answers.id, ':', chapterquizqanswers.answer) as chapterquizqanswers")
-        //     )
-        //     ->groupBy('chapterquizquestions.id')
-        //     ->get();
-
-        // dd($questions);
-        // dd(json_encode($questions));
-    
-
     // }
     public function deletequestion(Request $request)
     {
@@ -806,6 +796,20 @@ class BookController extends Controller
         }
     }
 
+
+    // quiz question type
+    public function getquestiontype(Request $request)
+    {
+        $questiontype = DB::table('chapterquizquestiontype')
+            ->where('deleted','0')
+            ->select(
+                'id as id',
+                'description as text'
+            )
+            ->get();
+
+        return $questiontype;
+    }
 
 
     // coverage
