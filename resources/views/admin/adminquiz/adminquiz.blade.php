@@ -134,6 +134,11 @@
     .question-holder {
         padding-left: 0;
     }
+    .selected-card {
+        background-color: #F6F8FA;
+        border: 1px solid #98aac1;
+        box-shadow: 0px 0px 6px 1px #91b0bb;
+    }
 </style>
 
 <body>
@@ -143,8 +148,8 @@
 
                 <!-- quiz header -->
                 @foreach ($data as $row)
-                <div class="row mt-5" id="quiz-header" data-id="{{ $row->id }}" data-chapter-id="{{ $row->chapterid }}">
-                    <div class="col-md-12">
+                <div class="row mt-5" id="quiz-header">
+                    <div class="col-sm-12" data-id="{{ $row->id }}" data-chapter-id="{{ $row->chapterid }}">
                         <div class="row">
                             <div class="col-sm-1">
                                 <div class="btn-group-vertical card-options" style="display:none">
@@ -203,8 +208,6 @@
                 </div>
 
 
-                
-
             </div> <!-- end col-md-8 -->
         </div> <!-- end row -->
     </div> <!-- end quizcontent -->
@@ -217,8 +220,8 @@
         // GLOBALS
         var prevQuestionType;
         var currHeaderId;
-        const quizID = $('#quiz-header').data('id')
-        const chapterID = $('#quiz-header').data('chapter-id')
+        const quizID = $('#quiz-header .col-sm-12').data('id')
+        const chapterID = $('#quiz-header .col-sm-12').data('chapter-id')
         const Toast = Swal.mixin({
             toast: true,
             position: 'top-end',
@@ -327,8 +330,6 @@
                     quizid: quizID,
                 },
                 success: function(data) {
-
-                    console.log(data)
 
                     // empty div
                     $('#quiz-questions').empty()
@@ -448,7 +449,6 @@
                     lessonid: lessonid,
                 },
                 success: function(data) {
-                    console.log(data)
                     renderHtmlCoverage()
                 }
             });
@@ -580,31 +580,73 @@
 
 
         // show hide card-options
-        $('#quiz-header.row.mt-5').mouseenter(function() {
-            $(this).find('.card-options').fadeIn();
-        });
-        $('#quiz-header.row.mt-5').mouseleave(function() {
-            $(this).find('.card-options').fadeOut();
-        });
-        $(document).on('mouseenter', '.col-sm-12', function() {
+        $(document).on('click', '#quiz-questions .col-sm-12', function() {
+
+            // hide any previous card-options
+            $('.card-options').each(function() {
+                $(this).hide()
+            });
+
+            // remove highlight on all cards
+            $('.card').each(function() {
+                $(this).removeClass('selected-card');
+            });
+
+            // highlight selected card
+            $(this).find('.card').addClass('selected-card');
+
             // set globally the selected question id
-            questionHeader = $(this).attr('data-header-id')
-
             if ($(this).attr('data-header-id')) {
+                currHeaderId = $(this).attr('data-header-id')
                 $(this).find('.card-options').fadeIn();
-            }
-        })
-        $(document).on('mouseleave', '.col-sm-12', function() {
-            if ($(this).attr('data-header-id')) {
-                $(this).find('.card-options').fadeOut();
-            }
-        })       
 
+                console.log(currHeaderId)
+            }
+            
+        })
+        $(document).on('click', '#quiz-header .col-sm-12', function() {
+            // hide any previous card-options
+            $('.card-options').each(function() {
+                $(this).hide()
+            });
+
+            // remove highlight on all cards
+            $('.card').each(function() {
+                $(this).removeClass('selected-card');
+            });
+
+            // highlight selected card
+            $(this).find('.card').addClass('selected-card');
+
+            // show card-options
+            $(this).find('.card-options').fadeIn();
+        })
+
+        // $('#quiz-header .col-sm-12').mouseenter(function() {
+        //     $(this).find('.card-options').fadeIn();
+        // });
+        // $('#quiz-header .col-sm-12').mouseleave(function() {
+        //     $(this).find('.card-options').fadeOut();
+        // });
+        // $(document).on('mouseenter', '#quiz-questions .col-sm-12', function() {
+        //     // set globally the selected question id
+        //     currHeaderId = $(this).attr('data-header-id')
+
+        //     console.log(currHeaderId)
+
+        //     if (currHeaderId) {
+        //         $(this).find('.card-options').fadeIn();
+        //     }
+        // })
+        // $(document).on('mouseleave', '#quiz-questions .col-sm-12', function() {
+        //     if ($(this).attr('data-header-id')) {
+        //         $(this).find('.card-options').fadeOut();
+        //     }
+        // })
 
         // text edit save
         textEditable('#admin-quiz-title')
         textEditable('#admin-quiz-desc')
-
 
         // card-options
         $(document).on('click', '.add-header', function() {
@@ -643,8 +685,10 @@
         $(document).on('click', '.delete-header', function() {
             $(this).prop('disabled', true)
 
+            console.log(currHeaderId)
+
             if (currHeaderId) {
-                ajaxCall('/adminviewbook/deletequestions', {
+                ajaxCall('/adminviewbook/deleteheader', {
                     headerid: currHeaderId,
                 }).then((data) => {
                     renderHtmlQuestions()

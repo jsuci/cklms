@@ -620,9 +620,21 @@ class BookController extends Controller
             ->where('headerid', $headerid)
             ->get();
 
+        // // Check if there are questions to delete
+        // $check = $questions->count();
+
+        // if($check > 0){
+        //     return array((object)[
+        //         'status'=>0,
+        //         'message'=>'There are no questions to delete',
+        //         'icon'=>'error'
+        //     ]);
+        // }
+
         foreach ($questions as $question) {
             DB::table('chapterquizquestions')
                 ->where('deleted', 0)
+                ->where('id', $question->id)
                 ->update([
                     'deleted'=>1,
                     'deletedby'=>auth()->user()->id,
@@ -630,7 +642,11 @@ class BookController extends Controller
                 ]);
         }
 
-        return $questions;
+        return array((object)[
+            'status'=>1,
+            'message'=>'Header deleted successfully',
+            'icon'=>'success',
+        ]);
     }
 
     // quiz question type
