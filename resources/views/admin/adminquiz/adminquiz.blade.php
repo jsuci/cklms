@@ -121,7 +121,8 @@
         } */
         .card-options {
             flex-direction: row !important;
-            align-items: center;
+            align-items: end;
+            margin-bottom: 6px;
         }
         .gfg_tooltip {
             border-radius: 3px !important;
@@ -292,9 +293,6 @@
                 data: jsonData
             });
         }
-        function setHeaderId() {
-            return Math.round(Math.random() * 1000000) + "-" + Date.now()
-        }
 
         // html rendering
         function renderHtmlCoverage() {
@@ -318,7 +316,7 @@
                 }
             });
         }
-        function renderHtmlQuestions() {
+        function renderAllHeaders() {
 
             let cardOptionHtml = `<div class="col-sm-1"><div class="btn-group-vertical card-options" style="display:none"><button class="btn btn-sm text-white gfg_tooltip newrow add-header" style="background-color: #3175c2; border: 3px solid #1d62b7;"><i class="fas fa-plus m-0"></i><span class="gfg_text">Add Question</span></button><button class="delete-header btn btn-sm text-white gfg_tooltip" style="background-color: #3175c2; border: 3px solid #1d62b7;"><i class="fas fa-trash m-0"></i><span class="gfg_text">Delete</span></button></div></div>`
 
@@ -330,6 +328,8 @@
                 },
                 success: function(data) {
 
+                    console.log(data)
+
                     // empty div
                     $('#quiz-questions').empty()
                     
@@ -337,21 +337,118 @@
 
                         // generate buttons
                         $.each(data, function(index, value) {
+
+                            console.log(value)
+
                             var headerId = value.headerid
                             var headerType = value.type
-                            // var questionId = value.id
-                            // var question = value.question
-                            // var points = value.points
-                            // var choices = value.choices
-                            // var answers = value.answers
+                            var questions = value.questions
+                            var questionsHtml = ``;
 
-                            // if (questionType === 1) {
-                            //     console.log('render multiple-choice question')
-                            // }
+                            if (headerType === 1) {
+                                questionsHtml = renderMultipleChoice(questions)
+                            }
 
+                            // var questionsHtml = questions.map(question => {
+                            //     console.log(question)
 
+                            //     var choicesHtml = question.choices.map(choice => {
+                            //         return `
+                            //             <div class="form-check">
+                            //                 <div class="row">
+                            //                     <div class="col">
+                            //                         <input type="radio" class="form-check-input" id="${choice.id}" name="question-${choice.questionid}" value="${choice.description}"><label class="form-check-label" for="${choice.id}">${choice.description}</label>
+                            //                     </div>
+                            //                     <div class="col-1 rm-mc-option">
+                            //                         <i class="fas fa-times" style="color: #a91c1c;"></i>
+                            //                     </div>
+                            //                 </div>
+                            //             </div>
+                            //         `
+                            //     }).join('')
 
-                            var html = `
+                            //     var answersHtml = question.answers.map(answer => {
+                            //         return `
+                            //             <div class="btn bg-success text-white m-1" data-answer-key-id="${answer.id}">${answer.answer}</div><span class="rm-answer-key" id="${answer.id}">&times;</span>
+                            //         `
+                            //     }).join('')
+
+                            //     return `
+                            //         <li data-question-id="${question.id}" class="mt-3">
+
+                            //             <!-- question -->
+                            //             <div class="row">
+                            //                 <div class="col" style="font-size:1pc">
+                            //                     <h5>Question:</h5>
+                            //                     <p>${question.question}</p>
+                            //                 </div>
+
+                            //                 <div class="col-1">
+                            //                     <div class="rm-question" id="${question.id}">
+                            //                         <i class="fas fa-trash"></i>
+                            //                     </div>
+                            //                 </div>
+                            //             </div>
+
+                            //             <!-- options -->
+                            //             <div class="row d-flex align-items-center mt-2">
+                            //                 <div class="col-sm-12">
+                            //                     <h5>Options:</h5>
+                            //                     <div class="row">
+                            //                         <div class="col-sm-6">
+                            //                             ${choicesHtml}
+                            //                         </div>
+                            //                     </div>
+                            //                     <div class="row mt-3">
+                            //                         <div class="col-12">
+                            //                             <div class="input-group  input-group-sm mb-3">
+                            //                                 <input id="add-option-${question.id}" type="text" class="form-control" placeholder="Type your option here" aria-label="Type your option here" aria-describedby="basic-addon2">
+                            //                                 <div class="input-group-append">
+                            //                                     <button class="btn btn-warning text-dark" type="button">Add Option</button>
+                            //                                 </div>
+                            //                             </div>
+                            //                         </div>
+                            //                     </div>
+                            //                 </div>
+                            //             </div>
+
+                            //             <!-- answer keys -->
+                            //             <div class="row d-flex align-items-center mt-3">
+                            //                 <div class="col-12">
+                            //                     <h5>Answer Keys:</h5>
+                            //                     <div class="row">
+                            //                         <div class="col-12">
+                            //                             ${answersHtml}
+                            //                         </div>
+                            //                     </div>
+                            //                     <div class="input-group  input-group-sm mt-3 mb-3">
+                            //                         <input id="add-answer-${question.id}" type="text" class="form-control" placeholder="Type your answer for this question here" aria-label="Type your answer for this question here" aria-describedby="basic-addon2">
+                            //                         <div class="input-group-append">
+                            //                             <button class="btn btn-warning text-dark" type="button">Add Answer</button>
+                            //                         </div>
+                            //                     </div>
+                            //                 </div>
+                            //             </div>
+
+                            //             <!-- points -->
+                            //             <div class="row d-flex align-items-center mt-3">
+                            //                 <div class="col-12">
+                            //                     <h5>Points:</h5>
+                            //                     <div class="btn bg-success text-white m-1" data-points-id="${question.id}">${question.points} point(s)</div><span class="rm-points" id="${question.id}">&times;</span>
+                            //                     <div class="input-group  input-group-sm mb-3 mt-3">
+                            //                         <input type="text" class="form-control" placeholder="Type the point(s) for this question here" aria-label="Type the point(s) for this question here" aria-describedby="basic-addon2">
+                            //                         <div class="input-group-append">
+                            //                             <button class="btn btn-warning text-dark" type="button">Add Point(s)</button>
+                            //                         </div>
+                            //                     </div>
+                            //                 </div>
+                            //             </div>
+
+                            //         </li>
+                            //     `
+                            // }).join('')
+
+                            var baseHtml = `
                                 <div class="col-sm-12" data-header-id="${headerId}">
                                     <div class="row">
                                         ${cardOptionHtml}
@@ -361,6 +458,7 @@
                                                     <div class="col-sm-12">
 
                                                         <ol class="question-holder">
+                                                            ${questionsHtml}
                                                         </ol> <!-- end ordered list -->
 
                                                         <div class="row d-flex align-items-center mt-5">
@@ -395,7 +493,7 @@
                                 </div>
                             `;
                             
-                            $(html).appendTo('#quiz-questions');
+                            $(baseHtml).appendTo('#quiz-questions');
 
                             
                             // initialize select2
@@ -411,8 +509,6 @@
                             // change question type base on the last entry
                             // prevQuestionType = headerType
 
-                            
-
                         });
                     } else {
 
@@ -423,6 +519,109 @@
 
                 }
             });
+        }
+        function renderMultipleChoice(questionData) {
+
+            var questionsHtml = questionData.map(question => {
+                console.log(question)
+
+                var choicesHtml = question.choices.map(choice => {
+                    return `
+                        <div class="form-check">
+                            <div class="row">
+                                <div class="col">
+                                    <input type="radio" class="form-check-input" id="${choice.id}" name="question-${choice.questionid}" value="${choice.description}"><label class="form-check-label" for="${choice.id}">${choice.description}</label>
+                                </div>
+                                <div class="col-1 rm-mc-option">
+                                    <i class="fas fa-times" style="color: #a91c1c;"></i>
+                                </div>
+                            </div>
+                        </div>
+                    `
+                }).join('')
+
+                var answersHtml = question.answers.map(answer => {
+                    return `
+                        <div class="btn bg-success text-white m-1" data-answer-key-id="${answer.id}">${answer.answer}</div><span class="rm-answer-key" id="${answer.id}">&times;</span>
+                    `
+                }).join('')
+
+                return `
+                    <li data-question-id="${question.id}" class="mt-3">
+
+                        <!-- question -->
+                        <div class="row">
+                            <div class="col" style="font-size:1pc">
+                                <h5>Question:</h5>
+                                <p>${question.question}</p>
+                            </div>
+
+                            <div class="col-1">
+                                <div class="rm-question" id="${question.id}">
+                                    <i class="fas fa-trash"></i>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- options -->
+                        <div class="row d-flex align-items-center mt-2">
+                            <div class="col-sm-12">
+                                <h5>Options:</h5>
+                                <div class="row">
+                                    <div class="col-sm-6">
+                                        ${choicesHtml}
+                                    </div>
+                                </div>
+                                <div class="row mt-3">
+                                    <div class="col-12">
+                                        <div class="input-group  input-group-sm mb-3">
+                                            <input id="add-option-${question.id}" type="text" class="form-control" placeholder="Type your option here" aria-label="Type your option here" aria-describedby="basic-addon2">
+                                            <div class="input-group-append">
+                                                <button class="btn btn-warning text-dark" type="button">Add Option</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- answer keys -->
+                        <div class="row d-flex align-items-center mt-3">
+                            <div class="col-12">
+                                <h5>Answer Keys:</h5>
+                                <div class="row">
+                                    <div class="col-12">
+                                        ${answersHtml}
+                                    </div>
+                                </div>
+                                <div class="input-group  input-group-sm mt-3 mb-3">
+                                    <input id="add-answer-${question.id}" type="text" class="form-control" placeholder="Type your answer for this question here" aria-label="Type your answer for this question here" aria-describedby="basic-addon2">
+                                    <div class="input-group-append">
+                                        <button class="btn btn-warning text-dark" type="button">Add Answer</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- points -->
+                        <div class="row d-flex align-items-center mt-3">
+                            <div class="col-12">
+                                <h5>Points:</h5>
+                                <div class="btn bg-success text-white m-1" data-points-id="${question.id}">${question.points} point(s)</div><span class="rm-points" id="${question.id}">&times;</span>
+                                <div class="input-group  input-group-sm mb-3 mt-3">
+                                    <input type="text" class="form-control" placeholder="Type the point(s) for this question here" aria-label="Type the point(s) for this question here" aria-describedby="basic-addon2">
+                                    <div class="input-group-append">
+                                        <button class="btn btn-warning text-dark" type="button">Add Point(s)</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </li>
+                `
+            }).join('')
+
+            return questionsHtml
         }
 
         // coverage
@@ -464,7 +663,7 @@
 
         // html render
         renderHtmlCoverage()
-        renderHtmlQuestions()
+        renderAllHeaders()
 
         // coverage selection
         $('.select-coverage').select2({
@@ -636,7 +835,7 @@
                     type: prevQuestionType,
                     points: 1
                 }).then((data) => {
-                    renderHtmlQuestions()
+                    renderAllHeaders()
                     $(this).prop('disabled', false)
                 })
             } else {
@@ -649,7 +848,7 @@
                     type: 1,
                     points: 1
                 }).then((data) => {
-                    renderHtmlQuestions()
+                    renderAllHeaders()
                     prevQuestionType = 1
                     $(this).prop('disabled', false)
                 })
@@ -662,7 +861,7 @@
                 ajaxCall('/adminviewbook/deleteheader', {
                     headerid: currHeaderId,
                 }).then((data) => {
-                    renderHtmlQuestions()
+                    renderAllHeaders()
                     $(this).prop('disabled', false)
                 })
             }
@@ -684,8 +883,10 @@
                 type: prevQuestionType
             }).then((data) => {
 
-                renderHtmlQuestions()
-                $(this).prop('disabled', false)
+                // instead of rendering the whole html again
+                // only change the html of a card of the current
+                // header id
+                renderAllHeaders()
             })
 
             // change content of the card base on the selected question type

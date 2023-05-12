@@ -707,54 +707,6 @@ class BookController extends Controller
         return $combined;
     }
     
-    // public function getquestions(Request $request)
-    // {
-    
-    //     $quizid = $request->get('quizid');
-    
-    //     $questions = DB::table('chapterquizquestions')
-    //         ->where('quizid', $quizid)
-    //         ->where('deleted', 0)
-    //         ->select('id', 'headerid', 'quizid', 'question', 'points', 'type')
-    //         ->get();
-    
-    //     $choices = DB::table('chapterquizchoices')
-    //         ->where('deleted', 0)
-    //         ->select('id', 'questionid', 'description')
-    //         ->get();
-    
-    //     $answers = DB::table('chapterquizqanswers')
-    //         ->where('deleted', 0)
-    //         ->select('id', 'questionid', 'answer', 'type')
-    //         ->get();
-    
-    //     $grouped_questions = $questions->groupBy('headerid');
-    
-    //     $combined = collect([]);
-    
-    //     foreach ($grouped_questions as $headerid => $questions) {
-    //         $grouped_choices = $choices->whereIn('questionid', $questions->pluck('id')->toArray());
-    //         $grouped_answers = $answers->whereIn('questionid', $questions->pluck('id')->toArray());
-    //         $combined->push([
-    //             'headerid' => $headerid,
-    //             'questions' => $questions->map(function ($question) use ($grouped_choices, $grouped_answers) {
-    //                 $choices_for_question = $grouped_choices->where('questionid', $question->id);
-    //                 $answers_for_question = $grouped_answers->where('questionid', $question->id);
-    //                 return [
-    //                     'id' => $question->id,
-    //                     'quizid' => $question->quizid,
-    //                     'question' => $question->question,
-    //                     'points' => $question->points,
-    //                     'type' => $question->type,
-    //                     'choices' => $choices_for_question->toArray(),
-    //                     'answers' => $answers_for_question->toArray(),
-    //                 ];
-    //             })->toArray(),
-    //         ]);
-    //     }
-
-    //     return $combined;
-    // }
     public function deletequestion(Request $request)
     {
         $id = $request->get('id');
