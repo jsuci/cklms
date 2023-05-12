@@ -624,15 +624,13 @@
 
         // card-options
         $(document).on('click', '.add-header', function() {
-            currHeaderId = setHeaderId()
 
             if (prevQuestionType) {
                 $(this).prop('disabled', true)
                 
                 // set default question type to prevQuestionType
-                ajaxCall('/adminviewbook/addquestion', {
+                ajaxCall('/adminviewbook/addheader', {
                     question: 'Edit your question here',
-                    headerid: currHeaderId,
                     quizid: quizID,
                     type: prevQuestionType,
                     points: 1
@@ -644,9 +642,8 @@
                 $(this).prop('disabled', true)
 
                 // set default question type to multiple-choice
-                ajaxCall('/adminviewbook/addquestion', {
+                ajaxCall('/adminviewbook/addheader', {
                     question: 'Edit your question here',
-                    headerid: currHeaderId,
                     quizid: quizID,
                     type: 1,
                     points: 1
@@ -664,6 +661,7 @@
                 ajaxCall('/adminviewbook/deleteheader', {
                     headerid: currHeaderId,
                 }).then((data) => {
+                    console.log('delete header', data)
                     renderHtmlQuestions()
                     $(this).prop('disabled', false)
                 })

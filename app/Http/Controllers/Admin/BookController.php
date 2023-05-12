@@ -492,8 +492,6 @@ class BookController extends Controller
             return back()->with('error', 'An error occurred: ' . $e->getMessage());
         }
     }
-
-    // quiz header
     public function editquiz(Request $request)
     {
         $quizid = $request->get('id');
@@ -536,6 +534,75 @@ class BookController extends Controller
         }catch(\Exception $e){
             return back()->with('error', 'An error occurred: ' . $e->getMessage());
         }
+    }
+
+    // quiz header
+    public function deleteheader(Request $request)
+    {
+
+        $headerid = $request->get('headerid');
+
+        // delete header
+        DB::table('chapterquizheaders')
+            ->where('deleted', 0)
+            ->where('id', $headerid)
+            ->update([
+                'deleted'=>1,
+                'deletedby'=>auth()->user()->id,
+                'deleteddatetime'=>\Carbon\Carbon::now('Asia/Manila')
+        ]);
+
+        // delete all questions associated to a given header
+        $questions = DB::table('chapterquizquestions')
+            ->where('headerid', $headerid)
+            ->get();
+
+        foreach ($questions as $question) {
+            DB::table('chapterquizquestions')
+                ->where('deleted', 0)
+                ->where('id', $question->id)
+                ->update([
+                    'deleted'=>1,
+                    'deletedby'=>auth()->user()->id,
+                    'deleteddatetime'=>\Carbon\Carbon::now('Asia/Manila')
+                ]);
+        }
+
+        return array((object)[
+            'status'=>1,
+            'message'=>'Header and questions deleted successfully',
+            'icon'=>'success',
+        ]);
+    }
+    public function addheader(Request $request)
+    {
+        $question = $request->get('question');
+        $quizid = $request->get('quizid');
+        $type = $request->get('type');
+        $points = $request->get('points');
+
+        // create header
+        $headerid = DB::table('chapterquizheaders')
+            ->insertGetId([
+                'quizid'=>$quizid,
+                'type'=>$type,
+                'createdby'=>auth()->user()->id,
+                'createddatetime'=>\Carbon\Carbon::now('Asia/Manila')
+            ]);
+
+        // create question
+        $questionid = DB::table('chapterquizquestions')
+            ->insertGetId([
+                'question'=>$question,
+                'type'=>$type,
+                'headerid'=>$headerid,
+                'quizid'=>$quizid,
+                'points'=>$points,
+                'createdby'=>auth()->user()->id,
+                'createddatetime'=>\Carbon\Carbon::now('Asia/Manila')
+            ]);
+
+        return $questionid;
     }
 
 
@@ -611,43 +678,7 @@ class BookController extends Controller
 
         return $combined;
     }
-    public function deleteheader(Request $request)
-    {
-        // delete all questions base on given headerid
-        $headerid = $request->get('headerid');
-        
-        $questions = DB::table('chapterquizquestions')
-            ->where('headerid', $headerid)
-            ->get();
 
-        // // Check if there are questions to delete
-        // $check = $questions->count();
-
-        // if($check > 0){
-        //     return array((object)[
-        //         'status'=>0,
-        //         'message'=>'There are no questions to delete',
-        //         'icon'=>'error'
-        //     ]);
-        // }
-
-        foreach ($questions as $question) {
-            DB::table('chapterquizquestions')
-                ->where('deleted', 0)
-                ->where('id', $question->id)
-                ->update([
-                    'deleted'=>1,
-                    'deletedby'=>auth()->user()->id,
-                    'deleteddatetime'=>\Carbon\Carbon::now('Asia/Manila')
-                ]);
-        }
-
-        return array((object)[
-            'status'=>1,
-            'message'=>'Header deleted successfully',
-            'icon'=>'success',
-        ]);
-    }
 
     // quiz question type
     public function getquestiontype(Request $request)
