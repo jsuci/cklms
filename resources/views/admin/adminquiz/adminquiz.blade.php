@@ -513,7 +513,6 @@
             deleteCoverage(quizID, lessonId)
         });
 
-
         // quiz footer
         $('#save-quiz').on('click', function() {
             var isvalid = true
@@ -578,7 +577,6 @@
             })
         })
 
-
         // show hide card-options
         $(document).on('click', '#quiz-questions .col-sm-12', function() {
 
@@ -598,7 +596,7 @@
             // set globally the selected question id
             if ($(this).attr('data-header-id')) {
                 currHeaderId = $(this).attr('data-header-id')
-                $(this).find('.card-options').fadeIn();
+                $(this).find('.card-options').show();
 
                 console.log(currHeaderId)
             }
@@ -619,30 +617,8 @@
             $(this).find('.card').addClass('selected-card');
 
             // show card-options
-            $(this).find('.card-options').fadeIn();
+            $(this).find('.card-options').show();
         })
-
-        // $('#quiz-header .col-sm-12').mouseenter(function() {
-        //     $(this).find('.card-options').fadeIn();
-        // });
-        // $('#quiz-header .col-sm-12').mouseleave(function() {
-        //     $(this).find('.card-options').fadeOut();
-        // });
-        // $(document).on('mouseenter', '#quiz-questions .col-sm-12', function() {
-        //     // set globally the selected question id
-        //     currHeaderId = $(this).attr('data-header-id')
-
-        //     console.log(currHeaderId)
-
-        //     if (currHeaderId) {
-        //         $(this).find('.card-options').fadeIn();
-        //     }
-        // })
-        // $(document).on('mouseleave', '#quiz-questions .col-sm-12', function() {
-        //     if ($(this).attr('data-header-id')) {
-        //         $(this).find('.card-options').fadeOut();
-        //     }
-        // })
 
         // text edit save
         textEditable('#admin-quiz-title')
@@ -652,9 +628,9 @@
         $(document).on('click', '.add-header', function() {
             currHeaderId = setHeaderId()
 
-            $(this).prop('disabled', true)
-
             if (prevQuestionType) {
+                $(this).prop('disabled', true)
+                
                 // set default question type to prevQuestionType
                 ajaxCall('/adminviewbook/addquestion', {
                     question: 'Edit your question here',
@@ -664,10 +640,11 @@
                     points: 1
                 }).then((data) => {
                     renderHtmlQuestions()
-                    prevQuestionType = 1
                     $(this).prop('disabled', false)
                 })
             } else {
+                $(this).prop('disabled', true)
+
                 // set default question type to multiple-choice
                 ajaxCall('/adminviewbook/addquestion', {
                     question: 'Edit your question here',
@@ -678,16 +655,14 @@
                 }).then((data) => {
                     renderHtmlQuestions()
                     prevQuestionType = 1
-                    // $(this).prop('disabled', false)
+                    $(this).prop('disabled', false)
                 })
             }
         })
         $(document).on('click', '.delete-header', function() {
-            $(this).prop('disabled', true)
-
-            console.log(currHeaderId)
 
             if (currHeaderId) {
+                $(this).prop('disabled', true)
                 ajaxCall('/adminviewbook/deleteheader', {
                     headerid: currHeaderId,
                 }).then((data) => {
