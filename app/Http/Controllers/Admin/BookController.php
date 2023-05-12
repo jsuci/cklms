@@ -494,7 +494,7 @@ class BookController extends Controller
     }
 
     // quiz header
-    public function editquizheader(Request $request)
+    public function editquiz(Request $request)
     {
         $quizid = $request->get('id');
         $title = $request->get('title');

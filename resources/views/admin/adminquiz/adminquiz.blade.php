@@ -197,7 +197,6 @@
                 <div class="row mt-3" id="quiz-questions">
                 </div>
 
-
                 <!-- quiz footer -->
                 <div class="row mb-5 mt-3" id="quiz-footer">
                     <div class="col-md-12 d-flex justify-content-end">
@@ -265,7 +264,7 @@
 
                 if ($(selector).attr('id') === 'admin-quiz-title') {
 
-                    ajaxCall('/adminviewbook/editquizheader', {
+                    ajaxCall('/adminviewbook/editquiz', {
                         id: quizID,
                         title: updatedText.trim()
                     }).then((data) => {
@@ -598,7 +597,6 @@
                 currHeaderId = $(this).attr('data-header-id')
                 $(this).find('.card-options').show();
 
-                console.log(currHeaderId)
             }
             
         })
@@ -672,6 +670,20 @@
             }
         })
 
+        // handle select2 selection
+        $(document).on('select2:select', `.select-question-type`, function(e) {
+            var data = e.params.data;
+            var select2Id = $(this).attr('id');
+
+
+            // set the last selected option to prevQuestionType
+            prevQuestionType = data.id
+
+            // change content of the card base on the selected question type
+
+            // after changing do not forget to update db entries
+
+        })
     })
 </script>
 
