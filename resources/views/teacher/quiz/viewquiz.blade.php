@@ -325,22 +325,71 @@
 
             getQuizResponses(chapterquizid).then(function(data) {
 
-                studentEntryHtml = data.map(value => {
-                    // format date time
-                    let date = new Date(value.submitteddatetime);
-                    let options = { year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric' };
-                    let formattedDate = date.toLocaleDateString('en-US', options);
+                // Create an object to store the latest entries for each submittedby
+                const latestEntries = {};
 
-                    return `
-                        <tr>
-                            <td>${value.name}</td>
-                            <td>${formattedDate}</td>
-                            <td><button class="btn btn-primary view-response" id="${value.id}">View Response</button></td>
-                        </tr>
-                    `
+                // Iterate through the data and update the latest entry for each submittedby
+                data.forEach(entry => {
+                    const submittedby = entry.submittedby;
+                    const datetime = new Date(entry.submitteddatetime);
+                    
+                    if (!latestEntries[submittedby] || datetime > latestEntries[submittedby].datetime) {
+                        latestEntries[submittedby] = { entry, datetime };
+                    }
+                });
+
+                // Create the HTML for the latest entries
+                const latestEntriesHtml = Object.values(latestEntries).map(({ entry, datetime }) => {
+                let options = { year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric' };
+                let formattedDate = datetime.toLocaleDateString('en-US', options);
+
+                return `
+                    <tr>
+                    <td>${entry.name}</td>
+                    <td>${formattedDate}</td>
+                    <td><button class="btn btn-primary view-response" id="${entry.id}">View Response</button></td>
+                    </tr>
+                `;
                 }).join('');
 
-                $(studentEntryHtml).appendTo('#quizResponseDetails');
+
+                // // Sort the data by submitteddatetime in descending order
+                // data.sort((a, b) => new Date(b.submitteddatetime) - new Date(a.submitteddatetime));
+
+                // // Get the latest entry
+                // const latestEntry = data[0];
+
+                // // Format date time
+                // let date = new Date(latestEntry.submitteddatetime);
+                // let options = { year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric' };
+                // let formattedDate = date.toLocaleDateString('en-US', options);
+
+                // // Create the HTML for the latest entry
+                // const latestEntryHtml = `
+                //     <tr>
+                //         <td>${latestEntry.name}</td>
+                //         <td>${formattedDate}</td>
+                //         <td><button class="btn btn-primary view-response" id="${latestEntry.id}">View Response</button></td>
+                //     </tr>
+                // `;
+
+                // // Concatenate the latest entry HTML with any other entries
+                // studentEntryHtml = latestEntryHtml + data.slice(1).map(value => {
+                //     // format date time
+                //     let date = new Date(value.submitteddatetime);
+                //     let options = { year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric' };
+                //     let formattedDate = date.toLocaleDateString('en-US', options);
+
+                //     return `
+                //         <tr>
+                //             <td>${value.name}</td>
+                //             <td>${formattedDate}</td>
+                //             <td><button class="btn btn-primary view-response" id="${value.id}">View Response</button></td>
+                //         </tr>
+                //     `;
+                // }).join('');
+
+                $(latestEntriesHtml).appendTo('#quizResponseDetails');
             })
 
             $('#responseModal').modal()
@@ -348,7 +397,7 @@
         })
 
         $(document).on('click', '.view-response', function() {
-            
+
         })
 
         function getactivequiz(){
@@ -484,7 +533,21 @@
 
 
                                 getQuizResponses(rowData.id).then(function(data) {
-                                    var buttons = '<a href="#" class="response ml-4 text-blue-500" data-id="'+rowData.id+'">Responses ('+data.length+')</a>';
+
+                                    var latestEntries = {}
+
+                                    // Iterate through the data and update the latest entry for each submittedby
+                                    data.forEach(entry => {
+                                        const submittedby = entry.submittedby;
+                                        const datetime = new Date(entry.submitteddatetime);
+                                        
+                                        if (!latestEntries[submittedby] || datetime > latestEntries[submittedby].datetime) {
+                                            latestEntries[submittedby] = { entry, datetime };
+                                        }
+                                    });
+
+
+                                    var buttons = '<a href="#" class="response ml-4 text-blue-500" data-id="'+rowData.id+'">Responses ('+Object.keys(latestEntries).length+')</a>';
 
                                     $(td)[0].innerHTML =  buttons
                                 })

@@ -290,8 +290,8 @@ class ViewBookController extends Controller
         // $bookinfo->classroomid = $classroomid;
    
         return view('global.viewbook.viewbookindex')
-                        ->with('classroomid', $classroomid)
-                        ->with('bookinfo', $bookinfo);
+            ->with('classroomid', $classroomid)
+            ->with('bookinfo', $bookinfo);
 
 
                         
@@ -389,11 +389,6 @@ class ViewBookController extends Controller
     }
 
 
-
-
-
-
-
     public function chaptertestavailability(Request $request)
     {
 
@@ -423,7 +418,6 @@ class ViewBookController extends Controller
 
         if(count($checkifexists) == 0)
         {
-
             DB::table('chapterquizsched')
                 ->insert([
                     'chapterquizid'         => $request->get('quizId'),
@@ -456,8 +450,6 @@ class ViewBookController extends Controller
 
 
             return 0;
-
-
         }
 
 
