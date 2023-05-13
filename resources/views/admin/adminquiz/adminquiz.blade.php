@@ -212,13 +212,31 @@
                                         <div class="col-sm-12">
                     
                                             <ol class="question-holder">
-                                                
+
+                                                <!-- options -->
+                                                <div class="row d-flex align-items-center mt-2">
+                                                    <div class="col-sm-12">
+                                                        <h5>Options:</h5>
+                                                        <div class="row">
+                                                            <div class="col-sm-12">
+                                                                <div class="options p-3 mt-2" id="options${parentId}" style="border:3px solid #3e416d;border-radius:6px;">
+                                                                    <div class="drag-option btn bg-primary text-white m-1" contentEditable="true" data-target="drag-1">Option</div>
+                                                                </div>
+                                                                <div class="d-flex flex-column"><div class="align-self-end"><button class="btn text-white bg-success btn-success form-control add_drag_option" style="margin-top: 10px; " id="add_dragoption${parentId}">Add drag option</button></div></div>
+                                                            </div>
+
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+
+                                                <h5>Questions:</h5>
                                                 <li data-question-id="1212" class="mt-3">
                                                     <!-- question -->
-                                                    {{-- <div class="row">
+                                                    <div class="row">
                                                         <div class="col" style="font-size:1pc">
-                                                            <h5>Question:</h5>
-                                                            <p>Question here Question hereQuestion hereQuestion hereQuestion hereQuestion hereQuestion hereQuestion hereQuestion hereQuestion here reQuestion hereQuestion hereQuestion here reQuestion hereQuestion hereQuestion here</p>
+                                                            
+                                                            <p>Question here Question hereQuestion hereQuestion <input data-header-id="14" class="answer-field d-inline form-control q-input drop-option" type="text" disabled> hereQuestion hereQuestion hereQuestion here reQuestion hereQuestion <input data-header-id="14" class="answer-field d-inline form-control q-input drop-option" type="text" disabled> reQuestion hereQuestion hereQuestion here</p>
                                                         </div>
                     
                                                         <div class="col-1">
@@ -226,58 +244,35 @@
                                                                 <i class="fas fa-trash"></i>
                                                             </div>
                                                         </div>
-                                                    </div> --}}
-                    
-                                                    <!-- options -->
-                                                    <div class="row d-flex align-items-center mt-2">
-                                                        <div class="col-sm-12">
-                                                            <h5>Options:</h5>
-                                                            <div class="row">
-                                                                <div class="col-sm-12">
-                                                                    <div class="options p-3 mt-2" id="options${parentId}" style="border:3px solid #3e416d;border-radius:6px;">
-                                                                        <div class="drag-option btn bg-primary text-white m-1" contentEditable="true" data-target="drag-1">Option</div>
-                                                                    </div>
-                                                                    <div class="d-flex flex-column"><div class="align-self-end"><button class="btn text-white bg-success btn-success form-control add_drag_option" style="margin-top: 10px; " id="add_dragoption${parentId}">Add drag option</button></div></div>
-                                                                </div> <!-- end column option -->
-
-                                                            </div>
-
-                                                        </div>
                                                     </div>
                     
                                                     <!-- answer keys -->
-                                                    {{-- <div class="row d-flex align-items-center mt-3">
+                                                    <div class="row d-flex align-items-center mt-3">
                                                         <div class="col-12">
                                                             <h5>Answer Keys:</h5>
                                                             <div class="row">
                                                                 <div class="col-12">
                                                                     <div class="btn bg-success text-white m-1" data-answer-key-id="12121">Answer 1</div><span class="rm-answer-key" id="121212">&times;</span>
                                                                     <div class="btn bg-success text-white m-1" data-answer-key-id="12121">Answer 1</div><span class="rm-answer-key" id="121212">&times;</span>
-                                                                    <div class="btn bg-success text-white m-1" data-answer-key-id="12121">Answer 1</div><span class="rm-answer-key" id="121212">&times;</span>
+                                                                    <div class="btn bg-warning text-dark m-1" data-answer-key-id="12121">+ Add Answer</div>
                                                                 </div>
                                                             </div>
-                                                            <div class="input-group  input-group-sm mt-3 mb-3">
+                                                            {{-- <div class="input-group  input-group-sm mt-3 mb-3">
                                                                 <input type="text" class="form-control" placeholder="Type your answer for this question here" aria-label="Type your answer for this question here" aria-describedby="basic-addon2">
                                                                 <div class="input-group-append">
                                                                 <button class="btn btn-warning text-dark" type="button">Add Answer</button>
                                                                 </div>
-                                                            </div>
+                                                            </div> --}}
                                                         </div>
-                                                    </div> --}}
+                                                    </div>
                     
                                                     <!-- points -->
-                                                    {{-- <div class="row d-flex align-items-center mt-3">
+                                                    <div class="row d-flex align-items-center mt-3">
                                                         <div class="col-12">
                                                             <h5>Points:</h5>
-                                                            <div class="btn bg-success text-white m-1" data-points-id="321321">5 point(s)</div><span class="rm-points" id="321321">&times;</span>
-                                                            <div class="input-group  input-group-sm mb-3 mt-3">
-                                                                <input type="text" class="form-control" placeholder="Type the point(s) for this question here" aria-label="Type the point(s) for this question here" aria-describedby="basic-addon2">
-                                                                <div class="input-group-append">
-                                                                <button class="btn btn-warning text-dark" type="button">Add Point(s)</button>
-                                                                </div>
-                                                            </div>
+                                                            <div class="btn bg-success text-white m-1" data-points-id="321321">5 point(s)</div>
                                                         </div>
-                                                    </div> --}}
+                                                    </div>
                                                 </li> <!-- end question -->
                     
                                             </ol> <!-- end ordered list -->
@@ -287,7 +282,7 @@
                                                     <div class="input-group mb-3">
                                                         <input type="text" class="form-control" placeholder="Type your question here" aria-label="Type your question  here" aria-describedby="basic-addon2">
                                                         <div class="input-group-append">
-                                                        <button class="btn btn-primary" type="button">Add Question</button>
+                                                        <button class="btn btn-warning text-dark" type="button">Add Question</button>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -582,7 +577,7 @@
                                                                 <div class="input-group mb-3">
                                                                     <input type="text" class="form-control" placeholder="Type your question here" aria-label="Type your question  here" aria-describedby="basic-addon2">
                                                                     <div class="input-group-append">
-                                                                    <button class="btn btn-primary" type="button">Add Question</button>
+                                                                    <button class="btn btn-warning text-dark" type="button">Add Question</button>
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -686,15 +681,12 @@
                                 <div class="row">
                                     <div class="col-sm-6">
                                         ${choicesHtml}
-                                    </div>
+                                    </div> <!-- end options -->
                                 </div>
                                 <div class="row mt-3">
                                     <div class="col-12">
                                         <div class="input-group  input-group-sm mb-3">
-                                            <input id="add-option-${question.id}" type="text" class="form-control" placeholder="Type your option here" aria-label="Type your option here" aria-describedby="basic-addon2">
-                                            <div class="input-group-append">
-                                                <button class="btn btn-warning text-dark" type="button">Add Option</button>
-                                            </div>
+                                            <div class="btn bg-warning text-dark m-1" data-answer-key-id="12121">+ Add Option</div>
                                         </div>
                                     </div>
                                 </div>
@@ -707,13 +699,8 @@
                                 <h5>Answer Keys:</h5>
                                 <div class="row">
                                     <div class="col-12">
+                                        <div class="btn bg-warning text-dark m-1" data-answer-key-id="12121">+ Add Answer</div>
                                         ${answersHtml}
-                                    </div>
-                                </div>
-                                <div class="input-group  input-group-sm mt-3 mb-3">
-                                    <input id="add-answer-${question.id}" type="text" class="form-control" placeholder="Type your answer for this question here" aria-label="Type your answer for this question here" aria-describedby="basic-addon2">
-                                    <div class="input-group-append">
-                                        <button class="btn btn-warning text-dark" type="button">Add Answer</button>
                                     </div>
                                 </div>
                             </div>
@@ -723,13 +710,7 @@
                         <div class="row d-flex align-items-center mt-3">
                             <div class="col-12">
                                 <h5>Points:</h5>
-                                <div class="btn bg-success text-white m-1" data-points-id="${question.id}">${question.points} point(s)</div><span class="rm-points" id="${question.id}">&times;</span>
-                                <div class="input-group  input-group-sm mb-3 mt-3">
-                                    <input type="text" class="form-control" placeholder="Type the point(s) for this question here" aria-label="Type the point(s) for this question here" aria-describedby="basic-addon2">
-                                    <div class="input-group-append">
-                                        <button class="btn btn-warning text-dark" type="button">Add Point(s)</button>
-                                    </div>
-                                </div>
+                                <div class="btn bg-success text-white m-1" data-points-id="${question.id}">${question.points} point(s)</div>
                             </div>
                         </div>
 
