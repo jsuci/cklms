@@ -545,7 +545,7 @@
                     async function loadData() {
                             try {
                                 const data = await $.ajax({
-                                url: '/studentQuizContentattempt/' + selectedQuiz + '/' + '{{$classroomid}}' + '/',
+                                url: '/studentQuizContentattempt/' + selectedQuiz + '/' + '{{$classroomid}}',
                                 data: {recordid : recordid},
                                 type: 'GET'
                             });

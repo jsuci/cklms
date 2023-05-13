@@ -82,15 +82,15 @@ class StudentBookController extends Controller
 
 
 
-            $quizQuestions = DB::table('lessonquizquestions')
-                        ->where('lessonquizquestions.deleted','0')
-                        ->where('quizid', $quizInfo->id)
-                        ->select(
-                            'lessonquizquestions.id',
-                            'lessonquizquestions.question',
-                            'lessonquizquestions.typeofquiz'
-                        )
-                        ->get();
+        $quizQuestions = DB::table('lessonquizquestions')
+                    ->where('lessonquizquestions.deleted','0')
+                    ->where('quizid', $quizInfo->id)
+                    ->select(
+                        'lessonquizquestions.id',
+                        'lessonquizquestions.question',
+                        'lessonquizquestions.typeofquiz'
+                    )
+                    ->get();
 
             foreach($quizQuestions as $item){
 
@@ -125,8 +125,6 @@ class StudentBookController extends Controller
                                     ->get();
 
                     $item->drop = $dropquestion;
-
-
 
                 }
 
@@ -209,6 +207,9 @@ class StudentBookController extends Controller
             // $quizAnswersInfo = collect( $quizAnswersInfo)->groupBy('questionid');
 
             // return $quizAnswersInfo;
+
+
+            // dd($quizQuestions);
 
             return view('global.viewbook.quizcontent.studentquizcontent')
                         ->with('quizInfo',$quizInfo)

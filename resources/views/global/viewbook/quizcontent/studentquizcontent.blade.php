@@ -33,63 +33,48 @@
                 
                     @foreach($quizQuestions as $key=>$item)
                         @if($item->typeofquiz == 1)
+                            <!-- multiple choice -->
+                                <div class="card mt-5 editcontent" id="quiz-question-{{$item->id}}">
+                                    <div class="card-body ">
+                                        <p class="question" data-question-type="{{$item->typeofquiz}}">{{$key+=1}}. {{$item->question}}</p>
 
-                                <!-- multiple choice -->
-                                
-                                    <div class="card mt-5 editcontent" id="quiz-question-{{$item->id}}">
-                                        <div class="card-body ">
-                            
-                                                    
-                                                    <p class="question" data-question-type="{{$item->typeofquiz}}">{{$key+=1}}. {{$item->question}}</p>
+                                        @php
+                                        $choices = DB::table('lessonquizchoices')
+                                            ->where('questionid',$item->id)
+                                            ->where('deleted',0)
+                                            ->select('description','id','answer', 'sortid')
+                                            ->orderBy('sortid')
+                                            ->get();
+                                        @endphp
 
-                                                    @php
-
-
-                                                    $choices = DB::table('lessonquizchoices')
-                                                        ->where('questionid',$item->id)
-                                                        ->where('deleted',0)
-                                                        ->select('description','id','answer', 'sortid')
-                                                        ->orderBy('sortid')
-                                                        ->get();
-
-
-                                                    @endphp
-                                                    
-
-                                                    @foreach ($choices as $questioninfo)
-                                                    <div class="form-check mt-2">
-                                                        <input data-question-type="{{$item->typeofquiz}}" data-question-id="{{  $item->id }}" id="{{ $questioninfo->id}}" class="answer-field form-check-input" type="radio" name="{{ $item->id }}" value="{{ $questioninfo->id}}">
-                                                        <label for="{{ $item->id }}" class="form-check-label">
-                                                            {{$questioninfo->description}}
-                                                        </label>
-                                                    </div>
-                                                    @endforeach
-                                
-                                            
+                                        @foreach ($choices as $questioninfo)
+                                        <div class="form-check mt-2">
+                                            <input data-question-type="{{$item->typeofquiz}}" data-question-id="{{  $item->id }}" id="{{ $questioninfo->id}}" class="answer-field form-check-input" type="radio" name="{{ $item->id }}" value="{{ $questioninfo->id}}">
+                                            <label for="{{ $item->id }}" class="form-check-label">
+                                                {{$questioninfo->description}}
+                                            </label>
                                         </div>
+                                        @endforeach
                                     </div>
+                                </div>
                             @endif
                         
 
                             @if($item->typeofquiz == 2)
-                        <div class="card mt-5 editcontent">
-                            <div class="card-body">
-                                
+                                <div class="card mt-5 editcontent">
+                                    <div class="card-body">
                                         <p class="question" data-question-type="{{$item->typeofquiz}}">{{$key+=1}}. {{$item->question}}</p>
                                         <input type="text" data-question-type="{{$item->typeofquiz}}" data-question-id="{{ $item->id}}" id="{{ $questioninfo->id}}" class="answer-field form-control mt-2" placeholder="Answer here" >
-
-                            </div>
-                        </div>
+                                    </div>
+                                </div>
                             @endif
 
 
                             @if($item->typeofquiz == 3)
                                 <div class="card mt-5 editcontent">
                                     <div class="card-body">
-                                        
-                                                <p class="question" data-question-type="{{$item->typeofquiz}}">{{$key+=1}}. {{$item->question}}</p>
-                                                <textarea data-question-type="{{$item->typeofquiz}}" data-question-id="{{ $item->id}}" id="{{ $questioninfo->id}}" class="answer-field form-control mt-2"type="text"></textarea>
-
+                                        <p class="question" data-question-type="{{$item->typeofquiz}}">{{$key+=1}}. {{$item->question}}</p>
+                                        <textarea data-question-type="{{$item->typeofquiz}}" data-question-id="{{ $item->id}}" id="{{ $questioninfo->id}}" class="answer-field form-control mt-2"type="text"></textarea>
                                     </div>
                                 </div>
                             @endif
@@ -98,14 +83,10 @@
                             @if($item->typeofquiz == 4)
                                 <div class="card mt-5 editcontent">
                                     <div class="card-body">
-                                        
-                                                <p>Instruction. {!! $item->question !!}</p>
-
+                                        <p>Instruction. {!! $item->question !!}</p>
                                     </div>
                                 </div>
                             @endif
-
-                        
 
 
                             @if($item->typeofquiz == 5)
@@ -136,15 +117,28 @@
                                                 @endphp
                                         
                                                 <p>
-
                                                     {{$items->sortid}}. {!! $questionWithInput !!}
-
                                                 </p>
                                             @endforeach
 
                                         </div>
                                     </div>
                             @endif
+
+
+                            @if($item->typeofquiz == 6)
+                                <!-- upload image -->
+                                <div class="card mt-5 editcontent">
+                                    <div class="card-body">
+                                        <p>{{ $item->question }}</p>
+                                        <div class="form-group">
+                                            <input class="form-control-file imageInput" data-question-type="{{$item->typeofquiz}}" data-question-id="{{ $item->id}}" id="{{ $questioninfo->id}}" type="file" accept="image/*">
+                                            <img id="preview" src="#" alt="Preview" style="max-width: 250px; max-height: 250px;display:none;">
+                                        </div>
+                                    </div>
+                                </div>
+                            @endif
+
                         @endforeach
 
                         <div class="save mb-5">
@@ -156,7 +150,6 @@
                         </div>
                     
                     <button id="scroll-to-bottom" class="btn btn-dark btn-lg mb-3 mr-3" style= "
-
                         position: fixed;
                         bottom: 0px;
                         left: 10px;
@@ -171,94 +164,87 @@
 
     $(document).ready(function(){
 
-                console.log("hello world")
+        const Toast = Swal.mixin({
+            toast: true,
+            position: 'top-end',
+            showConfirmButton: false,
+            timer: 3000,
+            timerProgressBar: true,
+            didOpen: (toast) => {
+                toast.addEventListener('mouseenter', Swal.stopTimer)
+                toast.addEventListener('mouseleave', Swal.resumeTimer)
+            }
+        });
 
-                var STUDENT_ID = 2;
-
-                const Toast = Swal.mixin({
-                    toast: true,
-                    position: 'top-end',
-                    showConfirmButton: false,
-                    timer: 3000,
-                    timerProgressBar: true,
-                    didOpen: (toast) => {
-                        toast.addEventListener('mouseenter', Swal.stopTimer)
-                        toast.addEventListener('mouseleave', Swal.resumeTimer)
-                    }
-                });
-
-                    function previewImage(input) {
-                        if (input.files && input.files[0]) {
-                            var reader = new FileReader();
-                            reader.onload = function (e) {
-                                $('#preview').attr('src', e.target.result);
-                                $('#preview').show();
-                            }
-                            reader.readAsDataURL(input.files[0]);
-                        }
-                    }
-
-                function autoSaveAnswer(thisElement) {
-                    // Get the answer data
-                    var quizId = $('#quiz-info').data('quizid');
-                    var headerId = $('.card-body').data('headerid');
-                    var answer = $(thisElement).val();
-                    var questionId = $(thisElement).data('question-id');
-                    var questionType = $(thisElement).data('question-type');
-
-
-                    
-
-                    console.log(`student answer: ${answer}, question-id: ${questionId}, question-type: ${questionType}`)
-
-                    //Send an AJAX request to save the answer data
-                    $.ajax({
-                        url: '/save-answer',
-                        method: 'GET',
-                        data: {
-                        chapterquizid : quizId,
-                        answer: answer,
-                        headerId: headerId,
-                        questionType: questionType,
-                        question_id: questionId
-
-                        },
-                        success: function(response) {
-                            if (response == 1){
-                                console.log("Answer Inserted successfully");
-                            }else{
-                                console.log("Answer Updated successfully");
-                            }
-                        
-                            //Handle the response from the server if needed
-                        }
-                    });
+        function previewImage(input) {
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+                reader.onload = function (e) {
+                    $('#preview').attr('src', e.target.result);
+                    $('#preview').show();
                 }
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
 
-                // drag and drop
-                $( ".drag-option" ).draggable({
-                    helper: "clone",
-                    revertDuration: 100,
-                    revert: 'invalid'
-                });
+        function autoSaveAnswer(thisElement) {
+            // Get the answer data
+            var quizId = $('#quiz-info').data('quizid');
+            var headerId = $('.card-body').data('headerid');
+            var answer = $(thisElement).val();
+            var questionId = $(thisElement).data('question-id');
+            var questionType = $(thisElement).data('question-type');
 
-                $( ".drop-option" ).droppable({
-                    drop: function(event, ui) {
 
-                        var dragElement = $(ui.draggable)
-                        var dropElement = $(this)
+            console.log(`student answer: ${answer}, question-id: ${questionId}, question-type: ${questionType}`)
 
-                        dropElement.val(dragElement.text())
-                        dropElement.addClass('bg-primary text-white')
-                        dropElement.prop( "disabled", true );
-
-                        dragElement.removeClass('bg-primary')
-                        dragElement.addClass('bg-dark')
-
-                        // auto save answer
-                        autoSaveAnswer(dropElement)
+            //Send an AJAX request to save the answer data
+            $.ajax({
+                url: '/save-answer',
+                method: 'GET',
+                data: {
+                chapterquizid : quizId,
+                answer: answer,
+                headerId: headerId,
+                questionType: questionType,
+                question_id: questionId
+                },
+                success: function(response) {
+                    if (response == 1){
+                        console.log("Answer Inserted successfully");
+                    }else{
+                        console.log("Answer Updated successfully");
                     }
-                });
+
+                    //Handle the response from the server if needed
+                }
+            });
+        }
+
+        // drag and drop
+        $( ".drag-option" ).draggable({
+            helper: "clone",
+            revertDuration: 100,
+            revert: 'invalid'
+        });
+
+        $( ".drop-option" ).droppable({
+            drop: function(event, ui) {
+
+                var dragElement = $(ui.draggable)
+                var dropElement = $(this)
+
+                dropElement.val(dragElement.text())
+                dropElement.addClass('bg-primary text-white')
+                dropElement.prop( "disabled", true );
+
+                dragElement.removeClass('bg-primary')
+                dragElement.addClass('bg-dark')
+
+                // auto save answer
+                autoSaveAnswer(dropElement)
+            }
+        });
 
         // select choice by clicking label
         $("label").click(function() {
@@ -275,7 +261,6 @@
         });
 
         // save all answers quiz
-
         $('#save-quiz').on('click', function() {
             var isvalid = true
 
@@ -362,12 +347,9 @@
         });
 
         // show preview image
-
-        $(document).on('change', '#imageInput', function(){
+        $(document).on('change', '.imageInput', function(){
 			previewImage(this);
         });
-
-
 
         $(document).on('click', '.editcontent', function(){
                     $('.ui-helper-hidden-accessible').remove();
@@ -386,5 +368,8 @@
                     });
 
                 });
-    })
+    
+        })
+
+
     </script>
