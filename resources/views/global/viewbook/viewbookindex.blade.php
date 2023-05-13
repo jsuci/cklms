@@ -207,6 +207,7 @@
 
 <body style="">
 
+
     <div id="wrapper">
         @if(auth()->user()->type == 2)
             <div id="sched_modal" uk-modal> 
