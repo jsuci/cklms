@@ -291,7 +291,6 @@ class GenerateAccountsController extends Controller
                 ->with('sycount', $sycount)
                 ->with('tablesnotfound', $tablesnotfound);
         }
-        
         // return view('cklms.index');
 
     }

@@ -204,25 +204,19 @@ class BookController extends Controller
                 array_push($contents,$lesson);
             }
         }
-        $quizzes = DB::table('chapterquiz')
+        $quizzes = DB::table('lesssonquiz')
             ->where('chapterid', $request->get('id'))
             ->where('deleted','0')
             ->get();
-
-
         if(count($quizzes)>0)
         {
             foreach($quizzes as $quiz)
             {
-
-                if ($quiz->type == 1 || $quiz->type == 2) {
-                    // $quiz->type = 'q';
-                    array_push($contents,$quiz);
-                }
+                $quiz->type = 'q';
+                array_push($contents,$quiz);
             }
         }
         $contents = collect($contents)->sortBy('createddatetime');
-
         $contents = $contents->values()->alL();
         $sortdata = array();
         $sortype = 0; //0 = datecreated; 1 = sortid;
@@ -243,7 +237,7 @@ class BookController extends Controller
                     }
                     if($lessonvalue->type == 'q')
                     {
-                        Db::table('chapterquiz')
+                        Db::table('lesssonquiz')
                             ->where('id', $lessonvalue->id)
                             ->update([
                                 'sortid' => $lessonkey+1
@@ -256,7 +250,6 @@ class BookController extends Controller
                 array_push($sortdata,$lessonvalue);
             }
         }
-
         if($sortype == 0)
         {
             return  collect($sortdata)->sortBy('createdatetime')->values()->all();
@@ -399,484 +392,286 @@ class BookController extends Controller
     }
 
 
-    // quiz
-    public function addquiz(Request $request)
+
+    public function addquiz($id, Request $request)
     {
-        
-        $quizid = DB::table('chapterquiz')
-            ->insertGetId([
-                'title'=>$request->get('title'),
-                'description'=>$request->get('description'),
-                'chapterid'=>$request->get('chapterid'),
-                'type'=>$request->get('type'),
-                'createdby'=>auth()->user()->id,
-                'createddatetime'=>\Carbon\Carbon::now('Asia/Manila')
-            ]);
+        // date_default_timezone_set('Asia/Manila');
+        // $quizid = DB::table('chapterquiz')
+        //     ->insertGetId([
+        //         'title'     => $request->get('title'),
+        //         'description'     => $request->get('description'),
+        //         'chapterid'    => $request->get('chapterid'),
+        //         'type'    => $request->get('type'),
+        //         'createdby' => auth()->user()->id,
+        //         'createddatetime'   => date('Y-m-d H:i:s')
+        //     ]);
 
 
-        $quiz = DB::table('chapterquiz')
-            ->where('id', $quizid)
-            ->where('deleted', 0)
-            ->get()
+
+        $chapterquizinfo = DB::table('lesssonquiz')
+            ->where('id', $id)
             ->first();
 
-        $newtitle = $quiz->title . ' ' . $quiz->id;
-
-        // update title to add id
-        DB::table('chapterquiz')
-            ->where('id',$quizid)
-            ->where('deleted', 0)
-            ->take(1)
-            ->update([
-                'title'=>$newtitle,
-                'updatedby'=>auth()->user()->id,
-                'updateddatetime'=>\Carbon\Carbon::now('Asia/Manila')
-            ]);
-
-        return $quizid;
-
-    }
-    public function getquiz($id)
-    {
-        $data = DB::table('chapterquiz')
-            ->where('id', $id)
-            ->where('deleted', 0)
-            ->get();
-        
-        if( count($data) > 0) {
-            return view('admin.adminquiz.adminquiz', [
-                'data' => $data
-            ]);
-        } else {
-            return redirect('/home');
-        }
-
-    }
-    public function deletequiz(Request $request)
-    {
-        $id = $request->get('id');
-        
-        try{
-
-            // Check if quiz is in used
-            // $check = DB::table('rooms')
-            //             ->where('buildingid',$id)
-            //             ->where('deleted',0)
-            //             ->count();
-
-            // if($check > 0){
-            //     return array((object)[
-            //         'status'=>0,
-            //         'message'=>'Building in used',
-            //         'icon'=>'error'
-            //     ]);
-            // }
-
-            DB::table('chapterquiz')
-                ->where('id',$id)
-                ->take(1)
-                ->update([
-                    'deleted'=>1,
-                    'deletedby'=>auth()->user()->id,
-                    'deleteddatetime'=>\Carbon\Carbon::now('Asia/Manila')
-                ]);
-
-            return array((object)[
-                'status'=>1,
-                'message'=>'Quiz Deleted',
-                'icon'=>'success',
-            ]);
-    
-        
-        }catch(\Exception $e){
-            return back()->with('error', 'An error occurred: ' . $e->getMessage());
-        }
-    }
-    public function editquiz(Request $request)
-    {
-        $quizid = $request->get('id');
-        $title = $request->get('title');
-        $description = $request->get('description');
-        
-        try{
-
-
-            if ($quizid && $title) {
-                DB::table('chapterquiz')
-                ->where('id',$quizid)
-                ->take(1)
-                ->update([
-                    'title'=>$title,
-                    'updatedby'=>auth()->user()->id,
-                    'updateddatetime'=>\Carbon\Carbon::now('Asia/Manila')
-                ]);
-            }
-
-            if ($quizid && $description) {
-                DB::table('chapterquiz')
-                ->where('id',$quizid)
-                ->take(1)
-                ->update([
-                    'description'=>$description,
-                    'updatedby'=>auth()->user()->id,
-                    'updateddatetime'=>\Carbon\Carbon::now('Asia/Manila')
-                ]);
-            }
-
-
-            return array((object)[
-                'status'=>1,
-                'message'=>'Updated quiz successfully',
-                'icon'=>'success',
-            ]);
-    
-        
-        }catch(\Exception $e){
-            return back()->with('error', 'An error occurred: ' . $e->getMessage());
-        }
-    }
-
-    // quiz header
-    public function deleteheader(Request $request)
-    {
-
-        $headerid = $request->get('headerid');
-
-        // delete header
-        DB::table('chapterquizheaders')
-            ->where('deleted', 0)
-            ->where('id', $headerid)
-            ->update([
-                'deleted'=>1,
-                'deletedby'=>auth()->user()->id,
-                'deleteddatetime'=>\Carbon\Carbon::now('Asia/Manila')
-        ]);
-
-        // delete all questions associated to a given header
-        $questions = DB::table('chapterquizquestions')
-            ->where('headerid', $headerid)
-            ->get();
-
-        foreach ($questions as $question) {
-            DB::table('chapterquizquestions')
-                ->where('deleted', 0)
-                ->where('id', $question->id)
-                ->update([
-                    'deleted'=>1,
-                    'deletedby'=>auth()->user()->id,
-                    'deleteddatetime'=>\Carbon\Carbon::now('Asia/Manila')
-                ]);
-        }
-
-        return array((object)[
-            'status'=>1,
-            'message'=>'Header and questions deleted successfully',
-            'icon'=>'success',
-        ]);
-    }
-    public function addheader(Request $request)
-    {
-        $question = $request->get('question');
-        $quizid = $request->get('quizid');
-        $type = $request->get('type');
-        $points = $request->get('points');
-
-        // create header
-        $headerid = DB::table('chapterquizheaders')
-            ->insertGetId([
-                'quizid'=>$quizid,
-                'type'=>$type,
-                'createdby'=>auth()->user()->id,
-                'createddatetime'=>\Carbon\Carbon::now('Asia/Manila')
-            ]);
-
-        // create question
-        $questionid = DB::table('chapterquizquestions')
-            ->insertGetId([
-                'question'=>$question,
-                'type'=>$type,
-                'headerid'=>$headerid,
-                'quizid'=>$quizid,
-                'points'=>$points,
-                'createdby'=>auth()->user()->id,
-                'createddatetime'=>\Carbon\Carbon::now('Asia/Manila')
-            ]);
-
-        return $questionid;
-    }
-    public function editheader(Request $request)
-    {
-        $headerid = $request->get('headerid');
-        $type = $request->get('type');
-
-        // edit header
-        DB::table('chapterquizheaders')
-            ->where('deleted', 0)
-            ->where('id', $headerid)
-            ->update([
-                'type'=>$type,
-                'updatedby'=>auth()->user()->id,
-                'updateddatetime'=>\Carbon\Carbon::now('Asia/Manila')
-        ]);
-
-        return array((object)[
-            'status'=>1,
-            'message'=>'Header edited successfully',
-            'icon'=>'success',
-        ]);
-    }
-
-
-    // quiz questions
-    public function addquestion(Request $request)
-    {
-
-        $question = $request->get('question');
-        $headerid = $request->get('headerid');
-        $quizid = $request->get('quizid');
-        $type = $request->get('type');
-        $points = $request->get('points');
-        
-        $questionid = DB::table('chapterquizquestions')
-            ->insertGetId([
-                'question'=>$question,
-                'type'=>$type,
-                'headerid'=>$headerid,
-                'quizid'=>$quizid,
-                'points'=>$points,
-                'createdby'=>auth()->user()->id,
-                'createddatetime'=>\Carbon\Carbon::now('Asia/Manila')
-            ]);
-
-        return $questionid;
-
-    }
-    public function getquestions(Request $request)
-    {
-        $quizid = $request->get('quizid');
-    
-        $questions = DB::table('chapterquizquestions')
-            ->where('quizid', $quizid)
-            ->where('deleted', 0)
-            ->select('id', 'headerid', 'quizid', 'question', 'points', 'type')
-            ->get();
-    
-        $choices = DB::table('chapterquizchoices')
-            ->where('deleted', 0)
-            ->select('id', 'questionid', 'description')
-            ->get();
-    
-        $answers = DB::table('chapterquizqanswers')
-            ->where('deleted', 0)
-            ->select('id', 'questionid', 'answer', 'type')
-            ->get();
-    
-        $headers = DB::table('chapterquizheaders')
-            ->where('quizid', $quizid)
-            ->select('id', 'quizid', 'type')
-            ->get();
-    
-        $grouped_questions = $questions->groupBy('headerid');
-    
-        $combined = collect([]);
-    
-        foreach ($grouped_questions as $headerid => $questions) {
-            $header = $headers->where('id', $headerid)->first();
-            $grouped_choices = $choices->whereIn('questionid', $questions->pluck('id')->toArray());
-            $grouped_answers = $answers->whereIn('questionid', $questions->pluck('id')->toArray());
-            $combined->push([
-                'headerid' => $header->id,
-                'type' => $header->type,
-                'quizid' => $header->quizid,
-                'questions' => $questions->map(function ($question) use ($grouped_choices, $grouped_answers) {
-                    $choices_for_question = $grouped_choices->where('questionid', $question->id);
-                    $answers_for_question = $grouped_answers->where('questionid', $question->id);
-                    return [
-                        'id' => $question->id,
-                        'quizid' => $question->quizid,
-                        'question' => $question->question,
-                        'points' => $question->points,
-                        'type' => $question->type,
-                        'choices' => $choices_for_question->toArray(),
-                        'answers' => $answers_for_question->toArray(),
-                    ];
-                })->toArray(),
-            ]);
-        }
-
-        return $combined;
-    }
-    
-    public function deletequestion(Request $request)
-    {
-        $id = $request->get('id');
-        
-        try{
-
-            // Checking before delete
-            // $check = DB::table('rooms')
-            //             ->where('buildingid',$id)
-            //             ->where('deleted',0)
-            //             ->count();
-
-            // if($check > 0){
-            //     return array((object)[
-            //         'status'=>0,
-            //         'message'=>'Building in used',
-            //         'icon'=>'error'
-            //     ]);
-            // }
-
-            DB::table('chapterquizquestions')
-                ->where('id',$id)
-                ->take(1)
-                ->update([
-                    'deleted'=>1,
-                    'deletedby'=>auth()->user()->id,
-                    'deleteddatetime'=>\Carbon\Carbon::now('Asia/Manila')
-                ]);
-
-            return array((object)[
-                'status'=>1,
-                'message'=>'Question deleted',
-                'icon'=>'success',
-            ]);
-    
-        
-        }catch(\Exception $e){
-            return back()->with('error', 'An error occurred: ' . $e->getMessage());
-        }
-    }
-
-
-    // quiz question type
-    public function getquestiontype(Request $request)
-    {
-        $questiontype = DB::table('chapterquizquestiontype')
-            ->where('deleted','0')
-            ->select(
-                'id as id',
-                'description as text'
-            )
-            ->get();
-
-        return $questiontype;
-    }
-
-
-    // coverage
-    public function getcoverage(Request $request)
-    {
-
-        $quizid = $request->get('quizid');
-
-        try {
-            // Query builder code here
-            $coverage = DB::table('chapterquizcoverage')
-                ->where('quizid', $quizid)
+        $quizquestions = DB::table('lessonquizquestions')
+                ->where('quizid', $id)
                 ->where('deleted', 0)
                 ->get();
 
 
-            // dd($coverage);
-            return $coverage;
-
-        } catch (\Exception $e) {
-            // Handle the exception here
-            return back()->with('error', 'An error occurred: ' . $e->getMessage());
+        if($chapterquizinfo->title == null || $chapterquizinfo->title == ""){
+            $chapterquizinfo->title = "Untitled Quiz";
         }
-        
-    }
-    public function addcoverage(Request $request)
-    {
-        $quizid = $request->get('quizid');
-        $lessonid = $request->get('lessonid');
-        $lessontitle = $request->get('lessontitle');
 
-        try {
-
-            $check = DB::table('chapterquizcoverage')
-                        ->where('deleted',0)
-                        ->where('quizid',$quizid)
-                        ->where('lessonid',$lessonid)
-                        ->count();
-
-            if($check > 0){
-                return array((object)[
-                    'status'=>0,
-                    'message'=>'Coverage already exist',
-                    'icon'=>'error',
-                ]);
-            }
-
-            // Query builder code here
-            $addcoverage = DB::table('chapterquizcoverage')
-                ->insertGetId([
-                    'quizid'=>$quizid,
-                    'lessonid'=>$lessonid,
-                    'lessontitle'=>$lessontitle,
-                    'createdby'=>auth()->user()->id,
-                    'createddatetime'=>\Carbon\Carbon::now('Asia/Manila')
-                ]);
-
-
-        } catch (\Exception $e) {
-            // Handle the exception here
-            return back()->with('error', 'An error occurred: ' . $e->getMessage());
+        if($chapterquizinfo->description == null || $chapterquizinfo->description == ""){
+            $chapterquizinfo->description = "";
         }
+
+
+        // return collect($chapterquizinfo);
+
+        return view('admin.adminquiz.quizindex')
+        ->with('id',$id)
+        ->with('quizquestions',$quizquestions)
+        ->with('quiz',$chapterquizinfo);
     }
-    public function deletecoverage(Request $request)
+
+    public function createquiz(Request $request)
     {
-        $quizid = $request->get('quizid');
-        $lessonid = $request->get('lessonid');
 
-        try {
 
-            // check before deleting
-            // $check = DB::table('rooms')
-            //             ->where('buildingid',$id)
-            //             ->where('deleted',0)
-            //             ->count();
+        date_default_timezone_set('Asia/Manila');
+        $id = DB::table('lesssonquiz')->insertGetId([
+            'bookid' => $request->get('bookid'),
+            'chapterid' => $request->get('chapterid'),
+            'createddatetime' => date('Y-m-d H:i:s'),
+        ]);
 
-            // if($check > 0){
-            //     return array((object)[
-            //         'status'=>0,
-            //         'message'=>'Building in used',
-            //         'icon'=>'error'
-            //     ]);
-            // }
+        return $id;
+    }
 
-            // Query builder code here
-            $deletecoverage = DB::table('chapterquizcoverage')
-                ->where('quizid',$quizid)
-                ->where('lessonid',$lessonid)
-                ->where('deleted',0)
-                ->take(1)
-                ->update([
-                    'deleted'=>1,
-                    'deletedby'=>auth()->user()->id,
-                    'deleteddatetime'=>\Carbon\Carbon::now('Asia/Manila')
-                ]);
+    public function delquestion(Request $request)
+    {
 
-            return array((object)[
-                'status'=>1,
-                'message'=>'Quiz coverage deleted',
-                'icon'=>'success',
-                'data'=>$deletecoverage
+
+        date_default_timezone_set('Asia/Manila');
+        DB::table('lessonquizquestions')
+            ->where('id', $request->get('id'))
+            ->update([
+                'deleted'         => 1
+                    ]);
+
+        return 1;
+    }
+
+    public function getquiz(Request $request)
+    {
+
+
+        date_default_timezone_set('Asia/Manila');
+        $quizlist = DB::table('lesssonquiz')
+            ->where('bookid', $request->get('bookid'))
+            ->where('chapterid', $request->get('chapterid'))
+            ->get();
+
+        return $quizlist;
+    }
+
+
+    public function createdescription(Request $request)
+    {
+
+
+        DB::table('lesssonquiz')
+            ->where('id', $request->get('id'))
+            ->update([
+                'title'         => $request->get('title'),
+                'coverage'      => $request->get('coverage'),
+                'description'   => $request->get('description')
             ]);
 
-        } catch (\Exception $e) {
-            // Handle the exception here
-            return back()->with('error', 'An error occurred: ' . $e->getMessage());
-        }
+        return 1;
     }
+    
 
-
-    // Move this to student controller
-    public function takequiz(Request $request)
+    public function addquestion(Request $request)
     {
-        return view('admin.adminquiz.studentquiz');
+
+
+        date_default_timezone_set('Asia/Manila');
+        $id = DB::table('lessonquizquestions')->insertGetId([
+            'quizid' => $request->get('quizid'),
+            'createddatetime' => date('Y-m-d H:i:s'),
+        ]);
+
+        return $id;
     }
+
+
+    public function lessonSelect(Request $request)
+    {
+        $page = $request->get('page')*10;
+
+        $chapter = DB::table('lesssonquiz')->where('id',$request->get('quizId'))->value('chapterid');
+
+        $lessons = DB::table('lessons')
+            ->where('chapterid', $chapter)
+            ->where('deleted', 0)
+            ->select(
+                                    'lessons.title as id',
+                                    'lessons.title as text'
+                    )
+            ->take(10)
+            ->skip($page)
+            ->get();
+
+        $lessons_count = DB::table('lessons')
+        ->where('chapterid', $chapter)
+        ->where('deleted', 0)
+        ->count();
+
+
+
+            return @json_encode((object)[
+                    "results"=>$lessons,
+                    "pagination"=>(object)[
+                            "more"=>$lessons_count > ($page)  ? true :false
+                    ],
+                    "count_filtered"=>$lessons_count
+                ]);
+    }
+
+
+    public function createquestion(Request $request)
+    {
+
+        DB::table('lessonquizquestions')
+            ->where('id', $request->get('id'))
+            ->update([
+                'question'         => $request->get('question'),
+                'typeofquiz'   => $request->get('typeofquiz')
+            ]);
+
+        return 1;
+    }
+
+    public function delcoverage(Request $request)
+    {
+
+        DB::table('lesssonquiz')
+            ->where('id', $request->get('id'))
+            ->update([
+                'coverage'         => "",
+            ]);
+
+        return 1;
+    }
+
+    public function createdragoption(Request $request)
+    {
+
+        date_default_timezone_set('Asia/Manila');
+        $choice = DB::table('lesson_quiz_drag_option')
+            ->where('questionid', $request->get('questionid'))
+            ->where('sortid', $request->get('sortid'))
+            ->count();
+
+        if($choice == 0){
+        DB::table('lesson_quiz_drag_option')
+            ->insert([
+                    'sortid'            =>  $request->get('sortid'),
+                    'questionid'        =>  $request->get('questionid'),
+                    'description'       =>  $request->get('description'),
+                    'createddatetime'   => date('Y-m-d H:i:s')
+                ]);
+
+        }else{
+
+            DB::table('lesson_quiz_drag_option')
+                ->where('questionid', $request->get('questionid'))
+                ->where('sortid', $request->get('sortid'))
+                ->update([
+                    'questionid'             =>  $request->get('questionid'),
+                    'description'       =>  $request->get('description'),
+                    'updateddatetime'   => date('Y-m-d H:i:s')
+                ]);
+
+        }
+        
+
+        return 1;
+    }
+
+    public function createdropquestion(Request $request)
+    {
+
+        date_default_timezone_set('Asia/Manila');
+        $choice = DB::table('lesson_quiz_drop_question')
+            ->where('questionid', $request->get('questionid'))
+            ->where('sortid', $request->get('sortid'))
+            ->count();
+
+        if($choice == 0){
+        DB::table('lesson_quiz_drop_question')
+            ->insert([
+                    'sortid'            =>  $request->get('sortid'),
+                    'questionid'        =>  $request->get('questionid'),
+                    'question'       =>  $request->get('description'),
+                    'createddatetime'   => date('Y-m-d H:i:s')
+                ]);
+
+        }else{
+
+            DB::table('lesson_quiz_drop_question')
+                ->where('questionid', $request->get('questionid'))
+                ->where('sortid', $request->get('sortid'))
+                ->update([
+                    'questionid'             =>  $request->get('questionid'),
+                    'question'       =>  $request->get('description'),
+                    'updateddatetime'   => date('Y-m-d H:i:s')
+                ]);
+
+        }
+        
+
+        return 1;
+    }
+
+    public function createchoices(Request $request)
+    {
+        
+        date_default_timezone_set('Asia/Manila');
+        $choice = DB::table('lessonquizchoices')
+            ->where('questionid', $request->get('questionid'))
+            ->where('sortid', $request->get('sortid'))
+            ->count();
+
+        if($choice == 0){
+        DB::table('lessonquizchoices')
+            ->insert([
+                    'sortid'            =>  $request->get('sortid'),
+                    'questionid'        =>  $request->get('questionid'),
+                    'description'       =>  $request->get('description'),
+                    'createddatetime'   => date('Y-m-d H:i:s')
+                ]);
+
+                }else{
+
+                    DB::table('lessonquizchoices')
+                        ->where('questionid', $request->get('questionid'))
+                        ->where('sortid', $request->get('sortid'))
+                        ->update([
+                            'questionid'             =>  $request->get('questionid'),
+                            'description'       =>  $request->get('description'),
+                            'updatedatetime'   => date('Y-m-d H:i:s')
+                        ]);
+
+                }
+        
+
+        return 1;
+    }
+
+
     public function bookinfoupdate(Request $request)
     {
         // return $request->all();
@@ -1041,11 +836,17 @@ class BookController extends Controller
             return 'success';
         }
         if($request->get('contenttype') == 'quiz'){
-            DB::table('chapterquiz')
-                ->where('id', $request->get('id'))
-                ->update([
-                    'deleted' => 1
-                ]);
+            // DB::table('chapterquiz')
+            //     ->where('id', $request->get('id'))
+            //     ->update([
+            //         'deleted' => 1
+            //     ]);
+
+            DB::table('lesssonquiz')
+            ->where('id', $request->get('id'))
+            ->update([
+                'deleted' => 1
+            ]);
             return 'success';
         }
     }
@@ -1130,6 +931,7 @@ class BookController extends Controller
     
             }
             catch(\Exception $e){
+               
         
             }
                 // return basename($request->get('content'));
@@ -1191,5 +993,75 @@ class BookController extends Controller
             
             return '0';
         }
+    }
+
+
+    public function getquestion(Request $request)
+    {
+        $question = DB::table('lessonquizquestions')
+            ->where('id', $request->get('id'))
+            ->select('id','question')
+            ->where('deleted', 0)
+            ->first();
+
+        $question->choices = DB::table('lessonquizchoices')
+        ->where('questionid', $question->id)
+        ->select('id', 'questionid' , 'description')
+        ->orderBy('sortid')
+        ->get();
+
+        return response()->json($question);
+        
+    }
+
+
+    public function setAnswerKey(Request $request)
+    {
+        DB::table('lessonquizchoices')
+                ->where('questionid', $request->get('question_id'))
+                ->where('answer', 1)
+                ->update([
+                    'answer'   => '0'
+                ]);
+
+        
+        DB::table('lessonquizchoices')
+                ->where('id', $request->get('answer'))
+                ->where('questionid', $request->get('question_id'))
+                ->update([
+                    'answer'   => '1'
+                ]);
+
+    return 1;
+        
+    }
+
+    public function returneditquiz(Request $request)
+
+    {
+
+
+    $question = DB::table('lessonquizquestions')
+            ->where('id', $request->get('id'))
+            ->select('id','question')
+            ->where('deleted', 0)
+            ->first();
+
+    $question->choices = DB::table('lessonquizchoices')
+    ->where('questionid', $question->id)
+    ->select('id', 'questionid' , 'description' , 'answer')
+    ->orderBy('sortid')
+    ->get();
+
+    // foreach($question->choices as $item){
+    //     if($item->answer == 1){
+    //         $item->description.= '<span><i class="fa fa-check" style="color:rgb(7, 255, 7)" aria-hidden="true"></i></span>';
+    //     }
+    // }
+
+
+    return response()->json($question);
+    
+        
     }
 }

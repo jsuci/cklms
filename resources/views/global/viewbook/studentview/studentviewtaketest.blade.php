@@ -186,6 +186,7 @@
 
                 <div class="container-small">
 
+                    {{$quizinfo}}
 
                     <div class="bg-info uk-light uk-padding pb-0 rounded shadow">
                         <h2><strong>{{$quizinfo->title}}</strong>

@@ -137,39 +137,37 @@ Route::middleware(['auth', 'isAdministrator','isDefaultPass'])->group(function (
     Route::get('/adminviewbook/addpart', 'Admin\BookController@addpart');  
     Route::get('/adminviewbook/addchapter', 'Admin\BookController@addchapter');  
     Route::get('/adminviewbook/addlesson', 'Admin\BookController@addlesson');  
-
-    // FOR QUIZZES
-    Route::get('/adminviewbook/takequiz', 'Admin\BookController@takequiz');
-    Route::get('/adminviewbook/addquiz', 'Admin\BookController@addquiz');
-    Route::get('/adminviewbook/getquiz/{id}', 'Admin\BookController@getquiz');
-    Route::get('/adminviewbook/deletequiz', 'Admin\BookController@deletequiz');
-    Route::get('/adminviewbook/editquiz', 'Admin\BookController@editquiz');
-
-
-    // quiz questions
+    
+    //admin create quiz
+    Route::get('/adminviewbook/addquiz/{id}', 'Admin\BookController@addquiz');
+    Route::get('/adminviewbook/createquiz', 'Admin\BookController@createquiz'); 
+    Route::get('/adminviewbook/getquizlist', 'Admin\BookController@getquiz');  
+    Route::get('/adminviewbook/createquiztitle', 'Admin\BookController@createdescription'); 
     Route::get('/adminviewbook/addquestion', 'Admin\BookController@addquestion');
-    Route::get('/adminviewbook/getquestions', 'Admin\BookController@getquestions');
-    Route::get('/adminviewbook/deletequestion', 'Admin\BookController@deletequestion');
+    Route::get('/adminviewbook/createquestion', 'Admin\BookController@createquestion');
+    Route::get('/adminviewbook/createchoices', 'Admin\BookController@createchoices');
+    Route::get('/adminviewbook/selectlesson', 'Admin\BookController@lessonSelect')->name('lessonSelect');
+    Route::get('/adminviewbook/delquestion', 'Admin\BookController@delquestion');
+    Route::get('/adminviewbook/delcoverage', 'Admin\BookController@delcoverage');
+    Route::get('/adminviewbook/createdragoption', 'Admin\BookController@createdragoption');
+    Route::get('/adminviewbook/createdropquestion', 'Admin\BookController@createdropquestion');
+    
+    //Answer Key
+    Route::get('/adminviewbook/getquestion', 'Admin\BookController@getquestion');
+    Route::get('/adminviewbook/save-answer-key', 'Admin\BookController@setAnswerKey');
+    Route::get('/adminviewbook/returneditquiz', 'Admin\BookController@returneditquiz');
+    
 
-    // quiz header
-    Route::get('/adminviewbook/deleteheader', 'Admin\BookController@deleteheader');
-    Route::get('/adminviewbook/addheader', 'Admin\BookController@addheader');
-    Route::get('/adminviewbook/editheader', 'Admin\BookController@editheader');
-
-    // coverage
-    Route::get('/adminviewbook/getcoverage', 'Admin\BookController@getcoverage');
-    Route::get('/adminviewbook/addcoverage', 'Admin\BookController@addcoverage');
-    Route::get('/adminviewbook/deletecoverage', 'Admin\BookController@deletecoverage');
-
-
-
+    
+    
     Route::get('/adminviewbook/deletebycontenttype', 'Admin\BookController@deletebycontenttype'); 
-    Route::get('/adminviewbook/lessoncontents', 'Admin\LessonController@viewlesson'); 
 
-    // Previous Quiz Controller
-    // Route::get('/adminviewbook/chaptertestcontents', 'Admin\ChapterTestController@viewchaptertest');  
-    // Route::post('/adminviewbook/chaptertestcontents/uploadfiles', 'Admin\ChapterTestController@chapterstestuploadfiles');  
-    // Route::get('/adminviewbook/chaptertestcontents/deletefile', 'Admin\ChapterTestController@deletefile');  
+    Route::get('/adminviewbook/lessoncontents', 'Admin\LessonController@viewlesson'); 
+    // Route::get('/adminviewbook/addquiz', 'Admin\LessonController@addquiz'); 
+    
+    Route::get('/adminviewbook/chaptertestcontents', 'Admin\ChapterTestController@viewchaptertest');  
+    Route::post('/adminviewbook/chaptertestcontents/uploadfiles', 'Admin\ChapterTestController@chapterstestuploadfiles');  
+    Route::get('/adminviewbook/chaptertestcontents/deletefile', 'Admin\ChapterTestController@deletefile');  
     
     // Route::get('/adminchaptertest/updatebasicdetails', 'Admin\ChapterTestController@updatebasicdetails');    
     
@@ -226,6 +224,7 @@ Route::middleware(['auth', 'isAdministrator','isDefaultPass'])->group(function (
 
     // S T U D E N T S 
     Route::get('/adminstudents', 'Admin\StudentController@index');
+    
     Route::get('/admin/passwordgenerator/index', 'Admin\PasswordGeneratorController@index');
     Route::get('/admin/passwordgenerator/filter', 'Admin\PasswordGeneratorController@filter');
     
@@ -263,7 +262,8 @@ Route::middleware(['auth', 'isTeacher','isDefaultPass'])->group(function () {
     Route::get('/teacherclassrooms', 'Teacher\ClassroomController@index');   
     Route::get('/teacherclassroom/create', 'Teacher\ClassroomController@create');   
     Route::get('/teachergetavailablecode', 'Teacher\ClassroomController@getavailablecode');    
-      
+
+
     Route::get('/teacherbooks/{id}', 'Teacher\BookController@index');      
     Route::get('/teacherviewbook/{id}', 'Teacher\BookController@viewbook');  
     Route::get('/teachermessages', 'Teacher\BookController@messages');   
@@ -309,6 +309,9 @@ Route::middleware(['auth', 'isStudent','isDefaultPass'])->group(function () {
     Route::get('/chaptertesttakethetest','GlobalController\ViewBookController@takethetest');
     Route::post('/chaptertestsubmitanswers','Student\StudentBookController@submitanswers');
     Route::get('/retakeQuiz/{id}','Student\StudentBookController@retakeQuiz');
+    Route::get('/attempt-quiz','Student\StudentBookController@attemptQuiz');
+    Route::get('/save-answer','Student\StudentBookController@saveAnswer');
+
 
     Route::get('/studentfeed','Student\StudentClassroomController@studentfeed');
     Route::get('/studentclassmates','Student\StudentClassroomController@studentclassmates');
@@ -316,6 +319,7 @@ Route::middleware(['auth', 'isStudent','isDefaultPass'])->group(function () {
     Route::get('/checkForNewComments','Student\StudentClassroomController@checkForNewComments');
 
     Route::get('/studentQuizContent/{id}/{classroomid}', 'Student\StudentBookController@studentQuizContent');
+    Route::get('/studentQuizContentattempt/{id}/{classroomid}', 'Student\StudentBookController@studentQuizContentattempt');
 });
   
 
@@ -335,10 +339,15 @@ Route::group(['middleware' => ['auth', 'web']], function() {
     Route::get('/jitsi',function(){
         return view('jitsimeet');
     });
+    //View quiz
+    Route::get('/quiz/{ids}', 'GlobalController\ViewBookController@viewquiz');
+    Route::get('/quizresponses', 'GlobalController\ViewBookController@quizresponses');
 
     //View Book    
     Route::get('/viewbook/{ids}', 'GlobalController\ViewBookController@viewbook');     
+
     Route::get('/viewbookchaptertestavailability', 'GlobalController\ViewBookController@chaptertestavailability');
+    Route::get('/getactivequiz', 'GlobalController\ViewBookController@getActiveQuiz');
     Route::get('/globalsetting/profileview', 'GlobalController\UserProfileController@profileview');   
     
     Route::get('/videoconference/start','GlobalController\VideoConferenceController@startcall');

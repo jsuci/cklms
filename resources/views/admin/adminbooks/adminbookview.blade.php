@@ -6,15 +6,27 @@
     <link rel="stylesheet" href="{{asset('plugins/icheck-bootstrap/icheck-bootstrap.min.css')}}">
     <link rel="stylesheet" href="{{asset('plugins/fontawesome-free/css/all.min.css')}}">
     <link rel="stylesheet" href="{{asset('plugins/jquery-ui/jquery-ui.css')}}">
-
     <!-- summernote -->
-    <link rel="stylesheet" href="{{asset('plugins/summernote/summernote-bs4.css')}}">
-    <!-- Select2 -->
-    <link rel="stylesheet" href="{{asset('plugins/select2/css/select2.min.css')}}">
-    <link rel="stylesheet" href="{{asset('plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css')}}">
+        <link rel="stylesheet" href="{{asset('plugins/summernote/summernote-bs4.css')}}">
+        <!-- Select2 -->
+        <link rel="stylesheet" href="{{asset('plugins/select2/css/select2.min.css')}}">
+        <link rel="stylesheet" href="{{asset('plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css')}}">
 
     <style>
         .swal2-header{ border: none; }
+
+        .form-group {
+        /* border: 1px solid black; */
+        padding: 20px;
+        /* border-radius: 10px; */
+        }
+        #modalviewquiz .uk-modal-footer {
+        height: auto;
+        padding: 20px;
+        box-sizing: border-box;
+        }
+
+
         
         ul, #myUL { list-style-type: none; }
 
@@ -48,7 +60,7 @@
         {
             background-color: gray;
         }
-        .select2-container {
+    .select2-container {
             z-index: 9999;
             margin: 0px;
         }
@@ -56,7 +68,6 @@
             margin: 0px;
         }
     </style>
-
     <div class="page-content-inner">
         <div class="d-flex">
             <nav id="breadcrumbs" class="mb-3">
@@ -201,7 +212,7 @@
                                                             <span class="right badge badge-success">{{$chapter->sortid}}</span><span class="box boxchapter{{$chapter->id}} boxchapter">Chapter: {{$chapter->title}}</span>
                                                             <ul class="nested active ulchapter" id="ulchapter{{$chapter->id}}">
                                                             </ul>
-                                                        </li>
+                                                        </li>  
                                                     @endforeach
                                                 </ul>
                                             </li>
@@ -226,7 +237,6 @@
             @include('admin.inc.footer')
         </div>
     </div>
-
     <div id="modaladdpart" uk-modal>
         <div class="uk-modal-dialog uk-modal-body">
             <form>
@@ -240,7 +250,6 @@
             </form>
         </div>
     </div>
-
     <div id="modaladdchapter" uk-modal>
         <div class="uk-modal-dialog uk-modal-body">
             <form>
@@ -256,7 +265,6 @@
             </form>
         </div>
     </div>
-
     <div id="modaladdlesson" uk-modal>
         <div class="uk-modal-dialog uk-modal-body">
             <form>
@@ -282,7 +290,6 @@
             </form>
         </div>
     </div>
-
     <div id="modaladdquiz" uk-modal>
         <div class="uk-modal-dialog uk-modal-body">
             <form>
@@ -332,34 +339,6 @@
             </form>
         </div>
     </div>
-
-    <div class="modal fade" id="add-edit-quiz-modal" tabindex="-1" role="dialog" aria-labelledby="add-edit-quiz-modal-title" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h3 class="modal-title" style="text-transform:none;word-break:break-word" id="add-edit-quiz-modal-title">Add or edit quiz</h3>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <div class="row">
-                        <div class="col-md-12">
-                            <select name="quiz-select2" id="quiz-select2" class="form-select form-control select2">
-                                <option selected value="add">Add Quiz</option>
-                            </select>
-                        </div>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" id="create-edit-quiz" class="btn bg-primary text-white add-quiz-btn">Create Quiz</button>
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                </div>
-            </div>
-        </div>
-    </div>
-    
-
     {{-- <div id="modallinks" uk-modal>
         <div class="uk-modal-dialog uk-modal-body">
             <form>
@@ -372,15 +351,28 @@
             </form>
         </div>
     </div> --}}
+
+                        <div id="modalviewquiz" uk-modal>
+                                <div class="uk-modal-dialog uk-modal-body">
+                                    <label for="quiztype">Quiz</label> 
+                                </div>
+                                <div class="uk-modal-dialog uk-modal-footer uk-text-right">
+                                    <button class="uk-button uk-button-default uk-modal-close modalviewupdate" type="button">Cancel</button>
+                                    <button class="uk-button uk-button-primary modalviewupdate" type="button" id="proceedbtn">Proceed</button>
+                                </div>
+                                </div>
+
+
+
+
     
     <script src="{{asset('plugins/jquery/jquery.min.js')}}"></script>
     <!-- Bootstrap -->
     <script src="{{asset('plugins/bootstrap/js/bootstrap.bundle.min.js')}}"></script>
     <!-- Select2 -->
-    <script src="{{asset('plugins/select2/js/select2.min.js')}}"></script>
+    <script src="{{asset('plugins/select2/js/select2.full.min.js')}}"></script>
     <!-- AdminLTE -->
     <script src="{{asset('dist/js/adminlte.js')}}"></script>
-
     <script>
         $(document).ready(function(){
             @if(count($book->parts) == 0)
@@ -389,70 +381,9 @@
                 var clickedpart = 0;
                 $('#addchapter').prop('disabled',true)
             @endif
-
             var clickedchapter;
             var clickedlesson;
             var clickedquiz;
-            var selectedquiz;
-
-            const Toast = Swal.mixin({
-                toast: true,
-                position: 'top-end',
-                showConfirmButton: false,
-                timer: 3000,
-                timerProgressBar: true,
-                didOpen: (toast) => {
-                    toast.addEventListener('mouseenter', Swal.stopTimer)
-                    toast.addEventListener('mouseleave', Swal.resumeTimer)
-                }
-            })
-
-            function renderQuizSelect2(chapId) {
-                $.ajax({
-                    url: '/adminviewbook/getlessons',
-                    type: 'get',
-                    dataType: 'json',
-                    data: {
-                        id: chapId
-                    },
-                    success: function(data) {
-                        // Filter data array by type property not equal to 'l'
-                        const filteredData = data.filter(item => item.type !== 'l');
-
-
-                        $("#quiz-select2").empty()
-                        $('#quiz-select2').append('<option value="add">Add Quiz</option>')
-                        $("#quiz-select2").select2({
-                            data: filteredData,
-                            allowClear: true,
-                            placeholder: "Add Quiz",
-                            templateResult: function(data) {
-
-                                // console.log(data.id, data.title)
-                                if(data.id == 'add' || data.id == '') {
-                                    return $('<option value="add">Add Quiz</option>');
-                                }
-
-                                return $('<option>', {
-                                    'value': data.id,
-                                    'text': data.title
-                                });
-                            },
-                            templateSelection: function(data) {
-                                if (data.id == 'add' || data.id == '') {
-                                    return $('<option value="add">Add Quiz</option>');
-                                }
-
-                                return $('<option>', {
-                                    'value': data.id,
-                                    'text': data.title
-                                });
-                            }
-                        });
-                    }
-                })
-            }
-
             $(document).on('click','.bookstatus', function(){
                 var bookstatus = $(this).val();
                 $.ajax({
@@ -465,6 +396,75 @@
                     }
                 })
             })
+
+            $(document).on('click','.newquizselection', function(){
+                $(this).find('input[type=radio]').prop('checked', true);
+                $('.newquizselection').css({
+                "border-left": "2px solid white",
+                "padding": "20px",
+                });
+
+                $(this).css({
+                    "border-left": "2px solid dodgerblue",
+                    "padding": "20px",
+                });
+                })
+
+                $(document).on('click','#proceedbtn', function(){
+
+                    var quizType = $('input[name="createquiz"]:checked').val();
+                        
+                    if (quizType === undefined) {
+                            alert("Please select a quiz type");
+                            return;
+                        }
+                    console.log("Quiztype: ", quizType);
+                    console.log("Chapterid: ", clickedchapter );
+                    console.log("Bookid: ", '{{$book->bookid}}' )
+
+                        //Redirect to the appropriate page based on the quiz type
+                        if (quizType === "blank-quiz") {
+                            $.ajax({
+                                    type: "get",
+                                    dataType: 'json',
+                                    url: "/adminviewbook/createquiz",
+                                    data: { 
+                                        chapterid : clickedchapter,
+                                        bookid : '{{$book->bookid}}'
+                                            },
+                                    success: function(response) {
+
+                                        const id = response;
+                                        window.location.href = `/adminviewbook/addquiz/${id}`;
+                                        
+                                    },
+                                    error: function(xhr) {
+                                        // Handle error here
+                                    }
+                            });
+
+                        }else{
+
+                            window.open(`/adminviewbook/addquiz/${quizType}`, '_blank');
+
+                        
+                        }
+                        // } else if (quizType === "select-answer") {
+                        //     window.location.href = "/select-answer-quiz-page";
+                        // } else {
+                        //     // Handle other quiz types here
+                        // }
+
+
+                    // quizcreate
+                    
+                    // window.location.href = '/adminviewbook/addquiz';
+                    console.log("Hello from New Zealand")
+                });
+                
+
+
+
             $(document).on('click','#buttonupdateinfo', function(){
                 var updatebookinfoform ='<form action="/adminviewbook/updatebookinfo" method="post" id="bookinfoupdate"  enctype="multipart/form-data">'+
                                         '@csrf'+
@@ -555,6 +555,7 @@
                 clickedchapter = id;
                 $('.lichapter span.boxchapter').css('background-color','unset')
                 $('.boxchapter'+id).css('background-color','#ffffb3')
+                console.log($('.boxchapter'+id))
 
                 $.ajax({
                     url: '/adminviewbook/getlessons',
@@ -576,7 +577,7 @@
                                     '</li>'
                                 )
                             }
-                            else if(value.type == 'q' || value.type == '1' || value.type == '2'){
+                            else if(value.type == 'q'){
                                 $('#ulchapter'+id).append(
                                     '<li id="'+value.id+'"  contenttype="quiz" class="liquiz">'+
                                         '<span class="right badge badge-info">'+value.sortid+'</span><span class="box boxquiz'+value.id+' boxquiz" >Quiz: '+value.title+' <i class="fa fa-times ml-2 removeitem"></i></span>'+
@@ -587,14 +588,11 @@
                         })
                         $('.btn-group-horizontal').empty();
                         $('.btn-group-horizontal').append(
-                            // `<button type="button" class="btn btn-sm btn-info mr-2 viewinfo" id="viewchapterinfo" uk-toggle="target: #modalviewupdate" chapterid="${id}"><i class="fa fa-question"></i> View info</button>
-                            // <button type="button" class="btn btn-sm btn-info mr-2" id="addchapter" uk-toggle="target: #modaladdchapter"><i class="fa fa-plus"></i> Chapter / Unit</button>
-                            // <button type="button" class="btn btn-sm btn-info mr-2" id="addlesson" uk-toggle="target: #modaladdlesson"><i class="fa fa-plus"></i> Lesson</button>
-                            // <a href="/adminviewbook/addquiz" type="button" class="btn btn-sm btn-info mr-2" target="_blank" id="addquiz">Quiz</a>`
-                            `<button type="button" class="btn btn-sm btn-info mr-2 viewinfo" id="viewchapterinfo" uk-toggle="target: #modalviewupdate" chapterid="${id}"><i class="fa fa-question"></i> View info</button>
-                            <button type="button" class="btn btn-sm btn-info mr-2" id="addchapter" uk-toggle="target: #modaladdchapter"><i class="fa fa-plus"></i> Chapter / Unit</button>
-                            <button type="button" class="btn btn-sm btn-info mr-2" id="addlesson" uk-toggle="target: #modaladdlesson"><i class="fa fa-plus"></i> Lesson</button>
-                            <button type="button" class="btn btn-sm btn-info mr-2" id="addquiz">Quiz</button>`
+                            '<button type="button" class="btn btn-sm btn-info mr-2 viewinfo" id="viewchapterinfo" uk-toggle="target: #modalviewupdate" chapterid="'+id+'" ><i class="fa fa-question"></i> View info</button>'+
+                            '<button type="button" class="btn btn-sm btn-info mr-2" id="addchapter" uk-toggle="target: #modaladdchapter"><i class="fa fa-plus"></i> Chapter / Unit</button>'+
+                            '<button type="button" class="btn btn-sm btn-info mr-2" id="addlesson" uk-toggle="target: #modaladdlesson"><i class="fa fa-plus"></i> Lesson</button>'+
+                            '<button type="button" class="btn btn-sm btn-info mr-2 selectQuiz" uk-toggle="target: #modalviewquiz"><i class="fa fa-plus"></i> Quiz</button>'
+                            // '<a href="/adminviewbook/addquiz" type="button" class="btn btn-sm btn-info mr-2" target="_blank" id="addquiz" > Quiz</a>'
                         );
                         $('.boxchapter'+id+' i').remove()
                         $('.boxchapter'+id).append('<i class="fa fa-times ml-2 removeitem"></i>')
@@ -615,6 +613,51 @@
                 
 
             })
+
+            $(document).on('click', '.selectQuiz', function(){
+                console.log("Hello From Philippines");
+
+                $.ajax({
+                                    type: "get",
+                                    dataType: 'json',
+                                    url: "/adminviewbook/getquizlist",
+                                    data: { 
+                                        chapterid : clickedchapter,
+                                        bookid : '{{$book->bookid}}'
+                                            },
+                                    success: function(response) {
+
+                                        $('#modalviewquiz .uk-modal-body .newquizselection').remove();
+                                        console.log(response);
+                                        $('#modalviewquiz .uk-modal-body').append(
+                                        '<div class="form-group newquizselection">'+
+                                        '<label for="blank-quiz" class="uk-flex uk-flex-middle">'+
+                                            '<input type="radio" name="createquiz" id="blank-quiz" value="blank-quiz" class="uk-radio uk-margin-small-right quizcreate">'+ 
+                                            '<i class="fa fa-file-word mr-2" style="font-size: 24px; color: gray "></i><span>Blank Quiz</span>'+
+                                        '</label>' +
+                                        '</div>');
+
+                                        // Loop through the response and append quiz selections to the modal body
+                                        for (var i = 0; i < response.length; i++) {
+                                        var quiz = response[i];
+                                        var quizHtml = '<div class="form-group newquizselection">'+
+                                            '<label for="quiz-'+ quiz.id +'">'+
+                                            '<input type="radio" name="createquiz" id="quiz-'+ quiz.id +'" value="'+ quiz.id +'" class="uk-radio uk-margin-small-right">' +
+                                            '<i class="fa fa-file-word mr-2" style="font-size: 24px; color: gray "></i>'+
+                                            '<span style="font-size: 18px; color: black">'+ quiz.title +'</span><br/>' +
+                                            '<span style="padding-left: 55px; padding-top:-5px; color: gray ">'+ quiz.description +'</span>' +
+                                            '</label>'+
+                                            '</div>';
+                                        $('#modalviewquiz .uk-modal-body').append(quizHtml);
+                                        }
+                                    },
+                                    error: function(xhr) {
+                                        // Handle error here
+                                    }
+                    });
+                
+
+            })
             $(document).on('click', '.boxquiz', function(){
                 var id = $(this).closest('li').attr('id');
                 clickedquiz = id;
@@ -623,8 +666,10 @@
                 $('.btn-group-horizontal').empty();
                 $('.btn-group-horizontal').append(
                     '<button type="button" class="btn btn-sm btn-info mr-2 viewinfo" id="viewquizinfo" uk-toggle="target: #modalviewupdate" quizid="'+id+'" ><i class="fa fa-question"></i> View info</button>'+
-                    '<a href="/adminviewbook/chaptertestcontents?formquizid='+id+'" type="button" class="btn btn-sm btn-warning mr-2 viewinfo" target="_blank" id="viewlessoncontent" > View Contents</a>'
+                    '<a href="/adminviewbook/addquiz/'+id+'" type="button" class="btn btn-sm btn-warning mr-2 viewinfo" target="_blank" id="viewlessoncontent" > View Contents</a>'
                 );
+
+                window.open(`/adminviewbook/addquiz/${quizType}`, '_blank');
 
             })
             $(document).on('click', '#viewpartinfo', function(){
@@ -797,6 +842,7 @@
                 })
             })
             $(document).on('click','#submitnewlesson', function(){
+                // console.log($('input[name="lessontype"]').val())
                 var newlessontitle = $('#newlessontitle').val();
                 var newlessontype = $('input[name="lessontype"]:checked').val();
                 var newlessondescription = $('#newlessondescription').val();
@@ -868,8 +914,8 @@
                     Swal.fire({
                         title: 'Are you sure you want to delete selected content?',
                         text: $(this).attr('label'),
-                        icon: 'warning',
-                        confirmButtonColor: 'rgb(211 29 29)',
+                        type: 'warning',
+                        confirmButtonColor: '#3085d6',
                         confirmButtonText: 'Delete',
                         showCancelButton: true,
                         allowOutsideClick: false
@@ -886,16 +932,12 @@
                                 },
                                 complete: function(data){
                                     removeelem.remove()
-                                    // Swal.fire({
-                                    //     title: 'Deleted successfully',
-                                    //     icon: 'success',
-                                    //     confirmButtonColor: '#3085d6',
-                                    //     confirmButtonText: 'Close',
-                                    //     allowOutsideClick: false
-                                    // })
-                                    Toast.fire({
-                                        icon: 'success',
-                                        title: 'Deleted successfully'
+                                    Swal.fire({
+                                        title: 'Deleted successfully',
+                                        type: 'success',
+                                        confirmButtonColor: '#3085d6',
+                                        confirmButtonText: 'Close',
+                                        allowOutsideClick: false
                                     })
                                 }
                             })
@@ -905,7 +947,7 @@
                     
                     Swal.fire({
                         title: 'This '+updatelabel+' is not empty!',
-                        icon: 'warning',
+                        type: 'warning',
                         confirmButtonColor: '#3085d6',
                         confirmButtonText: 'Close',
                         allowOutsideClick: false
@@ -929,7 +971,7 @@
 
                         Swal.fire({
                             title: 'Authorized personnel only',
-                            icon: 'warning',
+                            type: 'warning',
                             input: 'password',
                             inputAttributes: {
                                 id: 'passworddelete'
@@ -956,11 +998,12 @@
                                         password         :   $('#passworddelete').val()
                                     },
                                     success: function(data){
+                                        // console.log(data)
                                         if(data == 0)
                                         {
                                             Swal.fire({
                                                 title: 'Cannot be deleted!',
-                                                icon: 'error',
+                                                type: 'error',
                                                 confirmButtonColor: '#3085d6',
                                                 confirmButtonText: 'Close',
                                                 allowOutsideClick: false
@@ -970,7 +1013,7 @@
                                         {
                                             Swal.fire({
                                                 title: 'Book deleted successfully!',
-                                                icon: 'success',
+                                                type: 'success',
                                                 confirmButtonColor: '#3085d6',
                                                 confirmButtonText: 'Close',
                                                 allowOutsideClick: false
@@ -987,87 +1030,7 @@
                 
                 
             })
-            $(document).on('click', '#addquiz', function(){
-                
-                // set default button state to 'Create Quiz'
-                $('#create-edit-quiz').removeClass('edit-quiz-btn')
-                $('#create-edit-quiz').removeClass('bg-success')
-                $('#create-edit-quiz').addClass('bg-primary')
-                $('#create-edit-quiz').addClass('add-quiz-btn')
-                $('#create-edit-quiz').text('Create Quiz')
-
-                renderQuizSelect2(clickedchapter)
-                
-                $('#quiz-select2').val('add').trigger('change');
-                $('#add-edit-quiz-modal').modal('show');
-            })
-            $(document).on('click', '.lichapter', function(){
-                var tempChapTitle = $(this).find('.boxchapter').text()
-                var chapId = $(this).attr('id')
-
-                clickedchapter = chapId
-
-                // change modal title for quiz
-                $('#add-edit-quiz-modal-title').text(`${tempChapTitle} Quiz`)
-
-                // change #quiz-select2 contents base on id
-                renderQuizSelect2(chapId)
-
-            })
-            $("#quiz-select2").select2().on('select2:select', function(e) {
-                var temp_selected_id = $(this).val();
-                
-                if (temp_selected_id == 'add') {
-                    $('#create-edit-quiz').removeClass('bg-success')
-                    $('#create-edit-quiz').removeClass('edit-quiz-btn')
-                    $('#create-edit-quiz').addClass('bg-primary')
-                    $('#create-edit-quiz').addClass('add-quiz-btn')
-                    $('#create-edit-quiz').text('Create Quiz')
-                } else {
-                    selectedquiz = temp_selected_id
-                    $('#create-edit-quiz').removeClass('bg-primary')
-                    $('#create-edit-quiz').removeClass('add-quiz-btn')
-                    $('#create-edit-quiz').addClass('bg-success')
-                    $('#create-edit-quiz').addClass('edit-quiz-btn')
-                    $('#create-edit-quiz').text('Edit Quiz')
-                }
-
-            });
-            $(document).on('click', '.add-quiz-btn', function(){
-
-                var chapTitle = $(`.boxchapter${clickedchapter}`).text().trim()
-
-                $('.add-quiz-btn').prop('disabled', true)
-
-                $.ajax({
-                    url: '/adminviewbook/addquiz',
-                    type: 'get',
-                    data: {
-                        // title: `${chapTitle} Quiz`,
-                        title: 'Untitled Quiz',
-                        description: 'Edit quiz description here',
-                        chapterid: clickedchapter,
-                        type: 1,
-                    },
-                    success: function(data)
-                    {
-                        const quizId = data
-                        const url = `/adminviewbook/getquiz/${quizId}`
-                        window.open(url, "_blank");
-                        renderQuizSelect2(clickedchapter)
-
-                        $('.add-quiz-btn').prop('disabled', false)
-                        $('#add-edit-quiz-modal').modal('hide');
-                    }
-                })
-
-            })
-            $(document).on('click', '.edit-quiz-btn', function(){
-                const url = `/adminviewbook/getquiz/${selectedquiz}`
-                window.open(url, "_blank");
-                $('#add-edit-quiz-modal').modal('hide');
-            })
-
         })
+                                                        
     </script>
 @endsection
