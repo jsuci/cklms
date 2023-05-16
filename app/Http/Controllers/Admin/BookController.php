@@ -885,7 +885,6 @@ class BookController extends Controller
         }
         return back();
     }
-
     public function createbooks($id, Request $request)
     {
         date_default_timezone_set('Asia/Manila');
@@ -976,7 +975,6 @@ class BookController extends Controller
         }
         return back();
     }
-
     public function deletebook(Request $request)
     {
         // return $request->all();
@@ -997,6 +995,7 @@ class BookController extends Controller
         }
     }
 
+
     public function getquestion(Request $request)
     {
         $question = DB::table('lessonquizquestions')
@@ -1014,6 +1013,50 @@ class BookController extends Controller
         return response()->json($question);
         
     }
+
+    public function getDropQuestion(Request $request)
+    {
+        $question = DB::table('lessonquizquestions')
+            ->where('id', $request->get('id'))
+            ->select('id','question')
+            ->where('deleted', 0)
+            ->first();
+
+        $question->drag = DB::table('lesson_quiz_drag_option')
+        ->where('questionid', $question->id)
+        ->select('id', 'description')
+        ->get();
+
+        $question->drop = DB::table('lesson_quiz_drop_question')
+        ->where('questionid', $question->id)
+        ->select('id', 'questionid' , 'question', 'sortid')
+        ->orderBy('sortid')
+        ->get();
+
+        $key= 0;
+
+        $counter = 0;
+
+        $inputCounter = 0;
+        foreach ($question->drop as $index => $item) {
+            // Replace all occurrences of ~input with input fields that have unique IDs
+            $key = 0;
+            $questionWithInputs = preg_replace_callback('/~input/', function($matches) use ($item, &$inputCounter, &$key) {
+            $inputField = '<input class="d-inline form-control q-input drop-option q-input ui-droppable" data-sortid="'.++$inputCounter.'" data-question-id="'.$item->id.'" style="width: 200px; margin: 10px; border-color:black" type="text" id="input-'.$item->id.'" disabled>';
+            return $inputField;
+            }, $item->question);
+            $inputCounter = 0;
+
+            $item->question = $questionWithInputs;
+        }
+
+
+
+
+        return response()->json($question);
+        
+    }
+
 
 
     public function setAnswerKey(Request $request)
@@ -1034,6 +1077,43 @@ class BookController extends Controller
                 ]);
 
     return 1;
+        
+    }
+
+
+    public function setAnswerdrop(Request $request)
+    {
+        
+
+        $checkifexist =  DB::table('lesson_quiz_drop_answer')
+            ->where('headerid', $request->get('question_id'))
+            ->where('sortid', $request->get('sortId'))
+            ->count();
+
+        if($checkifexist == 1){
+
+            DB::table('lesson_quiz_drop_answer')
+            ->where('headerid', $request->get('question_id'))
+            ->where('sortid', $request->get('sortId'))
+            ->update([
+                'answer'   => $request->get('answer')
+            ]);
+
+                return 0;
+
+
+        }else{
+
+            DB::table('lesson_quiz_drop_answer')
+            ->insert([
+                'answer'   => $request->get('answer'),
+                'headerid'   => $request->get('question_id'),
+                'sortid'   => $request->get('sortId')
+            ]);
+
+                return 1;
+
+        }
         
     }
 
