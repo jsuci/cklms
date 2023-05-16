@@ -181,11 +181,11 @@
         <!-- content -->
         <div class="page-content">
 
+
             <div class="page-content-inner">
 
                 <div class="container-small">
 
-                    {{$quizinfo}}
 
                     <div class="bg-info uk-light uk-padding pb-0 rounded shadow">
                         <h2><strong>{{$quizinfo->title}}</strong>
