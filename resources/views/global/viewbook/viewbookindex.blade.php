@@ -46,14 +46,7 @@
     <!-- Import SweetAlert and Toast libraries -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.19/dist/sweetalert2.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.19/dist/sweetalert2.all.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.19/dist/sweetalert2.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.19/dist/sweetalert2.all.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.19/dist/sweetalert2.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.19/dist/sweetalert2.all.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.19/dist/sweetalert2.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.19/dist/sweetalert2.all.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.19/dist/sweetalert2.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.19/dist/sweetalert2.all.min.js"></script>
+
     
     <style>
         .gutter,
@@ -79,8 +72,10 @@
                 display:block; 
                 z-index: 999 !important;
             }
-            .vidlist-3-container{
-                z-index: 999;
+            .vidlist-3-container {
+                z-index: 999 !important;
+                height: 400px !important;
+                overflow-y: auto !important;
             }
             #contentdesktopview {
                 width: 95%;
@@ -198,7 +193,10 @@
             background-size:contain;
             background-position: center;
         
+        }
 
+        .simplebar-content:hover {
+            overflow: auto !important;
         }
 
 
@@ -251,14 +249,14 @@
                     &nbsp;
                 </div>
                   
-                <div class="uk-width-1-4@m uk-overflow-hidden vidlist-3-container">
+                <div class="uk-width-1-4@m vidlist-3-container">
                     <div uk-sticky="" class="uk-sticky uk-sticky-fixed" style="position: fixed; top: 0px; width: 298px;">
                         <h5 class="bg-gradient-grey text-white py-4 p-3 mb-0"> {{$bookinfo->title}}</h5>
                         <ul class="uk-child-width-expand mb-0 uk-tab" uk-switcher="animation: uk-animation-slide-right-small, uk-animation-slide-left-small" uk-tab="">
                             <li class="uk-active"><a href="#" aria-expanded="true"> Contents</a></li>
                             {{-- <li><a href="#" aria-expanded="false"> Details</a></li> --}}
                         </ul>
-                        <ul class="uk-switcher uk-overflow-hidden" style="touch-action: pan-y pinch-zoom;">
+                        <ul class="uk-switcher" style="touch-action: pan-y pinch-zoom;">
                             <li class="uk-active" style="">
                                 <div class="vidlist-3-content" data-simplebar="init">
                                     <div class="simplebar-wrapper" style="margin: 0px;">

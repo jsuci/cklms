@@ -9,8 +9,6 @@ class StudentBookController extends Controller
 {
     public function submitanswers(Request $request)
     {
-
-    
         $headerid = Db::table('chapterquizrecords')
             ->insertGetId([
                 'chapterquizid'         =>  $request->get('chapterquizid'),
@@ -70,9 +68,8 @@ class StudentBookController extends Controller
         // return view('global.viewbook.studentview.testtaken')
         //     ->with('quizinfo', $quizinfo);
     }
-    public function studentQuizContentattempt(Request $request , $quizid, $classroomid){
-
-
+    public function studentQuizContentattempt(Request $request , $quizid, $classroomid)
+    {
         $recordid = $request->get('recordid');
 
         $quizInfo = DB::table('lesssonquiz')
@@ -80,6 +77,18 @@ class StudentBookController extends Controller
                         ->select('id','title', 'coverage', 'description' )
                         ->first();
 
+        $isAnswered = false;
+
+        $checkIfAnswered = DB::table('chapterquizrecords')
+                            ->where('submittedby',auth()->user()->id)
+                            ->where('chapterquizid',$quizid)
+                            ->where('deleted',0)
+                            ->select('id','submitteddatetime','quizstatus','updateddatetime')
+                            ->first();        
+
+        if (isset($checkIfAnswered->id)) {
+            $isAnswered = true;
+        }
 
 
         $quizQuestions = DB::table('lessonquizquestions')
@@ -92,43 +101,121 @@ class StudentBookController extends Controller
                     )
                     ->get();
 
-            foreach($quizQuestions as $item){
+        foreach($quizQuestions as $item) {
 
-                // if($item->typeofquiz == 1){
+            if ($item->typeofquiz == 1) {
 
-                //     $choices = DB::table('lessonquizchoices')
-                //                     ->where('questionid',$item->id)
-                //                     ->where('deleted',0)
-                //                     ->select('description','id','answer', 'sortid')
-                //                     ->orderBy('sortid')
-                //                     ->get();
+                $choices = DB::table('lessonquizchoices')
+                    ->where('questionid',$item->id)
+                    ->where('deleted',0)
+                    ->select('description','id','answer', 'sortid')
+                    ->orderBy('sortid')
+                    ->get();
 
-                //     $item->choices = $choices;
+                $item->choices = $choices;
 
-                // }
+                $answer = DB::table('chapterquizrecordsdetail')
+                    ->where('questionid',$item->id)
+                    ->where('headerid', $recordid)
+                    ->where('deleted',0)
+                    ->value('choiceid');
+
+                if (isset($answer)) {
+                    $item->answer = $answer;
+                } else {
+                    $item->answer = 0;
+                }
+            }
 
 
-                if($item->typeofquiz == 5){
+            if ($item->typeofquiz == 5) {
 
-                    $dragoption = DB::table('lesson_quiz_drag_option')
-                                    ->where('questionid',$item->id)
-                                    ->where('deleted',0)
-                                    ->select('description','id')
-                                    ->get();
+                $dragoption = DB::table('lesson_quiz_drag_option')
+                    ->where('questionid',$item->id)
+                    ->where('deleted',0)
+                    ->select('description','id')
+                    ->get();
 
-                    $item->drag = $dragoption;
+                $item->drag = $dragoption;
 
-                    $dropquestion = DB::table('lesson_quiz_drop_question')
-                                    ->where('questionid',$item->id)
-                                    ->where('deleted',0)
-                                    ->select('question','id','sortid')
-                                    ->get();
+                $dropquestions = DB::table('lesson_quiz_drop_question')
+                    ->where('questionid', $item->id)
+                    ->orderBy('sortid')
+                    ->get();
 
-                    $item->drop = $dropquestion;
+                $item->drop = $dropquestions;
 
+                foreach ($item->drop as $index => $item) {
+                }
+
+                foreach ($dropquestions as $index => $item) {
+                    $key = 0;
+                    $answercount = DB::table('chapterquizrecordsdetail')
+                        ->where('questionid',$item->id)
+                        ->where('headerid', $recordid)
+                        ->where('deleted',0)
+                        ->count();
+
+                    if ($answercount == 1) {
+                        $item->answer  = DB::table('chapterquizrecordsdetail')
+                            ->where('questionid',$item->id)
+                            ->where('headerid', $recordid)
+                            ->where('deleted',0)
+                            ->value('stringanswer');
+                        
+                        $questionWithInputs = preg_replace_callback(
+                                '/~input/', function($matches) use ($item, &$inputCounter, &$key) {
+                                    $inputField = '<input class="d-inline form-control q-input drop-option q-input ui-droppable bg-primary text-white" data-question-type="5" data-sortid="'.++$inputCounter.'" data-question-id="'.$item->id.'" style="width: 200px; margin: 10px; border-color:black" type="text" id="input-'.$item->id.'" value="'.$item->answer.'" disabled>';
+                                
+                                    return $inputField;
+                            }, $item->question
+                        );
+                        
+                        $inputCounter = 0;
+                        $item->question = $questionWithInputs;
+                    }
+                    else if ($answercount > 1) {
+                        $answer = DB::table('chapterquizrecordsdetail')
+                            ->where('questionid',$item->id)
+                            ->where('headerid', $recordid)
+                            ->select('stringanswer')
+                            ->orderby('sortid', 'asc')
+                            ->get();
+
+                        $sort = -1;
+
+                        $questionWithInputs = preg_replace_callback(
+                            '/~input/', function($matches) use ($item, &$inputCounter, &$key , &$sort , &$answer) {
+                                $inputField = '<input class="d-inline form-control q-input drop-option q-input ui-droppable bg-primary text-white" data-question-type="5" data-sortid="'.++$inputCounter.'" data-question-id="'.$item->id.'" value="'.$answer[++$sort]->stringanswer.'" style="width: 200px; margin: 10px; border-color:black" type="text" id="input-'.$item->id.'" disabled>';
+
+                                return $inputField;
+                            }, $item->question
+                        );
+
+                        $inputCounter = 0;
+                        $item->answer = $answer;
+                        $item->question = $questionWithInputs;
+
+                    }
+                    else{
+
+                        $questionWithInputs = preg_replace_callback(
+                            '/~input/', function($matches) use ($item, &$inputCounter, &$key) {
+                                $inputField = '<input class="d-inline form-control q-input drop-option q-input ui-droppable" data-question-type="5" data-sortid="'.++$inputCounter.'" data-question-id="'.$item->id.'" style="width: 200px; margin: 10px; border-color:black" type="text" id="input-'.$item->id.'" disabled>';
+
+                                return $inputField;
+                            }, $item->question
+                        );
+
+                        $inputCounter = 0;
+                        $item->question = $questionWithInputs;
+
+                    }
                 }
 
             }
+
+        }
 
 
             // $isAnswered = false;
@@ -179,8 +266,7 @@ class StudentBookController extends Controller
             //                         )
             //                     ->get();
 
-   
-            
+
             // foreach($quizAnswersInfo as $item){
 
             //     if($item->type == 1){
@@ -217,129 +303,77 @@ class StudentBookController extends Controller
                         ->with('classroomid',$classroomid)
                         ->with('quizQuestions',$quizQuestions);
 
+    }
+    public function studentQuizContent($quizid, $clasroomid)
+    {
+        $chapterquizsched = DB::table('chapterquizsched')
+            ->where('chapterquizid',$quizid)
+            ->where('classroomid',$clasroomid)
+            ->select(
+                'classroomid',
+                'datefrom',
+                'dateto',
+                'timefrom',
+                'timeto',
+                'noofattempts',
+                'status',
+                'createddatetime',
+                'updateddatetime',
+                'id'
+            )
+            ->where('deleted',0)
+            ->first();
+
+        
+
+
+        // $isAnswered = false;
+
+        $numberOfAttempts =  DB::table('chapterquizrecords')
+                                ->where('submittedby',auth()->user()->id)
+                                ->where('chapterquizid',$quizid)
+                                ->count();
+        
+        // $checkIfAnswered = DB::table('chapterquizrecords')
+        //                     ->where('submittedby',auth()->user()->id)
+        //                     ->where('chapterquizid',$quizid)
+        //                     ->where('deleted',0)
+        //                     ->select('id','submitteddatetime','quizstatus','updateddatetime')
+        //                     ->first();
+
+        if($numberOfAttempts == 0){
+            $chapterquizsched->btn = "Attempt Quiz";
+        }else{
+            $chapterquizsched->btn = "Retake Quiz";
         }
 
-    public function studentQuizContent($quizid, $clasroomid){
+        $attemptsLeft = 0;
 
-
-
-            $chapterquizsched = DB::table('chapterquizsched')
-                            ->where('chapterquizid',$quizid)
-                            ->where('classroomid',$clasroomid)
-                            ->select(
-                                'classroomid',
-                                'datefrom',
-                                'dateto',
-                                'timefrom',
-                                'timeto',
-                                'noofattempts',
-                                'status',
-                                'createddatetime',
-                                'updateddatetime',
-                                'id'
-                            )
-                            ->where('deleted',0)
-                            ->first();
-
-            
-
-
-            // $isAnswered = false;
-
-            $numberOfAttempts =  DB::table('chapterquizrecords')
-                                    ->where('submittedby',auth()->user()->id)
-                                    ->where('chapterquizid',$quizid)
-                                    ->count();
-            
-            // $checkIfAnswered = DB::table('chapterquizrecords')
-            //                     ->where('submittedby',auth()->user()->id)
-            //                     ->where('chapterquizid',$quizid)
-            //                     ->where('deleted',0)
-            //                     ->select('id','submitteddatetime','quizstatus','updateddatetime')
-            //                     ->first();
-
-            if($numberOfAttempts == 0){
-                $chapterquizsched->btn = "Attempt Quiz";
-            }else{
-                $chapterquizsched->btn = "Retake Quiz";
-            }
-
-            $attemptsLeft = 0;
-
-            if(isset($chapterquizsched->noofattempts)){
-                
-                $attemptsLeft = $chapterquizsched->noofattempts - $numberOfAttempts;
-
-            }
-
-            // if(isset($checkIfAnswered->id)){
-            //     $isAnswered = true;
-            // }
-
-            // $quizAnswersInfo = DB::table('chapterquizrecords')
-            //                     ->where('submittedby',auth()->user()->id)
-            //                     ->where('chapterquizid',$quizid)
-            //                     ->where('chapterquizrecords.deleted',0)
-            //                     ->join('chapterquizrecordsdetail',function($join){
-            //                         $join->on('chapterquizrecords.id','=','chapterquizrecordsdetail.headerid');
-            //                         $join->where('chapterquizrecordsdetail.deleted',0);
-            //                     })
-            //                     ->join('chapterquizquestions',function($join){
-            //                         $join->on('chapterquizrecordsdetail.questionid','=','chapterquizquestions.id');
-            //                     })
-            //                     ->select(
-            //                         'choiceid',
-            //                         'questionid',
-            //                         'question',
-            //                         'type',
-            //                         'description',
-            //                         'chapterquizrecordsdetail.points as studPoints',
-            //                         'chapterquizquestions.points'
-            //                         )
-            //                     ->get();
-
-   
-            
-            // foreach($quizAnswersInfo as $item){
-
-            //     if($item->type == 1){
-
-            //         $choices = DB::table('chapterquizchoices')
-            //                         ->where('id',$item->choiceid)
-            //                         ->where('deleted',0)
-            //                         ->select('description','id','answer')
-            //                         ->first();
-
-            //         if(isset($choices->id)){
-
-            //             $item->description = $choices->description;
-
-            //         }
-
-            //     }
-
-            // }
-            
-
-
-
-            // $quizAnswersInfo = collect( $quizAnswersInfo)->groupBy('questionid');
-
-            // return $quizAnswersInfo;
-
-            return view('global.viewbook.quizcontent.studentquiz')
-                        // ->with('quizInfo',$quizInfo)
-                        ->with('chapterquizsched',$chapterquizsched)
-                        //  ->with('isAnswered',$isAnswered)
-                        //  ->with('quizRecord',$checkIfAnswered)
-                        //  ->with('clasroomid',$clasroomid)
-                        ->with('attemptsLeft',$attemptsLeft);
-                        //  ->with('quizAnswersInfo',$quizAnswersInfo)
-                        // ->with('quizQuestions',$quizQuestions);
-
+        if(isset($chapterquizsched->noofattempts)){
+            $attemptsLeft = $chapterquizsched->noofattempts - $numberOfAttempts;
         }
 
-    public function retakeQuiz($id){
+        $continuequiz = DB::table('chapterquizrecords')
+            ->where('submittedby',auth()->user()->id)
+            ->where('chapterquizid',$quizid)
+            ->where('deleted',0)
+            ->latest('submitteddatetime')
+            ->value('id'); 
+
+        return view('global.viewbook.quizcontent.studentquiz')
+                    // ->with('quizInfo',$quizInfo)
+                    ->with('chapterquizsched',$chapterquizsched)
+                    ->with('continuequiz',$continuequiz)
+                    //  ->with('isAnswered',$isAnswered)
+                    //  ->with('quizRecord',$checkIfAnswered)
+                    //  ->with('clasroomid',$clasroomid)
+                    ->with('attemptsLeft',$attemptsLeft);
+                    //  ->with('quizAnswersInfo',$quizAnswersInfo)
+                    // ->with('quizQuestions',$quizQuestions);
+
+    }
+    public function retakeQuiz($id)
+    {
 
         DB::table('chapterquizrecords')
             ->where('id',$id)
@@ -354,25 +388,28 @@ class StudentBookController extends Controller
             ]);
 
     }
+    public function attemptQuiz(Request $request)
+    {
+        if($request->get('id') != NULL) {
+            $id = $request->get('id');
+            return $id;
+        } else {
+            
+            date_default_timezone_set('Asia/Manila');
+            $headerid = Db::table('chapterquizrecords')
+                ->insertGetId([
+                    'chapterquizid'         =>  $request->get('quizid'),
+                    'submittedby'           =>  auth()->user()->id,
+                    'submitteddatetime'     =>  date('Y-m-d H:i:s'),
+                    'classroomid'           =>  $request->get('classroomid')
+                ]);
 
-    public function attemptQuiz(Request $request){
+            return $headerid;
 
-        date_default_timezone_set('Asia/Manila');
-        $headerid = Db::table('chapterquizrecords')
-            ->insertGetId([
-                'chapterquizid'         =>  $request->get('quizid'),
-                'submittedby'           =>  auth()->user()->id,
-                'submitteddatetime'     =>  date('Y-m-d H:i:s'),
-                'classroomid'           =>  $request->get('classroomid')
-            ]);
-
-    return $headerid;
-
-
+        }
     }
-
-
-    public function saveImage(Request $request){
+    public function saveImage(Request $request)
+    {
 
         $headerId = $request->get('headerId');
         $question_id = $request->get('question_id');
@@ -416,7 +453,6 @@ class StudentBookController extends Controller
         }
 
     }
-
     public function saveAnswer(Request $request)
     {
         $checkIfExists = DB::table('chapterquizrecordsdetail')
@@ -485,6 +521,4 @@ class StudentBookController extends Controller
             return 0;
         }
     }
-    
-
 }
