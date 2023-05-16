@@ -885,6 +885,7 @@ class BookController extends Controller
         }
         return back();
     }
+
     public function createbooks($id, Request $request)
     {
         date_default_timezone_set('Asia/Manila');
@@ -975,6 +976,7 @@ class BookController extends Controller
         }
         return back();
     }
+
     public function deletebook(Request $request)
     {
         // return $request->all();
@@ -994,7 +996,6 @@ class BookController extends Controller
             return '0';
         }
     }
-
 
     public function getquestion(Request $request)
     {

@@ -132,7 +132,7 @@
                                     <div class="card-body">
                                         <p>{{ $item->question }}</p>
                                         <div class="form-group">
-                                            <input class="form-control-file imageInput" data-question-type="{{$item->typeofquiz}}" data-question-id="{{ $item->id}}" id="{{ $questioninfo->id}}" type="file" accept="image/*">
+                                            <input class="answer-field form-control-file imageInput" data-question-type="{{$item->typeofquiz}}" data-question-id="{{ $item->id}}" id="{{ $questioninfo->id}}" type="file" accept="image/*">
                                             <img id="preview" src="#" alt="Preview" style="max-width: 250px; max-height: 250px;display:none;">
                                         </div>
                                     </div>

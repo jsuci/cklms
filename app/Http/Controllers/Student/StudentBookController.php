@@ -388,7 +388,11 @@ class StudentBookController extends Controller
                 ];
 
                 if ($request->get('questionType') != 1) {
-                    $data['stringanswer'] = $request->get('answer');
+                    if ($request->get('questionType') == 6) {
+                        $data['picurl'] = $request->get('answer');
+                    } else {
+                        $data['stringanswer'] = $request->get('answer');
+                    }
                 } else {
                     $data['choiceid'] = $request->get('answer');
                 }
@@ -399,7 +403,11 @@ class StudentBookController extends Controller
         }else{
 
                 if ($request->get('questionType') != 1) {
-                    $data['stringanswer'] = $request->get('answer');
+                    if ($request->get('questionType') == 6) {
+                        $data['picurl'] = $request->get('answer');
+                    } else {
+                        $data['stringanswer'] = $request->get('answer');
+                    }
                 } else {
                     $data['choiceid'] = $request->get('answer');
                 }
@@ -410,8 +418,6 @@ class StudentBookController extends Controller
                 ->update($data);
 
                 return 0;
-
-
         }
 
     }
