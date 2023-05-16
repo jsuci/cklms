@@ -34,29 +34,24 @@
                     @foreach($quizQuestions as $key=>$item)
                         @if($item->typeofquiz == 1)
                             <!-- multiple choice -->
-                                <div class="card mt-5 editcontent" id="quiz-question-{{$item->id}}">
-                                    <div class="card-body ">
-                                        <p class="question" data-question-type="{{$item->typeofquiz}}">{{$key+=1}}. {{$item->question}}</p>
+                            <div class="card mt-5 editcontent" id="quiz-question-{{$item->id}}">
+                                <div class="card-body ">
+                                            <p class="question" data-question-type="{{$item->typeofquiz}}">{{$key+=1}}. {{$item->question}}</p>
 
-                                        @php
-                                        $choices = DB::table('lessonquizchoices')
-                                            ->where('questionid',$item->id)
-                                            ->where('deleted',0)
-                                            ->select('description','id','answer', 'sortid')
-                                            ->orderBy('sortid')
-                                            ->get();
-                                        @endphp
-
-                                        @foreach ($choices as $questioninfo)
-                                        <div class="form-check mt-2">
-                                            <input data-question-type="{{$item->typeofquiz}}" data-question-id="{{  $item->id }}" id="{{ $questioninfo->id}}" class="answer-field form-check-input" type="radio" name="{{ $item->id }}" value="{{ $questioninfo->id}}">
-                                            <label for="{{ $item->id }}" class="form-check-label">
-                                                {{$questioninfo->description}}
-                                            </label>
-                                        </div>
-                                        @endforeach
-                                    </div>
+                                            @foreach ($item->choices as $questioninfo)
+                                            <div class="form-check mt-2">
+                                                @if($questioninfo->id == $item->answer)
+                                                    <input data-question-type="{{$item->typeofquiz}}" data-question-id="{{  $item->id }}" id="{{ $questioninfo->id}}" class="answer-field form-check-input" type="radio" name="{{ $item->id }}" value="{{ $questioninfo->id}}" checked>
+                                                @else
+                                                    <input data-question-type="{{$item->typeofquiz}}" data-question-id="{{  $item->id }}" id="{{ $questioninfo->id}}" class="answer-field form-check-input" type="radio" name="{{ $item->id }}" value="{{ $questioninfo->id}}">
+                                                @endif
+                                                <label for="{{ $item->id }}" class="form-check-label">
+                                                    {{$questioninfo->description}}
+                                                </label>
+                                            </div>
+                                            @endforeach
                                 </div>
+                            </div>
                             @endif
                         
 
