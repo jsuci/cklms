@@ -768,14 +768,8 @@
                         }
                     })
 
-
-                
-    
-
-                
             });
 
-            
 
             $(document).on('click','#submit_classsched',function(){
 
@@ -1030,7 +1024,6 @@
     //                 });
 
     //             });
-           
     //     })
     // </script>
 

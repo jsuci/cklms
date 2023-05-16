@@ -342,9 +342,12 @@ Route::group(['middleware' => ['auth', 'web']], function() {
     Route::get('/jitsi',function(){
         return view('jitsimeet');
     });
+
+
     //View quiz
     Route::get('/quiz/{ids}', 'GlobalController\ViewBookController@viewquiz');
     Route::get('/quizresponses', 'GlobalController\ViewBookController@quizresponses');
+    Route::get('/viewresponse', 'GlobalController\ViewBookController@viewresponse');
 
     //View Book    
     Route::get('/viewbook/{ids}', 'GlobalController\ViewBookController@viewbook');     
@@ -360,7 +363,6 @@ Route::group(['middleware' => ['auth', 'web']], function() {
     Route::get('/videoconference/closevideoconference',function(){
         return view('closebrowser');
     });
-       
 
 });
 

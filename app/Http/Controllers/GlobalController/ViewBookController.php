@@ -388,6 +388,11 @@ class ViewBookController extends Controller
         return $responses;
     }
 
+    public function viewresponse(Request $request)
+    {
+        
+    }
+
 
     public function chaptertestavailability(Request $request)
     {
