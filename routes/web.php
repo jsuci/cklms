@@ -311,6 +311,7 @@ Route::middleware(['auth', 'isStudent','isDefaultPass'])->group(function () {
     Route::get('/retakeQuiz/{id}','Student\StudentBookController@retakeQuiz');
     Route::get('/attempt-quiz','Student\StudentBookController@attemptQuiz');
     Route::get('/save-answer','Student\StudentBookController@saveAnswer');
+    Route::post('/save-image','Student\StudentBookController@saveImage');
 
 
     Route::get('/studentfeed','Student\StudentClassroomController@studentfeed');

@@ -372,35 +372,42 @@ class StudentBookController extends Controller
     }
 
 
-    public function saveAnswer(Request $request){
+    public function saveImage(Request $request){
+
+        $headerId = $request->get('headerId');
+        $question_id = $request->get('question_id');
+        $imageFile = $request->file('answer');
 
         $checkIfexist =  DB::table('chapterquizrecordsdetail')
-            ->where('headerid',$request->get('headerId'))
-            ->where('questionid',$request->get('question_id'))
+            ->where('headerid',$headerId)
+            ->where('questionid',$question_id)
             ->count();
 
+        $data = [
+            'headerid' => $request->get('headerId'),
+            'questionid' => $request->get('question_id'),
+            'typeofquestion' => $request->get('questionType'),
+        ];
 
+        // insert data
         if ($checkIfexist == 0) {
-                $data = [
-                    'headerid' => $request->get('headerId'),
-                    'questionid' => $request->get('question_id'),
-                    'typeofquestion' => $request->get('questionType'),
-                ];
 
-                if ($request->get('questionType') != 1) {
-                    if ($request->get('questionType') == 6) {
-                        $data['picurl'] = $request->get('answer');
-                    } else {
-                        $data['stringanswer'] = $request->get('answer');
-                    }
+            if ($request->get('questionType') != 1) {
+                if ($request->get('questionType') == 6) {
+                    $data['picurl'] = $request->get('answer');
                 } else {
-                    $data['choiceid'] = $request->get('answer');
+                    $data['stringanswer'] = $request->get('answer');
                 }
+            } else {
+                $data['choiceid'] = $request->get('answer');
+            }
 
-                DB::table('chapterquizrecordsdetail')->insert($data);
+            DB::table('chapterquizrecordsdetail')->insert($data);
 
-                return 1;
-        }else{
+            return 1;
+
+        // update data
+        } else {
 
                 if ($request->get('questionType') != 1) {
                     if ($request->get('questionType') == 6) {
@@ -419,7 +426,76 @@ class StudentBookController extends Controller
 
                 return 0;
         }
-
     }
+
+    public function saveAnswer(Request $request)
+    {
+        $checkIfExists = DB::table('chapterquizrecordsdetail')
+            ->where('headerid', $request->get('headerId'))
+            ->where('questionid', $request->get('question_id'))
+            ->count();
+    
+        if ($checkIfExists == 0) {
+            $data = [
+                'headerid' => $request->get('headerId'),
+                'questionid' => $request->get('question_id'),
+                'typeofquestion' => $request->get('questionType'),
+            ];
+    
+            if ($request->get('questionType') != 1) {
+                if ($request->get('questionType') == 6) {
+                    $imageFile = $request->file('answer');
+
+    
+                    // Save the image locally
+                    $imageName = time() . '_' . $imageFile->getClientOriginalName();
+                    $imageFile->move(public_path('quizzes'), $imageName);
+    
+                    // Store the image URL path
+                    $data['picurl'] = 'quizzes/' . $imageName;
+                } else {
+                    $data['stringanswer'] = $request->get('answer');
+                }
+            } else {
+                $data['choiceid'] = $request->get('answer');
+            }
+    
+            DB::table('chapterquizrecordsdetail')->insert($data);
+    
+            return 1;
+        } else {
+            $data = [];
+    
+            if ($request->get('questionType') != 1) {
+                if ($request->get('questionType') == 6) {
+                    $imageFile = $request->get('answer');
+
+    
+                    if ($imageFile) {
+                        // Save the image locally
+                        $imageName = time() . '_' . $imageFile->getClientOriginalName();
+                        $imageFile->move(public_path('quizzes'), $imageName);
+    
+                        // Store the image URL path
+                        $data['picurl'] = 'quizzes/' . $imageName;
+                    }
+                } else {
+                    $data['stringanswer'] = $request->get('answer');
+                }
+            } else {
+                $data['choiceid'] = $request->get('answer');
+            }
+    
+            if (!empty($data)) {
+                DB::table('chapterquizrecordsdetail')
+                    ->where('headerid', $request->get('headerId'))
+                    ->where('questionid', $request->get('question_id'))
+                    ->update($data);
+            }
+    
+            return 0;
+        }
+    }
+    
 
 }

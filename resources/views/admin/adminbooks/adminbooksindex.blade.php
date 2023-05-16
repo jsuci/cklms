@@ -154,6 +154,7 @@
                         );
                     }else{
                         $('form[name=createbook]').submit();
+
                         // $.ajax({
                         //     url: '/admincreatebooks/{{Crypt::encrypt("create")}}',
                         //     type:"GET",

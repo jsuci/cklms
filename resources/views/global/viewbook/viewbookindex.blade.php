@@ -33,8 +33,8 @@
 
 
 <!-- include summernote css/js -->
-<link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.css" rel="stylesheet">
-<script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.js"></script>
+{{-- <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.css" rel="stylesheet"> --}}
+{{-- <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.js"></script> --}}
 
     <!-- icons
     ================================================== -->
@@ -305,9 +305,9 @@
         <script src="{{asset('templatefiles/framework.js')}}"></script>
         <script src="{{asset('templatefiles/jquery-3.3.1.min.js')}}"></script>
 
-        <script src="{{asset('templatefiles/chart.min.js')}}"></script>
+        {{-- <script src="{{asset('templatefiles/chart.min.js')}}"></script> --}}
         {{-- <script type="text/javascript" src="{{asset('plugins/jquery-ui/jquery-ui.min.js')}}"></script> --}}
-        <script src="{{asset('templatefiles/chart-custom.js')}}"></script>
+        {{-- <script src="{{asset('templatefiles/chart-custom.js')}}"></script> --}}
         <script src="{{asset('plugins/jquery-ui/jquery-ui.min.js')}}"></script>
         <!-- Select2 -->
         <!-- SweetAlert2 -->
@@ -323,7 +323,7 @@
         $(document).ready(function(){
 
             var heightwindow = $(document).height();
-            console.log(heightwindow);
+            // console.log(heightwindow);
 
             $('#lesson_content_holder').css('height', heightwindow+'px');
 
@@ -346,7 +346,7 @@
                     type:"GET",
                     success: function(data){
                         $('#book_part_holder').empty()
-                        console.log(data);
+                        // console.log(data);
                         $('#book_part_holder').append(data)
                     }
                 })
@@ -619,8 +619,7 @@
                 $('div[book="lesson"]').remove()
 
                 if($('li[data-id="'+selectedChapter+'"][book="lesson"]').hasClass('uk-open')){
-                    console.log("Hello");
-                    loadlesson()
+                        loadlesson()
                     // $('.spinner').hide();
 
                 }

@@ -198,27 +198,30 @@
 
             console.log(`student answer: ${answer}, question-id: ${questionId}, question-type: ${questionType}`)
 
-            //Send an AJAX request to save the answer data
-            $.ajax({
-                url: '/save-answer',
-                method: 'GET',
-                data: {
-                chapterquizid : quizId,
-                answer: answer,
-                headerId: headerId,
-                questionType: questionType,
-                question_id: questionId
-                },
-                success: function(response) {
-                    if (response == 1){
-                        console.log("Answer Inserted successfully");
-                    }else{
-                        console.log("Answer Updated successfully");
-                    }
+            if (questionType !== 6) {
+                //Send an AJAX request to save the answer data
+                $.ajax({
+                    url: '/save-answer',
+                    method: 'GET',
+                    data: {
+                    chapterquizid : quizId,
+                    answer: answer,
+                    headerId: headerId,
+                    questionType: questionType,
+                    question_id: questionId
+                    },
+                    success: function(response) {
+                        if (response == 1){
+                            console.log("Answer Inserted successfully");
+                        }else{
+                            console.log("Answer Updated successfully");
+                        }
 
-                    //Handle the response from the server if needed
-                }
-            });
+                        //Handle the response from the server if needed
+                    }
+                });
+            }
+
         }
 
         // drag and drop
@@ -348,6 +351,54 @@
 
         // show preview image
         $(document).on('change', '.imageInput', function(){
+            // Get the answer data
+            var quizId = $('#quiz-info').data('quizid');
+            var headerId = $('.card-body').data('headerid');
+            var questionId = $(this).data('question-id');
+            var questionType = $(this).data('question-type');
+
+            console.log(questionId, questionType)
+
+            // Get the file input element
+            var fileInput = $(this)[0];
+            var file = fileInput.files[0];
+
+            // Create a FormData object to store the file data
+            var formData = new FormData();
+            formData.append('chapterquizid', quizId);
+            formData.append('answer', file);
+            formData.append('headerId', headerId);
+            formData.append('questionType', questionType);
+            formData.append('question_id', questionId);
+
+
+            // Get the CSRF token value
+            var csrfToken = $('meta[name="csrf-token"]').attr('content');
+
+            // Set the CSRF token in the request headers
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': csrfToken
+                }
+            });
+
+            // Send an AJAX request to save the answer data
+            $.ajax({
+                url: '/save-image',
+                method: 'POST', // Use POST method instead of GET
+                data: formData,
+                processData: false, // Prevent jQuery from processing the data
+                contentType: false, // Prevent jQuery from setting content type
+                success: function(response) {
+                    if (response == 1) {
+                        console.log("Answer inserted successfully");
+                    } else {
+                        console.log("Answer updated successfully");
+                    }
+                    // Handle the response from the server if needed
+                }
+            });
+
 			previewImage(this);
         });
 
