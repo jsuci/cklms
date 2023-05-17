@@ -393,9 +393,6 @@
 
             }
 
-            
-
-
 
             @if(auth()->user()->type == 2)
 
@@ -449,10 +446,6 @@
                     })
                 })
 
-
-
-
-                
 
                 $(document).on('click','#view_answers',function(){
 

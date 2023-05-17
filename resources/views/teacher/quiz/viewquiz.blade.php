@@ -384,7 +384,6 @@
                 })
         }
 
-
         function getQuizResponses(chapterquizid) {
             return $.ajax({
                 type:'GET',

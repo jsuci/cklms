@@ -380,48 +380,49 @@ class ViewBookController extends Controller
         return $responses;
     }
 
-    public function viewquizresponse($id, Request $request)
-    {
-        // get student quiz record
-        $quizRecord = DB::table('chapterquizrecords')
-            ->where('id', $id)
-            ->where('deleted', 0)
-            ->select(
-                'id',
-                'classroomid',
-                'chapterquizid',
-                'submittedby',
-                'submitteddatetime'
-            )
-            ->orderBy('submitteddatetime', 'desc')
-            ->first();
+        public function viewquizresponse($id, Request $request)
+        {
+            // get student quiz record
+            $quizRecord = DB::table('chapterquizrecords')
+                ->where('id', $id)
+                ->where('deleted', 0)
+                ->select(
+                    'id',
+                    'classroomid',
+                    'chapterquizid',
+                    'submittedby',
+                    'quizstatus',
+                    'submitteddatetime'
+                )
+                ->orderBy('submitteddatetime', 'desc')
+                ->first();
 
-        // get quiz info base on chapterquizid
-        $quizInfo = DB::table('lesssonquiz')
-            ->where('id',$quizRecord->chapterquizid)
-            ->select('id','title', 'coverage', 'description' )
-            ->first();
-
-
-        // get all the questions, choices, answers base on 
-        // quizInfo.id
-
-        $quizQuestions = DB::table('lessonquizquestions')
-            ->where('lessonquizquestions.deleted','0')
-            ->where('quizid', $quizInfo->id)
-            ->select(
-                'lessonquizquestions.id',
-                'lessonquizquestions.question',
-                'lessonquizquestions.typeofquiz'
-            )
-            ->get();
+            // get quiz info base on chapterquizid
+            $quizInfo = DB::table('lesssonquiz')
+                ->where('id',$quizRecord->chapterquizid)
+                ->select('id','title', 'coverage', 'description' )
+                ->first();
 
 
+            // get all the questions, choices, answers base on 
+            // quizInfo.id
 
-        return view('teacher.quiz.viewquizresponse')
-            ->with('quizRecord', $quizRecord)
-            ->with('quizInfo', $quizInfo);
-    }
+            $quizQuestions = DB::table('lessonquizquestions')
+                ->where('lessonquizquestions.deleted','0')
+                ->where('quizid', $quizInfo->id)
+                ->select(
+                    'lessonquizquestions.id',
+                    'lessonquizquestions.question',
+                    'lessonquizquestions.typeofquiz'
+                )
+                ->get();
+
+            dd($quizQuestions);
+
+            return view('teacher.quiz.viewquizresponse')
+                ->with('quizRecord', $quizRecord)
+                ->with('quizInfo', $quizInfo);
+        }
 
     public function chaptertestavailability(Request $request)
     {
