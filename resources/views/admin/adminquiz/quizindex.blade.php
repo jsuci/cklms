@@ -500,9 +500,6 @@
         var last_id;
         var last_quiz_type = 'multiple_choice';
         $(document).ready(function(){
-            // var data = {!! json_encode($quizquestions) !!};
-            var data = {!! json_encode($dropquestions) !!};
-            console.log(data);
 
 
             // drag and drop
