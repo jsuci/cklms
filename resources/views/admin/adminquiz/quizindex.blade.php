@@ -384,24 +384,25 @@
                                                                             <p><b>Note: </b>To set up the drop area, please input [~input] where you want the drop zone to appear. Ex. The planet ~input is the biggest planet in the solar system</p>
                                                                             <div id="item_question{{$question->id}}">
                                                                                 @php
-                                                                                $dropquestions = DB::table('lesson_quiz_drop_question')
-                                                                                    ->where('questionid', $question->id)
-                                                                                    ->orderBy('sortid')
-                                                                                    ->get();
+                                                                                    $dropquestions = DB::table('lesson_quiz_drop_question')
+                                                                                        ->where('questionid', $question->id)
+                                                                                        ->orderBy('sortid')
+                                                                                        ->get();
 
-                                                                                foreach($dropquestions as $item){
+                                                                                    foreach($dropquestions as $item){
 
-                                                                                $answer = DB::table('lesson_quiz_drop_answer')
-                                                                                    ->where('headerid', $item->id)
-                                                                                    ->orderBy('sortid')
-                                                                                    ->pluck('answer');
+                                                                                    $answer = DB::table('lesson_quiz_drop_answer')
+                                                                                        ->where('headerid', $item->id)
+                                                                                        ->orderBy('sortid')
+                                                                                        ->pluck('answer');
 
-                                                                                $answerString = implode(',', $answer->toArray());
+                                                                                    $answerString = implode(',', $answer->toArray());
 
-                                                                                $item->answer = $answerString;
+                                                                                    $item->answer = $answerString;
 
-                                                                                }
+                                                                                    }
                                                                                 @endphp
+
                                                                                 @foreach($dropquestions as $item)
                                                                                 <input type="text" class="form-control drop'+parentId+'" style="margin-top: 10px; border: 2px solid dodgerblue; color: black;" placeholder="Item text" value = "{{$item->question}}">
                                                                                 

@@ -347,7 +347,7 @@ Route::group(['middleware' => ['auth', 'web']], function() {
     //View quiz
     Route::get('/quiz/{ids}', 'GlobalController\ViewBookController@viewquiz');
     Route::get('/quizresponses', 'GlobalController\ViewBookController@quizresponses');
-    Route::get('/viewresponse', 'GlobalController\ViewBookController@viewresponse');
+    Route::get('/viewquizresponse/{id}', 'GlobalController\ViewBookController@viewquizresponse');
 
     //View Book    
     Route::get('/viewbook/{ids}', 'GlobalController\ViewBookController@viewbook');     

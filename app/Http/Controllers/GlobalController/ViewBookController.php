@@ -298,20 +298,16 @@ class ViewBookController extends Controller
     }
 
     public function viewquiz($id, Request $request)
-    
     {
-
         $ids = explode('-',$id);
         $classroombookid = $ids[0];
         $classroomid = $ids[1];
         $bookid = $ids[2];
-
-
-
         $quiz = DB::table('lesssonquiz')
-                        ->where('bookid',$bookid)
-                        ->where("deleted", 0)
-                        ->get();
+            ->where('bookid',$bookid)
+            ->where("deleted", 0)
+            ->get();
+
         foreach ($quiz as $item) {
             
             // DB::table('lesson_quiz_record')
@@ -335,11 +331,7 @@ class ViewBookController extends Controller
 
         }
 
-
-
-
-
-    return view('teacher.quiz.viewquiz')
+        return view('teacher.quiz.viewquiz')
             ->with('quizzes', $quiz)
             ->with('classroomid', $classroomid);
     }
@@ -347,22 +339,22 @@ class ViewBookController extends Controller
     public function getActiveQuiz(Request $request)
     {
         $quiz = DB::table('chapterquizsched')
-                ->where('chapterquizsched.deleted', 0)
-                ->where('classroomid', $request->get('classroomid'))
-                ->join('lesssonquiz',function($join){
-                                    $join->on('chapterquizsched.chapterquizid','=','lesssonquiz.id');
-                                })
-                ->select(
-                                    'lesssonquiz.title',
-                                    'lesssonquiz.id',
-                                    'datefrom',
-                                    'timefrom',
-                                    'dateto',
-                                    'timeto',
-                                    'noofattempts',
-                                    'chapterquizsched.createddatetime'
-                        )
-                ->get();
+            ->where('chapterquizsched.deleted', 0)
+            ->where('classroomid', $request->get('classroomid'))
+            ->join('lesssonquiz',function($join){
+                                $join->on('chapterquizsched.chapterquizid','=','lesssonquiz.id');
+                            })
+            ->select(
+                                'lesssonquiz.title',
+                                'lesssonquiz.id',
+                                'datefrom',
+                                'timefrom',
+                                'dateto',
+                                'timeto',
+                                'noofattempts',
+                                'chapterquizsched.createddatetime'
+                    )
+            ->get();
 
 
         foreach($quiz as $item){
@@ -388,11 +380,48 @@ class ViewBookController extends Controller
         return $responses;
     }
 
-    public function viewresponse(Request $request)
+    public function viewquizresponse($id, Request $request)
     {
-        
-    }
+        // get student quiz record
+        $quizRecord = DB::table('chapterquizrecords')
+            ->where('id', $id)
+            ->where('deleted', 0)
+            ->select(
+                'id',
+                'classroomid',
+                'chapterquizid',
+                'submittedby',
+                'submitteddatetime'
+            )
+            ->orderBy('submitteddatetime', 'desc')
+            ->first();
 
+        // get quiz info base on chapterquizid
+        $quizInfo = DB::table('lesssonquiz')
+            ->where('id',$quizRecord->chapterquizid)
+            ->select('id','title', 'coverage', 'description' )
+            ->first();
+
+
+        // get all the questions, choices, answers base on 
+        // quizInfo.id
+
+        $quizQuestions = DB::table('lessonquizquestions')
+            ->where('lessonquizquestions.deleted','0')
+            ->where('quizid', $quizInfo->id)
+            ->select(
+                'lessonquizquestions.id',
+                'lessonquizquestions.question',
+                'lessonquizquestions.typeofquiz'
+            )
+            ->get();
+
+
+
+        return view('teacher.quiz.viewquizresponse')
+            ->with('quizRecord', $quizRecord)
+            ->with('quizInfo', $quizInfo);
+    }
 
     public function chaptertestavailability(Request $request)
     {
@@ -477,6 +506,7 @@ class ViewBookController extends Controller
 
 
     }
+
     public function takethetest(Request $request)
     {
         date_default_timezone_set('Asia/Manila');

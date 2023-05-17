@@ -206,24 +206,20 @@
 @endpush --}}
 
 <script>
+    $(document).ready(function() {
 
-    const Toast = Swal.mixin({
+        const Toast = Swal.mixin({
             toast: true,
             position: 'top-end',
             showConfirmButton: false,
             timer: 3000
         });
 
-
-        var activequiz;
-
-
-
-    $(document).ready(function() {
-
         // globals
         var CLASSROOM_ID;
         var QUIZ_RESPONSES;
+
+        var activequiz;
 
         getactivequiz()
 
@@ -352,43 +348,6 @@
                 `;
                 }).join('');
 
-
-                // // Sort the data by submitteddatetime in descending order
-                // data.sort((a, b) => new Date(b.submitteddatetime) - new Date(a.submitteddatetime));
-
-                // // Get the latest entry
-                // const latestEntry = data[0];
-
-                // // Format date time
-                // let date = new Date(latestEntry.submitteddatetime);
-                // let options = { year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric' };
-                // let formattedDate = date.toLocaleDateString('en-US', options);
-
-                // // Create the HTML for the latest entry
-                // const latestEntryHtml = `
-                //     <tr>
-                //         <td>${latestEntry.name}</td>
-                //         <td>${formattedDate}</td>
-                //         <td><button class="btn btn-primary view-response" id="${latestEntry.id}">View Response</button></td>
-                //     </tr>
-                // `;
-
-                // // Concatenate the latest entry HTML with any other entries
-                // studentEntryHtml = latestEntryHtml + data.slice(1).map(value => {
-                //     // format date time
-                //     let date = new Date(value.submitteddatetime);
-                //     let options = { year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric' };
-                //     let formattedDate = date.toLocaleDateString('en-US', options);
-
-                //     return `
-                //         <tr>
-                //             <td>${value.name}</td>
-                //             <td>${formattedDate}</td>
-                //             <td><button class="btn btn-primary view-response" id="${value.id}">View Response</button></td>
-                //         </tr>
-                //     `;
-                // }).join('');
-
                 $(latestEntriesHtml).appendTo('#quizResponseDetails');
             })
 
@@ -397,7 +356,12 @@
         })
 
         $(document).on('click', '.view-response', function() {
+            console.log($(this).attr('id'))
 
+            var studentId = $(this).attr('id')
+            var url = `/viewquizresponse/${studentId}`;
+
+            window.open(url, '_blank');
         })
 
         function getactivequiz(){
@@ -565,3 +529,4 @@
 
     });
 </script>
+
