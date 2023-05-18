@@ -14,7 +14,8 @@ class StudentBookController extends Controller
         DB::table('chapterquizrecords')
             ->where('id', $request->get('dataId'))
             ->update([
-                'quizstatus'=>1
+                'quizstatus'=>1,
+                'submitteddatetime'=> \Carbon\Carbon::now('Asia/Manila'),
             ]);
 
         return '1';
@@ -394,7 +395,7 @@ class StudentBookController extends Controller
                 ->insertGetId([
                     'chapterquizid'         =>  $request->get('quizid'),
                     'submittedby'           =>  auth()->user()->id,
-                    'submitteddatetime'     =>  date('Y-m-d H:i:s'),
+                    // 'submitteddatetime'     =>  date('Y-m-d H:i:s'),
                     'classroomid'           =>  $request->get('classroomid')
                 ]);
 
@@ -436,6 +437,13 @@ class StudentBookController extends Controller
 
                 DB::table('chapterquizrecordsdetail')->insert($data);
 
+                DB::table('chapterquizrecords')
+                    ->where('id', $request->get('headerId'))
+                    ->update([
+                        'updateddatetime'=> \Carbon\Carbon::now('Asia/Manila'),
+                        'updatedby'=> auth()->user()->id
+                    ]);
+
                 return 1;
         }else{
 
@@ -451,11 +459,21 @@ class StudentBookController extends Controller
                     $data['choiceid'] = $request->get('answer');
                 }
 
+                $data['updateddatetime'] = \Carbon\Carbon::now('Asia/Manila');
+                $data['updatedby'] = auth()->user()->id;
+
                 DB::table('chapterquizrecordsdetail')
                 ->where('headerid', $request->get('headerId'))
                 ->where('questionid',$request->get('question_id'))
                 ->where('sortid', $request->get('sortId'))
                 ->update($data);
+
+                DB::table('chapterquizrecords')
+                    ->where('id', $request->get('headerId'))
+                    ->update([
+                        'updateddatetime'=> \Carbon\Carbon::now('Asia/Manila'),
+                        'updatedby'=> auth()->user()->id
+                    ]);
 
                 return 0;
 
@@ -503,6 +521,9 @@ class StudentBookController extends Controller
 
         // update data
         } else {
+
+            $data['updateddatetime'] = \Carbon\Carbon::now('Asia/Manila');
+            $data['updatedby'] = auth()->user()->id;
 
             DB::table('chapterquizrecordsdetail')
             ->where('headerid', $request->get('headerId'))
