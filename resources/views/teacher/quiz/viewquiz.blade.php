@@ -17,7 +17,7 @@
 
 <!-- Modal -->
 <div class="modal fade" id="responseModal" tabindex="-1" aria-labelledby="responseModal" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
     <div class="modal-content">
         <div class="modal-header">
         <h5 class="modal-title" id="exampleModalLabel">Responses</h5>
@@ -31,6 +31,7 @@
             <tr>
                 <th>Name</th>
                 <th>Date &amp; Time Submitted</th>
+                <th>No. of Attempts Made</th>
                 <th></th>
             </tr>
             </thead>
@@ -326,10 +327,22 @@
                 let options = { year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric' };
                 let formattedDate = datetime.toLocaleDateString('en-US', options);
 
+
+                // Calculate no. of attempts
+                var filteredQuiz = activequiz.filter(function(quiz) {
+                    if (quiz.id == chapterquizid) {
+                        return quiz
+                    }
+                });
+
+                console.log('filtered-quiz', filteredQuiz)
+                
+
                 return `
                     <tr>
                     <td>${entry.name}</td>
                     <td>${formattedDate}</td>
+                    <td>${data.length} / ${filteredQuiz[0].noofattempts}</td>
                     <td><button class="btn btn-primary view-response" id="${entry.id}">View Response</button></td>
                     </tr>
                 `;
@@ -344,7 +357,6 @@
         })
 
         $(document).on('click', '.view-response', function() {
-            console.log($(this).attr('id'))
 
             var studentId = $(this).attr('id')
             var url = `/viewquizresponse/${studentId}`;
@@ -366,7 +378,6 @@
 
                     success:function(data) {
                         activequiz = data
-                        console.log(activequiz);
                         loaddatatable()
                     }
                 })
