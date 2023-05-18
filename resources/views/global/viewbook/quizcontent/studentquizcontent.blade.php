@@ -138,7 +138,7 @@
                                                     <img id="preview" src="{{$item->picurl}}" alt="Preview" style="max-width: 250px; max-height: 250px;">
                                                 </a>
                                             @else
-                                            <a id="preview-link" href="#" target="_blank">
+                                                <a id="preview-link" href="#" target="_blank">
                                                     <img id="preview" src="#" alt="Preview" style="max-width: 250px; max-height: 250px;display:none;">
                                                 </a>
                                             @endif
