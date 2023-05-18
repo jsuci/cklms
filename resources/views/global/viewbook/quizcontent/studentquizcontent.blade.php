@@ -133,7 +133,7 @@
                                         <div class="form-group">
                                             <input class="answer-field form-control-file imageInput" data-question-type="{{$item->typeofquiz}}" data-question-id="{{$item->id}}" id="{{$questioninfo->id}}" type="file" accept="image/*">
                                             
-                                            @if(isset($item->picurl))
+                                            @if($item->picurl != '')
                                                 <a id="preview-link" href="{{$item->picurl}}" target="_blank">
                                                     <img id="preview" src="{{$item->picurl}}" alt="Preview" style="max-width: 250px; max-height: 250px;">
                                                 </a>

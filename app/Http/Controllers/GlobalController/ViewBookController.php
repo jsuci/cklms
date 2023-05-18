@@ -326,9 +326,6 @@ class ViewBookController extends Controller
             $item->coverage = "Coverage not defined";
             }
 
-
-
-
         }
 
         return view('teacher.quiz.viewquiz')
@@ -375,6 +372,7 @@ class ViewBookController extends Controller
             ->where('chapterquizrecords.classroomid', $classroomid)
             ->where('chapterquizrecords.chapterquizid', $chapterquizid)
             ->where('chapterquizrecords.deleted','0')
+            ->where('chapterquizrecords.quizstatus','1')
             ->get();
     
         return $responses;

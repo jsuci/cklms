@@ -45,12 +45,6 @@
     </div>
 </div>
 
-{{-- <div uk-grid="" class="uk-grid uk-grid-stack">
-    <div class="uk-width-2-3@m uk-first-column">
-
-    </div>
-</div> --}}
-
 <div class="container-fluid">
     <div class="row justify-content-center">
         <div class="col-md-10">
@@ -139,8 +133,7 @@
     </div>
 </div>
 
-
-    <div class="modal fade" id="activateQuizModal" tabindex="-1" aria-labelledby="activateQuizModalLabel" aria-hidden="true">
+<div class="modal fade" id="activateQuizModal" tabindex="-1" aria-labelledby="activateQuizModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
         <div class="modal-header " style="background-color: #673AB7 ">
@@ -179,31 +172,24 @@
         </div>
         </div>
     </div>
-    </div>
-
-
+</div>
 
 @endsection
 
-        <script src="{{asset('plugins/jquery/jquery.min.js')}}"></script>
-        <script src="{{asset('templatefiles/framework.js')}}"></script>
-        <script src="{{asset('templatefiles/jquery-3.3.1.min.js')}}"></script>
+<script src="{{asset('plugins/jquery/jquery.min.js')}}"></script>
+<script src="{{asset('templatefiles/framework.js')}}"></script>
+<script src="{{asset('templatefiles/jquery-3.3.1.min.js')}}"></script>
 
-        <script src="{{asset('templatefiles/chart.min.js')}}"></script>
-        {{-- <script type="text/javascript" src="{{asset('plugins/jquery-ui/jquery-ui.min.js')}}"></script> --}}
-        <script src="{{asset('templatefiles/chart-custom.js')}}"></script>
-        <script src="{{asset('plugins/jquery-ui/jquery-ui.min.js')}}"></script>
-        <!-- Select2 -->
-        <!-- SweetAlert2 -->
-        <script src="{{asset('plugins/sweetalert2/sweetalert2.min.js')}}"></script>
-        <script src="{{asset('plugins/sweetalert2/sweetalert2.all.min.js')}}"></script>
-        <script src="{{asset('plugins/datatables/jquery.dataTables.js')}}"></script>
-        <script src="{{asset('plugins/datatables-bs4/js/dataTables.bootstrap4.js')}}"></script>
-
-{{-- 
-@push('scripts')
-
-@endpush --}}
+<script src="{{asset('templatefiles/chart.min.js')}}"></script>
+{{-- <script type="text/javascript" src="{{asset('plugins/jquery-ui/jquery-ui.min.js')}}"></script> --}}
+<script src="{{asset('templatefiles/chart-custom.js')}}"></script>
+<script src="{{asset('plugins/jquery-ui/jquery-ui.min.js')}}"></script>
+<!-- Select2 -->
+<!-- SweetAlert2 -->
+<script src="{{asset('plugins/sweetalert2/sweetalert2.min.js')}}"></script>
+<script src="{{asset('plugins/sweetalert2/sweetalert2.all.min.js')}}"></script>
+<script src="{{asset('plugins/datatables/jquery.dataTables.js')}}"></script>
+<script src="{{asset('plugins/datatables-bs4/js/dataTables.bootstrap4.js')}}"></script>
 
 <script>
     $(document).ready(function() {
@@ -326,6 +312,7 @@
 
                 // Iterate through the data and update the latest entry for each submittedby
                 data.forEach(entry => {
+
                     const submittedby = entry.submittedby;
                     const datetime = new Date(entry.submitteddatetime);
                     
@@ -349,6 +336,7 @@
                 }).join('');
 
                 $(latestEntriesHtml).appendTo('#quizResponseDetails');
+
             })
 
             $('#responseModal').modal()
@@ -524,7 +512,6 @@
                     ]                                                      
             });        
         }
-
 
     });
 </script>
