@@ -141,7 +141,8 @@
 
     <script>
         $(document).ready(function() {
-            $('.editcontent').addClass('disabled');
+            $('input').prop("disabled", true);
+            $('textarea').prop("disabled", true);
         })
     </script>
 @endsection
