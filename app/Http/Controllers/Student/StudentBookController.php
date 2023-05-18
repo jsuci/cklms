@@ -121,10 +121,14 @@ class StudentBookController extends Controller
                         ->where('deleted',0)
                         ->value('picurl');
 
-                    $item->picurl = $rootDomain.'/'.$answer;
-                }
-                
+                    if(isset($answer)){
+                        $item->picurl = $rootDomain.'/'.$answer;
+                    }else{
+                        $item->picurl = "";
+                    }
 
+                    
+                }
 
                 if($item->typeofquiz == 5){
 
