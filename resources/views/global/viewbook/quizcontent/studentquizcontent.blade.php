@@ -138,7 +138,7 @@
                                                     <img id="preview" src="{{$item->picurl}}" alt="Preview" style="max-width: 250px; max-height: 250px;">
                                                 </a>
                                             @else
-                                                <a id="preview-link" href="#" target="_blank">
+                                            <a id="preview-link" href="#" target="_blank">
                                                     <img id="preview" src="#" alt="Preview" style="max-width: 250px; max-height: 250px;display:none;">
                                                 </a>
                                             @endif
@@ -242,10 +242,15 @@
                                 }
 
                                 //Handle the response from the server if needed
+                                // Update the href attribute of the <a> tag with the uploaded image URL
+                                var uploadedImageUrl = response['picurl']; // Replace this with the actual uploaded image URL from the server
+                                $('#preview-link').attr('href', uploadedImageUrl);
                             }
                         });
                     }
                 }
+
+                
 
 
 
@@ -328,15 +333,12 @@
                 processData: false, // Prevent jQuery from processing the data
                 contentType: false, // Prevent jQuery from setting content type
                 success: function(response) {
-
                     if (response == 1) {
                         console.log("Answer inserted successfully");
                     } else {
                         console.log("Answer updated successfully");
                     }
-
                     // Handle the response from the server if needed
-
                     // Update the href attribute of the <a> tag with the uploaded image URL
                     var uploadedImageUrl = response['picurl']; // Replace this with the actual uploaded image URL from the server
                     $('#preview-link').attr('href', uploadedImageUrl);
