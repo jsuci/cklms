@@ -19,10 +19,6 @@
                                 <div class="btn bg-primary text-white m-1">{{$lesson}}</div>
                                 @endforeach
                                 @endif
-                                {{-- <div class="btn bg-success text-white m-1">Lesson 2: VLAN</div>
-                                <div class="btn bg-success text-white m-1">Lesson 3: Inter VLAN</div>
-                                <div class="btn bg-success text-white m-1">Lesson 4: OSI Model</div>
-                                <div class="btn bg-success text-white m-1">Lesson 5: TCP/IP</div> --}}
                             </div>
 
                             <p class="card-text">{{$quizInfo->description}}</p>
@@ -159,13 +155,7 @@
                         </div>
                         </div>
                     
-                    <button id="scroll-to-bottom" class="btn btn-dark btn-lg mb-3 mr-3" style= "
-
-                        position: fixed;
-                        bottom: 0px;
-                        left: 10px;
-                        padding: 9px 15px 9px 15px !important;
-                    }"><i class="fas fa-arrow-circle-down"></i></button>
+                    <button id="scroll-to-bottom" class="btn btn-dark btn-lg mb-3 mr-3" style= "position: fixed;bottom: 0px;left: 10px;padding: 9px 15px 9px 15px !important;"><i class="fas fa-arrow-circle-down"></i></button>
         </div> 
         </div> 
         

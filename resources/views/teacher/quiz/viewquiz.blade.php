@@ -343,7 +343,7 @@
                     <td>${entry.name}</td>
                     <td>${formattedDate}</td>
                     <td>${data.length} / ${filteredQuiz[0].noofattempts}</td>
-                    <td><button class="btn btn-primary view-response" id="${entry.id}">View Response</button></td>
+                    <td><button class="btn btn-primary view-response" data-quiz-id="${filteredQuiz[0].id}" data-record-id="${entry.id}">View Response</button></td>
                     </tr>
                 `;
                 }).join('');
@@ -358,8 +358,9 @@
 
         $(document).on('click', '.view-response', function() {
 
-            var studentId = $(this).attr('id')
-            var url = `/viewquizresponse/${studentId}`;
+            var recordId = $(this).data('record-id')
+            var selectedQuizId = $(this).data('quiz-id')
+            var url = `/viewquizresponse/${CLASSROOM_ID}/${selectedQuizId}/${recordId}`;
 
             window.open(url, '_blank');
         })

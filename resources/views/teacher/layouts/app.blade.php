@@ -51,7 +51,7 @@
         <script src="{{asset('templatefiles/simplebar.js')}}"></script>
         <script src="{{asset('templatefiles/main.js')}}"></script>
         <script src="{{asset('plugins/sweetalert2/sweetalert2.min.js')}}"></script> --}}
-       
+
         <script src="{{asset('plugins/jquery/jquery.min.js')}}"></script>
         <script src="{{asset('templatefiles/framework.js')}}"></script>
         <script src="{{asset('templatefiles/jquery-3.3.1.min.js')}}"></script>

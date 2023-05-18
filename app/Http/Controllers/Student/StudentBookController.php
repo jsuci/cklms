@@ -19,8 +19,6 @@ class StudentBookController extends Controller
             ]);
 
         return '1';
-        // return view('global.viewbook.studentview.testtaken')
-        //     ->with('quizinfo', $quizinfo);
     }
     public function studentQuizContentattempt(Request $request , $quizid, $classroomid){
 
