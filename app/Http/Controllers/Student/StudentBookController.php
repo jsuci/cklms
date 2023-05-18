@@ -105,9 +105,25 @@ class StudentBookController extends Controller
                         $item->answer = "";
 
                     }
-
-
                 }
+
+
+                if($item->typeofquiz == 6 ){
+
+                    $protocol = $request->getScheme();
+                    $host = $request->getHost();
+
+                    $rootDomain = $protocol . '://' . $host;
+
+                    $answer = DB::table('chapterquizrecordsdetail')
+                        ->where('questionid',$item->id)
+                        ->where('headerid', $recordid)
+                        ->where('deleted',0)
+                        ->value('picurl');
+
+                    $item->picurl = $rootDomain.'/'.$answer;
+                }
+                
 
 
                 if($item->typeofquiz == 5){
@@ -126,11 +142,6 @@ class StudentBookController extends Controller
                                                 ->get();
 
                     $item->drop = $dropquestions;
-
-
-                    foreach ($item->drop as $index => $item) {
-                    }
-
 
                     
                     foreach($dropquestions as $index => $item){
@@ -201,7 +212,8 @@ class StudentBookController extends Controller
                 }
 
             }
-
+            
+            // dd($quizQuestions);
 
             return view('global.viewbook.quizcontent.studentquizcontent')
                         ->with('quizInfo',$quizInfo)
@@ -474,23 +486,29 @@ class StudentBookController extends Controller
         // Store the image URL path
         $data['picurl'] = 'quizzes/' . $imageName;
 
+        // Make the complete path of image
+        $protocol = $request->getScheme();
+        $host = $request->getHost();
+
+        $rootDomain = $protocol . '://' . $host;
+
         // insert data
         if ($checkIfexist == 0) {
 
             DB::table('chapterquizrecordsdetail')->insert($data);
 
-            return 1;
-
         // update data
         } else {
 
-                DB::table('chapterquizrecordsdetail')
-                ->where('headerid', $request->get('headerId'))
-                ->where('questionid',$request->get('question_id'))
-                ->update($data);
-
-                return 0;
+            DB::table('chapterquizrecordsdetail')
+            ->where('headerid', $request->get('headerId'))
+            ->where('questionid',$request->get('question_id'))
+            ->update($data);
         }
+
+        $data['picurl'] = $rootDomain . '/' . $data['picurl'];
+
+        return $data;
 
     }
 

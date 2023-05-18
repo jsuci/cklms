@@ -132,7 +132,17 @@
                                         <p>{!! $item->question !!}</p>
                                         <div class="form-group">
                                             <input class="answer-field form-control-file imageInput" data-question-type="{{$item->typeofquiz}}" data-question-id="{{$item->id}}" id="{{$questioninfo->id}}" type="file" accept="image/*">
-                                            <img id="preview" src="#" alt="Preview" style="max-width: 250px; max-height: 250px;display:none;">
+                                            
+                                            @if(isset($item->picurl))
+                                                <a id="preview-link" href="{{$item->picurl}}" target="_blank">
+                                                    <img id="preview" src="{{$item->picurl}}" alt="Preview" style="max-width: 250px; max-height: 250px;">
+                                                </a>
+                                            @else
+                                                <a id="preview-link" href="{{$item->picurl}}" target="_blank">
+                                                    <img id="preview" src="#" alt="Preview" style="max-width: 250px; max-height: 250px;display:none;">
+                                                </a>
+                                            @endif
+
                                         </div>
                                     </div>
                                 </div>
@@ -318,12 +328,18 @@
                 processData: false, // Prevent jQuery from processing the data
                 contentType: false, // Prevent jQuery from setting content type
                 success: function(response) {
+
                     if (response == 1) {
                         console.log("Answer inserted successfully");
                     } else {
                         console.log("Answer updated successfully");
                     }
+
                     // Handle the response from the server if needed
+
+                    // Update the href attribute of the <a> tag with the uploaded image URL
+                    var uploadedImageUrl = response['picurl']; // Replace this with the actual uploaded image URL from the server
+                    $('#preview-link').attr('href', uploadedImageUrl);
                 }
             });
 
