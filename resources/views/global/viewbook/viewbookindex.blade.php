@@ -540,7 +540,16 @@
                         }
                     })
 
-                    console.log(isvalid)
+                    console.log('check preview image', $('#preview').is(':hidden'))
+
+                    if ($('#preview').is(':hidden')) {
+                        // Element is hidden
+                        isvalid = false
+                    } else {
+                        isvalid = true
+                    }
+
+                    console.log('final save status', isvalid)
 
                     if (isvalid == true) {
 
