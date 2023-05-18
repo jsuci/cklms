@@ -1,6 +1,26 @@
 @extends('teacher.layouts.app')
 
 @section('content')
+<style>
+    .points {
+        width: 60px;
+        height: 60px;
+        background-color: #4d4d99;
+        border-radius: 50%;
+        position: relative;
+        top: -50px;
+        left: -50px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    .points h4 {
+        color: #fff;
+        padding: 0;
+        margin: 0;
+    }
+</style>
+    
     <div class="container quizcontent" style="background-color: #fff !important;">
         <div class="row justify-content-center">
             <div class="col-md-8">
@@ -29,6 +49,15 @@
                         <!-- multiple choice -->
                         <div class="card mt-5 editcontent" id="quiz-question-{{$item->id}}">
                             <div class="card-body">
+
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="points">
+                                            <h4>1</h4>
+                                        </div>
+                                    </div>
+                                </div>
+
                                 <p class="question" data-question-type="{{$item->typeofquiz}}">
                                     {{$key+=1}}. {{$item->question}}
                                 </p>
@@ -141,7 +170,7 @@
 
     <script>
         $(document).ready(function() {
-            $('input').prop("disabled", true);
+            // $('input').prop("disabled", true);
             $('textarea').prop("disabled", true);
         })
     </script>
