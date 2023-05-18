@@ -506,9 +506,8 @@
                     $('.answer-field').each(function() {
                         $(this).removeClass('error-input')
                         $(this).removeClass('is-invalid')
-                        console.log($(this).val())
 
-                        if ($(this).val() == "") {
+                        if ($(this).val() == "" && !$(this).hasClass('imageInput')) {
 
                             if ($(this).prop("disabled")) {
                                 $(this).prop('disabled', false);
@@ -525,7 +524,7 @@
                             }
 
                             $(this).addClass('error-input')
-                            isvalid = false
+                                isvalid = false
                         }
 
                         if ($(this).is(":radio")) {
@@ -535,21 +534,11 @@
                                 $(this).focus();
                                 $(this).addClass('is-invalid')
 
-                                isValid = false;
+                                isvalid = false;
                             }
                         }
                     })
 
-                    console.log('check preview image', $('#preview').is(':hidden'))
-
-                    if ($('#preview').is(':hidden')) {
-                        // Element is hidden
-                        isvalid = false
-                    } else {
-                        isvalid = true
-                    }
-
-                    console.log('final save status', isvalid)
 
                     if (isvalid == true) {
 
