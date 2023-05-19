@@ -145,12 +145,14 @@ Route::middleware(['auth', 'isAdministrator','isDefaultPass'])->group(function (
     Route::get('/adminviewbook/createquiztitle', 'Admin\BookController@createdescription'); 
     Route::get('/adminviewbook/addquestion', 'Admin\BookController@addquestion');
     Route::get('/adminviewbook/createquestion', 'Admin\BookController@createquestion');
+    Route::get('/adminviewbook/createquestionitem', 'Admin\BookController@createquestionitem');
     Route::get('/adminviewbook/createchoices', 'Admin\BookController@createchoices');
     Route::get('/adminviewbook/selectlesson', 'Admin\BookController@lessonSelect')->name('lessonSelect');
     Route::get('/adminviewbook/delquestion', 'Admin\BookController@delquestion');
     Route::get('/adminviewbook/delcoverage', 'Admin\BookController@delcoverage');
     Route::get('/adminviewbook/createdragoption', 'Admin\BookController@createdragoption');
     Route::get('/adminviewbook/createdropquestion', 'Admin\BookController@createdropquestion');
+    Route::get('/adminviewbook/createfillquestion', 'Admin\BookController@createFillquestion');
     
     //Answer Key
     Route::get('/adminviewbook/getquestion', 'Admin\BookController@getquestion');
@@ -158,6 +160,9 @@ Route::middleware(['auth', 'isAdministrator','isDefaultPass'])->group(function (
     Route::get('/adminviewbook/save-answer-drop', 'Admin\BookController@setAnswerdrop');
     Route::get('/adminviewbook/returneditquiz', 'Admin\BookController@returneditquiz');
     Route::get('/adminviewbook/getdropquestion', 'Admin\BookController@getDropQuestion');
+    Route::get('/adminviewbook/returneditquizdrag', 'Admin\BookController@returnEditdrag');
+    Route::get('/adminviewbook/getfillquestion', 'Admin\BookController@getFillQuestion');
+    Route::get('/adminviewbook/returneditquizfill', 'Admin\BookController@returnEditfill');
     
 
     
@@ -342,12 +347,11 @@ Route::group(['middleware' => ['auth', 'web']], function() {
     Route::get('/jitsi',function(){
         return view('jitsimeet');
     });
-
-
     //View quiz
     Route::get('/quiz/{ids}', 'GlobalController\ViewBookController@viewquiz');
     Route::get('/quizresponses', 'GlobalController\ViewBookController@quizresponses');
     Route::get('/viewquizresponse/{classroomId}/{quizId}/{recordId}', 'GlobalController\ViewBookController@viewquizresponse');
+    Route::get('/quiz/{ids}', 'GlobalController\ViewBookController@viewquiz');  
 
     //View Book    
     Route::get('/viewbook/{ids}', 'GlobalController\ViewBookController@viewbook');     
@@ -363,6 +367,7 @@ Route::group(['middleware' => ['auth', 'web']], function() {
     Route::get('/videoconference/closevideoconference',function(){
         return view('closebrowser');
     });
+       
 
 });
 
