@@ -391,197 +391,288 @@ class ViewBookController extends Controller
                         ->first();
 
 
+
         $quizQuestions = DB::table('lessonquizquestions')
                     ->where('lessonquizquestions.deleted','0')
                     ->where('quizid', $quizInfo->id)
                     ->select(
                         'lessonquizquestions.id',
                         'lessonquizquestions.question',
-                        'lessonquizquestions.typeofquiz'
+                        'lessonquizquestions.typeofquiz',
+                        'lessonquizquestions.item'
                     )
                     ->get();
 
+        $isAnswered = false;
+
+            
         $checkIfAnswered = DB::table('chapterquizrecords')
-            ->where('submittedby',auth()->user()->id)
-            ->where('chapterquizid',$quizid)
-            ->where('deleted',0)
-            ->select('id','submitteddatetime','quizstatus','updateddatetime')
-            ->first();
+                            ->where('submittedby',auth()->user()->id)
+                            ->where('chapterquizid',$quizid)
+                            ->where('deleted',0)
+                            ->select('id','submitteddatetime','quizstatus','updateddatetime')
+                            ->first();
 
-        // $isAnswered = false;
+        
 
-        // $checkIfAnswered = DB::table('chapterquizrecords')
-        //                     ->where('submittedby',auth()->user()->id)
-        //                     ->where('chapterquizid',$quizid)
-        //                     ->where('deleted',0)
-        //                     ->select('id','submitteddatetime','quizstatus','updateddatetime')
-        //                     ->first();
-
-        // if(isset($checkIfAnswered->id)){
-        //     $isAnswered = true;
-        // }
-
-        foreach($quizQuestions as $item){
-
-            if($item->typeofquiz == 1){
-
-                $choices = DB::table('lessonquizchoices')
-                                ->where('questionid',$item->id)
-                                ->where('deleted',0)
-                                ->select('description','id','answer', 'sortid')
-                                ->orderBy('sortid')
-                                ->get();
-
-                $item->choices = $choices;
-
-                $answer = DB::table('chapterquizrecordsdetail')
-                                ->where('questionid',$item->id)
-                                ->where('headerid', $recordid)
-                                ->where('deleted',0)
-                                ->value('choiceid');
-
-                if(isset($answer)){
-                    $item->answer = $answer;
-                }else{
-
-                    $item->answer = 0;
-
-                }
-
-            }
-
-            if($item->typeofquiz == 2 || $item->typeofquiz == 3 ){
-
-                $answer = DB::table('chapterquizrecordsdetail')
-                                ->where('questionid',$item->id)
-                                ->where('headerid', $recordid)
-                                ->where('deleted',0)
-                                ->value('stringanswer');
-                if(isset($answer)){
-                    $item->answer = $answer;
-                }else{
-
-                    $item->answer = "";
-
-                }
-            }
+        if(isset($checkIfAnswered->id)){
+            $isAnswered = true;
+        }
 
 
-            if($item->typeofquiz == 6 ){
 
-                $protocol = $request->getScheme();
-                $host = $request->getHost();
+            foreach($quizQuestions as $item){
 
-                $rootDomain = $protocol . '://' . $host;
+                if($item->typeofquiz == 1){
 
-                $answer = DB::table('chapterquizrecordsdetail')
-                    ->where('questionid',$item->id)
-                    ->where('headerid', $recordid)
-                    ->where('deleted',0)
-                    ->value('picurl');
+                    $choices = DB::table('lessonquizchoices')
+                                    ->where('questionid',$item->id)
+                                    ->where('deleted',0)
+                                    ->select('description','id','answer', 'sortid')
+                                    ->orderBy('sortid')
+                                    ->get();
 
-                if(isset($answer)){
-                    $item->picurl = $rootDomain.'/'.$answer;
-                }else{
-                    $item->picurl = "";
-                }
+                    $item->choices = $choices;
 
-                
-            }
-
-            if($item->typeofquiz == 5){
-
-                $dragoption = DB::table('lesson_quiz_drag_option')
-                                ->where('questionid',$item->id)
-                                ->where('deleted',0)
-                                ->select('description','id')
-                                ->get();
-
-                $item->drag = $dragoption;
-
-                $dropquestions = DB::table('lesson_quiz_drop_question')
-                                            ->where('questionid', $item->id)
-                                            ->orderBy('sortid')
-                                            ->get();
-
-                $item->drop = $dropquestions;
-
-                
-                foreach($dropquestions as $index => $item){
-
-                    $key = 0;
-                    $answercount = DB::table('chapterquizrecordsdetail')
+                    $answer = DB::table('chapterquizrecordsdetail')
                                     ->where('questionid',$item->id)
                                     ->where('headerid', $recordid)
                                     ->where('deleted',0)
-                                    ->count();
+                                    ->value('choiceid');
 
-                    if($answercount == 1){
-                        $item->answer  = DB::table('chapterquizrecordsdetail')
+                    if(isset($answer)){
+                        $item->answer = $answer;
+                    }else{
+
+                        $item->answer = 0;
+
+                    }
+
+
+                }
+
+                if($item->typeofquiz == 2 || $item->typeofquiz == 3 ){
+
+                    $answer = DB::table('chapterquizrecordsdetail')
                                     ->where('questionid',$item->id)
                                     ->where('headerid', $recordid)
                                     ->where('deleted',0)
                                     ->value('stringanswer');
-                        
-                        $questionWithInputs = preg_replace_callback('/~input/', function($matches) use ($item, &$inputCounter, &$key) {
-                        $inputField = '<input class="d-inline form-control q-input drop-option q-input ui-droppable bg-primary text-white answer-field" data-question-type="5" data-sortid="'.++$inputCounter.'" data-question-id="'.$item->id.'" style="width: 200px; margin: 10px; border-color:black" type="text" id="input-'.$item->id.'" value="'.$item->answer.'" disabled>';
-                        return $inputField;
-                        }, $item->question);
-                        $inputCounter = 0;
+                    if(isset($answer)){
+                        $item->answer = $answer;
+                    }else{
 
-                        $item->question = $questionWithInputs;
+                        $item->answer = "";
 
                     }
+                }
 
-                    else if($answercount > 1){
+                if($item->typeofquiz == 7 ){
 
-                        $answer = DB::table('chapterquizrecordsdetail')
+
+                    $fillquestions = DB::table('lesson_fill_question')
+                                                ->where('questionid', $item->id)
+                                                ->orderBy('sortid')
+                                                ->get();
+
+                    $item->fill = $fillquestions;
+
+
+                    foreach ($item->fill as $index => $fillItem) {
+                        $key = 0;
+                        $answercount = DB::table('chapterquizrecordsdetail')
+                            ->where('questionid', $fillItem->id)
+                            ->where('headerid', $recordid)
+                            ->where('deleted', 0)
+                            ->count();
+
+                        if ($answercount == 1) {
+                            $fillItem->answer  = DB::table('chapterquizrecordsdetail')
+                                ->where('questionid', $fillItem->id)
+                                ->where('headerid', $recordid)
+                                ->where('deleted', 0)
+                                ->value('stringanswer');
+
+                            $questionWithInputs = preg_replace_callback('/~input/', function ($matches) use ($fillItem, &$inputCounter, &$key) {
+                                $inputField = '<input class="answer-field d-inline form-control q-input" data-question-type="7" data-sortid="' . ++$inputCounter . '" data-question-id="' . $fillItem->id . '" style="width: 200px; margin: 10px; border-color:black" type="text" id="input-' . $fillItem->id . '" value="' . $fillItem->answer . '">';
+                                return $inputField;
+                            }, $fillItem->question);
+                            $inputCounter = 0;
+
+                            $fillItem->question = $questionWithInputs;
+                        } else if ($answercount > 1) {
+                            $answer = DB::table('chapterquizrecordsdetail')
+                                ->where('questionid', $fillItem->id)
+                                ->where('headerid', $recordid)
+                                ->select('stringanswer')
+                                ->orderBy('sortid', 'asc')
+                                ->get();
+
+                            $sort = -1;
+                            $questionWithInputs = preg_replace_callback('/~input/', function ($matches) use ($fillItem, &$inputCounter, &$key, &$sort, &$answer) {
+                                $inputField = '<input class="answer-field d-inline form-control q-input" data-question-type="7" data-sortid="' . ++$inputCounter . '" data-question-id="' . $fillItem->id . '" value="' . $answer[++$sort]->stringanswer . '" style="width: 200px; margin: 10px; border-color:black" type="text" id="input-' . $fillItem->id . '">';
+                                return $inputField;
+                            }, $fillItem->question);
+                            $inputCounter = 0;
+
+                            $fillItem->answer = $answer;
+                            $fillItem->question = $questionWithInputs;
+                        } else {
+                            $questionWithInputs = preg_replace_callback('/~input/', function ($matches) use ($fillItem, &$inputCounter, &$key) {
+                                $inputField = '<input class="answer-field d-inline form-control q-input" data-question-type="7" data-sortid="' . ++$inputCounter . '" data-question-id="' . $fillItem->id . '" style="width: 200px; margin: 10px; border-color:black" type="text" id="input-' . $fillItem->id . '">';
+                                return $inputField;
+                            }, $fillItem->question);
+                            $inputCounter = 0;
+
+                            $fillItem->question = $questionWithInputs;
+                        }
+                    }
+
+                                            
+
+                }
+
+
+                if($item->typeofquiz == 6 ){
+
+                    $protocol = $request->getScheme();
+                    $host = $request->getHost();
+
+                    $rootDomain = $protocol . '://' . $host;
+
+                    $answer = DB::table('chapterquizrecordsdetail')
+                        ->where('questionid',$item->id)
+                        ->where('headerid', $recordid)
+                        ->where('deleted',0)
+                        ->value('picurl');
+
+                    if(isset($answer)){
+                        $item->picurl = $rootDomain.'/'.$answer;
+                    }else{
+                        $item->picurl = "";
+                    }
+                }
+
+
+                if($item->typeofquiz == 8){
+                
+
+                    $numberOfTimes = $item->item;
+
+
+                    $newArray = []; // Declare an empty array
+
+                    for ($i = 0; $i < $numberOfTimes; $i++) {
+
+                        $answer  = DB::table('chapterquizrecordsdetail')
+                                        ->where('questionid',$item->id)
+                                        ->where('headerid', $recordid)
+                                        ->where('sortid', $i+1)
+                                        ->where('deleted',0)
+                                        ->value('stringanswer');
+                        $newArray[] = $answer;
+                    }
+
+                    $item->answer = $newArray;
+
+
+                }
+
+
+                if($item->typeofquiz == 5){
+
+                    $dragoption = DB::table('lesson_quiz_drag_option')
                                     ->where('questionid',$item->id)
-                                    ->where('headerid', $recordid)
-                                    ->select('stringanswer')
-                                    ->orderby('sortid', 'asc')
+                                    ->where('deleted',0)
+                                    ->select('description','id')
                                     ->get();
 
-                        $sort = -1;
-                        $questionWithInputs = preg_replace_callback('/~input/', function($matches) use ($item, &$inputCounter, &$key , &$sort , &$answer) {
-                        $inputField = '<input class="d-inline form-control q-input drop-option q-input ui-droppable bg-primary text-white answer-field" data-question-type="5" data-sortid="'.++$inputCounter.'" data-question-id="'.$item->id.'" value="'.$answer[++$sort]->stringanswer.'" style="width: 200px; margin: 10px; border-color:black" type="text" id="input-'.$item->id.'" disabled>';
-                        return $inputField;
-                        }, $item->question);
-                        $inputCounter = 0;
-                        
+                    $item->drag = $dragoption;
 
-                        $item->answer = $answer;
+                    $dropquestions = DB::table('lesson_quiz_drop_question')
+                                                ->where('questionid', $item->id)
+                                                ->orderBy('sortid')
+                                                ->get();
+
+                    $item->drop = $dropquestions;
+
+                    
+                    foreach($dropquestions as $index => $item){
+
+                        $key = 0;
+                        $answercount = DB::table('chapterquizrecordsdetail')
+                                        ->where('questionid',$item->id)
+                                        ->where('headerid', $recordid)
+                                        ->where('deleted',0)
+                                        ->count();
+
+                        if($answercount == 1){
+                            $item->answer  = DB::table('chapterquizrecordsdetail')
+                                        ->where('questionid',$item->id)
+                                        ->where('headerid', $recordid)
+                                        ->where('deleted',0)
+                                        ->value('stringanswer');
+                            
+                            $questionWithInputs = preg_replace_callback('/~input/', function($matches) use ($item, &$inputCounter, &$key) {
+                            $inputField = '<input class="d-inline form-control q-input drop-option q-input ui-droppable bg-primary text-white answer-field" data-question-type="5" data-sortid="'.++$inputCounter.'" data-question-id="'.$item->id.'" style="width: 200px; margin: 10px; border-color:black" type="text" id="input-'.$item->id.'" value="'.$item->answer.'" disabled>';
+                            return $inputField;
+                            }, $item->question);
+                            $inputCounter = 0;
+
+                            $item->question = $questionWithInputs;
+
+                        }
+
+                        else if($answercount > 1){
+
+                            $answer = DB::table('chapterquizrecordsdetail')
+                                        ->where('questionid',$item->id)
+                                        ->where('headerid', $recordid)
+                                        ->select('stringanswer')
+                                        ->orderby('sortid', 'asc')
+                                        ->get();
+
+                            $sort = -1;
+                            $questionWithInputs = preg_replace_callback('/~input/', function($matches) use ($item, &$inputCounter, &$key , &$sort , &$answer) {
+                            $inputField = '<input class="d-inline form-control q-input drop-option q-input ui-droppable bg-primary text-white answer-field" data-question-type="5" data-sortid="'.++$inputCounter.'" data-question-id="'.$item->id.'" value="'.$answer[++$sort]->stringanswer.'" style="width: 200px; margin: 10px; border-color:black" type="text" id="input-'.$item->id.'" disabled>';
+                            return $inputField;
+                            }, $item->question);
+                            $inputCounter = 0;
+                            
+
+                            $item->answer = $answer;
 
 
 
-                        $item->question = $questionWithInputs;
+                            $item->question = $questionWithInputs;
+
+                        }
+                        else{
+
+                            $questionWithInputs = preg_replace_callback('/~input/', function($matches) use ($item, &$inputCounter, &$key) {
+                            $inputField = '<input class="d-inline form-control q-input drop-option q-input ui-droppable answer-field" data-question-type="5" data-sortid="'.++$inputCounter.'" data-question-id="'.$item->id.'" style="width: 200px; margin: 10px; border-color:black" type="text" id="input-'.$item->id.'" disabled>';
+                            return $inputField;
+                            }, $item->question);
+                            $inputCounter = 0;
+
+                            $item->question = $questionWithInputs;
+
+                        }
 
                     }
-                    else{
 
-                        $questionWithInputs = preg_replace_callback('/~input/', function($matches) use ($item, &$inputCounter, &$key) {
-                        $inputField = '<input class="d-inline form-control q-input drop-option q-input ui-droppable answer-field" data-question-type="5" data-sortid="'.++$inputCounter.'" data-question-id="'.$item->id.'" style="width: 200px; margin: 10px; border-color:black" type="text" id="input-'.$item->id.'" disabled>';
-                        return $inputField;
-                        }, $item->question);
-                        $inputCounter = 0;
-
-                        $item->question = $questionWithInputs;
-
-                    }
 
                 }
 
             }
-
-        }
             
-        // dd($quizQuestions);
+            // dd($quizQuestions);
 
-        return view('teacher.quiz.viewquizresponse')
-            ->with('quizInfo',$quizInfo)
-            ->with('headerid',$recordid)
-            ->with('classroomid',$classroomid)
-            ->with('quizQuestions',$quizQuestions);
+            return view('global.viewbook.quizcontent.studentquizcontent')
+                ->with('quizInfo',$quizInfo)
+                ->with('headerid',$recordid)
+                ->with('classroomid',$classroomid)
+                ->with('quizQuestions',$quizQuestions);
 
     }
 
