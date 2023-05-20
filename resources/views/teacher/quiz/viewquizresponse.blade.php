@@ -38,7 +38,6 @@
                     </div>
                 </div>
 
-
                 <div class="card mt-5 editcontents" data-quizid="{{$quizInfo->id}}" id="quiz-info">
                     <div class="card-body" data-headerid="{{$headerid}}" id="headerid">
                         <h1 class="card-title">
@@ -65,11 +64,14 @@
                         <div class="card mt-5 editcontent" id="quiz-question-{{$item->id}}">
                             <div class="card-body">
 
-                                <!-- points -->
                                 <div class="row">
                                     <div class="col-md-12">
                                         <div class="points">
-                                            <h4>1</h4>
+                                            @if($item->check == 1)
+                                                <h4><span><i class="fa fa-check" style="color:rgb(7, 255, 7)" aria-hidden="true"></i></span></h4>
+                                            @else
+                                                <h4><span><i class="fa fa-times" style="color: red;" aria-hidden="true"></i></span></h4>
+                                            @endif
                                         </div>
                                     </div>
                                 </div>
@@ -81,23 +83,12 @@
                                     <div class="form-check mt-2">
                                         @if($questioninfo->id == $item->answer)
                                             <input data-question-type="{{$item->typeofquiz}}" data-question-id="{{$item->id}}" id="{{$questioninfo->id}}" class="answer-field form-check-input" type="radio" name="{{$item->id}}" value="{{$questioninfo->id}}" checked>
-
-                                            <label for="{{$item->id}}" class="form-check-label">
-                                                {{$questioninfo->description}}
-                                                {{-- <i class="fas fa-check" style="color:rgb(95, 255, 95)"></i> --}}
-                                                {{-- <i class="fas fa-times" style="color:rgb(192, 12, 36)"></i> --}}
-                                            </label>
-
-                                            <!-- if answer is correct add check mark to label -->
-                                            <!-- else add x mark -->
-
                                         @else
                                             <input data-question-type="{{$item->typeofquiz}}" data-question-id="{{$item->id}}" id="{{$questioninfo->id}}" class="answer-field form-check-input" type="radio" name="{{$item->id}}" value="{{$questioninfo->id}}">
-                                            <label for="{{$item->id}}" class="form-check-label">
-                                                {{$questioninfo->description}}
-                                            </label>
                                         @endif
-
+                                        <label for="{{$item->id}}" class="form-check-label">
+                                            {{$questioninfo->description}}
+                                        </label>
                                     </div>
                                 @endforeach
                             </div>
@@ -107,16 +98,6 @@
                     @if($item->typeofquiz == 2)
                         <div class="card mt-5 editcontent">
                             <div class="card-body">
-
-                                <!-- points -->
-                                <div class="row">
-                                    <div class="col-md-12">
-                                        <div class="points">
-                                            <h4>1</h4>
-                                        </div>
-                                    </div>
-                                </div>
-
                                 <p class="question" data-question-type="{{$item->typeofquiz}}">
                                     {{$key+=1}}. {{$item->question}}
                                 </p>
@@ -128,16 +109,6 @@
                     @if($item->typeofquiz == 3)
                         <div class="card mt-5 editcontent">
                             <div class="card-body">
-
-                                <!-- points -->
-                                <div class="row">
-                                    <div class="col-md-12">
-                                        <div class="points">
-                                            <h4>1</h4>
-                                        </div>
-                                    </div>
-                                </div>
-
                                 <p class="question" data-question-type="{{$item->typeofquiz}}">
                                     {{$key+=1}}. {{$item->question}}
                                 </p>
@@ -158,17 +129,6 @@
                         <!-- drag and drop -->
                         <div class="card mt-5 editcontent">
                             <div class="card-body">
-
-                                <!-- points -->
-                                <div class="row">
-                                    <div class="col-md-12">
-                                        <div class="points">
-                                            <h4>1</h4>
-                                        </div>
-                                    </div>
-                                </div>
-
-
                                 <p class="question" data-question-type="{{$item->typeofquiz}}">
                                     Drag the correct option and drop it onto the corresponding box.
                                 </p>
@@ -190,16 +150,6 @@
                         <!-- upload image -->
                         <div class="card mt-5 editcontent">
                             <div class="card-body">
-
-                                <!-- points -->
-                                <div class="row">
-                                    <div class="col-md-12">
-                                        <div class="points">
-                                            <h4>1</h4>
-                                        </div>
-                                    </div>
-                                </div>
-
                                 <p>{!! $item->question !!}</p>
                                 <div class="form-group">
                                     <input class="answer-field form-control-file imageInput" data-question-type="{{$item->typeofquiz}}" data-question-id="{{$item->id}}" id="{{$questioninfo->id}}" type="file" accept="image/*">
@@ -220,16 +170,6 @@
                     @if($item->typeofquiz == 7)
                         <div class="card mt-5 editcontent">
                             <div class="card-body">
-
-                                <!-- points -->
-                                <div class="row">
-                                    <div class="col-md-12">
-                                        <div class="points">
-                                            <h4>1</h4>
-                                        </div>
-                                    </div>
-                                </div>
-
                                 <span style="font-weight:600;font-size:1.0pc">
                                     Fill in the blanks
                                 </span>
@@ -248,16 +188,6 @@
                     @if($item->typeofquiz == 8)
                         <div class="card mt-5 editcontent">
                             <div class="card-body">
-
-                                <!-- points -->
-                                <div class="row">
-                                    <div class="col-md-12">
-                                        <div class="points">
-                                            <h4>1</h4>
-                                        </div>
-                                    </div>
-                                </div>
-
                                 <span style="font-weight:600;font-size:1.0pc">
                                     Enumeration
                                 </span>
