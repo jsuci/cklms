@@ -70,7 +70,7 @@
                                             @if($item->check == 1)
                                                 <h4><span><i class="fa fa-check" style="color:rgb(7, 255, 7)" aria-hidden="true"></i></span></h4>
                                             @else
-                                                <h4><span><i class="fa fa-times" style="color: red;" aria-hidden="true"></i></span></h4>
+                                                <h4><span>0</span></h4>
                                             @endif
                                         </div>
                                     </div>
@@ -82,13 +82,24 @@
                                 @foreach ($item->choices as $questioninfo)
                                     <div class="form-check mt-2">
                                         @if($questioninfo->id == $item->answer)
-                                            <input data-question-type="{{$item->typeofquiz}}" data-question-id="{{$item->id}}" id="{{$questioninfo->id}}" class="answer-field form-check-input" type="radio" name="{{$item->id}}" value="{{$questioninfo->id}}" checked>
+                                            @if($item->check == 0)
+                                                <input data-question-type="{{$item->typeofquiz}}" data-question-id="{{$item->id}}" id="{{$questioninfo->id}}" class="answer-field form-check-input" type="radio" name="{{$item->id}}" value="{{$questioninfo->id}}" checked>
+                                                <label for="{{$item->id}}" class="form-check-label">
+                                                    {{$questioninfo->description}} <i class="fa fa-times" style="color: red;" aria-hidden="true"></i>
+                                                </label>
+                                            @else
+                                                <input data-question-type="{{$item->typeofquiz}}" data-question-id="{{$item->id}}" id="{{$questioninfo->id}}" class="answer-field form-check-input" type="radio" name="{{$item->id}}" value="{{$questioninfo->id}}" checked>
+                                                <label for="{{$item->id}}" class="form-check-label">
+                                                    {{$questioninfo->description}}
+                                                </label>
+                                            @endif
+
                                         @else
                                             <input data-question-type="{{$item->typeofquiz}}" data-question-id="{{$item->id}}" id="{{$questioninfo->id}}" class="answer-field form-check-input" type="radio" name="{{$item->id}}" value="{{$questioninfo->id}}">
+                                            <label for="{{$item->id}}" class="form-check-label">
+                                                {{$questioninfo->description}}</i>
+                                            </label>
                                         @endif
-                                        <label for="{{$item->id}}" class="form-check-label">
-                                            {{$questioninfo->description}}
-                                        </label>
                                     </div>
                                 @endforeach
                             </div>
