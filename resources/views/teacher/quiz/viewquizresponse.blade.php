@@ -20,132 +20,22 @@
         margin: 0;
     }
 
-    ul.circle-points {
-        list-style-type: none;
-        margin: 0;
-        padding: 0;
+    .points-add {
+        width: 60px;
+        height: 60px;
+        background-color: #7e0303;
+        border-radius: 50%;
         position: relative;
-        display: inline-block;
-        width: 200px; /* $size*2 */
-        height: 200px; /* $size*2 */
-        transform: scale(0.2);
-        transition: 0.3s ease-out all;
-        top: -120px;
-        left: -120px;
+        top: -50px;
+        left: -50px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
     }
-
-    ul.circle-points li {
-        position: absolute;
-        width: 100px; /* $size */
-        height: 100px; /* $size */
-        transform-origin: 100% 100%;
-        overflow: hidden;
-        display: none;
-    }
-
-    ul.circle-points li a {
-        color: #FFB2C2; /* lighten($bgcolor, 20%) */
-        display: block;
-        width: 200px; /* $size*2 */
-        height: 200px; /* $size*2 */
-        border-radius: 50%;
-        text-align: center;
-        background: #F6717F; /* $bgcolor */
-        font-size: 25px;
-    }
-
-    ul.circle-points li:nth-child(odd) a {
-        background: #FFDFE6; /* lighten($bgcolor, 2%) */
-    }
-
-    ul.circle-points li:nth-child(1) {
-        display: block;
-        transform: rotate(60deg) skew(30deg);
-    }
-
-    ul.circle-points li:nth-child(1) a {
-        line-height: 50px; /* $size/2 */
-        transform: skew(-30deg) rotate(-60deg);
-    }
-
-    ul.circle-points li:nth-child(2) {
-        display: block;
-        transform: rotate(120deg) skew(30deg);
-    }
-
-    ul.circle-points li:nth-child(2) a {
-        line-height: 50px; /* $size/2 */
-        transform: skew(-30deg) rotate(-120deg);
-    }
-
-    ul.circle-points li:nth-child(3) {
-        display: block;
-        transform: rotate(180deg) skew(30deg);
-    }
-
-    ul.circle-points li:nth-child(3) a {
-        line-height: 50px; /* $size/2 */
-        transform: skew(-30deg) rotate(-180deg);
-    }
-
-    ul.circle-points li:nth-child(4) {
-        display: block;
-        transform: rotate(240deg) skew(30deg);
-    }
-
-    ul.circle-points li:nth-child(4) a {
-        line-height: 50px; /* $size/2 */
-        transform: skew(-30deg) rotate(-240deg);
-    }
-
-    ul.circle-points li:nth-child(5) {
-        display: block;
-        transform: rotate(300deg) skew(30deg);
-    }
-
-    ul.circle-points li:nth-child(5) a {
-        line-height: 50px; /* $size/2 */
-        transform: skew(-30deg) rotate(-300deg);
-    }
-
-    ul.circle-points li:nth-child(6) {
-        display: block;
-        transform: rotate(360deg) skew(30deg);
-    }
-
-    ul.circle-points li:nth-child(6) a {
-        line-height: 50px; /* $size/2 */
-        transform: skew(-30deg) rotate(-360deg);
-    }
-
-    ul.circle-points li.close {
-        width: 50px;
-        height: 50px;
-        background: white;
-        border-radius: 50%;
-        position: absolute;
-        left: calc(50% - 25px);
-        top: calc(50% - 25px);
-        display: block;
-        transform: scale(3.8) rotate(45deg);
-        transition: 0.3s ease-in-out all;
-        transform-origin: 50% 50%;
-    }
-
-    ul.circle-points li.close a {
-        background: none;
-        width: 50px;
-        height: 50px;
-        line-height: 50px;
-        color: #ccc;
-    }
-
-    ul.circle-points.active {
-        transform: scale(1);
-    }
-
-    ul.circle-points.active li.close {
-        transform: rotate(0deg);
+    .points-add h4 {
+        color: #fff;
+        padding: 0;
+        margin: 0;
     }
 
 </style>
@@ -197,9 +87,9 @@
                                     <div class="col-md-12">
                                         <div class="points">
                                             @if($item->check == 1)
-                                                <h4><span>{{$item->points}}</span></h4>
+                                                <h4>{{$item->points}}</h4>
                                             @else
-                                                <h4><span>0</span></h4>
+                                                <h4>0</h4>
                                             @endif
                                         </div>
                                     </div>
@@ -241,45 +131,9 @@
 
                                 <div class="row">
                                     <div class="col-md-12">
-
-                                        <ul class="circle-points">
-                                            <li>
-                                            <a href="#">
-                                                <i class="fa fa-home"></i>
-                                            </a>
-                                            </li>
-                                            <li>
-                                            <a href="#">
-                                                <i class="fa fa-gears"></i>
-                                            </a>
-                                            </li>
-                                            <li>
-                                            <a href="#">
-                                                <i class="fa fa-users"></i>
-                                            </a>
-                                            </li>
-                                            <li>
-                                            <a href="#">
-                                                <i class="fa fa-sitemap"></i>
-                                            </a>
-                                            </li>
-                                            <li>
-                                            <a href="#">
-                                                <i class="fa fa-tags"></i>
-                                            </a>
-                                            </li>
-                                            <li>
-                                            <a href="#">
-                                                <i class="fa fa-gamepad"></i>
-                                            </a>
-                                            </li>
-                                            <li class="close">
-                                            <a href="#">
-                                                <i class="fa fa-times"></i>
-                                            </a>
-                                            </li>
-                                        </ul>
-
+                                        <div class="points-add">
+                                            <h4 class="editable" style="cursor:pointer" data-points-id="{{$item->id}}">?</h4>
+                                        </div>
                                     </div>
                                 </div>
 
@@ -294,6 +148,15 @@
                     @if($item->typeofquiz == 3)
                         <div class="card mt-5 editcontent">
                             <div class="card-body">
+
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="points-add">
+                                            <h4 class="editable" style="cursor:pointer" data-points-id="{{$item->id}}">{{$item->points}}</h4>
+                                        </div>
+                                    </div>
+                                </div>
+
                                 <p class="question" data-question-type="{{$item->typeofquiz}}">
                                     {{$key+=1}}. {{$item->question}}
                                 </p>
@@ -436,10 +299,46 @@
             $('input').prop("disabled", true);
             $('textarea').prop("disabled", true);
 
-            $('.close').click(function(event){
+            $('.closed').click(function(event){
                 event.preventDefault();
                 $('.circle-points').toggleClass('active');
             })
+
+            $(document).on('click', '.points-add h4', function() {
+                var pointsId = $(this).data('points-id')
+            })
+
+            $(document).on('click', 'h4.editable', function() {
+                var currentValue = $(this).text().trim();
+                var $input = $('<input>', {
+                    type: 'text',
+                    value: currentValue
+                });
+                $(this).replaceWith($input);
+                $input.focus();
+
+                $input.on('blur', function() {
+                    var newValue = $(this).val().trim();
+                    
+                    // Check if the new value is blank
+                    if (newValue === '') {
+                    // Reset to the original value
+                    newValue = currentValue;
+                    }
+
+                    var $h4 = $('<h4>', {
+                    class: 'editable',
+                    style: 'cursor:pointer',
+                    'data-points-id': $(this).attr('data-points-id'),
+                    text: newValue
+                    });
+
+                    $(this).replaceWith($h4);
+                    saveValueToDatabase($(this).attr('data-points-id'), newValue);
+                });
+            });
+
+
         })
     </script>
 @endsection

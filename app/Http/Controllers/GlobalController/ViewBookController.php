@@ -759,6 +759,19 @@ class ViewBookController extends Controller
 
     }
 
+    public function updatepoint(Request $request)
+    {
+        $quizId = $request->get('quizId');
+        $points = $request->get('points');
+
+        DB::table('lessonquizquestions')
+            ->update([
+                'quizid'=> $quizId,
+                'points'=> $points,
+                'updateddatetime'=> \Carbon\Carbon::now('Asia/Manila')
+            ]);
+    }
+
     public function chaptertestavailability(Request $request)
     {
 
