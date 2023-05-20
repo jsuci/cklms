@@ -68,7 +68,7 @@
                                     <div class="col-md-12">
                                         <div class="points">
                                             @if($item->check == 1)
-                                                <h4><span><i class="fa fa-check" style="color:rgb(7, 255, 7)" aria-hidden="true"></i></span></h4>
+                                                <h4><span>{{$item->points}}</span></h4>
                                             @else
                                                 <h4><span>0</span></h4>
                                             @endif

@@ -399,7 +399,8 @@ class ViewBookController extends Controller
                         'lessonquizquestions.id',
                         'lessonquizquestions.question',
                         'lessonquizquestions.typeofquiz',
-                        'lessonquizquestions.item'
+                        'lessonquizquestions.item',
+                        'lessonquizquestions.points'
                     )
                     ->get();
 
