@@ -47,9 +47,9 @@ CREATE TABLE IF NOT EXISTS `books` (
   `deletedby` int DEFAULT NULL,
   `deleteddatetime` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=29 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=38 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_unicode_ci;
 
--- Dumping data for table cklms.books: ~28 rows (approximately)
+-- Dumping data for table cklms.books: ~33 rows (approximately)
 INSERT INTO `books` (`id`, `title`, `description`, `subjectid`, `picurl`, `createdby`, `createddatetime`, `isactive`, `deleted`, `deletedby`, `deleteddatetime`) VALUES
 	(1, 'Scratch Programming for Teens', NULL, 4, 'books/Programming for Teens/Programming cover 2019-front (Medium).jpg', NULL, '2020-08-05 14:26:45', 1, 0, NULL, NULL),
 	(2, 'Web Page Design', NULL, 1, 'books/Web Page Design/Cover (Medium) (2).jpg', NULL, '2020-08-05 14:29:57', 1, 0, NULL, NULL),
@@ -78,7 +78,16 @@ INSERT INTO `books` (`id`, `title`, `description`, `subjectid`, `picurl`, `creat
 	(25, 'Web Page Design Laboratory', NULL, NULL, 'books/Web Page Design Laboratory/wpd lab manual.jpg', NULL, '2020-09-16 11:18:11', 0, 0, NULL, NULL),
 	(26, 'ICT Essentials LABORATORY', NULL, NULL, 'books/ICT Essentials LABORATORY/g5 lab.jpg', NULL, '2020-09-16 12:48:03', 1, 0, NULL, NULL),
 	(27, 'Visual Graphics Design Laboratory', NULL, NULL, NULL, NULL, '2020-09-25 08:37:42', 1, 0, NULL, NULL),
-	(28, 'Sample', 'Sample Description', NULL, 'books/Sample/1221836.jpg', NULL, '2023-04-20 14:03:09', 0, 0, NULL, NULL);
+	(28, 'Sample', 'Sample Description', NULL, 'books/Sample/1221836.jpg', NULL, '2023-04-20 14:03:09', 0, 1, NULL, NULL),
+	(29, 'Sample Book 1', 'Sample Book 1', NULL, 'books/Sample Book 1/41.png', NULL, '2023-05-16 12:13:45', 0, 1, NULL, NULL),
+	(30, 'Sample Book 7', 'Sample Book 7', NULL, 'books/Sample Book 7/41.png', NULL, '2023-05-16 13:26:31', 0, 1, NULL, NULL),
+	(31, 'Sample Book 8', 'Sample Book 8', NULL, 'books/Sample Book 8/20.png', NULL, '2023-05-16 13:28:59', 0, 1, NULL, NULL),
+	(32, 'Sample Book 9', 'Sample Book 9', NULL, 'books/Sample Book 9/1.png', NULL, '2023-05-16 13:30:51', 0, 1, NULL, NULL),
+	(33, 'Sample Book 5', 'Sample Book 5', NULL, 'books/Sample Book 5/33.png', NULL, '2023-05-16 13:33:33', 0, 0, NULL, NULL),
+	(34, 'Sample Book 5', 'Sample Book 5', NULL, 'books/Sample Book 5/33.png', NULL, '2023-05-16 13:33:37', 0, 0, NULL, NULL),
+	(35, 'Sample Book 8', 'Sample Book 8', NULL, 'books/Sample Book 8/32.png', NULL, '2023-05-16 13:34:10', 0, 0, NULL, NULL),
+	(36, 'Sample Book 8', 'Sample Book 8', NULL, 'books/Sample Book 8/32.png', NULL, '2023-05-16 13:34:34', 0, 0, NULL, NULL),
+	(37, 'Sample Book 99', 'dsdfsdfsdf', NULL, 'books/Sample Book 99/41.png', NULL, '2023-05-16 13:39:10', 0, 0, NULL, NULL);
 
 -- Dumping structure for table cklms.booksacadprog
 CREATE TABLE IF NOT EXISTS `booksacadprog` (
@@ -113,9 +122,9 @@ CREATE TABLE IF NOT EXISTS `chapterquiz` (
   `updatedby` int DEFAULT NULL,
   `updateddatetime` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=676 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=602 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_unicode_ci;
 
--- Dumping data for table cklms.chapterquiz: ~600 rows (approximately)
+-- Dumping data for table cklms.chapterquiz: ~601 rows (approximately)
 INSERT INTO `chapterquiz` (`id`, `sortid`, `chapterid`, `title`, `description`, `type`, `createdby`, `createddatetime`, `deleted`, `deletedby`, `deleteddatetime`, `updatedby`, `updateddatetime`) VALUES
 	(1, 3, 53, 'TEST Chapter 1', NULL, 2, 1, '2020-08-31 14:36:17', 1, NULL, NULL, NULL, NULL),
 	(2, NULL, 34, 'Sample', NULL, 2, 1, '2020-08-31 14:41:31', 1, NULL, NULL, NULL, NULL),
@@ -198,7 +207,7 @@ INSERT INTO `chapterquiz` (`id`, `sortid`, `chapterid`, `title`, `description`, 
 	(79, 2, 41, 'CHAPTER 6 TEST', NULL, 2, 1, '2020-09-12 15:04:56', 1, NULL, NULL, NULL, NULL),
 	(80, 2, 42, 'CHAPTER 7 TEST', NULL, 2, 1, '2020-09-12 15:05:12', 1, NULL, NULL, NULL, NULL),
 	(81, 2, 43, 'CHAPTER 8 TEST', NULL, 2, 1, '2020-09-12 15:05:28', 1, NULL, NULL, NULL, NULL),
-	(82, 2, 44, 'Untitled Quiz 668', NULL, 2, 1, '2020-09-12 15:05:43', 1, NULL, NULL, 1, '2023-05-06 13:59:29'),
+	(82, 2, 44, 'CHAPTER 9 TEST', NULL, 2, 1, '2020-09-12 15:05:43', 1, NULL, NULL, NULL, NULL),
 	(83, 2, 45, 'CHAPTER 10 TEST', NULL, 2, 1, '2020-09-12 15:05:54', 1, NULL, NULL, NULL, NULL),
 	(84, 4, 9, 'CHAPTER 1 TEST', NULL, 2, 1, '2020-09-12 15:13:51', 1, NULL, NULL, NULL, NULL),
 	(85, 9, 190, 'Activity 1: Trace It', NULL, 2, 1, '2020-09-14 08:19:22', 0, NULL, NULL, NULL, NULL),
@@ -667,7 +676,7 @@ INSERT INTO `chapterquiz` (`id`, `sortid`, `chapterid`, `title`, `description`, 
 	(548, NULL, 253, 'Exercise 106 : Define Navigation', NULL, 2, 1, '2020-09-16 14:35:20', 0, NULL, NULL, NULL, NULL),
 	(549, NULL, 253, 'Exercise 107 : Define a Side', NULL, 2, 1, '2020-09-16 14:35:50', 0, NULL, NULL, NULL, NULL),
 	(550, NULL, 253, 'Exercise 108 : Define a Footer', NULL, 2, 1, '2020-09-16 14:36:18', 0, NULL, NULL, NULL, NULL),
-	(551, 1, 306, 'Exercise 109 : Link Audio', NULL, 2, 1, '2020-09-16 14:37:41', 1, NULL, NULL, NULL, NULL),
+	(551, NULL, 254, 'Exercise 109 : Link Audio', NULL, 2, 1, '2020-09-16 14:37:41', 0, NULL, NULL, NULL, NULL),
 	(552, NULL, 254, 'Exercise 110 : Embed Video', NULL, 2, 1, '2020-09-16 14:38:39', 0, NULL, NULL, NULL, NULL),
 	(553, NULL, 254, 'Exercise 111 : Embed Audio', NULL, 2, 1, '2020-09-16 14:39:09', 0, NULL, NULL, NULL, NULL),
 	(554, NULL, 254, 'Exercise 112 : Add Applet', NULL, 2, 1, '2020-09-16 14:40:12', 0, NULL, NULL, NULL, NULL),
@@ -711,86 +720,13 @@ INSERT INTO `chapterquiz` (`id`, `sortid`, `chapterid`, `title`, `description`, 
 	(592, NULL, 265, 'Laboratory 36 & 37', NULL, 2, 1, '2020-09-18 11:28:02', 0, NULL, NULL, NULL, NULL),
 	(593, NULL, 265, 'Laboratory 38 & 39', NULL, 2, 1, '2020-09-18 11:28:22', 0, NULL, NULL, NULL, NULL),
 	(594, NULL, 265, 'Laboratory 40 & 41', NULL, 2, 1, '2020-09-18 11:28:30', 0, NULL, NULL, NULL, NULL),
-	(595, 1, 306, 'Laboratory 1 & 2', NULL, 1, 1, '2020-09-18 13:41:31', 1, NULL, NULL, NULL, NULL),
+	(595, 1, 266, 'Laboratory 1 & 2', NULL, 2, 1, '2020-09-18 13:41:31', 0, NULL, NULL, NULL, NULL),
 	(596, 2, 266, 'Laboratory 3 & 4', NULL, 2, 1, '2020-09-18 13:43:25', 0, NULL, NULL, NULL, NULL),
 	(597, 3, 266, 'Laboratory 5 & 6', NULL, 2, 1, '2020-09-18 14:13:27', 0, NULL, NULL, NULL, NULL),
 	(598, 4, 266, 'Laboratory 7', NULL, 2, 1, '2020-09-18 14:13:52', 0, NULL, NULL, NULL, NULL),
 	(599, 5, 266, 'Laboratory 8 & 9', NULL, 2, 1, '2020-09-18 14:14:01', 0, NULL, NULL, NULL, NULL),
 	(600, 6, 266, 'Laboratory 10 & 11', NULL, 2, 1, '2020-09-18 14:15:11', 0, NULL, NULL, NULL, NULL),
-	(601, NULL, 56, 'App Quiz', NULL, 1, 1, '2023-04-26 11:12:37', 1, NULL, NULL, NULL, NULL),
-	(602, 7, 142, 'QUIZ LESSON 1', 'QUIZ LESSON 1', 1, 1, '2023-04-26 15:04:22', 0, NULL, NULL, NULL, NULL),
-	(604, NULL, 306, 'Unititled Quiz', 'Quiz Description', 1, 1, '2023-05-04 16:25:34', 1, NULL, NULL, NULL, NULL),
-	(605, NULL, 306, 'Unititled Quiz', 'Quiz Description', 1, 1, '2023-05-05 07:40:21', 1, NULL, NULL, NULL, NULL),
-	(606, NULL, 306, 'Unititled Quiz', 'Quiz Description', 1, 1, '2023-05-05 07:51:25', 1, NULL, NULL, NULL, NULL),
-	(607, 3, 306, 'Unititled Quiz', 'Quiz Description', 1, 1, '2023-05-05 07:53:38', 1, NULL, NULL, NULL, NULL),
-	(608, NULL, 306, 'Unititled Quiz', 'Quiz Description', 1, 1, '2023-05-05 08:23:12', 1, NULL, NULL, NULL, NULL),
-	(609, NULL, 306, 'Unititled Quiz', 'Quiz Description', 1, 1, '2023-05-05 08:57:29', 1, NULL, NULL, NULL, NULL),
-	(610, NULL, 306, 'Unititled Quiz', 'Quiz Description', 1, 1, '2023-05-05 09:22:25', 1, 1, '2023-05-06 12:57:05', NULL, NULL),
-	(611, NULL, 306, 'Unititled Quiz', 'Quiz Description', 1, 1, '2023-05-05 09:24:02', 1, NULL, NULL, NULL, NULL),
-	(612, NULL, 306, 'Unititled Quiz', 'Quiz Description', 1, 1, '2023-05-05 09:52:20', 1, NULL, NULL, NULL, NULL),
-	(613, NULL, 306, 'Unititled Quiz', 'Quiz Description', 1, 1, '2023-05-05 09:55:34', 1, NULL, NULL, NULL, NULL),
-	(614, NULL, 306, 'Unititled Quiz', 'Quiz Description', 1, 1, '2023-05-05 09:58:47', 1, NULL, NULL, NULL, NULL),
-	(615, NULL, 306, 'Unititled Quiz', 'Quiz Description', 1, 1, '2023-05-05 09:59:43', 1, NULL, NULL, NULL, NULL),
-	(616, NULL, 306, 'Unititled Quiz', 'Quiz Description', 1, 1, '2023-05-05 10:01:37', 1, NULL, NULL, NULL, NULL),
-	(617, NULL, 306, 'Unititled Quiz', 'Quiz Description', 1, 1, '2023-05-05 10:01:39', 1, NULL, NULL, NULL, NULL),
-	(618, NULL, 306, 'Unititled Quiz', 'Quiz Description', 1, 1, '2023-05-05 10:01:40', 1, NULL, NULL, NULL, NULL),
-	(619, NULL, 306, 'Unititled Quiz', 'Quiz Description', 1, 1, '2023-05-05 10:01:43', 1, NULL, NULL, NULL, NULL),
-	(620, NULL, 306, 'Unititled Quiz', 'Quiz Description', 1, 1, '2023-05-05 10:02:43', 1, NULL, NULL, NULL, NULL),
-	(621, NULL, 306, 'Unititled Quiz', 'Quiz Description', 1, 1, '2023-05-05 10:03:00', 1, NULL, NULL, NULL, NULL),
-	(622, NULL, 306, 'Unititled Quiz', 'Quiz Description', 1, 1, '2023-05-05 10:10:42', 1, NULL, NULL, NULL, NULL),
-	(623, NULL, 306, 'Unititled Quiz', 'Quiz Description', 1, 1, '2023-05-05 10:16:23', 1, NULL, NULL, NULL, NULL),
-	(624, NULL, 306, 'Unititled Quiz', 'Quiz Description', 1, 1, '2023-05-05 10:36:30', 1, NULL, NULL, NULL, NULL),
-	(625, NULL, 306, 'Unititled Quiz', 'Quiz Description', 1, 1, '2023-05-05 10:40:02', 1, NULL, NULL, NULL, NULL),
-	(626, NULL, 306, 'Unititled Quiz', 'Quiz Description', 1, 1, '2023-05-05 10:40:04', 1, NULL, NULL, NULL, NULL),
-	(627, NULL, 306, 'Unititled Quiz', 'Quiz Description', 1, 1, '2023-05-05 11:05:34', 1, NULL, NULL, NULL, NULL),
-	(628, NULL, NULL, NULL, NULL, NULL, 1, '2023-05-05 11:05:35', 0, NULL, NULL, NULL, NULL),
-	(629, NULL, 306, 'Unititled Quiz', 'Quiz Description', 1, 1, '2023-05-05 11:06:30', 1, NULL, NULL, NULL, NULL),
-	(630, NULL, 306, 'Unititled Quiz', 'Quiz Description', 1, 1, '2023-05-05 11:06:54', 1, NULL, NULL, NULL, NULL),
-	(631, NULL, 306, 'Unititled Quiz', 'Quiz Description', 1, 1, '2023-05-05 11:13:24', 1, NULL, NULL, NULL, NULL),
-	(632, NULL, 306, 'Unititled Quiz', 'Quiz Description', 1, 1, '2023-05-05 11:16:35', 1, NULL, NULL, NULL, NULL),
-	(633, NULL, 306, 'Unititled Quiz', 'Quiz Description', 1, 1, '2023-05-05 12:00:47', 1, NULL, NULL, NULL, NULL),
-	(634, NULL, 306, 'Unititled Quiz', 'Quiz Description', 1, 1, '2023-05-05 12:00:56', 1, NULL, NULL, NULL, NULL),
-	(635, NULL, NULL, NULL, NULL, NULL, 1, '2023-05-05 12:01:55', 0, NULL, NULL, NULL, NULL),
-	(636, NULL, NULL, NULL, NULL, NULL, 1, '2023-05-05 13:02:57', 0, NULL, NULL, NULL, NULL),
-	(637, NULL, 305, 'Untitled Quiz 637', 'Quiz Description', 1, 1, '2023-05-05 13:14:12', 1, 1, '2023-05-05 13:46:04', 1, '2023-05-05 13:14:12'),
-	(638, NULL, 305, 'Untitled Quiz 638', 'Quiz Description', 1, 1, '2023-05-05 13:17:51', 1, NULL, NULL, 1, '2023-05-05 13:17:51'),
-	(639, NULL, 305, 'Untitled Quiz 639', 'Quiz Description', 1, 1, '2023-05-05 13:26:09', 1, NULL, NULL, 1, '2023-05-05 13:26:09'),
-	(640, NULL, 305, 'Untitled Quiz 640', 'Quiz Description', 1, 1, '2023-05-05 13:27:38', 1, 1, '2023-05-05 13:53:17', 1, '2023-05-05 13:27:38'),
-	(641, NULL, 305, 'Untitled Quiz 641', 'Quiz Description', 1, 1, '2023-05-05 13:47:23', 1, 1, '2023-05-05 13:47:26', 1, '2023-05-05 13:47:23'),
-	(642, NULL, 306, 'Untitled Quiz 642', 'Quiz Description', 1, 1, '2023-05-05 13:49:48', 1, 1, '2023-05-05 13:49:54', 1, '2023-05-05 13:49:48'),
-	(643, NULL, 305, 'Untitled Quiz 643', 'Quiz Description', 1, 1, '2023-05-05 13:53:36', 1, 1, '2023-05-05 13:53:41', 1, '2023-05-05 13:53:36'),
-	(644, NULL, 305, 'Untitled Quiz 644', 'Quiz Description', 1, 1, '2023-05-05 14:05:30', 1, 1, '2023-05-05 14:05:33', 1, '2023-05-05 14:05:30'),
-	(645, NULL, 305, 'Untitled Quiz 645', 'Quiz Description', 1, 1, '2023-05-05 14:06:02', 1, 1, '2023-05-05 14:55:00', 1, '2023-05-05 14:06:03'),
-	(646, NULL, 305, 'Untitled Quiz 646', 'Quiz Description', 1, 1, '2023-05-05 14:59:43', 1, 1, '2023-05-05 16:17:02', 1, '2023-05-05 14:59:43'),
-	(647, NULL, 56, 'Untitled Quiz 6479', 'Quiz Description', 1, 1, '2023-05-06 07:35:47', 0, NULL, NULL, 1, '2023-05-12 09:48:18'),
-	(648, NULL, NULL, 'Untitled Quiz 648', NULL, NULL, 1, '2023-05-06 08:30:04', 0, NULL, NULL, 1, '2023-05-06 08:30:04'),
-	(649, NULL, 34, 'Untitled Quiz 649', 'Quiz Description', 1, 1, '2023-05-06 09:42:35', 0, NULL, NULL, 1, '2023-05-06 09:42:35'),
-	(650, NULL, NULL, 'Untitled Quiz 650', NULL, NULL, 1, '2023-05-06 09:42:54', 0, NULL, NULL, 1, '2023-05-06 09:42:54'),
-	(651, NULL, 306, 'Untitled Quiz 651', 'Quiz Description', 1, 1, '2023-05-06 10:56:51', 1, 1, '2023-05-06 11:04:31', 1, '2023-05-06 10:56:51'),
-	(652, NULL, 306, 'Edit title quiz here', 'Edit quiz description here', 1, 1, '2023-05-06 11:04:51', 0, NULL, NULL, NULL, NULL),
-	(653, NULL, 306, 'Edit title quiz here', 'Edit quiz description here', 1, 1, '2023-05-06 11:05:04', 0, NULL, NULL, NULL, NULL),
-	(654, NULL, 306, 'Biology Quiz #55', 'Take this test in sdfsdfsdfsddddddddddddddddthan 30 sadfsdfdfgdfdfsdfsdfsdfsdfsdf  jfdfdfgdfgdfghhhhdfgdfgdf hghjghj', 1, 1, '2023-05-06 11:06:16', 0, NULL, NULL, 1, '2023-05-09 16:27:37'),
-	(655, NULL, 306, 'Edit title quiz here', 'Edit quiz description here', 1, 1, '2023-05-06 11:06:53', 1, NULL, NULL, NULL, NULL),
-	(656, NULL, 306, 'Edit title quiz here', 'Edit quiz description here', 1, 1, '2023-05-06 11:07:36', 1, NULL, NULL, NULL, NULL),
-	(657, NULL, 306, 'Edit title quiz here', 'Edit quiz description here', 1, 1, '2023-05-06 11:07:51', 1, 1, '2023-05-06 11:30:55', NULL, NULL),
-	(658, NULL, 305, 'Untitled Quiz', 'Edit quiz description here', 1, 1, '2023-05-06 11:09:26', 1, NULL, NULL, NULL, NULL),
-	(659, NULL, 305, 'Untitled Quiz', 'Edit quiz description here', 1, 1, '2023-05-06 11:09:42', 1, NULL, NULL, NULL, NULL),
-	(660, NULL, 305, 'Untitled Quiz 660', 'Edit quiz description here', 1, 1, '2023-05-06 11:10:28', 1, 1, '2023-05-06 11:29:12', 1, '2023-05-06 11:10:28'),
-	(661, NULL, 305, 'Untitled Quiz 661', 'Edit quiz description here', 1, 1, '2023-05-06 11:11:44', 1, 1, '2023-05-06 11:12:36', 1, '2023-05-06 11:11:44'),
-	(662, NULL, 305, 'Untitled Quiz 662', 'Edit quiz description here', 1, 1, '2023-05-06 11:13:46', 1, 1, '2023-05-06 11:13:57', 1, '2023-05-06 11:13:46'),
-	(663, NULL, 305, 'Untitled Quiz 663', 'Edit quiz description here', 1, 1, '2023-05-06 12:57:23', 1, 1, '2023-05-06 13:03:51', 1, '2023-05-06 12:57:23'),
-	(664, NULL, 306, 'Untitled Quiz 664', 'Edit quiz description here', 1, 1, '2023-05-06 13:03:27', 1, 1, '2023-05-06 13:03:48', 1, '2023-05-06 13:03:27'),
-	(665, NULL, 305, 'Chapter: Lorem Ipsum 665', 'Edit quiz description here', 1, 1, '2023-05-06 13:04:12', 1, 1, '2023-05-06 13:04:37', 1, '2023-05-06 13:04:12'),
-	(666, NULL, 305, 'Chapter: Lorem Ipsum Quiz 666', 'Edit quiz description here', 1, 1, '2023-05-06 13:04:57', 1, 1, '2023-05-06 13:05:17', 1, '2023-05-06 13:04:57'),
-	(667, NULL, 305, 'Chapter: Lorem Ipsum Quiz 667', 'Edit quiz description here', 1, 1, '2023-05-06 13:05:25', 0, NULL, NULL, 1, '2023-05-06 13:05:25'),
-	(668, NULL, 44, 'Untitled Quiz 668', 'Edit quiz description here', 1, 1, '2023-05-06 13:06:39', 0, NULL, NULL, 1, '2023-05-06 13:06:39'),
-	(669, NULL, NULL, ' 669', NULL, NULL, 1, '2023-05-06 15:17:44', 0, NULL, NULL, 1, '2023-05-06 15:17:44'),
-	(670, NULL, 306, 'Untitled Quiz #4', 'Edit quiz description here', 1, 1, '2023-05-06 16:07:21', 0, NULL, NULL, 1, '2023-05-10 10:25:35'),
-	(671, NULL, NULL, ' 671', NULL, NULL, 1, '2023-05-09 09:36:30', 0, NULL, NULL, 1, '2023-05-09 09:36:30'),
-	(672, NULL, 35, 'Untitled Quiz 672', 'Edit quiz description here', 1, 1, '2023-05-10 13:32:59', 0, NULL, NULL, 1, '2023-05-10 13:32:59'),
-	(673, NULL, 35, 'Untitled Quiz 673', 'Edit quiz description here', 1, 1, '2023-05-10 13:33:48', 0, NULL, NULL, 1, '2023-05-10 13:33:48'),
-	(674, NULL, 306, 'Untitled Quiz 674 Zasdfwsedsdfsdfsdf', 'Edit quiz description asassssssssssssssasdasdasdasdasdasdasdasdasdasdasdadasdasddfgdfgdfgdfgdfgdfgdfgdfgdfgdfgdfg', 1, 1, '2023-05-10 13:39:28', 1, NULL, NULL, 1, '2023-05-11 13:47:40'),
-	(675, NULL, 306, 'Untitled Quiz 675', 'Edit quiz description here', 1, 1, '2023-05-11 08:40:38', 0, NULL, NULL, 1, '2023-05-11 08:40:38');
+	(601, 3, 144, 'Lesson 13 Quiz 1', 'Lorem Ipsum', 1, 1, '2023-04-26 15:16:09', 0, NULL, NULL, NULL, NULL);
 
 -- Dumping structure for table cklms.chapterquizattachments
 CREATE TABLE IF NOT EXISTS `chapterquizattachments` (
@@ -1335,176 +1271,26 @@ CREATE TABLE IF NOT EXISTS `chapterquizchoices` (
   `deletedby` int DEFAULT NULL,
   `deleteddatetime` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_unicode_ci;
 
--- Dumping data for table cklms.chapterquizchoices: ~2 rows (approximately)
-INSERT INTO `chapterquizchoices` (`id`, `questionid`, `description`, `answer`, `createdby`, `createddatetime`, `deleted`, `deletedby`, `deleteddatetime`) VALUES
-	(1, 129, 'Ligase', 0, NULL, NULL, 0, NULL, NULL),
-	(2, 129, 'Primase', 0, NULL, NULL, 0, NULL, NULL);
-
--- Dumping structure for table cklms.chapterquizcoverage
-CREATE TABLE IF NOT EXISTS `chapterquizcoverage` (
-  `id` int NOT NULL AUTO_INCREMENT,
-  `quizid` int DEFAULT NULL,
-  `lessonid` int DEFAULT NULL COMMENT '1 = customize; 2 = upload;',
-  `lessontitle` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_unicode_ci DEFAULT NULL,
-  `createdby` int DEFAULT NULL,
-  `createddatetime` datetime DEFAULT NULL,
-  `deleted` tinyint(1) DEFAULT '0',
-  `deletedby` int DEFAULT NULL,
-  `deleteddatetime` datetime DEFAULT NULL,
-  `updatedby` int DEFAULT NULL,
-  `updateddatetime` datetime DEFAULT NULL,
-  PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=738 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_unicode_ci ROW_FORMAT=DYNAMIC;
-
--- Dumping data for table cklms.chapterquizcoverage: ~12 rows (approximately)
-INSERT INTO `chapterquizcoverage` (`id`, `quizid`, `lessonid`, `lessontitle`, `createdby`, `createddatetime`, `deleted`, `deletedby`, `deleteddatetime`, `updatedby`, `updateddatetime`) VALUES
-	(726, 647, 249, 'Apps', 1, '2023-05-10 14:05:16', 0, NULL, NULL, NULL, NULL),
-	(727, 647, 248, 'Lesson Plan & Answer Key', 1, '2023-05-10 14:05:20', 0, NULL, NULL, NULL, NULL),
-	(728, 647, 993, 'Cybersecurity', 1, '2023-05-10 16:32:45', 1, 1, '2023-05-12 09:47:50', NULL, NULL),
-	(729, 674, 994, 'Netwroking 101', 1, '2023-05-11 08:40:17', 1, 1, '2023-05-11 13:12:09', NULL, NULL),
-	(730, 674, 995, 'Lesson 2 dklfjkldfjk', 1, '2023-05-11 10:45:29', 1, 1, '2023-05-11 12:37:33', NULL, NULL),
-	(731, 674, 995, 'Lesson 2 dklfjkldfjk', 1, '2023-05-11 12:38:17', 1, 1, '2023-05-11 13:12:14', NULL, NULL),
-	(732, 674, 995, 'Lesson 2 dklfjkldfjk', 1, '2023-05-11 13:12:18', 1, 1, '2023-05-11 13:12:20', NULL, NULL),
-	(733, 674, 994, 'Netwroking 101', 1, '2023-05-11 13:12:25', 1, 1, '2023-05-11 13:12:38', NULL, NULL),
-	(734, 674, 995, 'Lesson 2 dklfjkldfjk', 1, '2023-05-11 13:12:29', 1, 1, '2023-05-11 13:12:35', NULL, NULL),
-	(735, 674, 995, 'Lesson 2 dklfjkldfjk', 1, '2023-05-11 13:12:43', 1, 1, '2023-05-11 13:21:42', NULL, NULL),
-	(736, 674, 995, 'Lesson 2 dklfjkldfjk', 1, '2023-05-11 13:24:19', 0, NULL, NULL, NULL, NULL),
-	(737, 674, 994, 'Netwroking 101', 1, '2023-05-11 13:24:37', 0, NULL, NULL, NULL, NULL);
-
--- Dumping structure for table cklms.chapterquizheaders
-CREATE TABLE IF NOT EXISTS `chapterquizheaders` (
-  `id` int NOT NULL AUTO_INCREMENT,
-  `quizid` int DEFAULT NULL,
-  `type` tinyint DEFAULT '1' COMMENT '1 = multiple choice; 2 = identification; 3 = essay;',
-  `createdby` int unsigned DEFAULT NULL,
-  `createddatetime` datetime DEFAULT NULL,
-  `deleted` tinyint(1) DEFAULT '0',
-  `deletedby` int DEFAULT NULL,
-  `deleteddatetime` datetime DEFAULT NULL,
-  `updatedby` int DEFAULT NULL,
-  `updateddatetime` datetime DEFAULT NULL,
-  PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=100 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_unicode_ci ROW_FORMAT=DYNAMIC;
-
--- Dumping data for table cklms.chapterquizheaders: ~0 rows (approximately)
-INSERT INTO `chapterquizheaders` (`id`, `quizid`, `type`, `createdby`, `createddatetime`, `deleted`, `deletedby`, `deleteddatetime`, `updatedby`, `updateddatetime`) VALUES
-	(72, 647, 4, 1, '2023-05-12 10:25:49', 1, 1, '2023-05-12 10:27:22', NULL, NULL),
-	(73, 647, 2, 1, '2023-05-12 10:26:21', 1, 1, '2023-05-12 10:27:12', NULL, NULL),
-	(74, 647, 2, 1, '2023-05-12 10:26:40', 1, 1, '2023-05-12 10:27:03', NULL, NULL),
-	(75, 647, 3, 1, '2023-05-12 10:30:15', 1, 1, '2023-05-12 12:17:49', 1, '2023-05-12 11:29:19'),
-	(76, 647, 2, 1, '2023-05-12 10:31:28', 1, 1, '2023-05-12 10:38:10', NULL, NULL),
-	(77, 647, 2, 1, '2023-05-12 10:32:06', 1, 1, '2023-05-12 10:37:31', NULL, NULL),
-	(78, 647, 3, 1, '2023-05-12 10:32:13', 1, 1, '2023-05-12 10:37:28', NULL, NULL),
-	(79, 647, 4, 1, '2023-05-12 11:17:29', 1, 1, '2023-05-12 12:18:29', 1, '2023-05-12 11:17:35'),
-	(80, 647, 2, 1, '2023-05-12 11:17:37', 1, 1, '2023-05-12 12:17:55', 1, '2023-05-12 11:18:59'),
-	(81, 647, 1, 1, '2023-05-12 11:17:47', 1, 1, '2023-05-12 12:18:04', 1, '2023-05-12 11:22:53'),
-	(82, 647, 1, 1, '2023-05-12 11:22:57', 1, 1, '2023-05-12 12:18:15', NULL, NULL),
-	(83, 647, 2, 1, '2023-05-12 11:23:09', 1, 1, '2023-05-12 13:37:44', 1, '2023-05-12 12:23:50'),
-	(84, 647, 4, 1, '2023-05-12 11:23:33', 1, 1, '2023-05-12 13:22:22', 1, '2023-05-12 12:23:54'),
-	(85, 647, 3, 1, '2023-05-12 11:23:40', 1, 1, '2023-05-12 12:18:22', NULL, NULL),
-	(86, 647, 4, 1, '2023-05-12 11:24:50', 1, 1, '2023-05-12 13:14:49', 1, '2023-05-12 13:04:54'),
-	(87, 647, 3, 1, '2023-05-12 11:29:29', 1, 1, '2023-05-12 12:18:10', NULL, NULL),
-	(88, 647, 5, 1, '2023-05-12 11:29:38', 1, 1, '2023-05-12 12:18:19', NULL, NULL),
-	(89, 647, 1, 1, '2023-05-12 13:22:38', 1, 1, '2023-05-12 13:24:09', NULL, NULL),
-	(90, 647, 1, 1, '2023-05-12 13:23:28', 1, 1, '2023-05-12 13:37:42', NULL, NULL),
-	(91, 647, 4, 1, '2023-05-12 13:45:57', 1, 1, '2023-05-12 14:03:43', 1, '2023-05-12 14:02:28'),
-	(92, 647, 3, 1, '2023-05-12 13:46:02', 1, 1, '2023-05-12 13:55:30', 1, '2023-05-12 13:46:05'),
-	(93, 647, 1, 1, '2023-05-12 13:55:23', 1, 1, '2023-05-12 13:55:28', NULL, NULL),
-	(94, 647, 1, 1, '2023-05-12 14:03:46', 1, 1, '2023-05-12 15:45:24', 1, '2023-05-12 15:41:57'),
-	(95, 647, 1, 1, '2023-05-12 14:03:49', 1, 1, '2023-05-12 15:31:24', 1, '2023-05-12 14:21:42'),
-	(96, 647, 1, 1, '2023-05-12 14:03:52', 1, 1, '2023-05-12 15:31:19', 1, '2023-05-12 14:21:45'),
-	(97, 647, 1, 1, '2023-05-12 15:31:09', 1, 1, '2023-05-12 15:31:16', NULL, NULL),
-	(98, 647, 4, 1, '2023-05-12 15:45:27', 0, NULL, NULL, 1, '2023-05-13 07:52:03'),
-	(99, 647, 1, 1, '2023-05-12 16:24:46', 1, 1, '2023-05-12 16:24:57', NULL, NULL);
-
--- Dumping structure for table cklms.chapterquizqanswers
-CREATE TABLE IF NOT EXISTS `chapterquizqanswers` (
-  `id` int NOT NULL AUTO_INCREMENT,
-  `questionid` int DEFAULT NULL,
-  `answer` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_unicode_ci DEFAULT NULL,
-  `type` tinyint DEFAULT '1' COMMENT '1 = multiple choice; 2 = identification; 3 = essay;',
-  `createdby` int DEFAULT NULL,
-  `createddatetime` datetime DEFAULT NULL,
-  `deleted` tinyint(1) DEFAULT '0',
-  `deletedby` int DEFAULT NULL,
-  `deleteddatetime` datetime DEFAULT NULL,
-  `updatedby` int DEFAULT NULL,
-  `updateddatetime` datetime DEFAULT NULL,
-  PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_unicode_ci ROW_FORMAT=DYNAMIC;
-
--- Dumping data for table cklms.chapterquizqanswers: ~0 rows (approximately)
-INSERT INTO `chapterquizqanswers` (`id`, `questionid`, `answer`, `type`, `createdby`, `createddatetime`, `deleted`, `deletedby`, `deleteddatetime`, `updatedby`, `updateddatetime`) VALUES
-	(1, 129, 'Ligase', 1, NULL, NULL, 0, NULL, NULL, NULL, NULL);
+-- Dumping data for table cklms.chapterquizchoices: ~0 rows (approximately)
 
 -- Dumping structure for table cklms.chapterquizquestions
 CREATE TABLE IF NOT EXISTS `chapterquizquestions` (
   `id` int NOT NULL AUTO_INCREMENT,
-  `headerid` varchar(25) COLLATE utf8mb3_unicode_ci DEFAULT NULL,
-  `quizid` int DEFAULT NULL,
+  `headerid` int DEFAULT NULL,
   `question` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_unicode_ci DEFAULT NULL,
   `points` float DEFAULT '0',
   `type` tinyint DEFAULT '1' COMMENT '1 = multiple choice; 2 = identification; 3 = essay;',
-  `createdby` int unsigned DEFAULT NULL,
-  `createddatetime` datetime DEFAULT NULL,
-  `deleted` tinyint(1) DEFAULT '0',
-  `deletedby` int DEFAULT NULL,
-  `deleteddatetime` datetime DEFAULT NULL,
-  `updatedby` int DEFAULT NULL,
-  `updateddatetime` datetime DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=135 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_unicode_ci;
-
--- Dumping data for table cklms.chapterquizquestions: ~25 rows (approximately)
-INSERT INTO `chapterquizquestions` (`id`, `headerid`, `quizid`, `question`, `points`, `type`, `createdby`, `createddatetime`, `deleted`, `deletedby`, `deleteddatetime`, `updatedby`, `updateddatetime`) VALUES
-	(110, '75', 647, 'Edit your question here', 1, 1, 1, '2023-05-12 10:30:15', 1, 1, '2023-05-12 12:17:49', NULL, NULL),
-	(111, '76', 647, 'Edit your question here', 1, 2, 1, '2023-05-12 10:31:28', 1, 1, '2023-05-12 10:38:10', NULL, NULL),
-	(112, '77', 647, 'Edit your question here', 1, 2, 1, '2023-05-12 10:32:06', 1, 1, '2023-05-12 10:37:31', NULL, NULL),
-	(113, '78', 647, 'Edit your question here', 1, 3, 1, '2023-05-12 10:32:13', 1, 1, '2023-05-12 10:37:28', NULL, NULL),
-	(114, '79', 647, 'Edit your question here', 1, 2, 1, '2023-05-12 11:17:29', 1, 1, '2023-05-12 12:18:29', NULL, NULL),
-	(115, '80', 647, 'Edit your question here', 1, 4, 1, '2023-05-12 11:17:37', 1, 1, '2023-05-12 12:17:55', NULL, NULL),
-	(116, '81', 647, 'Edit your question here', 1, 4, 1, '2023-05-12 11:17:47', 1, 1, '2023-05-12 12:18:04', NULL, NULL),
-	(117, '82', 647, 'Edit your question here', 1, 1, 1, '2023-05-12 11:22:57', 1, 1, '2023-05-12 12:18:15', NULL, NULL),
-	(118, '83', 647, 'Edit your question here', 1, 1, 1, '2023-05-12 11:23:09', 1, 1, '2023-05-12 13:37:44', NULL, NULL),
-	(119, '84', 647, 'Edit your question here', 1, 2, 1, '2023-05-12 11:23:33', 1, 1, '2023-05-12 13:22:22', NULL, NULL),
-	(120, '85', 647, 'Edit your question here', 1, 3, 1, '2023-05-12 11:23:40', 1, 1, '2023-05-12 12:18:22', NULL, NULL),
-	(121, '86', 647, 'Edit your question here', 1, 3, 1, '2023-05-12 11:24:50', 1, 1, '2023-05-12 13:14:49', NULL, NULL),
-	(122, '87', 647, 'Edit your question here', 1, 3, 1, '2023-05-12 11:29:29', 1, 1, '2023-05-12 12:18:10', NULL, NULL),
-	(123, '88', 647, 'Edit your question here', 1, 5, 1, '2023-05-12 11:29:38', 1, 1, '2023-05-12 12:18:19', NULL, NULL),
-	(124, '89', 647, 'Edit your question here', 1, 1, 1, '2023-05-12 13:22:39', 1, 1, '2023-05-12 13:24:09', NULL, NULL),
-	(125, '90', 647, 'Edit your question here', 1, 1, 1, '2023-05-12 13:23:28', 1, 1, '2023-05-12 13:37:42', NULL, NULL),
-	(126, '91', 647, 'Edit your question here', 1, 1, 1, '2023-05-12 13:45:57', 1, 1, '2023-05-12 14:03:43', NULL, NULL),
-	(127, '92', 647, 'Edit your question here', 1, 1, 1, '2023-05-12 13:46:02', 1, 1, '2023-05-12 13:55:31', NULL, NULL),
-	(128, '93', 647, 'Edit your question here', 1, 1, 1, '2023-05-12 13:55:23', 1, 1, '2023-05-12 13:55:28', NULL, NULL),
-	(129, '94', 647, 'Edit your question here', 1, 1, 1, '2023-05-12 14:03:46', 1, 1, '2023-05-12 16:24:54', NULL, NULL),
-	(130, '95', 647, 'Edit your question here', 1, 4, 1, '2023-05-12 14:03:49', 1, 1, '2023-05-12 15:31:24', NULL, NULL),
-	(131, '96', 647, 'Edit your question here', 1, 4, 1, '2023-05-12 14:03:52', 1, 1, '2023-05-12 15:31:19', NULL, NULL),
-	(132, '97', 647, 'Edit your question here', 1, 1, 1, '2023-05-12 15:31:09', 1, 1, '2023-05-12 15:31:16', NULL, NULL),
-	(133, '98', 647, 'Edit your question here', 1, 1, 1, '2023-05-12 15:45:27', 0, NULL, NULL, NULL, NULL),
-	(134, '99', 647, 'Edit your question here', 1, 1, 1, '2023-05-12 16:24:46', 1, 1, '2023-05-12 16:24:57', NULL, NULL);
-
--- Dumping structure for table cklms.chapterquizquestiontype
-CREATE TABLE IF NOT EXISTS `chapterquizquestiontype` (
-  `id` int NOT NULL AUTO_INCREMENT,
-  `description` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_unicode_ci DEFAULT NULL,
   `createdby` int DEFAULT NULL,
   `createddatetime` datetime DEFAULT NULL,
   `deleted` tinyint(1) DEFAULT '0',
   `deletedby` int DEFAULT NULL,
   `deleteddatetime` datetime DEFAULT NULL,
-  PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_unicode_ci ROW_FORMAT=DYNAMIC;
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_unicode_ci;
 
--- Dumping data for table cklms.chapterquizquestiontype: ~6 rows (approximately)
-INSERT INTO `chapterquizquestiontype` (`id`, `description`, `createdby`, `createddatetime`, `deleted`, `deletedby`, `deleteddatetime`) VALUES
-	(1, 'multiple-choice', 1, '2023-05-09 13:06:00', 0, NULL, NULL),
-	(2, 'fill-in-the-blanks', 1, '2023-05-09 13:06:43', 0, NULL, NULL),
-	(3, 'enumeration', 1, '2023-05-09 13:07:11', 0, NULL, NULL),
-	(4, 'drag-and-drop', 1, '2023-05-09 13:07:36', 0, NULL, NULL),
-	(5, 'essay', 1, '2023-05-09 13:08:06', 0, NULL, NULL),
-	(6, 'upload-image', 1, '2023-05-09 13:10:40', 0, NULL, NULL);
+-- Dumping data for table cklms.chapterquizquestions: ~0 rows (approximately)
 
 -- Dumping structure for table cklms.chapterquizrecords
 CREATE TABLE IF NOT EXISTS `chapterquizrecords` (
@@ -1519,25 +1305,71 @@ CREATE TABLE IF NOT EXISTS `chapterquizrecords` (
   `updatedby` int DEFAULT NULL,
   `updateddatetime` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=120 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_unicode_ci;
 
--- Dumping data for table cklms.chapterquizrecords: ~0 rows (approximately)
+-- Dumping data for table cklms.chapterquizrecords: ~2 rows (approximately)
+INSERT INTO `chapterquizrecords` (`id`, `classroomid`, `chapterquizid`, `submittedby`, `submitteddatetime`, `deleted`, `quizstatus`, `deletedby`, `updatedby`, `updateddatetime`) VALUES
+	(119, 63, 18, 69, NULL, 0, 0, NULL, 69, '2023-05-20 09:32:41');
 
 -- Dumping structure for table cklms.chapterquizrecordsdetail
 CREATE TABLE IF NOT EXISTS `chapterquizrecordsdetail` (
   `id` int NOT NULL AUTO_INCREMENT,
   `headerid` int DEFAULT NULL,
+  `sortid` int DEFAULT NULL,
   `questionid` int DEFAULT NULL,
   `choiceid` int DEFAULT NULL,
+  `stringanswer` text CHARACTER SET utf8mb3 COLLATE utf8mb3_unicode_ci,
+  `picurl` varchar(100) CHARACTER SET utf8mb3 COLLATE utf8mb3_unicode_ci DEFAULT NULL,
   `description` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_unicode_ci DEFAULT NULL,
   `deleted` tinyint(1) DEFAULT '0',
   `points` float DEFAULT '0',
   `updatedby` int DEFAULT NULL,
   `updateddatetime` datetime DEFAULT NULL,
+  `typeofquestion` int DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=444 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_unicode_ci;
 
--- Dumping data for table cklms.chapterquizrecordsdetail: ~0 rows (approximately)
+-- Dumping data for table cklms.chapterquizrecordsdetail: ~29 rows (approximately)
+INSERT INTO `chapterquizrecordsdetail` (`id`, `headerid`, `sortid`, `questionid`, `choiceid`, `stringanswer`, `picurl`, `description`, `deleted`, `points`, `updatedby`, `updateddatetime`, `typeofquestion`) VALUES
+	(405, 117, NULL, 55, 40, NULL, NULL, NULL, 0, 0, NULL, NULL, 1),
+	(406, 117, NULL, 56, 43, NULL, NULL, NULL, 0, 0, NULL, NULL, 1),
+	(407, 117, NULL, 57, 44, NULL, NULL, NULL, 0, 0, NULL, NULL, 1),
+	(408, 117, NULL, 59, 46, NULL, NULL, NULL, 0, 0, NULL, NULL, 1),
+	(409, 117, NULL, 60, 47, NULL, NULL, NULL, 0, 0, NULL, NULL, 1),
+	(410, 117, NULL, 61, 49, NULL, NULL, NULL, 0, 0, NULL, NULL, 1),
+	(411, 117, NULL, 62, 50, NULL, NULL, NULL, 0, 0, NULL, NULL, 1),
+	(412, 117, NULL, 76, 69, NULL, NULL, NULL, 0, 0, NULL, NULL, 1),
+	(413, 117, NULL, 10, NULL, 'Philippines', NULL, NULL, 0, 0, NULL, NULL, 5),
+	(414, 117, NULL, 11, NULL, 'Gravity', NULL, NULL, 0, 0, NULL, NULL, 5),
+	(415, 117, NULL, 12, NULL, 'London', NULL, NULL, 0, 0, 69, '2023-05-18 15:44:24', 5),
+	(416, 117, NULL, 119, NULL, 'sdfsdfsdfsdfsdfsdfsdfsdf', NULL, NULL, 0, 0, NULL, NULL, 2),
+	(417, 117, NULL, 120, NULL, 'sdfsdfsdfsdf', NULL, NULL, 0, 0, 69, '2023-05-18 15:50:04', 3),
+	(418, 117, NULL, 128, NULL, NULL, 'quizzes/1684395915_front-page-1.png', NULL, 0, 0, NULL, NULL, 6),
+	(419, 118, NULL, 55, 41, NULL, NULL, NULL, 0, 0, 69, '2023-05-18 15:59:21', 1),
+	(420, 118, NULL, 57, 44, NULL, NULL, NULL, 0, 0, 69, '2023-05-18 15:59:23', 1),
+	(421, 118, NULL, 56, 42, NULL, NULL, NULL, 0, 0, 69, '2023-05-18 15:59:23', 1),
+	(422, 118, NULL, 60, 48, NULL, NULL, NULL, 0, 0, 69, '2023-05-20 08:59:23', 1),
+	(423, 118, NULL, 59, 81, NULL, NULL, NULL, 0, 0, 69, '2023-05-18 15:59:26', 1),
+	(424, 118, NULL, 61, 72, NULL, NULL, NULL, 0, 0, 69, '2023-05-18 15:59:27', 1),
+	(425, 118, NULL, 62, 51, NULL, NULL, NULL, 0, 0, 69, '2023-05-18 15:59:28', 1),
+	(426, 118, NULL, 76, 70, NULL, NULL, NULL, 0, 0, 69, '2023-05-20 08:59:13', 1),
+	(427, 118, NULL, 10, NULL, 'Atom', NULL, NULL, 0, 0, NULL, NULL, 5),
+	(428, 118, NULL, 11, NULL, 'Philippines', NULL, NULL, 0, 0, NULL, NULL, 5),
+	(429, 118, NULL, 12, NULL, 'London', NULL, NULL, 0, 0, 69, '2023-05-18 15:59:34', 5),
+	(430, 118, NULL, 119, NULL, 'sdsdfsdfsdf', NULL, NULL, 0, 0, 69, '2023-05-18 15:59:37', 2),
+	(431, 118, NULL, 120, NULL, 'sdfsdfsdfsdfassssssssssss', NULL, NULL, 0, 0, 69, '2023-05-20 08:58:56', 3),
+	(432, 118, NULL, 128, NULL, NULL, 'quizzes/1684544405_22.png', NULL, 0, 0, 69, '2023-05-20 09:00:05', 6),
+	(433, 118, NULL, 128, NULL, NULL, 'quizzes/1684544405_22.png', NULL, 0, 0, 69, '2023-05-20 09:00:05', 6),
+	(434, 118, 1, 10, NULL, 'Philippines', NULL, NULL, 0, 0, NULL, NULL, 5),
+	(435, 119, 1, 140, NULL, 'asdasdas', NULL, NULL, 0, 0, NULL, NULL, 8),
+	(436, 119, 2, 140, NULL, 'dasdasdas', NULL, NULL, 0, 0, NULL, NULL, 8),
+	(437, 119, 3, 140, NULL, 'dasssssssssss', NULL, NULL, 0, 0, NULL, NULL, 8),
+	(438, 119, 4, 140, NULL, 'asdasdasd', NULL, NULL, 0, 0, NULL, NULL, 8),
+	(439, 119, 5, 140, NULL, 'asdasdas', NULL, NULL, 0, 0, NULL, NULL, 8),
+	(440, 119, 6, 140, NULL, 'zzzzzzzzzzzzzzzzzzzzzzz', NULL, NULL, 0, 0, 69, '2023-05-20 09:19:34', 8),
+	(441, 119, 2, 18, NULL, 'sdfsdfsdf', NULL, NULL, 0, 0, NULL, NULL, 7),
+	(442, 119, 1, 18, NULL, 'sdfsdfsdf', NULL, NULL, 0, 0, NULL, NULL, 7),
+	(443, 119, 1, 19, NULL, 'sdfsdfsdf', NULL, NULL, 0, 0, NULL, NULL, 7);
 
 -- Dumping structure for table cklms.chapterquizsched
 CREATE TABLE IF NOT EXISTS `chapterquizsched` (
@@ -1556,9 +1388,14 @@ CREATE TABLE IF NOT EXISTS `chapterquizsched` (
   `updateddatetime` datetime DEFAULT NULL,
   `deleted` tinyint(1) DEFAULT '0',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_unicode_ci;
 
--- Dumping data for table cklms.chapterquizsched: ~0 rows (approximately)
+-- Dumping data for table cklms.chapterquizsched: ~3 rows (approximately)
+INSERT INTO `chapterquizsched` (`id`, `chapterquizid`, `classroomid`, `datefrom`, `timefrom`, `dateto`, `timeto`, `noofattempts`, `status`, `createdby`, `createddatetime`, `updatedby`, `updateddatetime`, `deleted`) VALUES
+	(9, 11, 63, '2023-05-18', '16:33:00', '2023-05-19', '16:33:00', 2, 0, 31, '2023-05-11 12:30:50', NULL, '2023-05-17 16:33:27', 0),
+	(11, 12, 63, '2023-05-09', '13:13:00', '2023-05-10', '13:13:00', 5, 0, 31, '2023-05-11 13:13:33', NULL, NULL, 0),
+	(12, 18, 63, '2023-05-19', '09:17:00', '2023-05-22', '09:17:00', 2, 0, 31, '2023-05-11 13:16:43', NULL, '2023-05-20 09:17:42', 0),
+	(13, 13, 63, '2023-05-19', '11:02:00', '2023-05-21', '11:02:00', 3, 0, 31, '2023-05-13 09:00:39', NULL, NULL, 0);
 
 -- Dumping structure for table cklms.chapters
 CREATE TABLE IF NOT EXISTS `chapters` (
@@ -1576,9 +1413,9 @@ CREATE TABLE IF NOT EXISTS `chapters` (
   `deletedby` int DEFAULT NULL,
   `deleteddatetime` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=307 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=306 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_unicode_ci;
 
--- Dumping data for table cklms.chapters: ~294 rows (approximately)
+-- Dumping data for table cklms.chapters: ~305 rows (approximately)
 INSERT INTO `chapters` (`id`, `sortid`, `title`, `description`, `partid`, `bookid`, `createdby`, `createddatetime`, `updatedby`, `updateddatetime`, `deleted`, `deletedby`, `deleteddatetime`) VALUES
 	(1, NULL, 'Unit 1 Basics of Web Page and HTML', '<p><br></p>', NULL, 2, NULL, '2020-08-05 14:32:49', NULL, NULL, 0, NULL, NULL),
 	(2, NULL, 'Unit 2 Setting Up the HTML Document Structure', '<p><br></p>', NULL, 2, NULL, '2020-08-05 15:09:50', NULL, NULL, 0, NULL, NULL),
@@ -1884,8 +1721,7 @@ INSERT INTO `chapters` (`id`, `sortid`, `title`, `description`, `partid`, `booki
 	(302, NULL, 'Chapter 2: Part 1 - Apple Cider', NULL, NULL, 3, 1, '2021-03-30 09:34:24', NULL, NULL, 1, NULL, NULL),
 	(303, NULL, '2: Part 1 - Apple Cider', NULL, NULL, 3, 1, '2021-03-30 09:35:48', NULL, NULL, 0, NULL, NULL),
 	(304, NULL, 'asdasd', NULL, 0, 2, 1, '2021-03-30 09:53:54', NULL, NULL, 1, NULL, NULL),
-	(305, 1, 'Lorem Ipsum', NULL, 45, 1, 1, '2023-04-26 15:36:27', NULL, NULL, 0, NULL, NULL),
-	(306, 3, 'Cybersecurity', NULL, 4, 1, 1, '2023-05-04 10:33:50', NULL, NULL, 0, NULL, NULL);
+	(305, NULL, 'UNIT 6', 'Words\nBytes\nLists\nRich TextHTML\nCopy\nLorem ipsum dolor sit amet consectetur, adipiscing elit habitasse.\nTortor quisque duis parturient lectus, urna vitae sociis.', 0, 9, 1, '2023-04-26 14:16:32', NULL, NULL, 0, NULL, NULL);
 
 -- Dumping structure for table cklms.classroomass
 CREATE TABLE IF NOT EXISTS `classroomass` (
@@ -2133,9 +1969,9 @@ CREATE TABLE IF NOT EXISTS `classroompostcomm` (
   `deletedby` int DEFAULT NULL,
   `deleteddatetime` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=104 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=112 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_unicode_ci;
 
--- Dumping data for table cklms.classroompostcomm: ~102 rows (approximately)
+-- Dumping data for table cklms.classroompostcomm: ~110 rows (approximately)
 INSERT INTO `classroompostcomm` (`id`, `postid`, `content`, `createdby`, `usertypeid`, `createddatetime`, `updateddatetime`, `deleted`, `deletedby`, `deleteddatetime`) VALUES
 	(1, 2, 'Hehehehe', 8, 3, '2020-08-14 01:39:07', NULL, 0, NULL, NULL),
 	(2, NULL, 'Yow people', 4, 2, '2020-08-14 02:07:21', NULL, 0, NULL, NULL),
@@ -2239,7 +2075,15 @@ INSERT INTO `classroompostcomm` (`id`, `postid`, `content`, `createdby`, `userty
 	(100, 59, 'Daddy', 18, 2, '2023-04-22 15:37:00', NULL, 0, NULL, NULL),
 	(101, 61, NULL, 18, 2, '2023-04-22 16:45:02', NULL, 0, NULL, NULL),
 	(102, 61, NULL, 18, 2, '2023-04-22 16:45:05', NULL, 0, NULL, NULL),
-	(103, 33, 'sdfsdfsdfsdf', 50, 3, '2023-04-26 09:39:59', NULL, 0, NULL, NULL);
+	(103, NULL, 'Hello ma\'am', 50, 3, '2023-04-26 09:39:51', NULL, 0, NULL, NULL),
+	(104, 37, 'Hello ma\'am', 50, 3, '2023-04-26 09:40:11', NULL, 0, NULL, NULL),
+	(105, NULL, 'jkhk', 61, 3, '2023-04-26 11:20:27', NULL, 0, NULL, NULL),
+	(106, 37, 'jkhk', 61, 3, '2023-04-26 11:20:32', NULL, 0, NULL, NULL),
+	(107, NULL, 'dfgdfgdfg', 61, 3, '2023-04-26 11:20:35', NULL, 0, NULL, NULL),
+	(108, 37, 'dfgdfgdfg', 61, 3, '2023-04-26 11:20:48', NULL, 0, NULL, NULL),
+	(109, NULL, 'ryrhrthgdrfgdf', 61, 3, '2023-04-26 11:20:52', NULL, 0, NULL, NULL),
+	(110, NULL, 'ryrhrthgdrfgdf', 61, 3, '2023-04-26 14:46:29', NULL, 0, NULL, NULL),
+	(111, 37, 'dsasdfsdf', 50, 3, '2023-05-17 10:48:16', NULL, 0, NULL, NULL);
 
 -- Dumping structure for table cklms.classroomposts
 CREATE TABLE IF NOT EXISTS `classroomposts` (
@@ -3863,19 +3707,6 @@ INSERT INTO `es_users` (`id`, `name`, `email`, `type`, `schoolabbr`, `deleted`, 
 	(913, 'JEREMIEL DAVE AGUILOS ESPUELAS ', 'S1132000690', 7, NULL, 0, NULL, '$2y$10$UodSjwgrMA/R/QmJMKfDxO2r1n7sO202VpbjjWmRFQ4KZPnAZQhVS', NULL, NULL, NULL, 1, 1, 0, NULL, 0, NULL, NULL),
 	(914, 'JEREMIEL DAVE AGUILOS ESPUELAS ', 'P1132000690', 9, NULL, 0, NULL, '$2y$10$ONxc90DatreSc3VZjMD5XeT55VC/fvLl9M0e7DlOdWO/AOxQsRdja', NULL, NULL, NULL, 1, 1, 0, NULL, 0, NULL, NULL);
 
--- Dumping structure for table cklms.failed_jobs
-CREATE TABLE IF NOT EXISTS `failed_jobs` (
-  `id` bigint unsigned NOT NULL AUTO_INCREMENT,
-  `connection` text COLLATE utf8mb4_unicode_ci NOT NULL,
-  `queue` text COLLATE utf8mb4_unicode_ci NOT NULL,
-  `payload` longtext COLLATE utf8mb4_unicode_ci NOT NULL,
-  `exception` longtext COLLATE utf8mb4_unicode_ci NOT NULL,
-  `failed_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
--- Dumping data for table cklms.failed_jobs: ~0 rows (approximately)
-
 -- Dumping structure for table cklms.gradelevel
 CREATE TABLE IF NOT EXISTS `gradelevel` (
   `id` int NOT NULL AUTO_INCREMENT,
@@ -3918,6 +3749,20 @@ INSERT INTO `gradelevel` (`id`, `levelname`, `acadprogid`, `deleted`, `sortid`, 
 	(19, '3rd Year', 6, 0, 18, 0, 0, 0, NULL, NULL, NULL, NULL, NULL, NULL),
 	(20, '4th Year', 6, 0, 19, 0, 0, 0, NULL, NULL, NULL, NULL, NULL, NULL);
 
+-- Dumping structure for table cklms.lessonchoices
+CREATE TABLE IF NOT EXISTS `lessonchoices` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `questionid` int DEFAULT NULL,
+  `description` text,
+  `answer` tinyint DEFAULT '0',
+  `createddatetime` datetime DEFAULT NULL,
+  `deteled` tinyint DEFAULT '0',
+  `deleteddatetime` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- Dumping data for table cklms.lessonchoices: ~0 rows (approximately)
+
 -- Dumping structure for table cklms.lessoncontents
 CREATE TABLE IF NOT EXISTS `lessoncontents` (
   `id` int NOT NULL AUTO_INCREMENT,
@@ -3935,9 +3780,9 @@ CREATE TABLE IF NOT EXISTS `lessoncontents` (
   `deletedby` int DEFAULT NULL,
   `deleteddatetime` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=894 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=900 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_unicode_ci;
 
--- Dumping data for table cklms.lessoncontents: ~872 rows (approximately)
+-- Dumping data for table cklms.lessoncontents: ~879 rows (approximately)
 INSERT INTO `lessoncontents` (`id`, `content`, `lessonid`, `type`, `filepath`, `extension`, `sortid`, `createdby`, `createddatetime`, `updatedby`, `updateddatetime`, `deleted`, `deletedby`, `deleteddatetime`) VALUES
 	(1, 'Unit 1.pdf', 2, 3, 'books/Web Page Design Laboratory Manual/Basics of Web Page and HTML/Contents/Unit 1.pdf', 'pdf', NULL, NULL, '2020-08-05 15:08:50', NULL, NULL, 1, NULL, NULL),
 	(2, 'Unit 2.pdf', 3, 3, 'books/Web Page Design Laboratory Manual/Setting Up the HTML Document Structure/Contents/Unit 2.pdf', 'pdf', NULL, NULL, '2020-08-05 15:11:15', NULL, NULL, 1, NULL, NULL),
@@ -3965,7 +3810,7 @@ INSERT INTO `lessoncontents` (`id`, `content`, `lessonid`, `type`, `filepath`, `
 	(27, 'Chapter 9.pdf', 43, 3, 'books/Programming for Teens/Scratch Programming/Broadcast Interaction with Scratchy & the Gang/Contents/Chapter 9.pdf', 'pdf', NULL, NULL, '2020-08-05 16:11:16', NULL, NULL, 1, NULL, NULL),
 	(28, 'Chapter 10.pdf', 45, 3, 'books/Programming for Teens/Scratch Programming/Create Your Own Blocks with Scratchy/Contents/Chapter 10.pdf', 'pdf', NULL, NULL, '2020-08-05 16:11:32', NULL, NULL, 1, NULL, NULL),
 	(29, 'Unit 1-3-5.pdf', 2, 3, 'books/Web Page Design Laboratory Manual/Basics of Web Page and HTML/Lesson 1-3/Unit 1-3-5.pdf', 'pdf', NULL, NULL, '2020-08-06 09:07:37', NULL, NULL, 1, NULL, NULL),
-	(30, 'Unit 1-3-5.pdf', 2, 3, 'books/Web Page Design Laboratory Manual/Basics of Web Page and HTML/Lesson 1-3/Unit 1-3-5.pdf', 'pdf', NULL, NULL, '2020-08-06 09:14:47', NULL, NULL, 0, NULL, NULL),
+	(30, 'Test', 2, 1, NULL, NULL, NULL, NULL, '2020-08-06 09:14:47', NULL, '2023-04-26 10:45:58', 0, NULL, NULL),
 	(31, 'Unit 1-6.pdf', 59, 3, 'books/Web Page Design Laboratory Manual/Basics of Web Page and HTML/Lesson 4: Exploring HTML Editors/Unit 1-6.pdf', 'pdf', NULL, NULL, '2020-08-06 09:21:15', NULL, NULL, 1, NULL, NULL),
 	(32, 'Unit 1-6.pdf', 59, 3, 'books/Web Page Design Laboratory Manual/Basics of Web Page and HTML/Lesson 4 Exploring HTML Editors/Unit 1-6.pdf', 'pdf', NULL, NULL, '2020-08-06 09:30:41', NULL, NULL, 0, NULL, NULL),
 	(33, 'Unit 1-7.pdf', 60, 3, 'books/Web Page Design Laboratory Manual/Basics of Web Page and HTML/Lesson 5 Understanding HTML Syntax/Unit 1-7.pdf', 'pdf', NULL, NULL, '2020-08-06 09:31:08', NULL, NULL, 0, NULL, NULL),
@@ -4434,7 +4279,7 @@ INSERT INTO `lessoncontents` (`id`, `content`, `lessonid`, `type`, `filepath`, `
 	(513, 'Lesson 18_1.pdf', 545, 3, 'books/COMPUkids 1/UNIT 5/Lesson 18/Lesson 18_1.pdf', 'pdf', NULL, NULL, '2020-08-21 13:09:16', NULL, NULL, 0, NULL, NULL),
 	(514, 'Lesson 19_1.pdf', 547, 3, 'books/COMPUkids 1/UNIT 5/Lesson 19/Lesson 19_1.pdf', 'pdf', NULL, NULL, '2020-08-21 13:09:52', NULL, NULL, 0, NULL, NULL),
 	(515, 'Lesson 20_1.pdf', 548, 3, 'books/COMPUkids 1/UNIT 5/Lesson 20/Lesson 20_1.pdf', 'pdf', NULL, NULL, '2020-08-21 13:10:22', NULL, NULL, 0, NULL, NULL),
-	(516, 'Lesson 1_1.png', 549, 3, 'books/COMPUKIDS 2/UNIT 1/Lesson 1/Lesson 1_1.png', 'png', NULL, NULL, '2020-08-21 13:11:34', NULL, '2023-04-26 15:00:32', 0, NULL, NULL),
+	(516, 'Lesson 1_1.pdf', 549, 3, 'books/COMPUkids 2/UNIT 1/Lesson 1/Lesson 1_1.pdf', 'pdf', NULL, NULL, '2020-08-21 13:11:34', NULL, NULL, 0, NULL, NULL),
 	(517, 'Lesson 2_1.pdf', 550, 3, 'books/COMPUkids 2/UNIT 1/Lesson 2/Lesson 2_1.pdf', 'pdf', NULL, NULL, '2020-08-21 13:11:59', NULL, NULL, 0, NULL, NULL),
 	(518, 'Lesson 3_1.pdf', 551, 3, 'books/COMPUkids 2/UNIT 1/Lesson 3/Lesson 3_1.pdf', 'pdf', NULL, NULL, '2020-08-21 13:12:23', NULL, NULL, 0, NULL, NULL),
 	(519, 'Lesson 4_1.pdf', 552, 3, 'books/COMPUkids 2/UNIT 1/Lesson 4/Lesson 4_1.pdf', 'pdf', NULL, NULL, '2020-08-21 13:12:46', NULL, NULL, 0, NULL, NULL),
@@ -4571,7 +4416,7 @@ INSERT INTO `lessoncontents` (`id`, `content`, `lessonid`, `type`, `filepath`, `
 	(650, '<p>http://www.mediafire.com/file/eoelxpyetf5oaj1/file<br></p>', 689, 2, NULL, NULL, NULL, NULL, '2020-09-03 16:21:47', NULL, NULL, 0, NULL, NULL),
 	(651, 'http://www.mediafire.com/file/eoelxpyetf5oaj1/file', 690, 4, NULL, NULL, NULL, NULL, '2020-09-04 09:04:24', NULL, '2020-09-04 09:04:57', 0, NULL, NULL),
 	(652, 'http://www.mediafire.com/file/k5fmko0x46mgb77/file', 691, 4, NULL, NULL, NULL, NULL, '2020-09-04 09:20:36', NULL, NULL, 0, NULL, NULL),
-	(653, 'http://www.mediafire.com/file/w3sjow5ffa3q3e5/Tech4Lea.cameyo.exe/file', 692, 4, NULL, NULL, NULL, NULL, '2020-09-04 09:21:47', NULL, '2020-10-12 15:26:02', 0, NULL, NULL),
+	(653, 'facebook.com', 692, 4, NULL, NULL, NULL, NULL, '2020-09-04 09:21:47', NULL, '2023-04-26 14:12:29', 0, NULL, NULL),
 	(654, 'http://www.mediafire.com/file/rceida2hss41oug/file', 693, 4, NULL, NULL, NULL, NULL, '2020-09-04 09:24:50', NULL, NULL, 0, NULL, NULL),
 	(655, 'http://www.mediafire.com/file/jb3f5ayn6dkc6dg/file', 694, 4, NULL, NULL, NULL, NULL, '2020-09-04 09:26:25', NULL, NULL, 0, NULL, NULL),
 	(656, 'http://www.mediafire.com/file/zkv8d9zn3etssxj/file', 695, 4, NULL, NULL, NULL, NULL, '2020-09-04 10:54:47', NULL, NULL, 0, NULL, NULL),
@@ -4752,8 +4597,8 @@ INSERT INTO `lessoncontents` (`id`, `content`, `lessonid`, `type`, `filepath`, `
 	(831, 'http://www.mediafire.com/folder/qoi8h2hr3i27t/k1', 934, 4, NULL, NULL, NULL, NULL, '2020-10-03 17:23:54', NULL, NULL, 0, NULL, NULL),
 	(832, 'http://www.mediafire.com/folder/31sx92u0c7964/k2', 937, 4, NULL, NULL, NULL, NULL, '2020-10-03 17:25:48', NULL, NULL, 0, NULL, NULL),
 	(833, 'Chapter Test_1.pdf', 938, 3, 'books/Visual Graphics Design/1 Introduction to Computer Images and Adobe Photoshop/Chapter 1/Chapter Test/Chapter Test_1.pdf', 'pdf', NULL, NULL, '2020-11-26 09:42:57', NULL, NULL, 0, NULL, NULL),
-	(834, 'Unit Test 1 A_1.pdf', 939, 3, 'books/COMPUkids 2/UNIT 1/Unit Test 1 A/Unit Test 1 A_1.pdf', 'pdf', NULL, NULL, '2020-11-26 14:32:17', NULL, NULL, 0, NULL, NULL),
-	(835, 'Unit Test 1 B_1.pdf', 940, 3, 'books/COMPUkids 2/UNIT 1/Unit Test 1 B/Unit Test 1 B_1.pdf', 'pdf', NULL, NULL, '2020-11-26 14:32:50', NULL, NULL, 0, NULL, NULL),
+	(834, 'Unit Test A_1.pdf', 939, 3, 'books/COMPUKIDS 2/UNIT 1/Unit Test A/Unit Test A_1.pdf', 'pdf', NULL, NULL, '2020-11-26 14:32:17', NULL, '2023-04-26 14:14:48', 0, NULL, NULL),
+	(835, 'Unit Test B_1.pdf', 940, 3, 'books/COMPUKIDS 2/UNIT 1/Unit Test B/Unit Test B_1.pdf', 'pdf', NULL, NULL, '2020-11-26 14:32:50', NULL, '2023-04-26 14:14:06', 0, NULL, NULL),
 	(836, 'Unit Test A_1.pdf', 941, 3, 'books/COMPUkids 2/UNIT 2/Unit Test A/Unit Test A_1.pdf', 'pdf', NULL, NULL, '2020-11-26 14:40:11', NULL, NULL, 0, NULL, NULL),
 	(837, 'Unit Test B_1.pdf', 942, 3, 'books/COMPUkids 2/UNIT 2/Unit Test B/Unit Test B_1.pdf', 'pdf', NULL, NULL, '2020-11-26 14:40:20', NULL, NULL, 0, NULL, NULL),
 	(838, 'Unit Test A_1.pdf', 943, 3, 'books/COMPUkids 2/UNIT 3/Unit Test A/Unit Test A_1.pdf', 'pdf', NULL, NULL, '2020-11-26 14:43:07', NULL, NULL, 0, NULL, NULL),
@@ -4811,7 +4656,173 @@ INSERT INTO `lessoncontents` (`id`, `content`, `lessonid`, `type`, `filepath`, `
 	(890, 'Chapter Test_1.pdf', 988, 3, 'books/Scratch Programming for Teens/Part 2 Scratch Programming/Chapter 10 Create your own Blocks with Scratchy/Chapter Test/Chapter Test_1.pdf', 'pdf', NULL, NULL, '2021-05-19 09:59:33', NULL, NULL, 0, NULL, NULL),
 	(891, 'Chapter 1 Chapter Test_1.pdf', 989, 3, 'books/Office Productivity/Part 1 COMMON OFFICE FEATURES/Chapter 1 Chapter Test/Chapter 1 Chapter Test_1.pdf', 'pdf', NULL, NULL, '2021-05-19 10:04:55', NULL, NULL, 0, NULL, NULL),
 	(892, 'Chapter 1 Chapter Test_2.pdf', 989, 3, 'books/Office Productivity/Part 1 COMMON OFFICE FEATURES/Chapter 1 Chapter Test/Chapter 1 Chapter Test_2.pdf', 'pdf', NULL, NULL, '2021-05-19 10:05:04', NULL, NULL, 0, NULL, NULL),
-	(893, 'hello world', 993, 1, NULL, NULL, NULL, NULL, '2023-04-26 11:13:47', NULL, NULL, 0, NULL, NULL);
+	(893, 'Test 2', 2, 1, NULL, NULL, NULL, NULL, '2023-04-26 10:44:44', NULL, NULL, 0, NULL, NULL),
+	(894, NULL, 12, 2, NULL, NULL, NULL, NULL, '2023-04-26 11:12:43', NULL, NULL, 0, NULL, NULL),
+	(895, 'facebook.com', 549, 4, NULL, NULL, NULL, NULL, '2023-04-26 11:14:16', NULL, '2023-04-26 11:18:11', 0, NULL, NULL),
+	(896, 'facebook.com', 990, 4, NULL, NULL, NULL, NULL, '2023-04-26 14:17:39', NULL, '2023-04-26 14:44:49', 0, NULL, NULL),
+	(897, 'werwerwerwer', 990, 1, NULL, NULL, NULL, NULL, '2023-04-26 14:57:32', NULL, NULL, 0, NULL, NULL),
+	(898, 'Lesson 11_2.svg', 560, 3, 'books/COMPUKIDS 2/UNIT 3/Lesson 11/Lesson 11_2.svg', 'svg', NULL, NULL, '2023-04-26 15:22:36', NULL, NULL, 0, NULL, NULL),
+	(899, NULL, 993, 2, NULL, NULL, NULL, NULL, '2023-05-02 09:14:10', NULL, NULL, 0, NULL, NULL);
+
+-- Dumping structure for table cklms.lessonquizchoices
+CREATE TABLE IF NOT EXISTS `lessonquizchoices` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `questionid` int DEFAULT NULL,
+  `description` text,
+  `answer` tinyint(1) DEFAULT '0',
+  `createddatetime` datetime DEFAULT NULL,
+  `deleted` tinyint(1) DEFAULT '0',
+  `sortid` int DEFAULT NULL,
+  `updatedatetime` datetime DEFAULT NULL,
+  `deleteddatetime` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=99 DEFAULT CHARSET=latin1;
+
+-- Dumping data for table cklms.lessonquizchoices: ~65 rows (approximately)
+INSERT INTO `lessonquizchoices` (`id`, `questionid`, `description`, `answer`, `createddatetime`, `deleted`, `sortid`, `updatedatetime`, `deleteddatetime`) VALUES
+	(26, 48, 'Brown', 0, '2023-05-04 15:18:27', 0, 1, '2023-05-04 15:18:28', NULL),
+	(27, 50, 'yeah', 0, '2023-05-04 15:35:49', 0, 1, '2023-05-04 15:35:51', NULL),
+	(28, 50, 'No', 0, '2023-05-04 15:35:49', 0, 2, '2023-05-04 15:35:51', NULL),
+	(29, 51, 'True', 0, '2023-05-04 16:07:47', 0, 1, '2023-05-12 15:55:32', NULL),
+	(30, 51, 'False', 1, '2023-05-04 16:07:47', 0, 2, '2023-05-12 15:55:32', NULL),
+	(31, 51, 'There is no way i will look up to the sun', 0, '2023-05-04 16:07:47', 0, 4, '2023-05-12 15:55:32', NULL),
+	(32, 51, 'Maybe', 0, '2023-05-04 16:07:47', 0, 3, '2023-05-12 15:55:32', NULL),
+	(33, 52, 'Hotdog', 0, '2023-05-04 16:08:20', 0, 1, '2023-05-12 14:34:17', NULL),
+	(34, 52, 'Hotdog but with Cheese', 0, '2023-05-04 16:08:42', 0, 2, '2023-05-12 14:34:18', NULL),
+	(35, 52, 'Water melon', 0, '2023-05-04 16:08:42', 0, 3, '2023-05-12 14:34:18', NULL),
+	(36, 53, 'True', 0, '2023-05-04 16:13:28', 0, 1, '2023-05-10 08:37:15', NULL),
+	(37, 53, 'False', 0, '2023-05-04 16:13:28', 0, 2, '2023-05-10 08:37:15', NULL),
+	(38, 54, 'False', 0, '2023-05-04 16:14:15', 0, 2, '2023-05-09 08:21:43', NULL),
+	(39, 54, 'True', 0, '2023-05-04 16:14:15', 0, 1, '2023-05-09 08:21:43', NULL),
+	(40, 55, 'True', 0, '2023-05-04 16:14:19', 0, 1, '2023-05-10 09:42:42', NULL),
+	(41, 55, 'False', 0, '2023-05-04 16:15:03', 0, 2, '2023-05-10 09:42:42', NULL),
+	(42, 56, 'False', 0, '2023-05-04 16:15:46', 0, 2, '2023-05-10 10:22:21', NULL),
+	(43, 56, 'True', 0, '2023-05-04 16:15:47', 0, 1, '2023-05-10 10:22:21', NULL),
+	(44, 57, 'True', 0, '2023-05-04 16:17:00', 0, 1, '2023-05-08 15:06:21', NULL),
+	(45, 57, 'False', 0, '2023-05-04 16:17:00', 0, 2, '2023-05-08 15:06:21', NULL),
+	(46, 59, 'Maroon 5', 0, '2023-05-05 09:21:38', 0, 1, '2023-05-08 15:06:43', NULL),
+	(47, 60, 'Dabs', 0, '2023-05-05 09:50:01', 0, 1, '2023-05-08 10:04:22', NULL),
+	(48, 60, 'Grant', 0, '2023-05-05 09:50:07', 0, 2, '2023-05-08 10:04:22', NULL),
+	(49, 61, 'Option 1', 0, '2023-05-05 09:50:20', 0, 1, '2023-05-06 16:19:29', NULL),
+	(50, 62, 'Option 1', 0, '2023-05-05 10:04:56', 0, 1, '2023-05-08 13:24:43', NULL),
+	(51, 62, 'Option 3', 0, '2023-05-05 10:08:12', 0, 2, '2023-05-08 13:24:43', NULL),
+	(52, 66, 't', 0, '2023-05-05 10:20:20', 0, 1, '2023-05-06 09:38:57', NULL),
+	(53, 66, 'w', 0, '2023-05-05 10:20:20', 0, 2, '2023-05-06 09:38:57', NULL),
+	(54, 66, 'e', 0, '2023-05-05 10:20:27', 0, 3, '2023-05-06 09:38:57', NULL),
+	(55, 66, 'r', 0, '2023-05-05 10:20:27', 0, 4, '2023-05-06 09:38:57', NULL),
+	(56, 67, 'Blue', 0, '2023-05-05 10:23:01', 0, 1, '2023-05-05 15:17:41', NULL),
+	(57, 67, 'Red', 0, '2023-05-05 10:23:01', 0, 2, '2023-05-05 15:17:41', NULL),
+	(58, 68, 'Lakers', 0, '2023-05-05 10:26:11', 0, 1, '2023-05-05 14:59:12', NULL),
+	(59, 68, 'GSW', 0, '2023-05-05 10:26:11', 0, 2, '2023-05-05 14:59:12', NULL),
+	(60, 69, 'Option 1', 0, '2023-05-05 14:35:11', 0, 1, '2023-05-05 14:59:13', NULL),
+	(61, 69, 'Option 2', 0, '2023-05-05 14:35:11', 0, 2, '2023-05-05 14:59:13', NULL),
+	(62, 70, 'Option 2', 0, '2023-05-05 14:35:45', 0, 2, '2023-05-05 14:59:15', NULL),
+	(63, 70, 'Option 1', 0, '2023-05-05 14:35:45', 0, 1, '2023-05-05 14:59:15', NULL),
+	(64, 70, 'Option 3', 0, '2023-05-05 14:44:34', 0, 3, '2023-05-05 14:59:15', NULL),
+	(65, 71, 'Option 1', 0, '2023-05-05 14:58:40', 0, 1, '2023-05-05 14:59:20', NULL),
+	(66, 72, '2', 0, '2023-05-06 09:03:28', 0, 1, '2023-05-08 09:18:21', NULL),
+	(67, 77, 'Option 1', 0, '2023-05-06 09:26:58', 0, 1, '2023-05-06 10:06:49', NULL),
+	(68, 77, 'Option 2', 0, '2023-05-06 09:26:59', 0, 2, '2023-05-06 10:06:49', NULL),
+	(69, 76, 'Option 1', 0, '2023-05-06 09:28:33', 0, 1, '2023-05-09 08:06:13', NULL),
+	(70, 76, 'Option 2', 0, '2023-05-06 09:28:33', 0, 2, '2023-05-09 08:06:13', NULL),
+	(71, 76, 'How deep is your love', 0, '2023-05-06 09:41:03', 0, 3, '2023-05-09 08:06:13', NULL),
+	(72, 61, 'Option 2', 0, '2023-05-06 10:09:39', 0, 2, '2023-05-06 16:19:29', NULL),
+	(73, 57, 'Maybe', 0, '2023-05-06 10:12:15', 0, 3, '2023-05-08 15:06:21', NULL),
+	(74, 81, 'Option 1', 0, '2023-05-08 09:24:53', 0, 1, NULL, NULL),
+	(75, 82, 'Option 1', 0, '2023-05-08 09:40:52', 0, 1, '2023-05-08 09:40:53', NULL),
+	(76, 85, 'Option 1', 0, '2023-05-08 10:06:01', 0, 1, '2023-05-08 10:08:41', NULL),
+	(77, 87, 'Option 1', 0, '2023-05-08 10:09:00', 0, 1, '2023-05-08 10:14:01', NULL),
+	(78, 95, 'Option 1', 0, '2023-05-08 10:26:19', 0, 1, NULL, NULL),
+	(79, 115, 'Option 1', 0, '2023-05-08 14:24:51', 0, 1, '2023-05-08 14:24:54', NULL),
+	(80, 117, 'Option 1', 0, '2023-05-08 14:32:11', 0, 1, NULL, NULL),
+	(81, 59, 'Black Pink', 0, '2023-05-08 15:06:43', 0, 2, NULL, NULL),
+	(82, 53, 'Maybe', 0, '2023-05-09 08:05:52', 0, 3, '2023-05-10 08:37:15', NULL),
+	(83, 120, 'Option 1', 0, '2023-05-09 15:36:09', 0, 1, NULL, NULL),
+	(84, 53, 'Option 1', 0, '2023-05-10 08:37:15', 0, 4, NULL, NULL),
+	(85, 124, 'Option 2', 0, '2023-05-10 10:30:34', 0, 2, '2023-05-10 13:36:29', NULL),
+	(86, 124, 'Option 1', 0, '2023-05-10 10:30:34', 0, 1, '2023-05-10 13:36:29', NULL),
+	(87, 125, 'Option 1', 0, '2023-05-10 10:31:00', 0, 1, NULL, NULL),
+	(88, 126, 'Option 1', 0, '2023-05-12 11:17:18', 0, 1, '2023-05-12 13:49:36', NULL),
+	(89, 126, 'Option 2', 0, '2023-05-12 11:17:18', 0, 2, '2023-05-12 13:49:36', NULL),
+	(90, 127, 'Option 1', 0, '2023-05-12 13:48:21', 0, 1, '2023-05-12 13:49:55', NULL),
+	(91, 130, 'Optisdfsdfsdfon 1', 0, '2023-05-17 11:21:52', 0, 1, '2023-05-17 11:24:23', NULL),
+	(92, 130, 'Optiosdfsdfsn 3', 0, '2023-05-17 11:21:52', 0, 3, '2023-05-17 11:24:23', NULL),
+	(93, 130, 'Optiosdfsdfsdfn 2', 0, '2023-05-17 11:21:52', 0, 2, '2023-05-17 11:24:23', NULL),
+	(94, 130, 'Option 4', 0, '2023-05-17 11:24:17', 0, 4, '2023-05-17 11:24:23', NULL),
+	(95, 130, 'Option 5', 0, '2023-05-17 11:24:17', 0, 5, '2023-05-17 11:24:23', NULL),
+	(96, 130, 'Option 7', 0, '2023-05-17 11:24:17', 0, 7, '2023-05-17 11:24:24', NULL),
+	(97, 130, 'Option 8', 0, '2023-05-17 11:24:17', 0, 8, '2023-05-17 11:24:24', NULL),
+	(98, 130, 'Option 6', 0, '2023-05-17 11:24:17', 0, 6, '2023-05-17 11:24:24', NULL);
+
+-- Dumping structure for table cklms.lessonquizquestions
+CREATE TABLE IF NOT EXISTS `lessonquizquestions` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `quizid` int DEFAULT NULL,
+  `question` text,
+  `typeofquiz` int DEFAULT NULL,
+  `deleted` tinyint(1) DEFAULT '0',
+  `createddatetime` datetime DEFAULT NULL,
+  `updateddatetime` datetime DEFAULT NULL,
+  `points` int DEFAULT NULL,
+  `item` int DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=146 DEFAULT CHARSET=latin1;
+
+-- Dumping data for table cklms.lessonquizquestions: ~42 rows (approximately)
+INSERT INTO `lessonquizquestions` (`id`, `quizid`, `question`, `typeofquiz`, `deleted`, `createddatetime`, `updateddatetime`, `points`, `item`) VALUES
+	(51, 11, 'What is the color of the sun?', 1, 0, '2023-05-04 16:07:08', NULL, NULL, NULL),
+	(52, 11, 'Best food Ever', 1, 0, '2023-05-04 16:08:07', NULL, NULL, NULL),
+	(53, 18, 'Choose the paint bucket tool from the fill toolbar to change the color', 1, 1, '2023-05-04 16:12:49', NULL, NULL, NULL),
+	(54, 18, 'Select the reset all tools to create a new project', 1, 1, '2023-05-04 16:13:38', NULL, NULL, NULL),
+	(55, 18, 'The stroke option changes the fill and stroke colors', 1, 0, '2023-05-04 16:14:17', NULL, NULL, NULL),
+	(56, 18, 'A rule displays the frame numbers is found near the top of the timeline windows 9', 1, 0, '2023-05-04 16:15:03', NULL, NULL, NULL),
+	(57, 18, 'The transform layer tool is used to rotate the layer in the created animation', 1, 0, '2023-05-04 16:15:55', NULL, NULL, NULL),
+	(59, 18, 'Hello', 1, 0, '2023-05-05 09:21:21', NULL, NULL, NULL),
+	(60, 18, 'Hi Sir', 1, 0, '2023-05-05 09:47:52', NULL, NULL, NULL),
+	(61, 18, 'Ambots', 1, 0, '2023-05-05 09:49:47', NULL, NULL, NULL),
+	(62, 18, 'Lakers vs GSW', 1, 0, '2023-05-05 10:04:28', NULL, NULL, NULL),
+	(66, 18, 'qweqwe', 1, 1, '2023-05-05 10:20:09', NULL, NULL, NULL),
+	(67, 21, 'What is the color of the phoenix suns', 1, 0, '2023-05-05 10:22:43', NULL, NULL, NULL),
+	(68, 21, 'Who is the winner of the todays game', 1, 0, '2023-05-05 10:25:46', NULL, NULL, NULL),
+	(69, 21, 'Option test', 1, 0, '2023-05-05 14:34:57', NULL, NULL, NULL),
+	(70, 21, 'Option test 2', 1, 0, '2023-05-05 14:35:22', NULL, NULL, NULL),
+	(72, 18, NULL, 1, 1, '2023-05-06 08:06:18', NULL, NULL, NULL),
+	(74, 18, 'Untitled Question', 3, 1, '2023-05-06 09:03:39', NULL, NULL, NULL),
+	(75, 18, NULL, 3, 1, '2023-05-06 09:04:19', NULL, NULL, NULL),
+	(76, 18, 'How deep is love', 1, 0, '2023-05-06 09:11:37', NULL, NULL, NULL),
+	(77, 18, 'Input texts', 1, 1, '2023-05-06 09:26:38', NULL, NULL, NULL),
+	(78, 18, '<i>Hello How are you?</i>', 4, 0, '2023-05-06 09:34:56', NULL, NULL, NULL),
+	(79, 18, '<p>Why</p>', 4, 1, '2023-05-06 15:55:48', NULL, NULL, NULL),
+	(80, 18, 'HI', 2, 1, '2023-05-08 08:54:14', NULL, NULL, NULL),
+	(117, 18, 'Drag and drop', 5, 0, '2023-05-08 14:32:09', NULL, NULL, NULL),
+	(118, 18, 'Drag and drop', 5, 1, '2023-05-09 08:02:55', NULL, NULL, NULL),
+	(119, 18, 'The first president of Philippines is ?', 2, 0, '2023-05-09 15:34:18', NULL, NULL, NULL),
+	(120, 18, 'How can you define love in 500 words', 3, 0, '2023-05-09 15:36:06', NULL, NULL, NULL),
+	(121, 18, 'Create a program that find the Sum of Even <b>Numbers </b>in an Array in Java', 4, 0, '2023-05-10 08:12:57', NULL, NULL, NULL),
+	(122, 12, 'Drag and drop', 5, 0, '2023-05-10 10:28:01', NULL, NULL, NULL),
+	(123, 12, '<p>ewrwerwerwe</p>', 4, 0, '2023-05-10 10:30:16', NULL, NULL, NULL),
+	(124, 12, 'sdasdasd', 2, 0, '2023-05-10 10:30:28', NULL, NULL, NULL),
+	(125, 12, 'Drag and drop', 5, 0, '2023-05-10 10:30:57', NULL, NULL, NULL),
+	(126, 11, 'Untitled question', 1, 0, '2023-05-12 11:17:09', NULL, NULL, NULL),
+	(127, 11, 'SHat', 1, 0, '2023-05-12 13:48:05', NULL, NULL, NULL),
+	(128, 18, 'Drag and drop', 5, 1, '2023-05-13 15:41:42', NULL, NULL, NULL),
+	(129, 22, NULL, 3, 1, '2023-05-17 11:17:12', NULL, NULL, NULL),
+	(130, 22, 'Drag and drop', 5, 1, '2023-05-17 11:21:31', NULL, NULL, NULL),
+	(131, 22, NULL, NULL, 0, '2023-05-17 13:18:18', NULL, NULL, NULL),
+	(132, 22, NULL, NULL, 0, '2023-05-17 14:02:27', NULL, NULL, NULL),
+	(133, 22, NULL, NULL, 1, '2023-05-17 14:02:32', NULL, NULL, NULL),
+	(134, 22, NULL, NULL, 0, '2023-05-17 14:04:56', NULL, NULL, NULL),
+	(135, 22, NULL, NULL, 0, '2023-05-17 14:05:38', NULL, NULL, NULL),
+	(136, 22, NULL, NULL, 0, '2023-05-17 14:06:22', NULL, NULL, NULL),
+	(137, 22, NULL, NULL, 0, '2023-05-17 14:20:50', NULL, NULL, NULL),
+	(138, 22, NULL, NULL, 0, '2023-05-17 14:23:07', NULL, NULL, NULL),
+	(139, 22, NULL, NULL, 0, '2023-05-20 09:14:04', NULL, NULL, NULL),
+	(140, 18, 'What are the colors of the rainbow?', 8, 0, '2023-05-20 09:15:29', NULL, NULL, 6),
+	(141, 18, 'Fill in the blanks', 7, 1, '2023-05-20 09:20:14', NULL, NULL, NULL),
+	(142, 18, NULL, NULL, 0, '2023-05-20 09:27:14', NULL, NULL, NULL),
+	(143, 18, 'Fill in the blanks', 7, 0, '2023-05-20 09:27:57', NULL, NULL, NULL),
+	(144, 18, NULL, NULL, 0, '2023-05-20 09:30:49', NULL, NULL, NULL),
+	(145, 18, 'Drag and drop', 5, 0, '2023-05-20 09:34:53', NULL, NULL, NULL);
 
 -- Dumping structure for table cklms.lessons
 CREATE TABLE IF NOT EXISTS `lessons` (
@@ -4829,11 +4840,11 @@ CREATE TABLE IF NOT EXISTS `lessons` (
   `deletedby` int DEFAULT NULL,
   `deleteddatetime` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=997 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=994 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_unicode_ci;
 
--- Dumping data for table cklms.lessons: ~972 rows (approximately)
+-- Dumping data for table cklms.lessons: ~993 rows (approximately)
 INSERT INTO `lessons` (`id`, `sortid`, `title`, `description`, `chapterid`, `type`, `createdby`, `createddatetime`, `updatedby`, `updateddatetime`, `deleted`, `deletedby`, `deleteddatetime`) VALUES
-	(1, 1, 'Contents', '<p><br></p>', NULL, 1, NULL, '2020-08-05 15:00:24', NULL, NULL, 0, NULL, NULL),
+	(1, NULL, 'Contents', '<p><br></p>', NULL, 1, NULL, '2020-08-05 15:00:24', NULL, NULL, 0, NULL, NULL),
 	(2, 1, 'Lesson 1-3', '<p>Lesson 1 - The Internet Basics</p><p>Lesson 2 - Introducing HTML</p><p>Lesson 3 - Exploring Web Browsers</p>', 1, 1, NULL, '2020-08-05 15:01:03', NULL, NULL, 0, NULL, NULL),
 	(3, 1, 'Lesson 1 Understanding HTML Structure', '<p><br></p>', 2, 1, NULL, '2020-08-05 15:10:56', NULL, NULL, 0, NULL, NULL),
 	(4, 1, 'Lesson 1 Creating a New Paragraph', '<p><br></p>', 3, 1, NULL, '2020-08-05 15:13:12', NULL, NULL, 0, NULL, NULL),
@@ -4842,15 +4853,15 @@ INSERT INTO `lessons` (`id`, `sortid`, `title`, `description`, `chapterid`, `typ
 	(7, 1, 'Lesson 1 Understanding Web Page Images', '<p><br></p>', 6, 1, NULL, '2020-08-05 15:36:06', NULL, NULL, 0, NULL, NULL),
 	(8, 1, 'Lesson 1 Understanding Links', '<p><br></p>', 7, 1, NULL, '2020-08-05 15:38:22', NULL, NULL, 0, NULL, NULL),
 	(9, NULL, 'Lesson 1 Understanding Table Structure', '<p><br></p>', 8, 1, NULL, '2020-08-05 15:41:27', NULL, NULL, 1, NULL, NULL),
-	(10, 1, 'Lesson 1 Understanding Forms', '<p><br></p>', 10, 1, NULL, '2020-08-05 15:42:29', NULL, NULL, 0, NULL, NULL),
-	(11, 2, 'Chapter 1 Office Basics', '<p><br></p>', NULL, 1, NULL, '2020-08-05 15:42:40', NULL, NULL, 0, NULL, NULL),
+	(10, NULL, 'Lesson 1 Understanding Forms', '<p><br></p>', 10, 1, NULL, '2020-08-05 15:42:29', NULL, NULL, 0, NULL, NULL),
+	(11, NULL, 'Chapter 1 Office Basics', '<p><br></p>', NULL, 1, NULL, '2020-08-05 15:42:40', NULL, NULL, 0, NULL, NULL),
 	(12, 1, 'Chapter 1 Office Basics', '<p><br></p>', 9, 1, NULL, '2020-08-05 15:43:09', NULL, NULL, 0, NULL, NULL),
-	(13, 1, 'Lesson 1 Controlling Layout', '<p><br></p>', 11, 1, NULL, '2020-08-05 15:48:15', NULL, NULL, 0, NULL, NULL),
-	(14, 1, 'Lesson 1 HTML5 - Semantic Elements', '<p><br></p>', 12, 1, NULL, '2020-08-05 15:52:15', NULL, NULL, 0, NULL, NULL),
-	(15, 1, 'Lesson 1 Understanding JavaScript', '<p><br></p>', 13, 1, NULL, '2020-08-05 15:53:04', NULL, NULL, 0, NULL, NULL),
+	(13, NULL, 'Lesson 1 Controlling Layout', '<p><br></p>', 11, 1, NULL, '2020-08-05 15:48:15', NULL, NULL, 0, NULL, NULL),
+	(14, NULL, 'Lesson 1 HTML5 - Semantic Elements', '<p><br></p>', 12, 1, NULL, '2020-08-05 15:52:15', NULL, NULL, 0, NULL, NULL),
+	(15, NULL, 'Lesson 1 Understanding JavaScript', '<p><br></p>', 13, 1, NULL, '2020-08-05 15:53:04', NULL, NULL, 0, NULL, NULL),
 	(16, NULL, 'Chapter 2 Working With Office Files', '<p><br></p>', 9, 1, NULL, '2020-08-05 15:53:10', NULL, NULL, 1, NULL, NULL),
-	(17, 1, 'Lesson 1 Understanding Multimedia Elements', '<p><br></p>', 14, 1, NULL, '2020-08-05 15:53:51', NULL, NULL, 0, NULL, NULL),
-	(18, 1, 'Lesson 1 Understanding Web Page Publishing', '<p><br></p>', 15, 1, NULL, '2020-08-05 15:54:32', NULL, NULL, 0, NULL, NULL),
+	(17, NULL, 'Lesson 1 Understanding Multimedia Elements', '<p><br></p>', 14, 1, NULL, '2020-08-05 15:53:51', NULL, NULL, 0, NULL, NULL),
+	(18, NULL, 'Lesson 1 Understanding Web Page Publishing', '<p><br></p>', 15, 1, NULL, '2020-08-05 15:54:32', NULL, NULL, 0, NULL, NULL),
 	(19, 1, 'Chapter 2 Working with Office Files', '<p><br></p>', 9, 1, NULL, '2020-08-05 15:56:51', NULL, NULL, 0, NULL, NULL),
 	(20, 2, 'Chapter 3 Graphics Tools in Office', '<p><br></p>', 9, 1, NULL, '2020-08-05 15:58:54', NULL, NULL, 0, NULL, NULL),
 	(21, NULL, 'Contents', '<p><br></p>', 16, 1, NULL, '2020-08-05 15:59:28', NULL, NULL, 1, NULL, NULL),
@@ -4959,63 +4970,63 @@ INSERT INTO `lessons` (`id`, `sortid`, `title`, `description`, `chapterid`, `typ
 	(124, 15, 'Lesson 15 Inserting an Image in a Cell', '<p><br></p>', 8, 1, NULL, '2020-08-06 13:25:40', NULL, NULL, 0, NULL, NULL),
 	(125, 16, 'Lesson 16 Inserting a Background Image', '<p><br></p>', 8, 1, NULL, '2020-08-06 13:26:00', NULL, NULL, 0, NULL, NULL),
 	(126, 17, 'Lesson 17 Changing Table Alignment', '<p><br></p>', 8, 1, NULL, '2020-08-06 13:26:16', NULL, NULL, 0, NULL, NULL),
-	(127, 2, 'Lesson 2 Types of Form Elements', '<p><br></p>', 10, 1, NULL, '2020-08-06 13:42:49', NULL, NULL, 0, NULL, NULL),
-	(128, 3, 'Lesson 3 Gather Form Data', '<p><br></p>', 10, 1, NULL, '2020-08-06 13:44:02', NULL, NULL, 0, NULL, NULL),
-	(129, 4, 'Lesson 4 Creating a Form', '<p><br></p>', 10, 1, NULL, '2020-08-06 13:44:30', NULL, NULL, 0, NULL, NULL),
-	(130, 5, 'Lesson 5 Sending Form Data to an E-mail Address', '<p><br></p>', 10, 1, NULL, '2020-08-06 13:56:14', NULL, NULL, 0, NULL, NULL),
-	(131, 6, 'Lesson 6 Adding a Text Box', '<p><br></p>', 10, 1, NULL, '2020-08-06 13:56:59', NULL, NULL, 0, NULL, NULL),
-	(132, 7, 'Lesson 7 Adding a Large Text Area', '<p><br></p>', 10, 1, NULL, '2020-08-06 14:00:21', NULL, NULL, 0, NULL, NULL),
-	(133, 8, 'Lesson 8 Adding Check Boxes', '<p><br></p>', 10, 1, NULL, '2020-08-06 14:00:40', NULL, NULL, 0, NULL, NULL),
-	(134, 9, 'Lesson 9 Adding Radio Buttons', '<p><br></p>', 10, 1, NULL, '2020-08-06 14:01:03', NULL, NULL, 0, NULL, NULL),
-	(135, 10, 'Lesson 10 Adding a Menu List', '<p><br></p>', 10, 1, NULL, '2020-08-06 14:01:34', NULL, NULL, 0, NULL, NULL),
-	(136, 11, 'Lesson 11 Adding a Submit Button', '<p><br></p>', 10, 1, NULL, '2020-08-06 14:02:08', NULL, NULL, 0, NULL, NULL),
-	(137, 12, 'Lesson 12 Adding Active Labels', '<p><br></p>', 10, 1, NULL, '2020-08-06 14:02:24', NULL, NULL, 0, NULL, NULL),
-	(138, 13, 'Lesson 13 Changing the Tab Order', '<p><br></p>', 10, 1, NULL, '2020-08-06 14:02:46', NULL, NULL, 0, NULL, NULL),
-	(139, 14, 'Lesson 14 Adding a File Upload Element', '<p><br></p>', 10, 1, NULL, '2020-08-06 14:04:46', NULL, NULL, 0, NULL, NULL),
-	(140, 15, 'Lesson 15 Grouping Form Elements', '<p><br></p>', 10, 1, NULL, '2020-08-06 14:05:12', NULL, NULL, 0, NULL, NULL),
-	(141, 16, 'Lesson 16 Adding a Date & Time Input', '<p><br></p>', 10, 1, NULL, '2020-08-06 14:05:57', NULL, NULL, 0, NULL, NULL),
-	(142, 17, 'Lesson 17 Adding a URL Field', '<p><br></p>', 10, 1, NULL, '2020-08-06 14:11:11', NULL, NULL, 0, NULL, NULL),
-	(143, 2, 'Lesson 2 Setting Width and Height for an Element', '<p><br></p>', 11, 1, NULL, '2020-08-07 08:45:20', NULL, NULL, 0, NULL, NULL),
-	(144, 3, 'Lesson 3 Using Relative Positioning', '<p><br></p>', 11, 1, NULL, '2020-08-07 08:46:04', NULL, NULL, 0, NULL, NULL),
-	(145, 4, 'Lesson 4 Using Absolute Positioning', '<p><br></p>', 11, 1, NULL, '2020-08-07 08:46:25', NULL, NULL, 0, NULL, NULL),
-	(146, 5, 'Lesson 5 Using Fixed Positioning', '<p><br></p>', 11, 1, NULL, '2020-08-07 08:46:47', NULL, NULL, 0, NULL, NULL),
-	(147, 6, 'Lesson 6 Setting Margins', '<p><br></p>', 11, 1, NULL, '2020-08-07 08:47:16', NULL, NULL, 0, NULL, NULL),
+	(127, NULL, 'Lesson 2 Types of Form Elements', '<p><br></p>', 10, 1, NULL, '2020-08-06 13:42:49', NULL, NULL, 0, NULL, NULL),
+	(128, NULL, 'Lesson 3 Gather Form Data', '<p><br></p>', 10, 1, NULL, '2020-08-06 13:44:02', NULL, NULL, 0, NULL, NULL),
+	(129, NULL, 'Lesson 4 Creating a Form', '<p><br></p>', 10, 1, NULL, '2020-08-06 13:44:30', NULL, NULL, 0, NULL, NULL),
+	(130, NULL, 'Lesson 5 Sending Form Data to an E-mail Address', '<p><br></p>', 10, 1, NULL, '2020-08-06 13:56:14', NULL, NULL, 0, NULL, NULL),
+	(131, NULL, 'Lesson 6 Adding a Text Box', '<p><br></p>', 10, 1, NULL, '2020-08-06 13:56:59', NULL, NULL, 0, NULL, NULL),
+	(132, NULL, 'Lesson 7 Adding a Large Text Area', '<p><br></p>', 10, 1, NULL, '2020-08-06 14:00:21', NULL, NULL, 0, NULL, NULL),
+	(133, NULL, 'Lesson 8 Adding Check Boxes', '<p><br></p>', 10, 1, NULL, '2020-08-06 14:00:40', NULL, NULL, 0, NULL, NULL),
+	(134, NULL, 'Lesson 9 Adding Radio Buttons', '<p><br></p>', 10, 1, NULL, '2020-08-06 14:01:03', NULL, NULL, 0, NULL, NULL),
+	(135, NULL, 'Lesson 10 Adding a Menu List', '<p><br></p>', 10, 1, NULL, '2020-08-06 14:01:34', NULL, NULL, 0, NULL, NULL),
+	(136, NULL, 'Lesson 11 Adding a Submit Button', '<p><br></p>', 10, 1, NULL, '2020-08-06 14:02:08', NULL, NULL, 0, NULL, NULL),
+	(137, NULL, 'Lesson 12 Adding Active Labels', '<p><br></p>', 10, 1, NULL, '2020-08-06 14:02:24', NULL, NULL, 0, NULL, NULL),
+	(138, NULL, 'Lesson 13 Changing the Tab Order', '<p><br></p>', 10, 1, NULL, '2020-08-06 14:02:46', NULL, NULL, 0, NULL, NULL),
+	(139, NULL, 'Lesson 14 Adding a File Upload Element', '<p><br></p>', 10, 1, NULL, '2020-08-06 14:04:46', NULL, NULL, 0, NULL, NULL),
+	(140, NULL, 'Lesson 15 Grouping Form Elements', '<p><br></p>', 10, 1, NULL, '2020-08-06 14:05:12', NULL, NULL, 0, NULL, NULL),
+	(141, NULL, 'Lesson 16 Adding a Date & Time Input', '<p><br></p>', 10, 1, NULL, '2020-08-06 14:05:57', NULL, NULL, 0, NULL, NULL),
+	(142, NULL, 'Lesson 17 Adding a URL Field', '<p><br></p>', 10, 1, NULL, '2020-08-06 14:11:11', NULL, NULL, 0, NULL, NULL),
+	(143, NULL, 'Lesson 2 Setting Width and Height for an Element', '<p><br></p>', 11, 1, NULL, '2020-08-07 08:45:20', NULL, NULL, 0, NULL, NULL),
+	(144, NULL, 'Lesson 3 Using Relative Positioning', '<p><br></p>', 11, 1, NULL, '2020-08-07 08:46:04', NULL, NULL, 0, NULL, NULL),
+	(145, NULL, 'Lesson 4 Using Absolute Positioning', '<p><br></p>', 11, 1, NULL, '2020-08-07 08:46:25', NULL, NULL, 0, NULL, NULL),
+	(146, NULL, 'Lesson 5 Using Fixed Positioning', '<p><br></p>', 11, 1, NULL, '2020-08-07 08:46:47', NULL, NULL, 0, NULL, NULL),
+	(147, NULL, 'Lesson 6 Setting Margins', '<p><br></p>', 11, 1, NULL, '2020-08-07 08:47:16', NULL, NULL, 0, NULL, NULL),
 	(148, NULL, 'Lesson 8 Adding Padding', '<p><br></p>', 11, 1, NULL, '2020-08-07 08:48:01', NULL, NULL, 1, NULL, NULL),
-	(149, 7, 'Lesson 7 Adding Padding', '<p><br></p>', 11, 1, NULL, '2020-08-07 08:49:39', NULL, NULL, 0, NULL, NULL),
-	(150, 8, 'Lesson 8 Aligning Elements Horizontally', '<p><br></p>', 11, 1, NULL, '2020-08-07 08:50:05', NULL, NULL, 0, NULL, NULL),
-	(151, 9, 'Lesson 9 Controlling the Overlap of Elements', '<p><br></p>', 11, 1, NULL, '2020-08-07 08:50:31', NULL, NULL, 0, NULL, NULL),
-	(152, 10, 'Lesson 10 Creating Divisions', '<p><br></p>', 11, 1, NULL, '2020-08-07 08:51:57', NULL, NULL, 0, NULL, NULL),
-	(153, 11, 'Lesson 11 Applying Styles with a div Tag', '<p><br></p>', 11, 1, NULL, '2020-08-07 08:52:26', NULL, NULL, 0, NULL, NULL),
-	(154, 2, 'Lesson 2 Define a Section', '<p><br></p>', 12, 1, NULL, '2020-08-07 09:06:52', NULL, NULL, 0, NULL, NULL),
-	(155, 3, 'Lesson 3 Define an Article', '<p><br></p>', 12, 1, NULL, '2020-08-07 09:07:08', NULL, NULL, 0, NULL, NULL),
-	(156, 4, 'Lesson 4 Define a Header', '<p><br></p>', 12, 1, NULL, '2020-08-07 09:07:40', NULL, NULL, 0, NULL, NULL),
-	(157, 5, 'Lesson 5 Define Navigation', '<p><br></p>', 12, 1, NULL, '2020-08-07 09:08:30', NULL, NULL, 0, NULL, NULL),
-	(158, 6, 'Lesson 6 Define an Aside', '<p><br></p>', 12, 1, NULL, '2020-08-07 09:09:40', NULL, NULL, 0, NULL, NULL),
-	(159, 7, 'Lesson 7 Define a Footer', '<p><br></p>', 12, 1, NULL, '2020-08-07 09:09:58', NULL, NULL, 0, NULL, NULL),
-	(160, 2, 'Lesson 2 Understanding Script Events and Handlers', '<p><br></p>', 13, 1, NULL, '2020-08-07 10:05:30', NULL, NULL, 0, NULL, NULL),
-	(161, 3, 'Lesson 3 Adding JavaScript to a Web Page', '<p><br></p>', 13, 1, NULL, '2020-08-07 10:11:18', NULL, NULL, 0, NULL, NULL),
-	(162, 4, 'Lesson 4 Creating a JavaScript File', '<p><br></p>', 13, 1, NULL, '2020-08-07 10:11:39', NULL, NULL, 0, NULL, NULL),
-	(163, 5, 'Lesson 5 Adding Alternative Text', '<p><br></p>', 13, 1, NULL, '2020-08-07 10:12:03', NULL, NULL, 0, NULL, NULL),
-	(164, 6, 'Lesson 6 Inserting the Current Date and Time', '<p><br></p>', 13, 1, NULL, '2020-08-07 10:12:34', NULL, NULL, 0, NULL, NULL),
-	(165, 7, 'Lesson 7 Displaying an Alert Message Box', '<p><br></p>', 13, 1, NULL, '2020-08-07 10:12:51', NULL, NULL, 0, NULL, NULL),
-	(166, 8, 'Lesson 8 Displaying a Pop-up Window', '<p><br></p>', 13, 1, NULL, '2020-08-07 10:13:14', NULL, NULL, 0, NULL, NULL),
-	(167, 9, 'Lesson 9 Customizing the Status Bar Message for a Link', '<p><br></p>', 13, 1, NULL, '2020-08-07 10:13:55', NULL, NULL, 0, NULL, NULL),
-	(168, 10, 'Lesson 10 Creating an Image Rollover Effect', '<p><br></p>', 13, 1, NULL, '2020-08-07 10:18:41', NULL, NULL, 0, NULL, NULL),
-	(169, 11, 'Lesson 11 Validating Form Data', '<p><br></p>', 13, 1, NULL, '2020-08-07 10:20:19', NULL, NULL, 0, NULL, NULL),
-	(170, 12, 'Lesson 12 Showing a Hidden Element', '<p><br></p>', 13, 1, NULL, '2020-08-07 10:25:14', NULL, NULL, 0, NULL, NULL),
-	(171, 2, 'Lesson 2 Understanding Plug-Ins and Players', '<p><br></p>', 14, 1, NULL, '2020-08-07 10:43:33', NULL, NULL, 0, NULL, NULL),
-	(172, 3, 'Lesson 3 Linking to Audio or Video Files', '<p><br></p>', 14, 1, NULL, '2020-08-07 10:44:34', NULL, NULL, 0, NULL, NULL),
-	(173, 4, 'Lesson 4 Embedding a Video File', '<p><br></p>', 14, 1, NULL, '2020-08-07 10:44:56', NULL, NULL, 0, NULL, NULL),
-	(174, 5, 'Lesson 5 Embedding an Audio File', '<p><br></p>', 14, 1, NULL, '2020-08-07 10:45:15', NULL, NULL, 0, NULL, NULL),
-	(175, 6, 'Lesson 6 Embedding a Flash Movie', '<p><br></p>', 14, 1, NULL, '2020-08-07 10:46:02', NULL, NULL, 0, NULL, NULL),
-	(176, 7, 'Lesson 7 Adding a Java Applet', '<p><br></p>', 14, 1, NULL, '2020-08-07 10:46:18', NULL, NULL, 0, NULL, NULL),
-	(177, 8, 'Lesson 8 Embedding a Video Clip from Youtube', '<p><br></p>', 14, 1, NULL, '2020-08-07 10:46:42', NULL, NULL, 0, NULL, NULL),
-	(178, 9, 'Lesson 9 Adding a Google Search Box to your Page', '<p><br></p>', 14, 1, NULL, '2020-08-07 10:47:04', NULL, NULL, 0, NULL, NULL),
-	(179, 10, 'Lesson 10 Loading Another Web Page Automatically', '<p><br></p>', 14, 1, NULL, '2020-08-07 10:47:36', NULL, NULL, 0, NULL, NULL),
-	(180, 11, 'Lesson 11 Creating an Image Map', '<p><br></p>', 14, 1, NULL, '2020-08-07 10:48:00', NULL, NULL, 0, NULL, NULL),
-	(181, 2, 'Lesson 2 Transferring Files to a Web Server with WS_FTP', '<p><br></p>', 15, 1, NULL, '2020-08-07 11:03:19', NULL, NULL, 0, NULL, NULL),
-	(182, 3, 'Lesson 3 Troubleshooting your Web Pages', '<p><br></p>', 15, 1, NULL, '2020-08-07 11:03:43', NULL, NULL, 0, NULL, NULL),
-	(183, 4, 'Lesson 4 Promoting your Web Site', '<p><br></p>', 15, 1, NULL, '2020-08-07 11:04:06', NULL, NULL, 0, NULL, NULL),
+	(149, NULL, 'Lesson 7 Adding Padding', '<p><br></p>', 11, 1, NULL, '2020-08-07 08:49:39', NULL, NULL, 0, NULL, NULL),
+	(150, NULL, 'Lesson 8 Aligning Elements Horizontally', '<p><br></p>', 11, 1, NULL, '2020-08-07 08:50:05', NULL, NULL, 0, NULL, NULL),
+	(151, NULL, 'Lesson 9 Controlling the Overlap of Elements', '<p><br></p>', 11, 1, NULL, '2020-08-07 08:50:31', NULL, NULL, 0, NULL, NULL),
+	(152, NULL, 'Lesson 10 Creating Divisions', '<p><br></p>', 11, 1, NULL, '2020-08-07 08:51:57', NULL, NULL, 0, NULL, NULL),
+	(153, NULL, 'Lesson 11 Applying Styles with a div Tag', '<p><br></p>', 11, 1, NULL, '2020-08-07 08:52:26', NULL, NULL, 0, NULL, NULL),
+	(154, NULL, 'Lesson 2 Define a Section', '<p><br></p>', 12, 1, NULL, '2020-08-07 09:06:52', NULL, NULL, 0, NULL, NULL),
+	(155, NULL, 'Lesson 3 Define an Article', '<p><br></p>', 12, 1, NULL, '2020-08-07 09:07:08', NULL, NULL, 0, NULL, NULL),
+	(156, NULL, 'Lesson 4 Define a Header', '<p><br></p>', 12, 1, NULL, '2020-08-07 09:07:40', NULL, NULL, 0, NULL, NULL),
+	(157, NULL, 'Lesson 5 Define Navigation', '<p><br></p>', 12, 1, NULL, '2020-08-07 09:08:30', NULL, NULL, 0, NULL, NULL),
+	(158, NULL, 'Lesson 6 Define an Aside', '<p><br></p>', 12, 1, NULL, '2020-08-07 09:09:40', NULL, NULL, 0, NULL, NULL),
+	(159, NULL, 'Lesson 7 Define a Footer', '<p><br></p>', 12, 1, NULL, '2020-08-07 09:09:58', NULL, NULL, 0, NULL, NULL),
+	(160, NULL, 'Lesson 2 Understanding Script Events and Handlers', '<p><br></p>', 13, 1, NULL, '2020-08-07 10:05:30', NULL, NULL, 0, NULL, NULL),
+	(161, NULL, 'Lesson 3 Adding JavaScript to a Web Page', '<p><br></p>', 13, 1, NULL, '2020-08-07 10:11:18', NULL, NULL, 0, NULL, NULL),
+	(162, NULL, 'Lesson 4 Creating a JavaScript File', '<p><br></p>', 13, 1, NULL, '2020-08-07 10:11:39', NULL, NULL, 0, NULL, NULL),
+	(163, NULL, 'Lesson 5 Adding Alternative Text', '<p><br></p>', 13, 1, NULL, '2020-08-07 10:12:03', NULL, NULL, 0, NULL, NULL),
+	(164, NULL, 'Lesson 6 Inserting the Current Date and Time', '<p><br></p>', 13, 1, NULL, '2020-08-07 10:12:34', NULL, NULL, 0, NULL, NULL),
+	(165, NULL, 'Lesson 7 Displaying an Alert Message Box', '<p><br></p>', 13, 1, NULL, '2020-08-07 10:12:51', NULL, NULL, 0, NULL, NULL),
+	(166, NULL, 'Lesson 8 Displaying a Pop-up Window', '<p><br></p>', 13, 1, NULL, '2020-08-07 10:13:14', NULL, NULL, 0, NULL, NULL),
+	(167, NULL, 'Lesson 9 Customizing the Status Bar Message for a Link', '<p><br></p>', 13, 1, NULL, '2020-08-07 10:13:55', NULL, NULL, 0, NULL, NULL),
+	(168, NULL, 'Lesson 10 Creating an Image Rollover Effect', '<p><br></p>', 13, 1, NULL, '2020-08-07 10:18:41', NULL, NULL, 0, NULL, NULL),
+	(169, NULL, 'Lesson 11 Validating Form Data', '<p><br></p>', 13, 1, NULL, '2020-08-07 10:20:19', NULL, NULL, 0, NULL, NULL),
+	(170, NULL, 'Lesson 12 Showing a Hidden Element', '<p><br></p>', 13, 1, NULL, '2020-08-07 10:25:14', NULL, NULL, 0, NULL, NULL),
+	(171, NULL, 'Lesson 2 Understanding Plug-Ins and Players', '<p><br></p>', 14, 1, NULL, '2020-08-07 10:43:33', NULL, NULL, 0, NULL, NULL),
+	(172, NULL, 'Lesson 3 Linking to Audio or Video Files', '<p><br></p>', 14, 1, NULL, '2020-08-07 10:44:34', NULL, NULL, 0, NULL, NULL),
+	(173, NULL, 'Lesson 4 Embedding a Video File', '<p><br></p>', 14, 1, NULL, '2020-08-07 10:44:56', NULL, NULL, 0, NULL, NULL),
+	(174, NULL, 'Lesson 5 Embedding an Audio File', '<p><br></p>', 14, 1, NULL, '2020-08-07 10:45:15', NULL, NULL, 0, NULL, NULL),
+	(175, NULL, 'Lesson 6 Embedding a Flash Movie', '<p><br></p>', 14, 1, NULL, '2020-08-07 10:46:02', NULL, NULL, 0, NULL, NULL),
+	(176, NULL, 'Lesson 7 Adding a Java Applet', '<p><br></p>', 14, 1, NULL, '2020-08-07 10:46:18', NULL, NULL, 0, NULL, NULL),
+	(177, NULL, 'Lesson 8 Embedding a Video Clip from Youtube', '<p><br></p>', 14, 1, NULL, '2020-08-07 10:46:42', NULL, NULL, 0, NULL, NULL),
+	(178, NULL, 'Lesson 9 Adding a Google Search Box to your Page', '<p><br></p>', 14, 1, NULL, '2020-08-07 10:47:04', NULL, NULL, 0, NULL, NULL),
+	(179, NULL, 'Lesson 10 Loading Another Web Page Automatically', '<p><br></p>', 14, 1, NULL, '2020-08-07 10:47:36', NULL, NULL, 0, NULL, NULL),
+	(180, NULL, 'Lesson 11 Creating an Image Map', '<p><br></p>', 14, 1, NULL, '2020-08-07 10:48:00', NULL, NULL, 0, NULL, NULL),
+	(181, NULL, 'Lesson 2 Transferring Files to a Web Server with WS_FTP', '<p><br></p>', 15, 1, NULL, '2020-08-07 11:03:19', NULL, NULL, 0, NULL, NULL),
+	(182, NULL, 'Lesson 3 Troubleshooting your Web Pages', '<p><br></p>', 15, 1, NULL, '2020-08-07 11:03:43', NULL, NULL, 0, NULL, NULL),
+	(183, NULL, 'Lesson 4 Promoting your Web Site', '<p><br></p>', 15, 1, NULL, '2020-08-07 11:04:06', NULL, NULL, 0, NULL, NULL),
 	(184, 1, 'Lesson 1 Programming Concepts', '<p><br></p>', 34, 1, NULL, '2020-08-07 12:38:21', NULL, NULL, 0, NULL, NULL),
 	(185, 1, 'Lesson 2 Algorithms', '<p><br></p>', 35, 1, NULL, '2020-08-07 12:40:57', NULL, NULL, 0, NULL, NULL),
 	(186, 1, 'Lesson 1 Introducing Scratch', '<p><br></p>', 36, 1, NULL, '2020-08-07 12:42:32', NULL, NULL, 0, NULL, NULL),
@@ -5360,11 +5371,11 @@ INSERT INTO `lessons` (`id`, `sortid`, `title`, `description`, `chapterid`, `typ
 	(525, NULL, 'Lesson 2', NULL, 135, 1, 1, '2020-08-21 09:51:19', NULL, NULL, 0, NULL, NULL),
 	(526, NULL, 'Lesson 3', NULL, 136, 1, 1, '2020-08-21 09:52:27', NULL, NULL, 0, NULL, NULL),
 	(527, NULL, 'Lesson 4', NULL, 137, 1, 1, '2020-08-21 09:53:42', NULL, NULL, 0, NULL, NULL),
-	(528, 0, 'Lesson 1', NULL, 89, 1, 1, '2020-08-21 12:50:19', NULL, NULL, 0, NULL, NULL),
+	(528, 1, 'Lesson 1', NULL, 89, 1, 1, '2020-08-21 12:50:19', NULL, NULL, 0, NULL, NULL),
 	(529, 1, 'Lesson 2', NULL, 89, 1, 1, '2020-08-21 12:51:27', NULL, NULL, 0, NULL, NULL),
 	(530, NULL, 'Lesson 2', NULL, 89, 1, 1, '2020-08-21 12:52:16', NULL, NULL, 1, NULL, NULL),
 	(531, 2, 'Lesson 3', NULL, 89, 1, 1, '2020-08-21 12:53:21', NULL, NULL, 0, NULL, NULL),
-	(532, 0, 'Lesson 4', NULL, 138, 1, 1, '2020-08-21 12:55:10', NULL, NULL, 0, NULL, NULL),
+	(532, 1, 'Lesson 4', NULL, 138, 1, 1, '2020-08-21 12:55:10', NULL, NULL, 0, NULL, NULL),
 	(533, 2, 'Lesson 6', NULL, 138, 1, 1, '2020-08-21 12:55:45', NULL, NULL, 0, NULL, NULL),
 	(534, 0, 'Lesson 8', NULL, 139, 1, 1, '2020-08-21 13:00:20', NULL, NULL, 0, NULL, NULL),
 	(535, 1, 'Lesson 9', NULL, 139, 1, 1, '2020-08-21 13:02:05', NULL, NULL, 0, NULL, NULL),
@@ -5383,7 +5394,7 @@ INSERT INTO `lessons` (`id`, `sortid`, `title`, `description`, `chapterid`, `typ
 	(548, 4, 'Lesson 20', NULL, 141, 1, 1, '2020-08-21 13:10:07', NULL, NULL, 0, NULL, NULL),
 	(549, 1, 'Lesson 1', NULL, 142, 1, 1, '2020-08-21 13:11:14', NULL, NULL, 0, NULL, NULL),
 	(550, 1, 'Lesson 2', NULL, 142, 1, 1, '2020-08-21 13:11:47', NULL, NULL, 0, NULL, NULL),
-	(551, 1, 'Lesson 3', NULL, 142, 1, 1, '2020-08-21 13:12:11', NULL, NULL, 0, NULL, NULL),
+	(551, 2, 'Lesson 3', NULL, 142, 1, 1, '2020-08-21 13:12:11', NULL, NULL, 0, NULL, NULL),
 	(552, 3, 'Lesson 4', NULL, 142, 1, 1, '2020-08-21 13:12:35', NULL, NULL, 0, NULL, NULL),
 	(553, 1, 'Lesson 5', NULL, 143, 1, 1, '2020-08-21 13:13:17', NULL, NULL, 0, NULL, NULL),
 	(554, 2, 'Lesson 6', NULL, 143, 1, 1, '2020-08-21 13:13:44', NULL, NULL, 0, NULL, NULL),
@@ -5439,7 +5450,7 @@ INSERT INTO `lessons` (`id`, `sortid`, `title`, `description`, `chapterid`, `typ
 	(604, 2, 'Lesson 24', NULL, 147, 1, 1, '2020-08-29 14:30:38', NULL, NULL, 0, NULL, NULL),
 	(605, 3, 'Lesson 25', NULL, 147, 1, 1, '2020-08-29 14:32:49', NULL, NULL, 0, NULL, NULL),
 	(606, 4, 'Lesson 26', NULL, 147, 2, 1, '2020-08-29 14:33:29', NULL, NULL, 0, NULL, NULL),
-	(607, 3, 'Lesson 27', NULL, 147, 1, 1, '2020-08-29 14:34:08', NULL, NULL, 0, NULL, NULL),
+	(607, 5, 'Lesson 27', NULL, 147, 1, 1, '2020-08-29 14:34:08', NULL, NULL, 0, NULL, NULL),
 	(608, 0, 'Lesson 28', NULL, 148, 1, 1, '2020-08-29 14:39:39', NULL, NULL, 0, NULL, NULL),
 	(609, 1, 'Lesson 29', NULL, 148, 1, 1, '2020-08-29 14:45:30', NULL, NULL, 0, NULL, NULL),
 	(610, 2, 'Lesson 30', NULL, 148, 1, 1, '2020-08-29 14:46:57', NULL, NULL, 0, NULL, NULL),
@@ -5650,7 +5661,7 @@ INSERT INTO `lessons` (`id`, `sortid`, `title`, `description`, `chapterid`, `typ
 	(815, NULL, 'Lesson Plan & Answer Key', NULL, 285, 2, 1, '2020-09-23 14:00:44', NULL, NULL, 0, NULL, NULL),
 	(816, NULL, 'Apps', NULL, 285, 2, 1, '2020-09-23 14:00:57', NULL, NULL, 0, NULL, NULL),
 	(817, 2, 'Lesson Plan & Answer Key', NULL, 186, 2, 1, '2020-09-23 14:05:39', NULL, NULL, 0, NULL, NULL),
-	(818, NULL, 'Lesson Plan & Answer Key', NULL, 172, 2, 1, '2020-09-23 14:29:34', NULL, NULL, 0, NULL, NULL),
+	(818, 2, 'Lesson Plan & Answer Key', NULL, 172, 2, 1, '2020-09-23 14:29:34', NULL, NULL, 0, NULL, NULL),
 	(819, 2, 'Lesson Plan & Answer Key', NULL, 169, 2, 1, '2020-09-23 14:29:57', NULL, NULL, 0, NULL, NULL),
 	(820, 1, 'Starting Disney\'s Magic Artist Deluxe', NULL, 286, 1, 1, '2020-09-24 13:59:39', NULL, NULL, 0, NULL, NULL),
 	(821, 2, 'The Disney\'s Magic Artist Deluxe Interface', NULL, 286, 1, 1, '2020-09-24 14:00:44', NULL, NULL, 0, NULL, NULL),
@@ -5775,8 +5786,8 @@ INSERT INTO `lessons` (`id`, `sortid`, `title`, `description`, `chapterid`, `typ
 	(940, 7, 'Unit Test B', NULL, 142, 1, 1, '2020-11-26 14:31:46', NULL, NULL, 0, NULL, NULL),
 	(941, 7, 'Unit Test A', NULL, 143, 1, 1, '2020-11-26 14:39:40', NULL, NULL, 0, NULL, NULL),
 	(942, 8, 'Unit Test B', NULL, 143, 1, 1, '2020-11-26 14:39:53', NULL, NULL, 0, NULL, NULL),
-	(943, 3, 'Unit Test A', NULL, 144, 1, 1, '2020-11-26 14:42:37', NULL, NULL, 0, NULL, NULL),
-	(944, 4, 'Unit Test B', NULL, 144, 1, 1, '2020-11-26 14:42:50', NULL, NULL, 0, NULL, NULL),
+	(943, 3, 'Unit Test A', NULL, 144, 1, 1, '2020-11-26 14:42:37', NULL, NULL, 1, NULL, NULL),
+	(944, 4, 'Unit Test B', NULL, 144, 1, 1, '2020-11-26 14:42:50', NULL, NULL, 1, NULL, NULL),
 	(945, NULL, 'Unit Test 1A', NULL, 145, 1, 1, '2020-11-26 14:47:05', NULL, NULL, 0, NULL, NULL),
 	(946, NULL, 'Unit Test 1B', NULL, 145, 1, 1, '2020-11-26 14:47:17', NULL, NULL, 0, NULL, NULL),
 	(947, NULL, 'Unit Test 2A', NULL, 145, 1, 1, '2020-11-26 14:47:30', NULL, NULL, 0, NULL, NULL),
@@ -5814,21 +5825,185 @@ INSERT INTO `lessons` (`id`, `sortid`, `title`, `description`, `chapterid`, `typ
 	(979, 3, 'Chapter Test', NULL, 36, 1, 1, '2021-05-19 09:46:58', NULL, NULL, 0, NULL, NULL),
 	(980, 2, 'Chapter Test', NULL, 37, 1, 1, '2021-05-19 09:48:51', NULL, NULL, 0, NULL, NULL),
 	(981, 2, 'Chapter Test', NULL, 38, 1, 1, '2021-05-19 09:50:12', NULL, NULL, 0, NULL, NULL),
-	(982, 2, 'Chapter Test', NULL, 39, 1, 1, '2021-05-19 09:51:53', NULL, NULL, 0, NULL, NULL),
-	(983, 2, 'Chapter Test', NULL, 40, 1, 1, '2021-05-19 09:53:16', NULL, NULL, 0, NULL, NULL),
+	(982, NULL, 'Chapter Test', NULL, 39, 1, 1, '2021-05-19 09:51:53', NULL, NULL, 0, NULL, NULL),
+	(983, NULL, 'Chapter Test', NULL, 40, 1, 1, '2021-05-19 09:53:16', NULL, NULL, 0, NULL, NULL),
 	(984, 2, 'Chapter Test', NULL, 41, 1, 1, '2021-05-19 09:54:32', NULL, NULL, 0, NULL, NULL),
-	(985, 2, 'Chapter Test', NULL, 42, 1, 1, '2021-05-19 09:55:49', NULL, NULL, 0, NULL, NULL),
+	(985, NULL, 'Chapter Test', NULL, 42, 1, 1, '2021-05-19 09:55:49', NULL, NULL, 0, NULL, NULL),
 	(986, 3, 'Chapter Test', NULL, 43, 1, 1, '2021-05-19 09:56:44', NULL, NULL, 0, NULL, NULL),
-	(987, 2, 'Chapter Test', NULL, 44, 1, 1, '2021-05-19 09:57:56', NULL, NULL, 1, NULL, NULL),
+	(987, NULL, 'Chapter Test', NULL, 44, 1, 1, '2021-05-19 09:57:56', NULL, NULL, 0, NULL, NULL),
 	(988, 2, 'Chapter Test', NULL, 45, 1, 1, '2021-05-19 09:58:59', NULL, NULL, 0, NULL, NULL),
 	(989, 4, 'Chapter 1 Chapter Test', NULL, 9, 1, 1, '2021-05-19 10:04:22', NULL, NULL, 0, NULL, NULL),
-	(990, NULL, 'Lesson: Cybersecurity', NULL, 56, 1, 1, '2023-04-26 11:02:31', NULL, NULL, 1, NULL, NULL),
-	(991, 3, 'Cybersecurity', NULL, 56, 1, 1, '2023-04-26 11:02:58', NULL, NULL, 1, NULL, NULL),
-	(992, NULL, 'Cybersecurity', NULL, 34, 1, 1, '2023-04-26 11:05:04', NULL, NULL, 1, NULL, NULL),
-	(993, 3, 'Cybersecurity', 'Cybersecurity', 56, 1, 1, '2023-04-26 11:13:26', NULL, NULL, 0, NULL, NULL),
-	(994, 2, 'Netwroking 101', NULL, 306, 1, 1, '2023-05-05 09:23:44', NULL, NULL, 0, NULL, NULL),
-	(995, 3, 'Lesson 2 dklfjkldfjk', 'asdsad', 306, 1, 1, '2023-05-05 16:20:19', NULL, NULL, 0, NULL, NULL),
-	(996, 2, 'Lesson 1212', NULL, 305, 1, 1, '2023-05-06 11:11:32', NULL, NULL, 0, NULL, NULL);
+	(990, 1, 'Unit 2', 'Lorem ipsum dolor sit amet consectetur, adipiscing elit habitasse.\nTortor quisque duis parturient lectus, urna vitae sociis.', 305, 1, 1, '2023-04-26 14:17:18', NULL, NULL, 0, NULL, NULL),
+	(991, 4, 'Lesson 13', NULL, 144, 1, 1, '2023-04-26 15:16:23', NULL, NULL, 0, NULL, NULL),
+	(992, 3, 'Unit 2', NULL, 35, 1, 1, '2023-04-27 10:09:13', NULL, NULL, 0, NULL, NULL),
+	(993, 7, 'fsdfs', NULL, 142, 1, 1, '2023-05-02 09:13:53', NULL, NULL, 1, NULL, NULL);
+
+-- Dumping structure for table cklms.lesson_fill_question
+CREATE TABLE IF NOT EXISTS `lesson_fill_question` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `sortid` int DEFAULT NULL,
+  `questionid` int DEFAULT NULL,
+  `question` varchar(255) DEFAULT NULL,
+  `deleted` tinyint(1) DEFAULT NULL,
+  `deleteddatetime` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=latin1 ROW_FORMAT=DYNAMIC;
+
+-- Dumping data for table cklms.lesson_fill_question: ~0 rows (approximately)
+INSERT INTO `lesson_fill_question` (`id`, `sortid`, `questionid`, `question`, `deleted`, `deleteddatetime`) VALUES
+	(18, 2, 143, 'sdfsdfsdfs ~input s;ldfksdl;fksd;lfk;lsd ~input dfgdfgdfg', NULL, NULL),
+	(19, 1, 143, 'sdfsdfsdfsdfsdf ~input sdafsdjfklsdfjklds', NULL, NULL);
+
+-- Dumping structure for table cklms.lesson_quiz_drag_option
+CREATE TABLE IF NOT EXISTS `lesson_quiz_drag_option` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `questionid` int DEFAULT NULL,
+  `sortid` int DEFAULT NULL,
+  `description` varchar(255) DEFAULT NULL,
+  `deleted` tinyint(1) DEFAULT '0',
+  `createddatetime` datetime DEFAULT NULL,
+  `updateddatetime` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=53 DEFAULT CHARSET=latin1;
+
+-- Dumping data for table cklms.lesson_quiz_drag_option: ~26 rows (approximately)
+INSERT INTO `lesson_quiz_drag_option` (`id`, `questionid`, `sortid`, `description`, `deleted`, `createddatetime`, `updateddatetime`) VALUES
+	(14, 116, 1, 'Option Â 1', 0, '2023-05-08 14:28:08', '2023-05-08 14:28:39'),
+	(15, 116, 2, 'Option Â 2', 0, '2023-05-08 14:28:22', '2023-05-08 14:28:39'),
+	(16, 116, 3, 'Option Â 3', 0, '2023-05-08 14:28:22', '2023-05-08 14:28:39'),
+	(17, 117, 1, 'Paris', 0, '2023-05-08 14:32:12', '2023-05-09 16:11:50'),
+	(18, 117, 2, 'London', 0, '2023-05-08 14:32:33', '2023-05-09 16:11:51'),
+	(19, 117, 3, 'Atom', 0, '2023-05-08 14:32:33', '2023-05-09 16:11:51'),
+	(27, 117, 4, 'Philippines', 0, '2023-05-08 16:08:04', '2023-05-09 16:11:50'),
+	(28, 117, 5, 'Gravity', 0, '2023-05-08 16:15:16', '2023-05-09 16:11:51'),
+	(29, 78, 1, 'Option Â 0', 0, '2023-05-08 16:16:47', '2023-05-08 16:16:48'),
+	(30, 118, 1, 'Option Â 0', 0, '2023-05-09 08:02:59', '2023-05-09 08:06:58'),
+	(31, 118, 2, 'Option Â 2', 0, '2023-05-09 08:03:26', '2023-05-09 08:06:58'),
+	(32, 118, 4, 'Option Â 4', 0, '2023-05-09 08:03:26', '2023-05-09 08:06:58'),
+	(33, 118, 3, 'Option Â 3', 0, '2023-05-09 08:03:26', '2023-05-09 08:06:58'),
+	(34, 118, 5, 'OptionÂ  5', 0, '2023-05-09 08:03:46', '2023-05-09 08:06:58'),
+	(35, 122, 1, 'Option Â 1', 0, '2023-05-10 10:28:10', '2023-05-10 10:30:30'),
+	(36, 122, 3, 'Option Â 3', 0, '2023-05-10 10:28:21', '2023-05-10 10:30:30'),
+	(37, 122, 2, 'Option Â 2', 0, '2023-05-10 10:28:21', '2023-05-10 10:30:30'),
+	(38, 125, 1, 'Option Â 1', 0, '2023-05-10 10:31:01', '2023-05-10 10:32:02'),
+	(39, 125, 3, 'Option Â 3', 0, '2023-05-10 10:31:11', '2023-05-10 10:32:02'),
+	(40, 125, 2, 'Option Â 2', 0, '2023-05-10 10:31:11', '2023-05-10 10:32:02'),
+	(41, 125, 4, 'OptionssssÂ  4', 0, '2023-05-10 10:31:12', '2023-05-10 10:32:02'),
+	(42, 126, 1, 'Option Â 0', 0, '2023-05-12 13:02:57', '2023-05-12 13:02:59'),
+	(43, 130, 1, 'Option  8', 0, '2023-05-17 11:24:52', '2023-05-17 13:18:20'),
+	(44, 130, 3, 'Option  10', 0, '2023-05-17 11:24:52', '2023-05-17 13:18:20'),
+	(45, 130, 2, 'Option  9', 0, '2023-05-17 11:24:52', '2023-05-17 13:18:20'),
+	(46, 130, 4, 'Option  11', 0, '2023-05-17 11:24:52', '2023-05-17 13:18:20'),
+	(47, 130, 5, 'Option  12', 0, '2023-05-17 11:24:52', '2023-05-17 13:18:20'),
+	(48, 130, 6, 'Option  13', 0, '2023-05-17 11:24:52', '2023-05-17 13:18:20'),
+	(49, 129, 1, 'Option  1', 0, '2023-05-17 13:19:45', NULL),
+	(50, 145, 1, 'ssdfsdfsdf', 0, '2023-05-20 09:35:50', '2023-05-20 09:37:39'),
+	(51, 145, 2, 'zzzzzzzzzzzzzz', 0, '2023-05-20 09:35:50', '2023-05-20 09:37:39'),
+	(52, 145, 3, 'ererererere', 0, '2023-05-20 09:35:50', '2023-05-20 09:37:39');
+
+-- Dumping structure for table cklms.lesson_quiz_drop_answer
+CREATE TABLE IF NOT EXISTS `lesson_quiz_drop_answer` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `sortid` int DEFAULT NULL,
+  `headerid` int DEFAULT NULL,
+  `answer` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE=InnoDB AUTO_INCREMENT=47 DEFAULT CHARSET=latin1 ROW_FORMAT=DYNAMIC;
+
+-- Dumping data for table cklms.lesson_quiz_drop_answer: ~0 rows (approximately)
+INSERT INTO `lesson_quiz_drop_answer` (`id`, `sortid`, `headerid`, `answer`) VALUES
+	(43, 1, 10, 'Paris'),
+	(44, 1, 11, 'Atom'),
+	(45, 1, 12, 'Gravity'),
+	(46, 2, 12, 'London');
+
+-- Dumping structure for table cklms.lesson_quiz_drop_question
+CREATE TABLE IF NOT EXISTS `lesson_quiz_drop_question` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `questionid` int DEFAULT NULL,
+  `sortid` int DEFAULT NULL,
+  `question` text,
+  `deleted` tinyint(1) DEFAULT NULL,
+  `createddatetime` datetime DEFAULT NULL,
+  `updateddatetime` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=28 DEFAULT CHARSET=latin1;
+
+-- Dumping data for table cklms.lesson_quiz_drop_question: ~16 rows (approximately)
+INSERT INTO `lesson_quiz_drop_question` (`id`, `questionid`, `sortid`, `question`, `deleted`, `createddatetime`, `updateddatetime`) VALUES
+	(8, 116, 1, 'color: black;', 0, '2023-05-08 14:28:08', '2023-05-08 14:28:39'),
+	(9, 116, 2, 'color: brown;d dsdf', 0, '2023-05-08 14:28:22', '2023-05-08 14:28:39'),
+	(10, 117, 1, 'What is the capital of France? ~input', 0, '2023-05-08 14:32:12', '2023-05-09 16:11:51'),
+	(11, 117, 2, 'What is the smallest unit of matter? ~input', 0, '2023-05-08 15:03:05', '2023-05-09 16:11:51'),
+	(12, 117, 3, 'What is the force that pulls ~input toward each other? ~input', 0, '2023-05-08 16:08:04', '2023-05-09 16:11:51'),
+	(13, 78, 1, NULL, 0, '2023-05-08 16:16:47', '2023-05-08 16:16:48'),
+	(14, 118, 1, 'The ~input is the yellowest color', 0, '2023-05-09 08:02:59', '2023-05-09 08:06:58'),
+	(15, 122, 1, 'The planet ~input is the biggest planet in the solar system', NULL, '2023-05-10 10:28:10', '2023-05-10 10:28:21'),
+	(16, 125, 1, 'The planet ~input is the biggest planet in the solar system ~input', NULL, '2023-05-10 10:31:01', '2023-05-10 10:31:12'),
+	(17, 126, 1, NULL, NULL, '2023-05-12 13:02:58', '2023-05-12 13:02:59'),
+	(18, 130, 1, 'asdasdasd', NULL, '2023-05-17 11:24:52', NULL),
+	(19, 130, 3, 'asdasda', NULL, '2023-05-17 11:24:52', NULL),
+	(20, 130, 2, 'dasdasdasdasd ~input', NULL, '2023-05-17 11:24:52', NULL),
+	(21, 129, 2, 'asdsdfsdfsdf', NULL, '2023-05-17 13:05:01', '2023-05-17 13:17:26'),
+	(22, 129, 1, 'hjkhjkhjkhjk', NULL, '2023-05-17 13:05:01', '2023-05-17 13:17:26'),
+	(23, 129, 3, NULL, NULL, '2023-05-17 13:17:26', NULL),
+	(24, 145, 2, '~input asaskldjaskldjaskldj ~input djkfhsdfhsdjkfhsdkjf', NULL, '2023-05-20 09:35:50', '2023-05-20 09:37:39'),
+	(25, 145, 1, '~input dsafkjsdfhsjkdfhsdjkhfkjsdfj', NULL, '2023-05-20 09:35:50', '2023-05-20 09:37:39'),
+	(26, 145, 3, 'sdkfjsdkljfk ~input sdfsdfsmdfsdlfksdlf', NULL, '2023-05-20 09:35:51', '2023-05-20 09:37:39'),
+	(27, 145, 4, 'sdsdfsdfsdfsdf', NULL, '2023-05-20 09:37:34', '2023-05-20 09:37:39');
+
+-- Dumping structure for table cklms.lesson_quiz_fill_answer
+CREATE TABLE IF NOT EXISTS `lesson_quiz_fill_answer` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `sortid` int DEFAULT NULL,
+  `headerid` int DEFAULT NULL,
+  `answer` varchar(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci DEFAULT NULL,
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE=InnoDB AUTO_INCREMENT=43 DEFAULT CHARSET=latin1 ROW_FORMAT=DYNAMIC;
+
+-- Dumping data for table cklms.lesson_quiz_fill_answer: ~0 rows (approximately)
+
+-- Dumping structure for table cklms.lesson_quiz_record
+CREATE TABLE IF NOT EXISTS `lesson_quiz_record` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `teacher` int DEFAULT NULL,
+  `quizid` int DEFAULT NULL,
+  `active` tinyint DEFAULT '0',
+  `timefrom` datetime DEFAULT NULL,
+  `timeto` datetime DEFAULT NULL,
+  `chapterid` int DEFAULT NULL,
+  `bookid` int DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- Dumping data for table cklms.lesson_quiz_record: ~0 rows (approximately)
+
+-- Dumping structure for table cklms.lesssonquiz
+CREATE TABLE IF NOT EXISTS `lesssonquiz` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `bookid` int DEFAULT NULL,
+  `chapterid` int DEFAULT NULL,
+  `sortid` int DEFAULT NULL,
+  `title` varchar(255) DEFAULT NULL,
+  `description` text,
+  `coverage` varchar(255) DEFAULT NULL,
+  `createddatetime` datetime DEFAULT NULL,
+  `deleted` tinyint(1) DEFAULT '0',
+  `updatedatetine` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=23 DEFAULT CHARSET=latin1;
+
+-- Dumping data for table cklms.lesssonquiz: ~8 rows (approximately)
+INSERT INTO `lesssonquiz` (`id`, `bookid`, `chapterid`, `sortid`, `title`, `description`, `coverage`, `createddatetime`, `deleted`, `updatedatetine`) VALUES
+	(11, 9, 142, 8, 'Unit Tests', 'The quiz is designed to test your general knowledge on a variety of topics such as history, science, pop culture, and more. With 20 multiple-choice questions, you\'ll have the chance to show off your skills and see how you stack up against other quiz takers. The quiz is timed, so be sure to answer as quickly as possible. Good luck!', 'Lesson 1, Lesson 3, Lesson 4', '2023-05-03 14:56:07', 0, NULL),
+	(12, 9, 142, 9, 'Izakahr', '<ol><li>Hello from the other worlds\n\n</li></ol>', NULL, '2023-05-03 15:56:42', 0, NULL),
+	(13, 9, 143, 9, 'Test 2', '<p>Hello</p>', NULL, '2023-05-03 16:00:46', 0, NULL),
+	(17, 9, 142, 10, 'Test Quiz', '<p>Test quiz for the ages</p>', 'Lesson 1, Lesson 2', '2023-05-04 10:58:20', 1, NULL),
+	(18, 9, 142, 10, 'Chapter Quiz', 'Read each question below and select your choices(Hello from the outside)', 'Lesson 1, Lesson 3, Lesson 4, Lesson 2', '2023-05-04 16:11:48', 0, NULL),
+	(19, 9, 142, 11, 'Untitled Quiz', NULL, NULL, '2023-05-04 16:28:43', 1, NULL),
+	(20, 9, 142, 12, 'dfsdfdsf', NULL, NULL, '2023-05-04 16:29:14', 1, NULL),
+	(21, 9, 142, 13, 'Chapter Quiz', 'Instruction', NULL, '2023-05-05 10:22:21', 1, NULL),
+	(22, 1, 56, 3, 'Sample Quiz 111', 'Sample Quiz 111dsdfsdfsdfsdf', NULL, '2023-05-17 10:57:05', 0, NULL);
 
 -- Dumping structure for table cklms.manuallab
 CREATE TABLE IF NOT EXISTS `manuallab` (
@@ -5861,9 +6036,9 @@ CREATE TABLE IF NOT EXISTS `messages` (
   `deletedby` int DEFAULT NULL,
   `deleteddatetime` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=32 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=35 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_unicode_ci;
 
--- Dumping data for table cklms.messages: ~31 rows (approximately)
+-- Dumping data for table cklms.messages: ~34 rows (approximately)
 INSERT INTO `messages` (`id`, `content`, `recipientid`, `recusertypeid`, `createdby`, `usertypeid`, `createddatetime`, `deleted`, `deletedby`, `deleteddatetime`) VALUES
 	(1, 'Hello maam', NULL, NULL, 8, 3, '2020-08-14 01:50:40', 0, NULL, NULL),
 	(2, 'Hello', 8, 3, 1, 2, '2020-08-14 08:56:28', 0, NULL, NULL),
@@ -5895,7 +6070,10 @@ INSERT INTO `messages` (`id`, `content`, `recipientid`, `recusertypeid`, `create
 	(28, 'sir unsa ang link?', 18, 2, 147, 3, '2020-11-10 14:59:12', 0, NULL, NULL),
 	(29, 'Good afternoon sir', 18, 2, 151, 3, '2020-11-17 15:04:14', 0, NULL, NULL),
 	(30, 'WORD WATCH 2\n\n1. Green computing -is the environmentally responsible and eco-friendly use of 	computers and their resources. \n2.  Software -comprises the entire set of programs, procedures, and routines 	associated with the operation of a computer system.', 18, 2, 110, 3, '2020-12-12 16:22:18', 0, NULL, NULL),
-	(31, 'Hello', 18, 2, 50, 3, '2023-04-24 08:34:12', 0, NULL, NULL);
+	(31, 'Hello', 18, 2, 50, 3, '2023-04-24 08:34:12', 0, NULL, NULL),
+	(32, 'Hi', 18, 2, 50, 3, '2023-04-26 09:41:06', 0, NULL, NULL),
+	(33, 'Hi', 21, 3, 18, 2, '2023-05-03 08:17:16', 0, NULL, NULL),
+	(34, 'Hi Hello', 1, 3, 18, 2, '2023-05-09 08:29:32', 0, NULL, NULL);
 
 -- Dumping structure for table cklms.messagesattach
 CREATE TABLE IF NOT EXISTS `messagesattach` (
@@ -5915,16 +6093,12 @@ CREATE TABLE IF NOT EXISTS `messagesattach` (
 -- Dumping structure for table cklms.migrations
 CREATE TABLE IF NOT EXISTS `migrations` (
   `id` int unsigned NOT NULL AUTO_INCREMENT,
-  `migration` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `migration` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `batch` int NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Dumping data for table cklms.migrations: ~3 rows (approximately)
-INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
-	(7, '2014_10_12_000000_create_users_table', 1),
-	(8, '2014_10_12_100000_create_password_resets_table', 1),
-	(9, '2019_08_19_000000_create_failed_jobs_table', 1);
+-- Dumping data for table cklms.migrations: ~0 rows (approximately)
 
 -- Dumping structure for table cklms.parts
 CREATE TABLE IF NOT EXISTS `parts` (
@@ -5941,7 +6115,7 @@ CREATE TABLE IF NOT EXISTS `parts` (
   `deletedby` int DEFAULT NULL,
   `deleteddatetime` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=46 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=45 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_unicode_ci;
 
 -- Dumping data for table cklms.parts: ~44 rows (approximately)
 INSERT INTO `parts` (`id`, `sortid`, `title`, `description`, `bookid`, `createdby`, `createddatetime`, `updatedby`, `updateddatetime`, `deleted`, `deletedby`, `deleteddatetime`) VALUES
@@ -5988,18 +6162,7 @@ INSERT INTO `parts` (`id`, `sortid`, `title`, `description`, `bookid`, `createdb
 	(41, NULL, 'Learning Disney\'s Magic Artist Deluxe', NULL, 16, 1, '2020-09-24 13:57:28', NULL, NULL, 1, NULL, NULL),
 	(42, 1, 'Part 1 : Introduction to Computer, Images and Adobe Photoshop', NULL, 27, 1, '2020-09-25 08:43:09', NULL, NULL, 1, NULL, NULL),
 	(43, 2, 'Part 2 : Using Corel Draw', NULL, 27, 1, '2020-09-25 08:43:28', NULL, NULL, 1, NULL, NULL),
-	(44, 3, 'Part 3 : Develop Electronic & Print Media', NULL, 27, 1, '2020-09-25 08:44:12', NULL, NULL, 1, NULL, NULL),
-	(45, 4, 'Scratchy Draw 2', NULL, 1, 1, '2023-04-26 15:34:52', NULL, NULL, 0, NULL, NULL);
-
--- Dumping structure for table cklms.password_resets
-CREATE TABLE IF NOT EXISTS `password_resets` (
-  `email` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `token` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `created_at` timestamp NULL DEFAULT NULL,
-  KEY `password_resets_email_index` (`email`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
--- Dumping data for table cklms.password_resets: ~0 rows (approximately)
+	(44, 3, 'Part 3 : Develop Electronic & Print Media', NULL, 27, 1, '2020-09-25 08:44:12', NULL, NULL, 1, NULL, NULL);
 
 -- Dumping structure for table cklms.quizzes
 CREATE TABLE IF NOT EXISTS `quizzes` (
@@ -6144,7 +6307,7 @@ CREATE TABLE IF NOT EXISTS `students` (
   `deletedby` int DEFAULT NULL,
   `deleteddatetime` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=467 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=466 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_unicode_ci;
 
 -- Dumping data for table cklms.students: ~464 rows (approximately)
 INSERT INTO `students` (`id`, `userid`, `firstname`, `middlename`, `lastname`, `suffix`, `gender`, `picurl`, `createdby`, `createddatetime`, `deleted`, `deletedby`, `deleteddatetime`) VALUES
@@ -7550,9 +7713,9 @@ CREATE TABLE IF NOT EXISTS `updatelogs` (
   `createdby` int DEFAULT NULL,
   `createddatetime` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2192 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=2193 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_unicode_ci;
 
--- Dumping data for table cklms.updatelogs: ~40 rows (approximately)
+-- Dumping data for table cklms.updatelogs: ~42 rows (approximately)
 INSERT INTO `updatelogs` (`id`, `type`, `status`, `sql`, `createdby`, `createddatetime`) VALUES
 	(2151, 1, 0, '[{"query":"select * from `users` where `id` = ? limit 1","bindings":[2],"time":3.350000000000000088817841970012523233890533447265625},{"query":"update `users` set `password` = ?, `isDefault` = ? where `id` = ?","bindings":["$2y$10$4H9gcnoMyw9ZbdJIxBA0YeHuS6Ph\\/jANdfHtqABL.8x9vRkjRu\\/yO","0",2],"time":1.3899999999999999023003738329862244427204132080078125}]Shing2019', 2, '2021-03-23 08:20:06'),
 	(2152, 1, 0, '[{"query":"select * from `users` where `id` = ? limit 1","bindings":[28],"time":5.87999999999999989341858963598497211933135986328125},{"query":"update `users` set `password` = ?, `isDefault` = ? where `id` = ?","bindings":["$2y$10$s7BPFf6BvuEv1ckmgUqxmujokjl7S4QYoDZGfSoucfC4PkSBiYCcG","0",28],"time":1.3300000000000000710542735760100185871124267578125}]123456789', 28, '2021-03-23 12:35:01'),
@@ -7594,7 +7757,8 @@ INSERT INTO `updatelogs` (`id`, `type`, `status`, `sql`, `createdby`, `createdda
 	(2188, 1, 0, '[{"query":"select * from `users` where `id` = ? limit 1","bindings":[69],"time":10.21},{"query":"update `users` set `password` = ?, `isDefault` = ? where `id` = ?","bindings":["$2y$10$A.eR6UWva34nnz6yCiCqEep1HSOh4bke9wGU.ukyB3lrJdoRnnBwq","0",69],"time":6.41}]12345678', 69, '2023-04-22 16:39:21'),
 	(2189, 1, 0, '[{"query":"select * from `users` where `id` = ? limit 1","bindings":[302],"time":7.2},{"query":"update `users` set `password` = ?, `isDefault` = ? where `id` = ?","bindings":["$2y$10$\\/MARxEkwUxJPtvZpmCMGeOW5OCWfllz1YX78gqc3MGUaK0RcujJq.","0",302],"time":6.36}]12345678', 302, '2023-04-22 16:50:46'),
 	(2190, 1, 0, '[{"query":"select * from `users` where `id` = ? limit 1","bindings":[484],"time":13.02},{"query":"update `users` set `password` = ?, `isDefault` = ? where `id` = ?","bindings":["$2y$10$Qj60pNcIOfNMmvmG7HjCwumJyA13Pn8txx8b3E4XLT49mAhdOGnyW","0",484],"time":1.09}]123456789', 484, '2023-04-25 10:48:04'),
-	(2191, 1, 0, '[{"query":"select * from `users` where `id` = ? limit 1","bindings":[485],"time":17.66},{"query":"update `users` set `password` = ?, `isDefault` = ? where `id` = ?","bindings":["$2y$10$sQajXdga5GaaJZhMZFKWJePVVziJLXsd7RNLQHaYnUQJaZ3ft7r.m","0",485],"time":47}]123456789', 485, '2023-05-02 08:20:43');
+	(2191, 1, 0, '[{"query":"select * from `users` where `id` = ? limit 1","bindings":[80],"time":3.19},{"query":"update `users` set `password` = ?, `isDefault` = ? where `id` = ?","bindings":["$2y$10$nR6Mz6HUD4ykBhO3n9MhtuRKJ.a3C9qI3PsPO.TG95\\/Mg0EaSRYHK","0",80],"time":4.69}]123456789', 80, '2023-04-26 09:30:38'),
+	(2192, 1, 0, '[{"query":"select * from `users` where `id` = ? limit 1","bindings":[80],"time":22.58},{"query":"update `users` set `password` = ?, `isDefault` = ? where `id` = ?","bindings":["$2y$10$T3VwgUjNKDmIg36o\\/1Rjgeorx9olpqtyObjYBEb4dGWeVk6VzC6.a","0",80],"time":2.86}]12345678', 80, '2023-04-26 10:50:05');
 
 -- Dumping structure for table cklms.users
 CREATE TABLE IF NOT EXISTS `users` (
@@ -7697,7 +7861,7 @@ INSERT INTO `users` (`id`, `name`, `email`, `type`, `schoolabbr`, `deleted`, `em
 	(77, 'JOHANNES MARIAN KATE V. CALFOFORO ', 'calfoforo_johannesmariankate@cklms.ph', 3, 'vbca', 0, NULL, '$2y$10$KlQrK9GVGcoO7XJ5Z1fAkOfOh6RpuOWvn3HvEJ4HTsJ23QPbKnqmS', NULL, '2020-10-02 02:17:58', NULL, 1, 1, 0, NULL, 0, NULL, NULL),
 	(78, 'DANA ARIANNY C. DAGOHOY ', 'dagohoy_danaarianny@cklms.ph', 3, 'vbca', 0, NULL, '$2y$10$4fGry.PPDU1FH0yqtZrXQOMJyQGA2R5diABVskMvKM48e6O57pIVG', NULL, '2020-10-02 02:17:58', NULL, 1, 1, 0, NULL, 0, NULL, NULL),
 	(79, 'RYLAI MICAELA G. FABELA ', 'fabela_rylaimicaela@cklms.ph', 3, 'vbca', 0, NULL, '$2y$10$qbdpFau3c2gl9gCg8AGHFeb6GEjeAqawK.9fkk.9u9XrdiTFRuuhu', NULL, '2020-10-02 02:17:58', NULL, 1, 1, 0, NULL, 0, NULL, NULL),
-	(80, 'PRECIOUS RHEMA B. TIMONIO ', 'timonio_preciousrhema@cklms.ph', 3, 'vbca', 0, NULL, '$2y$10$g7b7xZ5O7PXSJ/q3EZJGiOJvPqTAC08wTR6c3g9GQRkFkFjWFBxl6', NULL, '2020-10-02 02:17:58', NULL, 1, 1, 0, NULL, 0, NULL, NULL),
+	(80, 'PRECIOUS RHEMA B. TIMONIO ', 'timonio_preciousrhema@cklms.ph', 3, 'vbca', 0, NULL, '$2y$10$T3VwgUjNKDmIg36o/1Rjgeorx9olpqtyObjYBEb4dGWeVk6VzC6.a', NULL, '2020-10-02 02:17:58', NULL, 1, 0, 0, NULL, 0, NULL, NULL),
 	(81, 'CARL DAVID J. BELMES ', 'belmes_carldavid@cklms.ph', 3, 'vbca', 0, NULL, '$2y$10$XS8kjTncmEROM9gH/HeeG.EcQJ69DniKta9WSD62s5tyWANwwC3S6', NULL, '2020-10-02 02:17:58', NULL, 1, 1, 0, NULL, 0, NULL, NULL),
 	(82, 'SHAHEEM M. TAMAYAO ', 'tamayao_shaheem@cklms.ph', 3, 'vbca', 0, NULL, '$2y$10$kX2reDgGkso1JW8T2Ui5ruw5rVtPhSKyDgmez/ENEro4O5EzztHMu', NULL, '2020-10-02 02:17:58', NULL, 1, 1, 0, NULL, 0, NULL, NULL),
 	(83, 'MERIE JOYLYN D. CAHILES ', 'cahiles_meriejoylyn@cklms.ph', 3, 'vbca', 0, NULL, '$2y$10$lsu4bizYzFXWIaphDCFLe.wm2BxrbLJdm87jABSpckWsDNPTZy.Ky', NULL, '2020-10-02 02:17:58', NULL, 1, 1, 0, NULL, 0, NULL, NULL),
