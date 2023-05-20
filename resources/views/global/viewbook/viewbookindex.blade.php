@@ -198,15 +198,20 @@
         #lesson_content_holder{
 
             height: 100%;
-
+            /* perspective: 1000px; */
             background-image: url('{{asset($bookinfo->picurl)}}');
             background-repeat: repeat-y;
             background-size:contain;
             background-position: center;
+            /* transition: opacity 0.6s ease; */
         }
 
         .simplebar-content:hover {
             overflow: auto !important;
+        }
+
+        .hidden {
+            opacity: 0; /* Hide the content */
         }
 
 
@@ -275,7 +280,8 @@
                                         </div>
                                         <div class="simplebar-mask">
                                             <div class="simplebar-offset" style="right: 0px; bottom: 0px;">
-                                                <div class="simplebar-content  p-2" style="padding: 0px; height: auto; overflow: hidden;" id="book_part_holder">
+                                                {{-- <div class="simplebar-content  p-2" style="padding: 0px; height: auto; overflow: hidden;" id="book_part_holder"> --}}
+                                                <div class="simplebar-content  p-2" style="padding: 0px; height: auto; overflow-y: auto;" id="book_part_holder">
                                                     {{-- <img src="{{asset($bookinfo->picurl)}}" alt=""> --}}
                                                 </div>
                                             </div>
@@ -392,14 +398,24 @@
             function loadlessonContent(){
 
                 $.ajax({
-                    url: '/lessonContent/'+selectedLesson,
-                    type:"GET",
-                    success: function(data){
-
-                        $('#lesson_content_holder').append(data)
-                
+                    url: '/lessonContent/' + selectedLesson,
+                    type: 'GET',
+                    success: async function(data) {
+                        var contentDiv = $('#lesson_content_holder');
+                        
+                        // Add 'hidden' class to hide the content
+                        contentDiv.addClass('hidden');
+                        
+                        // After a short delay, change the content and remove 'hidden' class to show the updated content with transition
+                        await new Promise(resolve => setTimeout(resolve, 500)); // Delay in milliseconds, adjust as needed
+                        
+                        // Change the content here
+                        $('#lesson_content_holder').append(data);
+                        
+                        // Remove 'hidden' class to show the content with transition
+                        contentDiv.removeClass('hidden');
                     }
-                })
+                });
 
             }
 
@@ -499,117 +515,143 @@
             //teacher
             @elseif(auth()->user()->type == 3)
 
-                $(document).on('click', '#save-quiz', function() {
+            $(document).on('submit', '#answerForm', function(e) {
 
-                    var isvalid = true;
+                var inputs = new FormData(this)
 
-                    $('.answer-field').each(function() {
-                        $(this).removeClass('error-input')
-                        $(this).removeClass('is-invalid')
+                $.ajax( {
+                    url: '/chaptertestsubmitanswers',
+                    type: 'POST',
+                    data: inputs,
+                    processData: false,
+                    contentType: false,
+                    success:function(data) {
+                        UIkit.notification("<span uk-icon='icon: check'></span> Submitted successfully", {status:'success'});
+                        loadQuizContent()
+                        $('#lesson_content_holder').empty()
+                        loadQuizContent()
+                    }
+                })
 
-                        if ($(this).val() == "" && !$(this).hasClass('imageInput')) {
+                e.preventDefault();
+            });
 
-                            if ($(this).prop("disabled")) {
-                                $(this).prop('disabled', false);
-                                $(this).focus();
-                                $(this).prop('disabled', true);
-                            } else {
-                                $(this).focus();
-                            }
+            $(document).on('click', '#save-quiz', function() {
 
-                            if ($(this).data('question-type') == 5) {
-                                console.log($(this).data('question-type'))
-                                $(this).focus();
-                                $(this).addClass('red-border');
-                            }
+                var isvalid = true;
 
-                            $(this).addClass('error-input')
-                                isvalid = false
+                $('.answer-field').each(function() {
+                    $(this).removeClass('error-input')
+                    $(this).removeClass('is-invalid')
+                    console.log($(this).val())
+
+                    if ($(this).val() == "" ) {
+                        
+                        if ($(this).prop("disabled")) {
+                            $(this).prop('disabled', false);
+                            $(this).focus();
+                            $(this).prop('disabled', true);
+                        } else {
+                            $(this).focus();
                         }
 
-                        if ($(this).is(":radio")) {
-
-                            if (!$("input[name='" + $(this).attr("name") + "']:checked").length) {
-
-                                $(this).focus();
-                                $(this).addClass('is-invalid')
-
-                                isvalid = false;
-                            }
+                        if ($(this).data('question-type') == 5){
+                            console.log($(this).data('question-type'))
+                            $(this).focus();
+                            $(this).addClass('red-border');
+                            
                         }
-                    })
+                        
+                        
+                        $(this).addClass('error-input')
+                        isvalid = false
+                    }
 
+                    if ($(this).is(":radio")) {
+                        
+                        if (!$("input[name='" + $(this).attr("name") + "']:checked").length) {
 
-                    if (isvalid == true) {
+                            $(this).focus();
+                            $(this).addClass('is-invalid')
 
-                        var dataId = $('#save-quiz').data('id');
+                            isValid = false;
+                        }
+                    }
+
+                })
+
+                console.log(isvalid)
+
+                if (isvalid == true) {
+
+                    var dataId = $('#save-quiz').data('id');
                         console.log(dataId);
 
                         $.ajax({
-                            url: '/chaptertestsubmitanswers',
-                            type: "GET",
-                            data: { dataId: dataId },
-                            success: function(data) {
-                                $('#lesson_content_holder').empty()
-                                UIkit.notification("<span uk-icon='icon: check'></span> Submitted successfully", { status: 'success' })
-                                loadQuizContent()
-                            }
-                        })
-
-                    }
-                });
-
-                function loadQuizContent() {
-                    $('#lesson_content_holder').css('background-image', 'none');
-
-                    async function loadData() {
-                        try {
-                            const data = await $.ajax({
-                                url: '/studentQuizContent/' + selectedQuiz + '/' + '{{$classroomid}}',
-                                type: 'GET'
-                            });
-                            $('#contentdesktopview').remove();
-                            $('#lesson_content_holder').prepend(data);
-                        } catch (error) {
-                            console.log(error);
-                        }
-                    }
-
-                    loadData();
-                }
-
-                function loadQuizContentattempt() {
-                    $('#lesson_content_holder').css('background-image', 'none');
-
-                    async function loadData() {
-                        try {
-                            const data = await $.ajax({
-                                url: '/studentQuizContentattempt/' + selectedQuiz + '/' + '{{$classroomid}}' + '/',
-                                data: { recordid: recordid },
-                                type: 'GET'
-                            });
-
-                            $('#contentdesktopview').remove();
+                        url: '/chaptertestsubmitanswers',
+                        type:"GET",
+                        data: {dataId: dataId},
+                        success: function(data){
                             $('#lesson_content_holder').empty()
-                            $('#lesson_content_holder').prepend(data);
-                        } catch (error) {
-                            console.log(error);
-                        }
-                    }
-
-                    loadData();
-                }
-
-                $(document).on('click', '#retakeQuiz', function() {
-                    $.ajax({
-                        url: '/retakeQuiz/' + $(this).attr('data-id'),
-                        type: "GET",
-                        success: function(data) {
-                            $('#lesson_content_holder').empty()
+                            UIkit.notification("<span uk-icon='icon: check'></span> Submitted successfully", {status:'success'})
                             loadQuizContent()
                         }
                     })
+                }
+
+            });
+
+            function loadQuizContent() {
+                $('#lesson_content_holder').css('background-image', 'none');
+
+                async function loadData() {
+                    try {
+                        const data = await $.ajax({
+                            url: '/studentQuizContent/' + selectedQuiz + '/' + '{{$classroomid}}',
+                            type: 'GET'
+                        });
+                        $('#contentdesktopview').remove();
+                        $('#lesson_content_holder').prepend(data);
+                    } catch (error) {
+                        console.log(error);
+                    }
+                }
+
+                loadData();
+            }
+
+            function loadQuizContentattempt() {
+                $('#lesson_content_holder').css('background-image', 'none');
+
+                async function loadData() {
+                    try {
+                        const data = await $.ajax({
+                            url: '/studentQuizContentattempt/' + selectedQuiz + '/' + '{{$classroomid}}' + '/',
+                            data: { recordid: recordid },
+                            type: 'GET'
+                        });
+
+                        $('#contentdesktopview').remove();
+                        $('#lesson_content_holder').empty()
+                        $('#lesson_content_holder').prepend(data);
+                    } catch (error) {
+                        console.log(error);
+                    }
+                }
+
+                loadData();
+            }
+
+            $(document).on('click', '#retakeQuiz', function() {
+                $.ajax({
+                    url: '/retakeQuiz/' + $(this).attr('data-id'),
+                    type: "GET",
+                    success: function(data) {
+                        $('#lesson_content_holder').empty()
+                        loadQuizContent()
+                    }
                 })
+            })
 
             @endif
 
