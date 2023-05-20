@@ -148,6 +148,66 @@
                             </div>
                         </div>
                     @endif
+
+                    @if($item->typeofquiz == 7)
+                        <div class="card mt-5 editcontent">
+                            <div class="card-body">
+                                <span style="font-weight:600;font-size:1.0pc">
+                                    Fill in the blanks
+                                </span>
+        
+                                @foreach($item->fill as $items)
+                                        <p>
+                                            {{$items->sortid}}. {!! $items->question !!}
+        
+                                        </p>
+                                @endforeach
+        
+                            </div>
+                        </div>
+                    @endif
+
+                    @if($item->typeofquiz == 8)
+                        <div class="card mt-5 editcontent">
+                            <div class="card-body">
+                                <span style="font-weight:600;font-size:1.0pc">
+                                    Enumeration
+                                </span>
+        
+                                <ol class="list-group list-group-numbered p-3" type="A">
+                                <li>
+                                    <p>{{$item->question}}</p>
+                                <ol>
+        
+                                @php
+        
+                                    $numberOfTimes = $item->item
+        
+                                @endphp
+                                
+                                @for ($i = 0; $i < $numberOfTimes; $i++)
+        
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <li>
+                                            <p><input data-question-id="{{ $item->id }}" data-sortid={{ $i+1 }} data-question-type="8" class="answer-field d-inline form-control q-input" value="{{$item->answer[$i]}}" type="text"></p>
+                                        </li>
+                                    </div>
+                                </div>
+                                
+                                @endfor
+                                
+                                </ol>
+                                
+                                </li>
+                            </ol>
+                                
+        
+                            </div>
+                        </div>
+                    @endif
+
+
                 @endforeach
 
                 <div class="save mb-5">
@@ -170,7 +230,7 @@
 
     <script>
         $(document).ready(function() {
-            // $('input').prop("disabled", true);
+            $('input').prop("disabled", true);
             $('textarea').prop("disabled", true);
         })
     </script>

@@ -668,7 +668,7 @@ class ViewBookController extends Controller
             
             // dd($quizQuestions);
 
-            return view('global.viewbook.quizcontent.studentquizcontent')
+            return view('teacher.quiz.viewquizresponse')
                 ->with('quizInfo',$quizInfo)
                 ->with('headerid',$recordid)
                 ->with('classroomid',$classroomid)
