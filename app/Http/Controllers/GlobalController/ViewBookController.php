@@ -406,18 +406,18 @@ class ViewBookController extends Controller
         $isAnswered = false;
 
             
-        $checkIfAnswered = DB::table('chapterquizrecords')
-                            ->where('submittedby',auth()->user()->id)
-                            ->where('chapterquizid',$quizid)
-                            ->where('deleted',0)
-                            ->select('id','submitteddatetime','quizstatus','updateddatetime')
-                            ->first();
+        // $checkIfAnswered = DB::table('chapterquizrecords')
+        //                     ->where('submittedby',auth()->user()->id)
+        //                     ->where('chapterquizid',$quizid)
+        //                     ->where('deleted',0)
+        //                     ->select('id','submitteddatetime','quizstatus','updateddatetime')
+        //                     ->first();
 
         
 
-        if(isset($checkIfAnswered->id)){
-            $isAnswered = true;
-        }
+        // if(isset($checkIfAnswered->id)){
+        //     $isAnswered = true;
+        // }
 
 
 
@@ -440,8 +440,20 @@ class ViewBookController extends Controller
                                     ->where('deleted',0)
                                     ->value('choiceid');
 
+                    $check = DB::table('lessonquizchoices')
+                                    ->where('questionid',$item->id)
+                                    ->where('id', $answer)
+                                    ->where('deleted',0)
+                                    ->value('answer');
+
                     if(isset($answer)){
                         $item->answer = $answer;
+                        if($check == 1){
+                            $item->check = 1;
+                        }else{
+                            $item->check = 0;
+                        }
+                        
                     }else{
 
                         $item->answer = 0;
@@ -477,6 +489,8 @@ class ViewBookController extends Controller
 
                     $item->fill = $fillquestions;
 
+                    
+
 
                     foreach ($item->fill as $index => $fillItem) {
                         $key = 0;
@@ -493,24 +507,59 @@ class ViewBookController extends Controller
                                 ->where('deleted', 0)
                                 ->value('stringanswer');
 
-                            $questionWithInputs = preg_replace_callback('/~input/', function ($matches) use ($fillItem, &$inputCounter, &$key) {
-                                $inputField = '<input class="answer-field d-inline form-control q-input" data-question-type="7" data-sortid="' . ++$inputCounter . '" data-question-id="' . $fillItem->id . '" style="width: 200px; margin: 10px; border-color:black" type="text" id="input-' . $fillItem->id . '" value="' . $fillItem->answer . '">';
+
+                            $checkanswer = DB::table('lesson_quiz_fill_answer')
+                                    ->where('headerid',$fillItem->id)
+                                    ->where('sortid', 1)
+                                    ->value('answer');
+
+                            $check='';
+
+                            if($checkanswer == $fillItem->answer){
+
+                                $check = '<span><i class="fa fa-check" style="color:rgb(7, 255, 7)" aria-hidden="true"></i></span>';
+                            
+                            }else{
+                                $check = '<span><i class="fa fa-times" style="color: red;" aria-hidden="true"></i></span>';
+                            }
+
+                            $questionWithInputs = preg_replace_callback('/~input/', function ($matches) use ($fillItem, &$inputCounter, &$key, &$check) {
+                                $inputField = '<input class="answer-field d-inline form-control q-input" data-question-type="7" data-sortid="' . ++$inputCounter . '" data-question-id="' . $fillItem->id . '" style="width: 200px; margin: 10px; border-color:black" type="text" id="input-' . $fillItem->id . '" value="' . $fillItem->answer . '">'.$check;
                                 return $inputField;
                             }, $fillItem->question);
                             $inputCounter = 0;
 
                             $fillItem->question = $questionWithInputs;
                         } else if ($answercount > 1) {
+
                             $answer = DB::table('chapterquizrecordsdetail')
                                 ->where('questionid', $fillItem->id)
                                 ->where('headerid', $recordid)
-                                ->select('stringanswer')
+                                ->select('stringanswer', 'sortid')
                                 ->orderBy('sortid', 'asc')
                                 ->get();
 
+                            foreach($answer as $ans){
+
+                                $checkanswer = DB::table('lesson_quiz_drop_answer')
+                                    ->where('headerid',$fillItem->id)
+                                    ->where('sortid', $ans->sortid)
+                                    ->value('answer');
+
+                                if($checkanswer == $ans->stringanswer){
+                                    $ans->check = '<span><i class="fa fa-check" style="color:rgb(7, 255, 7)" aria-hidden="true"></i></span>';
+                                }else{
+                                    $ans->check = '<span><i class="fa fa-times" style="color: red;" aria-hidden="true"></i></span>'; 
+                                }
+                                
+
+                            } 
+
+                            
+
                             $sort = -1;
                             $questionWithInputs = preg_replace_callback('/~input/', function ($matches) use ($fillItem, &$inputCounter, &$key, &$sort, &$answer) {
-                                $inputField = '<input class="answer-field d-inline form-control q-input" data-question-type="7" data-sortid="' . ++$inputCounter . '" data-question-id="' . $fillItem->id . '" value="' . $answer[++$sort]->stringanswer . '" style="width: 200px; margin: 10px; border-color:black" type="text" id="input-' . $fillItem->id . '">';
+                                $inputField = '<input class="answer-field d-inline form-control q-input" data-question-type="7" data-sortid="' . ++$inputCounter . '" data-question-id="' . $fillItem->id . '" value="' . $answer[++$sort]->stringanswer . '" style="width: 200px; margin: 10px; border-color:black" type="text" id="input-' . $fillItem->id . '">'.$answer[$sort]->check;
                                 return $inputField;
                             }, $fillItem->question);
                             $inputCounter = 0;
@@ -612,12 +661,27 @@ class ViewBookController extends Controller
                                         ->where('headerid', $recordid)
                                         ->where('deleted',0)
                                         ->value('stringanswer');
+
+                            $checkanswer = DB::table('lesson_quiz_drop_answer')
+                                    ->where('headerid',$item->id)
+                                    ->where('sortid', 1)
+                                    ->value('answer');
+
+                            if($checkanswer == $item->answer){
+                                $check = '<span><i class="fa fa-check" style="color:rgb(7, 255, 7)" aria-hidden="true"></i></span>';
+                            }else{
+                                $check = '<span><i class="fa fa-times" style="color: red;" aria-hidden="true"></i></span>';
+                            }
                             
-                            $questionWithInputs = preg_replace_callback('/~input/', function($matches) use ($item, &$inputCounter, &$key) {
-                            $inputField = '<input class="d-inline form-control q-input drop-option q-input ui-droppable bg-primary text-white answer-field" data-question-type="5" data-sortid="'.++$inputCounter.'" data-question-id="'.$item->id.'" style="width: 200px; margin: 10px; border-color:black" type="text" id="input-'.$item->id.'" value="'.$item->answer.'" disabled>';
-                            return $inputField;
+
+                        
+
+                            $questionWithInputs = preg_replace_callback('/~input/', function($matches) use ($item, &$inputCounter, &$key, &$check) {
+                                $inputField = '<input class="d-inline form-control q-input drop-option q-input ui-droppable bg-primary text-white answer-field" data-question-type="5" data-sortid="'.(++$inputCounter).'" data-question-id="'.$item->id.'" style="width: 200px; margin: 10px; border-color:black" type="text" id="input-'.$item->id.'" value="'.$item->answer.'" disabled>'.$check;
+                                return $inputField;
                             }, $item->question);
                             $inputCounter = 0;
+
 
                             $item->question = $questionWithInputs;
 
@@ -628,13 +692,31 @@ class ViewBookController extends Controller
                             $answer = DB::table('chapterquizrecordsdetail')
                                         ->where('questionid',$item->id)
                                         ->where('headerid', $recordid)
-                                        ->select('stringanswer')
+                                        ->select('stringanswer', 'sortid')
                                         ->orderby('sortid', 'asc')
                                         ->get();
+                            
+                            foreach($answer as $ans){
+
+                                $checkanswer = DB::table('lesson_quiz_drop_answer')
+                                    ->where('headerid',$item->id)
+                                    ->where('sortid', $ans->sortid)
+                                    ->value('answer');
+
+                                if($checkanswer == $ans->stringanswer){
+                                    $ans->check = '<span><i class="fa fa-check" style="color:rgb(7, 255, 7)" aria-hidden="true"></i></span>';
+                                }else{
+                                    $ans->check = '<span><i class="fa fa-times" style="color: red;" aria-hidden="true"></i></span>'; 
+                                }
+                                
+
+                            } 
+                            
+
 
                             $sort = -1;
                             $questionWithInputs = preg_replace_callback('/~input/', function($matches) use ($item, &$inputCounter, &$key , &$sort , &$answer) {
-                            $inputField = '<input class="d-inline form-control q-input drop-option q-input ui-droppable bg-primary text-white answer-field" data-question-type="5" data-sortid="'.++$inputCounter.'" data-question-id="'.$item->id.'" value="'.$answer[++$sort]->stringanswer.'" style="width: 200px; margin: 10px; border-color:black" type="text" id="input-'.$item->id.'" disabled>';
+                            $inputField = '<input class="d-inline form-control q-input drop-option q-input ui-droppable bg-primary text-white answer-field" data-question-type="5" data-sortid="'.++$inputCounter.'" data-question-id="'.$item->id.'" value="'.$answer[++$sort]->stringanswer.'" style="width: 200px; margin: 10px; border-color:black" type="text" id="input-'.$item->id.'" disabled>'.$answer[$sort]->check;
                             return $inputField;
                             }, $item->question);
                             $inputCounter = 0;
@@ -666,7 +748,7 @@ class ViewBookController extends Controller
 
             }
             
-            dd(json_encode($quizQuestions));
+            // dd($quizQuestions);
 
             return view('teacher.quiz.viewquizresponse')
                 ->with('quizInfo',$quizInfo)
