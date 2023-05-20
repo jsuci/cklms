@@ -666,7 +666,7 @@ class ViewBookController extends Controller
 
             }
             
-            // dd($quizQuestions);
+            dd(json_encode($quizQuestions));
 
             return view('teacher.quiz.viewquizresponse')
                 ->with('quizInfo',$quizInfo)
