@@ -19,6 +19,135 @@
         padding: 0;
         margin: 0;
     }
+
+    ul.circle-points {
+        list-style-type: none;
+        margin: 0;
+        padding: 0;
+        position: relative;
+        display: inline-block;
+        width: 200px; /* $size*2 */
+        height: 200px; /* $size*2 */
+        transform: scale(0.2);
+        transition: 0.3s ease-out all;
+        top: -120px;
+        left: -120px;
+    }
+
+    ul.circle-points li {
+        position: absolute;
+        width: 100px; /* $size */
+        height: 100px; /* $size */
+        transform-origin: 100% 100%;
+        overflow: hidden;
+        display: none;
+    }
+
+    ul.circle-points li a {
+        color: #FFB2C2; /* lighten($bgcolor, 20%) */
+        display: block;
+        width: 200px; /* $size*2 */
+        height: 200px; /* $size*2 */
+        border-radius: 50%;
+        text-align: center;
+        background: #F6717F; /* $bgcolor */
+        font-size: 25px;
+    }
+
+    ul.circle-points li:nth-child(odd) a {
+        background: #FFDFE6; /* lighten($bgcolor, 2%) */
+    }
+
+    ul.circle-points li:nth-child(1) {
+        display: block;
+        transform: rotate(60deg) skew(30deg);
+    }
+
+    ul.circle-points li:nth-child(1) a {
+        line-height: 50px; /* $size/2 */
+        transform: skew(-30deg) rotate(-60deg);
+    }
+
+    ul.circle-points li:nth-child(2) {
+        display: block;
+        transform: rotate(120deg) skew(30deg);
+    }
+
+    ul.circle-points li:nth-child(2) a {
+        line-height: 50px; /* $size/2 */
+        transform: skew(-30deg) rotate(-120deg);
+    }
+
+    ul.circle-points li:nth-child(3) {
+        display: block;
+        transform: rotate(180deg) skew(30deg);
+    }
+
+    ul.circle-points li:nth-child(3) a {
+        line-height: 50px; /* $size/2 */
+        transform: skew(-30deg) rotate(-180deg);
+    }
+
+    ul.circle-points li:nth-child(4) {
+        display: block;
+        transform: rotate(240deg) skew(30deg);
+    }
+
+    ul.circle-points li:nth-child(4) a {
+        line-height: 50px; /* $size/2 */
+        transform: skew(-30deg) rotate(-240deg);
+    }
+
+    ul.circle-points li:nth-child(5) {
+        display: block;
+        transform: rotate(300deg) skew(30deg);
+    }
+
+    ul.circle-points li:nth-child(5) a {
+        line-height: 50px; /* $size/2 */
+        transform: skew(-30deg) rotate(-300deg);
+    }
+
+    ul.circle-points li:nth-child(6) {
+        display: block;
+        transform: rotate(360deg) skew(30deg);
+    }
+
+    ul.circle-points li:nth-child(6) a {
+        line-height: 50px; /* $size/2 */
+        transform: skew(-30deg) rotate(-360deg);
+    }
+
+    ul.circle-points li.close {
+        width: 50px;
+        height: 50px;
+        background: white;
+        border-radius: 50%;
+        position: absolute;
+        left: calc(50% - 25px);
+        top: calc(50% - 25px);
+        display: block;
+        transform: scale(3.8) rotate(45deg);
+        transition: 0.3s ease-in-out all;
+        transform-origin: 50% 50%;
+    }
+
+    ul.circle-points li.close a {
+        background: none;
+        width: 50px;
+        height: 50px;
+        line-height: 50px;
+        color: #ccc;
+    }
+
+    ul.circle-points.active {
+        transform: scale(1);
+    }
+
+    ul.circle-points.active li.close {
+        transform: rotate(0deg);
+    }
+
 </style>
     
     <div class="container quizcontent" style="background-color: #fff !important;">
@@ -109,6 +238,51 @@
                     @if($item->typeofquiz == 2)
                         <div class="card mt-5 editcontent">
                             <div class="card-body">
+
+                                <div class="row">
+                                    <div class="col-md-12">
+
+                                        <ul class="circle-points">
+                                            <li>
+                                            <a href="#">
+                                                <i class="fa fa-home"></i>
+                                            </a>
+                                            </li>
+                                            <li>
+                                            <a href="#">
+                                                <i class="fa fa-gears"></i>
+                                            </a>
+                                            </li>
+                                            <li>
+                                            <a href="#">
+                                                <i class="fa fa-users"></i>
+                                            </a>
+                                            </li>
+                                            <li>
+                                            <a href="#">
+                                                <i class="fa fa-sitemap"></i>
+                                            </a>
+                                            </li>
+                                            <li>
+                                            <a href="#">
+                                                <i class="fa fa-tags"></i>
+                                            </a>
+                                            </li>
+                                            <li>
+                                            <a href="#">
+                                                <i class="fa fa-gamepad"></i>
+                                            </a>
+                                            </li>
+                                            <li class="close">
+                                            <a href="#">
+                                                <i class="fa fa-times"></i>
+                                            </a>
+                                            </li>
+                                        </ul>
+
+                                    </div>
+                                </div>
+
                                 <p class="question" data-question-type="{{$item->typeofquiz}}">
                                     {{$key+=1}}. {{$item->question}}
                                 </p>
@@ -261,6 +435,11 @@
         $(document).ready(function() {
             $('input').prop("disabled", true);
             $('textarea').prop("disabled", true);
+
+            $('.close').click(function(event){
+                event.preventDefault();
+                $('.circle-points').toggleClass('active');
+            })
         })
     </script>
 @endsection
