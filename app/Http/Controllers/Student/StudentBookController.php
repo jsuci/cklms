@@ -488,7 +488,8 @@ class StudentBookController extends Controller
             $headerid = Db::table('chapterquizrecords')
                 ->insertGetId([
                     'chapterquizid'         =>  $request->get('quizid'),
-                    'submittedby'           =>  auth()->user()->id,
+                    'submittedby'           =>    auth()->user()->id,
+                    'studname'           =>  auth()->user()->name,
                     // 'submitteddatetime'     =>  date('Y-m-d H:i:s'),
                     'classroomid'           =>  $request->get('classroomid')
                 ]);
