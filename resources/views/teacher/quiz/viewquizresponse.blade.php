@@ -19,45 +19,29 @@
         padding: 0;
         margin: 0;
     }
-
-    .points-add {
-        width: 60px;
-        height: 60px;
-        background-color: #7e0303;
-        border-radius: 50%;
-        position: relative;
-        top: -50px;
-        left: -50px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-    }
-    .points-add h4 {
-        color: #fff;
-        padding: 0;
-        margin: 0;
-    }
-
 </style>
+
     
+        
     <div class="container quizcontent" style="background-color: #fff !important;">
         <div class="row justify-content-center">
             <div class="col-md-8">
 
                 <!-- Student Information -->
-                <div class="card mt-5" style="background:#fff2c4">
+                <div class="card mt-5 ml-3" style="background:#fff2c4">
                     <div class="card-body">
                         <div class="row">
                             <div class="col-md-12">
                                 <h1>Checking Quiz</h1>
-                                <h5>Student Name: {{'RYZA CENNON'}}</h5>
-                                <h5>Score: {{'10 / 50'}}</h5>
+                                <h5>Student Name: {{$studinfo}}</h5>
+                                <h5 class="pscore"></h5>
                             </div>
                         </div>
                     </div>
                 </div>
 
-                <div class="card mt-5 editcontents" data-quizid="{{$quizInfo->id}}" id="quiz-info">
+
+                <div class="card mt-5 ml-3 editcontents" data-quizid="{{$quizInfo->id}}" id="quiz-info">
                     <div class="card-body" data-headerid="{{$headerid}}" id="headerid">
                         <h1 class="card-title">
                             {{$quizInfo->title}}
@@ -80,14 +64,14 @@
                 @foreach($quizQuestions as $key=>$item)
                     @if($item->typeofquiz == 1)
                         <!-- multiple choice -->
-                        <div class="card mt-5 editcontent" id="quiz-question-{{$item->id}}">
+                        <div class="card mt-5 ml-3 editcontent" id="quiz-question-{{$item->id}}">
                             <div class="card-body">
 
                                 <div class="row">
                                     <div class="col-md-12">
                                         <div class="points">
                                             @if($item->check == 1)
-                                                <h4>{{$item->points}}</h4>
+                                                <h4>1</h4>
                                             @else
                                                 <h4>0</h4>
                                             @endif
@@ -95,30 +79,33 @@
                                     </div>
                                 </div>
 
+                                
+
                                 <p class="question" data-question-type="{{$item->typeofquiz}}">
                                     {{$key+=1}}. {{$item->question}}
                                 </p>
                                 @foreach ($item->choices as $questioninfo)
                                     <div class="form-check mt-2">
                                         @if($questioninfo->id == $item->answer)
-                                            @if($item->check == 0)
-                                                <input data-question-type="{{$item->typeofquiz}}" data-question-id="{{$item->id}}" id="{{$questioninfo->id}}" class="answer-field form-check-input" type="radio" name="{{$item->id}}" value="{{$questioninfo->id}}" checked>
-                                                <label for="{{$item->id}}" class="form-check-label">
-                                                    {{$questioninfo->description}} <i class="fa fa-times" style="color: red;" aria-hidden="true"></i>
-                                                </label>
-                                            @else
-                                                <input data-question-type="{{$item->typeofquiz}}" data-question-id="{{$item->id}}" id="{{$questioninfo->id}}" class="answer-field form-check-input" type="radio" name="{{$item->id}}" value="{{$questioninfo->id}}" checked>
-                                                <label for="{{$item->id}}" class="form-check-label">
-                                                    {{$questioninfo->description}}
-                                                </label>
-                                            @endif
-
+                                            
+                                            <input data-question-type="{{$item->typeofquiz}}" data-question-id="{{$item->id}}" id="{{$questioninfo->id}}" class="answer-field form-check-input" type="radio" name="{{$item->id}}" value="{{$questioninfo->id}}" checked>
+                                            
                                         @else
                                             <input data-question-type="{{$item->typeofquiz}}" data-question-id="{{$item->id}}" id="{{$questioninfo->id}}" class="answer-field form-check-input" type="radio" name="{{$item->id}}" value="{{$questioninfo->id}}">
-                                            <label for="{{$item->id}}" class="form-check-label">
-                                                {{$questioninfo->description}}</i>
-                                            </label>
                                         @endif
+                                        <label for="{{$item->id}}" class="form-check-label">
+                                            {{$questioninfo->description}}
+                                        @if($item->check == 1 && $questioninfo->id == $item->answer)
+                                            <span><i class="fa fa-check" style="color:rgb(7, 255, 7)" aria-hidden="true"></i></span>
+                                        @endif
+                                        @if($item->check == 0 && $questioninfo->id == $item->answer)
+                                            <span><i class="fa fa-times" style="color: red;" aria-hidden="true"></i></span>
+                                        @endif
+                                            {{-- <span><i class="fa fa-times" style="color: red;" aria-hidden="true"></i></span> --}}
+                                        
+                                        
+                                        </label>
+                                        
                                     </div>
                                 @endforeach
                             </div>
@@ -126,17 +113,8 @@
                     @endif
 
                     @if($item->typeofquiz == 2)
-                        <div class="card mt-5 editcontent">
+                        <div class="card mt-5 ml-3 editcontent">
                             <div class="card-body">
-
-                                <div class="row">
-                                    <div class="col-md-12">
-                                        <div class="points-add">
-                                            <h4 class="editable" style="cursor:pointer" data-points-id="{{$item->id}}">?</h4>
-                                        </div>
-                                    </div>
-                                </div>
-
                                 <p class="question" data-question-type="{{$item->typeofquiz}}">
                                     {{$key+=1}}. {{$item->question}}
                                 </p>
@@ -146,17 +124,8 @@
                     @endif
 
                     @if($item->typeofquiz == 3)
-                        <div class="card mt-5 editcontent">
+                        <div class="card mt-5 ml-3 editcontent">
                             <div class="card-body">
-
-                                <div class="row">
-                                    <div class="col-md-12">
-                                        <div class="points-add">
-                                            <h4 class="editable" style="cursor:pointer" data-points-id="{{$item->id}}">{{$item->points}}</h4>
-                                        </div>
-                                    </div>
-                                </div>
-
                                 <p class="question" data-question-type="{{$item->typeofquiz}}">
                                     {{$key+=1}}. {{$item->question}}
                                 </p>
@@ -166,7 +135,7 @@
                     @endif
 
                     @if($item->typeofquiz == 4)
-                        <div class="card mt-5 editcontent">
+                        <div class="card mt-5 ml-3 editcontent">
                             <div class="card-body">
                                 <p>Instruction. {!! $item->question !!}</p>
                             </div>
@@ -175,8 +144,22 @@
 
                     @if($item->typeofquiz == 5)
                         <!-- drag and drop -->
-                        <div class="card mt-5 editcontent">
+                        <div class="card mt-5 ml-3 editcontent">
                             <div class="card-body">
+
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="points">
+                                            <h4>{{$item->score}}</h4>
+                                            {{-- @if($item->check == 1)
+                                                <h4><span><i class="fa fa-check" style="color:rgb(7, 255, 7)" aria-hidden="true"></i></span></h4>
+                                            @else
+                                                <h4><span><i class="fa fa-times" style="color: red;" aria-hidden="true"></i></span></h4>
+                                            @endif --}}
+                                        </div>
+                                    </div>
+                                </div>
+
                                 <p class="question" data-question-type="{{$item->typeofquiz}}">
                                     Drag the correct option and drop it onto the corresponding box.
                                 </p>
@@ -196,7 +179,7 @@
 
                     @if($item->typeofquiz == 6)
                         <!-- upload image -->
-                        <div class="card mt-5 editcontent">
+                        <div class="card mt-5 ml-3 editcontent">
                             <div class="card-body">
                                 <p>{!! $item->question !!}</p>
                                 <div class="form-group">
@@ -216,8 +199,18 @@
                     @endif
 
                     @if($item->typeofquiz == 7)
-                        <div class="card mt-5 editcontent">
+                        <div class="card mt-5 ml-3 editcontent">
                             <div class="card-body">
+
+
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="points">
+                                            <h4>{{$item->score}}</h4>
+                                        </div>
+                                    </div>
+                                </div>
+
                                 <span style="font-weight:600;font-size:1.0pc">
                                     Fill in the blanks
                                 </span>
@@ -234,7 +227,7 @@
                     @endif
 
                     @if($item->typeofquiz == 8)
-                        <div class="card mt-5 editcontent">
+                        <div class="card mt-5 ml-3 editcontent">
                             <div class="card-body">
                                 <span style="font-weight:600;font-size:1.0pc">
                                     Enumeration
@@ -296,49 +289,26 @@
 
     <script>
         $(document).ready(function() {
+
+            // helper functions
+            function calcScore() {
+                var totalScore = 0;
+
+                $('.points').each(function() {
+                    var score = parseInt($(this).find('h4').text())
+                    if (!isNaN(score)) {
+                        totalScore += score;
+                    }
+                })
+                // console.log(totalScore)
+                $('.pscore').text(`Score: ${totalScore}`)
+            }
+
+
+            calcScore()
             $('input').prop("disabled", true);
             $('textarea').prop("disabled", true);
-
-            $('.closed').click(function(event){
-                event.preventDefault();
-                $('.circle-points').toggleClass('active');
-            })
-
-            $(document).on('click', '.points-add h4', function() {
-                var pointsId = $(this).data('points-id')
-            })
-
-            $(document).on('click', 'h4.editable', function() {
-                var currentValue = $(this).text().trim();
-                var $input = $('<input>', {
-                    type: 'text',
-                    value: currentValue
-                });
-                $(this).replaceWith($input);
-                $input.focus();
-
-                $input.on('blur', function() {
-                    var newValue = $(this).val().trim();
-                    
-                    // Check if the new value is blank
-                    if (newValue === '') {
-                    // Reset to the original value
-                    newValue = currentValue;
-                    }
-
-                    var $h4 = $('<h4>', {
-                    class: 'editable',
-                    style: 'cursor:pointer',
-                    'data-points-id': $(this).attr('data-points-id'),
-                    text: newValue
-                    });
-
-                    $(this).replaceWith($h4);
-                    saveValueToDatabase($(this).attr('data-points-id'), newValue);
-                });
-            });
-
-
+            
         })
     </script>
 @endsection
