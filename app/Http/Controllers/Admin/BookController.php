@@ -1184,13 +1184,22 @@ class BookController extends Controller
             $item->question = $questionWithInputs;
         }
 
-
-
-
         return response()->json($question);
         
     }
 
+
+    public function getEnum(Request $request)
+    {
+        $question = DB::table('lessonquizquestions')
+            ->where('id', $request->get('id'))
+            ->select('id','question', 'item')
+            ->where('deleted', 0)
+            ->first();
+
+        return response()->json($question);
+        
+    }
 
 
     public function setAnswerKey(Request $request)
@@ -1213,8 +1222,8 @@ class BookController extends Controller
                         ]);
 
                 return 1;
-                    }
-            else{
+                }
+                    else if($request->get('questiontype') == 7) {
 
                         $checkifexist =  DB::table('lesson_quiz_fill_answer')
                         ->where('headerid', $request->get('question_id'))
@@ -1244,14 +1253,39 @@ class BookController extends Controller
 
                                 return 5;
 
-                        }             
+                        }  
 
+            } else if($request->get('questiontype') == 8) {
 
+                        $checkifexist =  DB::table('lesson_quiz_enum_answer')
+                        ->where('headerid', $request->get('question_id'))
+                        ->where('sortid', $request->get('sortid'))
+                        ->count();
 
+                        if($checkifexist > 0){
 
+                            DB::table('lesson_quiz_enum_answer')
+                            ->where('headerid', $request->get('question_id'))
+                            ->where('sortid', $request->get('sortid'))
+                            ->update([
+                                'answer'   => $request->get('answer')
+                            ]);
+
+                                return 0;
+                        } else {
+
+                            DB::table('lesson_quiz_enum_answer')
+                            ->insert([
+                                'answer'   => $request->get('answer'),
+                                'headerid'   => $request->get('question_id'),
+                                'sortid'   => $request->get('sortid')
+                            ]);
+
+                            return 5;
+
+                        }  
             }
-        
-        
+
     }
 
 
@@ -1303,10 +1337,10 @@ class BookController extends Controller
             ->first();
 
     $question->choices = DB::table('lessonquizchoices')
-    ->where('questionid', $question->id)
-    ->select('id', 'questionid' , 'description' , 'answer')
-    ->orderBy('sortid')
-    ->get();
+        ->where('questionid', $question->id)
+        ->select('id', 'questionid' , 'description' , 'answer')
+        ->orderBy('sortid')
+        ->get();
 
     // foreach($question->choices as $item){
     //     if($item->answer == 1){
