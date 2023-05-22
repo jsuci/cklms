@@ -123,7 +123,6 @@
             <div class="container" id="quiz-info"  data-quizid="{{ $id }}">
                 <div class="row justify-content-center">
                         <div class="col-md-8">
-                            
                             <div class="contentcontainer">
                                     <div class="row p-4 dragrow">
                                         <div class="col-lg-1 col-2 rowhidden d-flex align-items-center">
@@ -169,428 +168,464 @@
                                                                         <h5 class="card-title" id="lessoncardtitle">X</h5>
                                                                     </div>
                                                                 </div>
-                                                </div>
+                                                        </div>
                                                 </div>
                                                 @endif
                                                 </div>
-                                                <div class="card-body">
-                                                <form>
-                    
-                                                    <div class="form-group">
-                                                        
-                                                        {{-- <label>Coverage</label>
-                                                        <select class="form-control-sm select2 pr-3" id="select-lesson" multiple="multiple">
-                                                            <option>Select Student/Personnel</option>    
-                                                            </select> --}}
+                                                    <div class="card-body">
+                                                        <form>
+                            
+                                                            <div class="form-group">
                                                                 
-                                                        {{-- <label for="quiz_categories">Quiz Categories</label> --}}
-                                                    <label for="description">Quiz Description:</label>
-                                                    <textarea class="form-control" id="description" value= '{{$quiz->description}}' rows="1">{{$quiz->description}}</textarea>
+                                                                {{-- <label>Coverage</label>
+                                                                <select class="form-control-sm select2 pr-3" id="select-lesson" multiple="multiple">
+                                                                    <option>Select Student/Personnel</option>    
+                                                                    </select> --}}
+                                                                        
+                                                                {{-- <label for="quiz_categories">Quiz Categories</label> --}}
+                                                            <label for="description">Quiz Description:</label>
+                                                            <textarea class="form-control" id="description" value= '{{$quiz->description}}' rows="1">{{$quiz->description}}</textarea>
+                                                            </div>
+                                                        </form>
                                                     </div>
-                                                </form>
                                                 </div>
-                                        </div>
+                                            </div>
                                         </div>
                                         
+                                    
 
-                                                @if(count($quizquestions) > 0)
-                                                @foreach($quizquestions as $question)
-                                                <div id={{$question->id}} class="row p-4 dragrow{{$question->id}}">
-                                                    <div class="col-lg-1 col-2 rowhidden buttonholder{{$question->id}} d-flex align-items-center">
-                                                    </div>
-
-
-                                                    {{-- Multiple choice --}}
-                                                    @if($question->typeofquiz == 1)
-                                                    <div id={{$question->id}} class="col-lg-11 col-10 editcontent col-content identifier{{$question->id}}">
-                                                        <div class="card mt-5 shadow-none border-0">
-                                                            <div class="card-header">
-                                                                <div class="row justify-content-end">
-                                                                    <div class="col-6 mr-1 quizarea">
-                                                                        <select class="form-control quiztype" data-id="{{$question->id}}" id="quiztype{{$question->id}}">
-                                                                        <option value="multiple_choice">Multiple Choice</option>
-                                                                        <option value="short_answer">Short Answer</option>
-                                                                        <option value="paragraph_answer">Paragraph</option>
-                                                                        <option value="instruction">Instruction</option>
-                                                                        <option value="drag_drop">Drag & drop</option>
-                                                                        <option value="image">Image Answer</option>
-                                                                        <option value="fill_n_blanks">Fill in the blanks</option>
-                                                                        <option value="enumeration">Enumeration</option>
-                                                                        
-                                                                        </select>
-                                                                    </div>
-                                                                <div class="col-12 m-2" id="quiztioncontent{{$question->id}}">
-                                                                    <div class="row">
-                                                                        <div class="col-12 m-2">
-                                                                            <textarea class="form-control" placeholder="Untitled question" id="multiplechoice{{$question->id}}" >{{$question->question}}</textarea>
-                                                                        </div>
-                                                                        @php
-                                                                        $quizchoices = DB::table('lessonquizchoices')
-                                                                            ->where('questionid', $question->id)
-                                                                            ->orderBy('sortid')
-                                                                            ->get();
+                                    @if(count($quizquestions) > 0)
+                                    @foreach($quizquestions as $question)
+                                    <div id={{$question->id}} class="row p-4 dragrow{{$question->id}}">
+                                        <div class="col-lg-1 col-2 rowhidden buttonholder{{$question->id}} d-flex align-items-center">
+                                        </div>
 
 
-                                                                        @endphp
-                                                                        <div class="col-12" id="list_option{{$question->id}}">
-                                                                            @if(count($quizchoices) > 0)
-                                                                            @foreach($quizchoices as $choice)
-                                                                            <input class="form-check-input ml-2" type="radio" name="option1" value="1">
-                                                                            <label class="form-check-label ml-5 option{{$question->id}}" id="option{{$question->id}}" contenteditable="true">{{$choice->description}} 
-                                                                                @if($choice->answer==1)
-                                                                                    <span><i class="fa fa-check" style="color:rgb(7, 255, 7)" aria-hidden="true"></i></span>
-                                                                                @endif
-                                                                            </label>
-                                                                            
-                                                                            @endforeach
-                                                                            @endif
-                                                                        </div>
-                                                                    <button class="form-control addoption" style="margin: 20px; " id="{{$question->id}}">Add option</button>
-                                                                    <div class="col-12">
-                                                                        <button class="btn btn-link btn-sm answer-key" id="{{$question->id}}">Answer key</button>
-                                                                    </div>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    @endif
+                                        {{-- Multiple choice --}}
 
-                                                    {{-- Short Answer --}}
-
-                                                    @if($question->typeofquiz == 2)
-                                                    <div id={{$question->id}} class="col-lg-11 col-10 editcontent col-content identifier{{$question->id}}">
-                                                        <div class="card mt-5 shadow-none border-0">
-                                                            <div class="card-header">
-                                                                <div class="row justify-content-end">
-                                                                    <div class="col-6 mr-1 quizarea">
-                                                                        <select class="form-control quiztype" data-id="{{$question->id}}" id="quiztype{{$question->id}}">
-                                                                        <option value="short_answer">Short Answer</option>
-                                                                        <option value="multiple_choice">Multiple Choice</option>
-                                                                        <option value="paragraph_answer">Paragraph</option>
-                                                                        <option value="instruction">Instruction</option>
-                                                                        <option value="drag_drop">Drag & drop</option>
-                                                                        <option value="image">Image Answer</option>
-                                                                        <option value="fill_n_blanks">Fill in the blanks</option>
-                                                                        <option value="enumeration">Enumeration</option>
-                                                                        </select>
-                                                                    </div>
-                                                                    <div class="col-12 m-2" id="quiztioncontent{{$question->id}}">
-                                                                        <div class="row">
-                                                                            <div class="col-12">
-                                                                                <textarea class="form-control m-2" placeholder="Untitled question" id="shortz_answer_question{{$question->id}}" >{{$question->question}}</textarea>
-                                                                            </div>
-                                                                            <div class="col-12">    
-                                                                                <input type="text" class="form-control mt-2 ml-2" placeholder="Short answer text" disabled>
-                                                                            </div>
+                                        @if($question->typeofquiz == 1)
+                                        <div id={{$question->id}} class="col-lg-11 col-10 editcontent col-content identifier{{$question->id}}">
+                                            <div class="card mt-5 shadow-none border-0">
+                                                <div class="card-header">
+                                                    <div class="row justify-content-end">
+                                                        <div class="col-6 mr-1 quizarea">
+                                                            <select class="form-control quiztype" data-id="{{$question->id}}" id="quiztype{{$question->id}}">
+                                                            <option value="multiple_choice">Multiple Choice</option>
+                                                            <option value="short_answer">Short Answer</option>
+                                                            <option value="paragraph_answer">Paragraph</option>
+                                                            <option value="instruction">Instruction</option>
+                                                            <option value="drag_drop">Drag & drop</option>
+                                                            <option value="image">Image Answer</option>
+                                                            <option value="fill_n_blanks">Fill in the blanks</option>
+                                                            <option value="enumeration">Enumeration</option>
                                                             
-                                                                        </div>
-                                                                    </div>
-                                                                </div>        
+                                                            </select>
+                                                        </div>
+                                                    <div class="col-12 m-2" id="quiztioncontent{{$question->id}}">
+                                                        <div class="row">
+                                                            <div class="col-12 m-2">
+                                                                <textarea class="form-control" placeholder="Untitled question" id="multiplechoice{{$question->id}}" >{{$question->question}}</textarea>
+                                                            </div>
+                                                            @php
+                                                            $quizchoices = DB::table('lessonquizchoices')
+                                                                ->where('questionid', $question->id)
+                                                                ->orderBy('sortid')
+                                                                ->get();
+
+
+                                                            @endphp
+                                                            <div class="col-12" id="list_option{{$question->id}}">
+                                                                @if(count($quizchoices) > 0)
+                                                                @foreach($quizchoices as $choice)
+                                                                <input class="form-check-input ml-2" type="radio" name="option1" value="1">
+                                                                <label class="form-check-label ml-5 option{{$question->id}}" id="option{{$question->id}}" contenteditable="true">{{$choice->description}} 
+                                                                    @if($choice->answer==1)
+                                                                        <span><i class="fa fa-check" style="color:rgb(7, 255, 7)" aria-hidden="true"></i></span>
+                                                                    @endif
+                                                                </label>
+                                                                
+                                                                @endforeach
+                                                                @endif
+                                                            </div>
+                                                        <button class="form-control addoption" style="margin: 20px; " id="{{$question->id}}">Add option</button>
+                                                        <div class="col-12">
+                                                            <button class="btn btn-link btn-sm answer-key" id="{{$question->id}}">Answer key</button>
+                                                        </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                
+
+                                        {{-- Short Answer --}}
+
+                                        @elseif($question->typeofquiz == 2)
+                                        <div id={{$question->id}} class="col-lg-11 col-10 editcontent col-content identifier{{$question->id}}">
+                                            <div class="card mt-5 shadow-none border-0">
+                                                <div class="card-header">
+                                                    <div class="row justify-content-end">
+                                                        <div class="col-6 mr-1 quizarea">
+                                                            <select class="form-control quiztype" data-id="{{$question->id}}" id="quiztype{{$question->id}}">
+                                                            <option value="short_answer">Short Answer</option>
+                                                            <option value="multiple_choice">Multiple Choice</option>
+                                                            <option value="paragraph_answer">Paragraph</option>
+                                                            <option value="instruction">Instruction</option>
+                                                            <option value="drag_drop">Drag & drop</option>
+                                                            <option value="image">Image Answer</option>
+                                                            <option value="fill_n_blanks">Fill in the blanks</option>
+                                                            <option value="enumeration">Enumeration</option>
+                                                            </select>
+                                                        </div>
+                                                        <div class="col-12 m-2" id="quiztioncontent{{$question->id}}">
+                                                            <div class="row">
+                                                                <div class="col-12">
+                                                                    <textarea class="form-control m-2" placeholder="Untitled question" id="shortz_answer_question{{$question->id}}" >{{$question->question}}</textarea>
+                                                                </div>
+                                                                <div class="col-12">    
+                                                                    <input type="text" class="form-control mt-2 ml-2" placeholder="Short answer text" disabled>
+                                                                </div>
+                                                
+                                                            </div>
+                                                        </div>
+                                                    </div>        
+                                                </div>
+                                            </div>
+                                        </div>
+                    
+
+                                        {{-- Paragraph --}}
+                                        
+                                        @elseif($question->typeofquiz == 3)
+                                        <div id={{$question->id}} class="col-lg-11 col-10 editcontent col-content identifier{{$question->id}}">
+                                            <div class="card mt-5 shadow-none border-0">
+                                                <div class="card-header">
+                                                    <div class="row justify-content-end">
+                                                        <div class="col-6 mr-1 quizarea">
+                                                            <select class="form-control quiztype" data-id="{{$question->id}}" id="quiztype{{$question->id}}">
+                                                            <option value="paragraph_answer">Paragraph</option>
+                                                            <option value="multiple_choice">Multiple Choice</option>
+                                                            <option value="short_answer">Short Answer</option>
+                                                            <option value="instruction">Instruction</option>
+                                                            <option value="drag_drop">Drag & drop</option>
+                                                            <option value="image">Image Answer</option>
+                                                            <option value="fill_n_blanks">Fill in the blanks</option>
+                                                            <option value="enumeration">Enumeration</option>
+                                                            </select>
+                                                        </div>
+                                                    <div class="col-12 mt-2" id="quiztioncontent{{$question->id}}">
+                                                        <div class="row">
+                                                            <div class="col-12">
+                                                                <textarea class="form-control m-2" placeholder="Untitled question" id="long_answer_question{{$question->id}}" >{{$question->question}}</textarea>
+                                                            </div>
+                                                            <div class="col-12">    
+                                                                <input type="text" class="form-control mt-2 ml-2" placeholder="Long answer text" disabled>
                                                             </div>
                                                         </div>
                                                     </div>
-                                                    @endif
-                                                    {{-- Paragraph --}}
-                                                    @if($question->typeofquiz == 3)
-                                                    <div id={{$question->id}} class="col-lg-11 col-10 editcontent col-content identifier{{$question->id}}">
-                                                        <div class="card mt-5 shadow-none border-0">
-                                                            <div class="card-header">
-                                                                <div class="row justify-content-end">
-                                                                    <div class="col-6 mr-1 quizarea">
-                                                                        <select class="form-control quiztype" data-id="{{$question->id}}" id="quiztype{{$question->id}}">
-                                                                        <option value="paragraph_answer">Paragraph</option>
-                                                                        <option value="multiple_choice">Multiple Choice</option>
-                                                                        <option value="short_answer">Short Answer</option>
-                                                                        <option value="instruction">Instruction</option>
-                                                                        <option value="drag_drop">Drag & drop</option>
-                                                                        <option value="image">Image Answer</option>
-                                                                        <option value="fill_n_blanks">Fill in the blanks</option>
-                                                                        <option value="enumeration">Enumeration</option>
-                                                                        </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                
+
+                                        {{-- Instruction --}}
+
+                                        @elseif($question->typeofquiz == 4)
+                                        <div id={{$question->id}} class="col-lg-11 col-10 editcontent col-content identifier{{$question->id}}">
+                                            <div class="card mt-5 shadow-none border-0">
+                                                <div class="card-header">
+                                                    <div class="row justify-content-end">
+                                                        <div class="col-6 mr-1 quizarea">
+                                                            <select class="form-control quiztype" data-id="{{$question->id}}" id="quiztype{{$question->id}}">
+                                                            <option value="instruction">Instruction</option>
+                                                            <option value="multiple_choice">Multiple Choice</option>
+                                                            <option value="short_answer">Short Answer</option>
+                                                            <option value="paragraph_answer">Paragraph</option>
+                                                            <option value="drag_drop">Drag & drop</option>
+                                                            <option value="image">Image Answer</option>
+                                                            <option value="fill_n_blanks">Fill in the blanks</option>
+                                                            <option value="enumeration">Enumeration</option>
+                                                            </select>
+                                                        </div>
+                                                    <div class="col-12 mt-2" id="quiztioncontent{{$question->id}}">
+                                                        <div class="row">
+                                                            <div class="col-12">
+                                                                <textarea class="form-control m-2 instruction" placeholder="Untitled question" id="instruction_item{{$question->id}}">{{$question->question}}</textarea>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                        
+                                        
+                                        {{-- Drag and Drop --}}
+                                        @elseif($question->typeofquiz == 5)
+                                        <div id="{{$question->id}}" class="col-lg-11 col-10 editcontent col-content identifier{{$question->id}}">
+                                            <div class="card mt-5 shadow-none border-0">
+                                                <div class="card-body">
+                                                    <div class="row justify-content-end">
+                                                        <div class="col-6 mr-1 quizarea">
+                                                            <select class="form-control quiztype" data-id="{{$question->id}}" id="quiztype{{$question->id}}">
+                                                                <option value="drag_drop">Drag & drop</option>
+                                                                <option value="multiple_choice">Multiple Choice</option>
+                                                                <option value="short_answer">Short Answer</option>
+                                                                <option value="paragraph_answer">Paragraph</option>
+                                                                <option value="instruction">Instruction</option>
+                                                                <option value="image">Image Answer</option>
+                                                                <option value="fill_n_blanks">Fill in the blanks</option>
+                                                                <option value="enumeration">Enumeration</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-12 m-2" id="quiztioncontent{{$question->id}}">
+                                                        <div class="row">
+                                                            <div class="col-12">
+                                                                <div class="options p-3 mt-2" id="options{{$question->id}}" style="border:3px solid #3e416d;border-radius:6px;">
+                                                                    @php
+                                                                    $dragoptions = DB::table('lesson_quiz_drag_option')
+                                                                        ->where('questionid', $question->id)
+                                                                        ->orderBy('sortid')
+                                                                        ->get();
+                                                                    @endphp
+                                                                    @foreach($dragoptions as $item)
+                                                                    <div class="drag-option btn bg-primary text-white m-1 drag{{$question->id}}" contentEditable="true" data-target="drag-1">
+                                                                        {{ $item->description }}
                                                                     </div>
-                                                                <div class="col-12 m-2" id="quiztioncontent{{$question->id}}">
-                                                                    <div class="row">
-                                                                        <div class="col-12">
-                                                                            <textarea class="form-control m-2" placeholder="Untitled question" id="long_answer_question{{$question->id}}" >{{$question->question}}</textarea>
-                                                                        </div>
-                                                                        <div class="col-12">    
-                                                                            <input type="text" class="form-control mt-2 ml-2" placeholder="Long answer text" disabled>
-                                                                        </div>
-                                                                    </div>
+                                                                    @endforeach
+                                                                </div>
+                                                                <div class="row justify-content-end p-3 mt-2">
+                                                                    <button class="btn btn-success add_drag_option" id="{{$question->id}}">Add drag option</button>
+                                                                </div>
+                                                                <p><b>Note: </b>To set up the drop area, please input [~input] where you want the drop zone to appear. Ex. The planet ~input is the biggest planet in the solar system</p>
+                                                                @php
+                                                                $dropquestions = DB::table('lesson_quiz_drop_question')
+                                                                    ->where('questionid', $question->id)
+                                                                    ->orderBy('sortid')
+                                                                    ->get();
+
+                                                                foreach($dropquestions as $item){
+                                                                    $answer = DB::table('lesson_quiz_drop_answer')
+                                                                        ->where('headerid', $item->id)
+                                                                        ->orderBy('sortid')
+                                                                        ->pluck('answer');
+
+                                                                    $answerString = implode(',', $answer->toArray());
+
+                                                                    $item->answer = $answerString;
+                                                                }
+                                                                @endphp
+                                                                @foreach($dropquestions as $item)
+                                                                <div id="item_question{{$question->id}}">
+                                                                    <input type="text" class="form-control drop{{$question->id}}" style="margin-top: 10px; border: 2px solid dodgerblue; color: black;" placeholder="Item text" value="{{$item->question}}">
+                                                                    <span>Answer is 
+                                                                        @if(empty($item->answer))
+                                                                        <em>undefined</em>
+                                                                        @else
+                                                                        <em>{{$item->answer}}</em>.
+                                                                        @endif
+                                                                    </span>
+                                                                </div>
+                                                                @endforeach
+                                                                <div class="row justify-content-end p-3 mt-2">
+                                                                    <button class="btn btn-success add_drag_question" id="{{$question->id}}">Add drop question</button>
+                                                                </div>
+                                                                <div class="col-12">
+                                                                    <button class="btn btn-link btn-sm answer-key-drag" id="{{$question->id}}">Answer key</button>
                                                                 </div>
                                                             </div>
                                                         </div>
                                                     </div>
-                                                    @endif
+                                                </div>
+                                            </div>
+                                        </div>
 
-                                                    {{-- Instruction --}}
+                                                
+                                    
 
-                                                    @if($question->typeofquiz == 4)
-                                                    <div id={{$question->id}} class="col-lg-11 col-10 editcontent col-content identifier{{$question->id}}">
-                                                        <div class="card mt-5 shadow-none border-0">
-                                                            <div class="card-header">
-                                                                <div class="row justify-content-end">
-                                                                    <div class="col-6 mr-1 quizarea">
-                                                                        <select class="form-control quiztype" data-id="{{$question->id}}" id="quiztype{{$question->id}}">
-                                                                        <option value="instruction">Instruction</option>
-                                                                        <option value="multiple_choice">Multiple Choice</option>
-                                                                        <option value="short_answer">Short Answer</option>
-                                                                        <option value="paragraph_answer">Paragraph</option>
-                                                                        <option value="drag_drop">Drag & drop</option>
-                                                                        <option value="image">Image Answer</option>
-                                                                        <option value="fill_n_blanks">Fill in the blanks</option>
-                                                                        <option value="enumeration">Enumeration</option>
-                                                                        </select>
-                                                                    </div>
-                                                                <div class="col-12 m-2" id="quiztioncontent{{$question->id}}">
-                                                                    <div class="row">
-                                                                        <div class="col-12">
-                                                                            <textarea class="form-control instruction" placeholder="Untitled question" id="instruction_item{{$question->id}}" >{{$question->question}}</textarea>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
+                                        {{-- Image answer --}}
+
+                                        @elseif($question->typeofquiz == 6)
+                                        <div id={{$question->id}} class="col-lg-11 col-10 editcontent col-content identifier{{$question->id}}">
+                                            <div class="card mt-5 shadow-none border-0">
+                                                <div class="card-header">
+                                                    <div class="row justify-content-end">
+                                                        <div class="col-6 mr-1 quizarea">
+                                                            <select class="form-control quiztype" data-id="{{$question->id}}" id="quiztype{{$question->id}}">
+                                                            <option value="image">Image Answer</option>
+                                                            <option value="multiple_choice">Multiple Choice</option>
+                                                            <option value="short_answer">Short Answer</option>
+                                                            <option value="paragraph_answer">Paragraph</option>
+                                                            <option value="instruction">Instruction</option>
+                                                            <option value="drag_drop">Drag & drop</option>
+                                                            <option value="fill_n_blanks">Fill in the blanks</option>
+                                                            <option value="enumeration">Enumeration</option>
+                                                            </select>
+                                                        </div>
+                                                    <div class="col-12 m-2" id="quiztioncontent{{$question->id}}">
+                                                        <div class="row">
+                                                            <div class="col-12 m-2">
+                                                                <textarea class="form-control imageanswer" placeholder="Untitled instruction" style="height: 20px !important;" id="image_item{{$question->id}}">{{$question->question}}</textarea>
+                                                                <input type="file" class="mt-2" disabled>
                                                             </div>
                                                         </div>
                                                     </div>
-                                                    @endif
-                                                    {{-- Drag and Drop --}}
-                                                    @if($question->typeofquiz == 5)
-                                                    <div id={{$question->id}} class="col-lg-11 col-10 editcontent col-content identifier{{$question->id}}">
-                                                        <div class="card mt-5 shadow-none border-0">
-                                                            <div class="card-header"> 
-                                                                <div class="row justify-content-end">
-                                                                    <div class="col-6 mr-1 quizarea">
-                                                                        <select class="form-control quiztype" data-id="{{$question->id}}" id="quiztype{{$question->id}}">
-                                                                        <option value="drag_drop">Drag & drop</option>
-                                                                        <option value="multiple_choice">Multiple Choice</option>
-                                                                        <option value="short_answer">Short Answer</option>
-                                                                        <option value="paragraph_answer">Paragraph</option>
-                                                                        <option value="instruction">Instruction</option>
-                                                                        <option value="image">Image Answer</option>
-                                                                        <option value="fill_n_blanks">Fill in the blanks</option>
-                                                                        <option value="enumeration">Enumeration</option>
-                                                                        </select>
-                                                                    </div>
-                                                                <div class="col-12 m-2" id="quiztioncontent{{$question->id}}">
-                                                                    <div class="row">
-                                                                        <div class="col-12">
-                                                                            <div class="options p-3 mt-2" id="options{{$question->id}}" style="border:3px solid #3e416d;border-radius:6px;">
-                                                                                @php
-                                                                                $dragoptions = DB::table('lesson_quiz_drag_option')
-                                                                                    ->where('questionid', $question->id)
-                                                                                    ->orderBy('sortid')
-                                                                                    ->get();
-                                                                                @endphp
-                                                                                @foreach($dragoptions as $item)
-                                                                                <div class="drag-option btn bg-primary text-white m-1 drag{{$question->id}}" contentEditable="true" data-target="drag-1">
-                                                                                    {{ $item->description }}
-                                                                                </div>
-                                                                                @endforeach
-                                                                            </div>
-                                                                            <div class="row justify-content-end p-3 mt-2">
-                                                                                <button class="btn btn-success add_drag_option" id="{{$question->id}}">Add drag option</button>
-                                                                            </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                
 
-                                                                            <p><b>Note: </b>To set up the drop area, please input [~input] where you want the drop zone to appear. Ex. The planet ~input is the biggest planet in the solar system</p>
-                                                                            <div id="item_question{{$question->id}}">
-                                                                                @php
-                                                                                $dropquestions = DB::table('lesson_quiz_drop_question')
-                                                                                    ->where('questionid', $question->id)
-                                                                                    ->orderBy('sortid')
-                                                                                    ->get();
+                                        {{-- Fill in the blanks --}}
+                                        @elseif($question->typeofquiz ==7)
+                                        <div id={{$question->id}} class="col-lg-11 col-10 editcontent col-content identifier{{$question->id}}">
+                                            <div class="card mt-5 shadow-none border-0">
+                                                <div class="card-header">
+                                                    <div class="row justify-content-end">
+                                                        <div class="col-6 mr-1 quizarea">
+                                                            <select class="form-control quiztype" data-id="{{$question->id}}" id="quiztype{{$question->id}}">
+                                                            <option value="fill_n_blanks">Fill in the blanks</option>
+                                                            <option value="multiple_choice">Multiple Choice</option>
+                                                            <option value="short_answer">Short Answer</option>
+                                                            <option value="paragraph_answer">Paragraph</option>
+                                                            <option value="instruction">Instruction</option>
+                                                            <option value="drag_drop">Drag & drop</option>
+                                                            <option value="image">Image Answer</option>
+                                                            <option value="enumeration">Enumeration</option>
+                                                            </select>
+                                                        </div>
+                                                    <div class="col-12 m-2" id="quiztioncontent{{$question->id}}">
+                                                        <div class="row">
+                                                            <div class="col-12 m-2">
+                                                                <p><b>Note: </b>To set up the blanks, please input [~input] where you want the blank to appear. Ex. The planet ~input is the biggest planet in the solar system</p>
+                                                                @php
+                                                                    $fillquestions = DB::table('lesson_fill_question')
+                                                                        ->where('questionid', $question->id)
+                                                                        ->orderBy('sortid')
+                                                                        ->get();
 
-                                                                                foreach($dropquestions as $item){
+                                                                    foreach($fillquestions as $item){
 
-                                                                                $answer = DB::table('lesson_quiz_drop_answer')
-                                                                                    ->where('headerid', $item->id)
-                                                                                    ->orderBy('sortid')
-                                                                                    ->pluck('answer');
+                                                                        $answer = DB::table('lesson_quiz_fill_answer')
+                                                                            ->where('headerid', $item->id)
+                                                                            ->orderBy('sortid')
+                                                                            ->pluck('answer');
 
-                                                                                $answerString = implode(',', $answer->toArray());
+                                                                        if(isset($answer)){
+                                                                        $answerString = implode(',', $answer->toArray());
 
-                                                                                $item->answer = $answerString;
+                                                                        $item->answer = $answerString;
+                                                                            }
+                                                                        }
+                                                                @endphp
 
-                                                                                }
-                                                                                @endphp
-                                                                                @foreach($dropquestions as $item)
-                                                                                <input type="text" class="form-control drop{{$question->id}}" style="margin-top: 10px; border: 2px solid dodgerblue; color: black;" placeholder="Item text" value = "{{$item->question}}">
-                                                                                
-                                                                                <span>Answer is 
+                                                                <div id="item_fill{{$question->id}}">
+                                                                    @foreach($fillquestions as $item)
+                                                                        <input type="text" class="form-control fill{{$question->id}}" style="margin-top: 10px; border: 2px solid dodgerblue; color: black;" placeholder="Item text" value="{{$item->question}}">
+                                                                    
+                                                                        <span>Answer is 
                                                                                     @if(empty($item->answer))
                                                                                         <em>undefined</em>
                                                                                     @else
                                                                                         <em>{{$item->answer}}</em>.
                                                                                     @endif
                                                                                     
-                                                                                </span>
-                                                                                @endforeach
-                                                                            </div>
-                                                                            <div class="row justify-content-end p-3 mt-2">
-                                                                                <button class="btn btn-success add_drag_question"  id="{{$question->id}}">Add drop question</button>
-                                                                            </div>
-                                                                        <div class="col-12">
-                                                                            <button class="btn btn-link btn-sm answer-key-drag" id="{{$question->id}}">Answer key</button>
-                                                                        </div>
-                                                                        </div>
-                                                                    </div>
+                                                                        </span>
+                                                                    @endforeach
+                                                                </div>
+                                                            
+                                                                
+                                                                <div class="row justify-content-end p-3 mt-2">
+                                                                    <button class="btn btn-success add_fill_question"  id="{{$question->id}}">Add fill question</button>
+                                                                </div>
+                                                                <div class="col-12">
+                                                                    <button class="btn btn-link btn-sm answer-key-fill" id="{{$question->id}}">Answer key</button>
                                                                 </div>
                                                             </div>
                                                         </div>
                                                     </div>
-                                                    @endif
-
-                                                    @if($question->typeofquiz == 6)
-                                                    <div id={{$question->id}} class="col-lg-11 col-10 editcontent col-content identifier{{$question->id}}">
-                                                        <div class="card mt-5 shadow-none border-0">
-                                                            <div class="card-header">
-                                                                <div class="row justify-content-end">
-                                                                    <div class="col-6 mr-1 quizarea">
-                                                                        <select class="form-control quiztype" data-id="{{$question->id}}" id="quiztype{{$question->id}}">
-                                                                        <option value="image">Image Answer</option>
-                                                                        <option value="multiple_choice">Multiple Choice</option>
-                                                                        <option value="short_answer">Short Answer</option>
-                                                                        <option value="paragraph_answer">Paragraph</option>
-                                                                        <option value="instruction">Instruction</option>
-                                                                        <option value="drag_drop">Drag & drop</option>
-                                                                        <option value="fill_n_blanks">Fill in the blanks</option>
-                                                                        <option value="enumeration">Enumeration</option>
-                                                                        </select>
-                                                                    </div>
-                                                                <div class="col-12 m-2" id="quiztioncontent{{$question->id}}">
-                                                                    <div class="row">
-                                                                        <div class="col-12 m-2">
-                                                                            <textarea class="form-control imageanswer" placeholder="Untitled instruction" style="height: 20px !important;" id="image_item{{$question->id}}">{{$question->question}}</textarea>
-                                                                            <input type="file" class="mt-2" disabled>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    @endif
-                                                    @if($question->typeofquiz ==7)
-                                                    <div id={{$question->id}} class="col-lg-11 col-10 editcontent col-content identifier{{$question->id}}">
-                                                        <div class="card mt-5 shadow-none border-0">
-                                                            <div class="card-header">
-                                                                <div class="row justify-content-end">
-                                                                    <div class="col-6 mr-1 quizarea">
-                                                                        <select class="form-control quiztype" data-id="{{$question->id}}" id="quiztype{{$question->id}}">
-                                                                        <option value="fill_n_blanks">Fill in the blanks</option>
-                                                                        <option value="multiple_choice">Multiple Choice</option>
-                                                                        <option value="short_answer">Short Answer</option>
-                                                                        <option value="paragraph_answer">Paragraph</option>
-                                                                        <option value="instruction">Instruction</option>
-                                                                        <option value="drag_drop">Drag & drop</option>
-                                                                        <option value="image">Image Answer</option>
-                                                                        <option value="enumeration">Enumeration</option>
-                                                                        </select>
-                                                                    </div>
-                                                                <div class="col-12 m-2" id="quiztioncontent{{$question->id}}">
-                                                                    <div class="row">
-                                                                        <div class="col-12 m-2">
-                                                                            <p><b>Note: </b>To set up the blanks, please input [~input] where you want the blank to appear. Ex. The planet ~input is the biggest planet in the solar system</p>
-                                                                            @php
-                                                                                $fillquestions = DB::table('lesson_fill_question')
-                                                                                    ->where('questionid', $question->id)
-                                                                                    ->orderBy('sortid')
-                                                                                    ->get();
-
-
-
-
-                                                                                foreach($fillquestions as $item){
-
-                                                                                    $answer = DB::table('lesson_quiz_fill_answer')
-                                                                                        ->where('headerid', $item->id)
-                                                                                        ->orderBy('sortid')
-                                                                                        ->pluck('answer');
-
-                                                                                    if(isset($answer)){
-                                                                                    $answerString = implode(',', $answer->toArray());
-
-                                                                                    $item->answer = $answerString;
-                                                                                        }
-                                                                                    }
-                                                                            
-                                                                        @endphp
-                                                                        <div id="item_fill{{$question->id}}">
-                                                                            @foreach($fillquestions as $item)
-                                                                                <input type="text" class="form-control fill{{$question->id}}" style="margin-top: 10px; border: 2px solid dodgerblue; color: black;" placeholder="Item text" value="{{$item->question}}">
-                                                                            
-                                                                                <span>Answer is 
-                                                                                            @if(empty($item->answer))
-                                                                                                <em>undefined</em>
-                                                                                            @else
-                                                                                                <em>{{$item->answer}}</em>.
-                                                                                            @endif
-                                                                                            
-                                                                                </span>
-                                                                            @endforeach
-                                                                        </div>
-                                                                        <div class="row justify-content-end p-3 mt-2">
-                                                                            <button class="btn btn-success add_fill_question"  id="{{$question->id}}">Add fill question</button>
-                                                                        </div>
-                                                                        <div class="col-12">
-                                                                            <button class="btn btn-link btn-sm answer-key-fill" id="{{$question->id}}">Answer key</button>
-                                                                        </div>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                
-                                                                    
-                                                    @endif
-
-                                                    {{-- Enumerations --}}
-
-                                                    @if($question->typeofquiz == 8)
-                                                    <div id={{$question->id}} class="col-lg-11 col-10 editcontent col-content identifier{{$question->id}}">
-                                                        <div class="card mt-5 shadow-none border-0">
-                                                            <div class="card-header">
-                                                                <div class="row justify-content-end">
-                                                                    <div class="col-6 mr-1 quizarea">
-                                                                        <select class="form-control quiztype" data-id="{{$question->id}}" id="quiztype{{$question->id}}">
-                                                                        <option value="enumeration">Enumeration</option>
-                                                                        <option value="multiple_choice">Multiple Choice</option>
-                                                                        <option value="short_answer">Short Answer</option>
-                                                                        <option value="paragraph_answer">Paragraph</option>
-                                                                        <option value="instruction">Instruction</option>
-                                                                        <option value="drag_drop">Drag & drop</option>
-                                                                        <option value="image">Image Answer</option>
-                                                                        <option value="fill_n_blanks">Fill in the blanks</option>
-                                                                        </select>
-                                                                    </div>
-                                                                <div class="col-12 m-2" id="quiztioncontent{{$question->id}}">
-                                                                    <div class="row">
-                                                                        <div class="col-12">
-                                                                            <textarea class="form-control enumeration mt-2 ml-2" placeholder="Untitled question" id="enumerationquestion{{$question->id}}" >{{$question->question}}</textarea>
-                                                                            <div id="item_option{{$question->id}}">
-                                                                                @php
-
-                                                                                $numberOfTimes = $question->item
-
-                                                                                @endphp
-
-                                                                                @for ($i = 0; $i < $numberOfTimes; $i++)
-                                                                                    <input type="text" class="form-control mt-2 ml-2" placeholder="Item text &nbsp;{{$i+1}}" disabled>
-                                                                                @endfor
-                                                                            </div>
-                                                                            <button class="form-control additem" style="margin: 8px; " data-id="{{$question->id}}" id="add_item{{$question->id}}">Add Item</button>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    @endif
                                                 </div>
-                                                </div>    
-                                                @endforeach
-                                                @endif
-                                                </div>      
+                                            </div>
+                                        </div>  
+                    
+
+
+                                        
+
+                                        {{-- Enumerations --}}
+
+                                        @elseif($question->typeofquiz == 8)
+                                        <div id={{$question->id}} class="col-lg-11 col-10 editcontent col-content identifier{{$question->id}}">
+                                            <div class="card mt-5 shadow-none border-0">
+                                                <div class="card-header">
+                                                    <div class="row justify-content-end">
+                                                        <div class="col-6 mr-1 quizarea">
+                                                            <select class="form-control quiztype" data-id="{{$question->id}}" id="quiztype{{$question->id}}">
+                                                            <option value="enumeration">Enumeration</option>
+                                                            <option value="multiple_choice">Multiple Choice</option>
+                                                            <option value="short_answer">Short Answer</option>
+                                                            <option value="paragraph_answer">Paragraph</option>
+                                                            <option value="instruction">Instruction</option>
+                                                            <option value="drag_drop">Drag & drop</option>
+                                                            <option value="image">Image Answer</option>
+                                                            <option value="fill_n_blanks">Fill in the blanks</option>
+                                                            </select>
+                                                        </div>
+                                                    <div class="col-12 m-2" id="quiztioncontent{{$question->id}}">
+                                                        <div class="row">
+                                                            <div class="col-12">
+                                                                <textarea class="form-control enumeration mt-2 ml-2" placeholder="Untitled question" id="enumerationquestion{{$question->id}}" >{{$question->question}}</textarea>
+                                                                <div id="item_option{{$question->id}}">
+                                                                    @php
+
+                                                                    $numberOfTimes = $question->item;
+
+                                                                    $answer = DB::table('lesson_quiz_enum_answer')
+                                                                        ->where('headerid', $question->id)
+                                                                        ->orderBy('sortid')
+                                                                        ->pluck('answer');
+
+                                                                    if(isset($answer)){
+                                                                    $answerString = implode(',', $answer->toArray());
+
+                                                                    $answerarray = $answerString;
+                                                                        }
+                                                                        
+
+
+                                                                    @endphp
+
+                                                                    <span>Answer is 
+                                                                                    @if(empty($answerarray))
+                                                                                        <em>undefined</em>
+                                                                                    @else
+                                                                                        <em>{{$answerarray}}</em>.
+                                                                                    @endif
+                                                                                    
+                                                                    </span>
+
+                                                                    @for ($i = 0; $i < $numberOfTimes; $i++)
+                                                                        <input type="text" class="form-control mt-2 ml-2" placeholder="Item text &nbsp;{{$i+1}}" disabled>
+                                                                    @endfor
+                                                                </div>
+                                                                <button class="form-control additem" style="margin: 8px; " data-id="{{$question->id}}" id="add_item{{$question->id}}">Add Item</button>
+                                                            </div>
+                                                            <div class="col-12">
+                                                                <button class="btn btn-link btn-sm answer-key-enum" id="{{$question->id}}">Answer key</button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        @endif
+                                    </div>
+                                </div>    
+                                @endforeach
+                                @endif
+                            </div>
+                        </div> 
+                    </div>
+                </div> 
 
     </body>
 
@@ -763,10 +798,6 @@
                                 }
                             else if(last_quiz_type == 'short_answer'){
 
-
-                                
-
-                        
                                 var textareaValue = $('#shortz_answer_question' + last_id).val();
                                 console.log("Question: ", textareaValue);
                                 console.log("Quiztype: ", last_quiz_type);
@@ -1257,13 +1288,6 @@
                                         id: rowid
                                             },
                                     complete: function(data){
-                                    Swal.fire({
-                                        title: 'Deleted successfully',
-                                        type: 'success',
-                                        confirmButtonColor: '#3085d6',
-                                        confirmButtonText: 'Close',
-                                        allowOutsideClick: false
-                                    })
                                 }
                             });
                         }
@@ -1298,8 +1322,6 @@
                                         $('.ui-helper-hidden-accessible').remove();
                                         option= 1;
                                         $('.btn-group-vertical').remove();
-                                        console.log("Hello World")
-                                        console.log(addrow)
                                         $(this).closest('.row').find('.rowhidden').empty()
                                         $('.contentcontainer').append(
                                             '<div id="'+addrow+'" class="row p-4 dragrow'+addrow+'">' +
@@ -1375,31 +1397,30 @@
                         if(select_quiz_type == 'short_answer'){
                             $('#quiztioncontent' + parentId).empty();
                             $('#quiztioncontent' + parentId).append('<textarea class="form-control m-2 shortz_answer_question"'+parentId+'" placeholder="Untitled question" style="height: 20px !important;" id="shortz_answer_question'+parentId+'" ></textarea>');
-                            $('#quiztioncontent' + parentId).append('<input type="text" class="form-control mt-2" placeholder="Short answer text" disabled>');
+                            $('#quiztioncontent' + parentId).append('<input type="text" class="form-control mt-2 ml-2" placeholder="Short answer text" disabled>');
                         
                         }
 
 
-
-
                         if(select_quiz_type == 'multiple_choice'){
-                            option = 0;
+                            option = 1;
                             $('#quiztioncontent' + parentId).empty();
-                            $('#quiztioncontent' + parentId).append('<div class="col-12 m-2">'+
-                                                    '<textarea class="form-control" placeholder="Untitled question" style="height: 20px !important;" id="exampleTextarea" ></textarea>'+
-                                                '</div>'+
-                                                '<div class="col-12 ml-4"  id="list_option'+parentId+'">' +
-                                                    '<input class="form-check-input" type="radio" name="option1" value="1">'+
-                                                    '<label class="form-check-label" contenteditable="true">Option '+option+'</label>'+
-                                                '</div>' +
-                                                '<button class="form-control addoption" style="margin: 20px; " id="add_option'+parentId+'">Add option</button>'+
-                                            '</div>')
+                            $('#quiztioncontent' + parentId).append('<div class="row">'+
+                                                                        '<div class="col-12 m-2">'+
+                                                                            '<textarea class="form-control" placeholder="Untitled question" id="exampleTextarea" ></textarea>'+
+                                                                        '</div>'+
+                                                                        '<div class="col-12 ml-4"  id="list_option'+parentId+'">' +
+                                                                            '<input class="form-check-input" type="radio" name="option1" value="1">'+
+                                                                            '<label class="form-check-label" contenteditable="true">Option '+option+'</label>'+
+                                                                        '</div>' +
+                                                                        '<button class="form-control addoption" style="margin: 20px;" data-id="'+parentId+'" id="'+parentId+'">Add option</button>'+
+                                                                        '</div>')
                                             }
 
                         if(select_quiz_type == 'paragraph_answer'){
                             $('#quiztioncontent' + parentId).empty();
                             $('#quiztioncontent' + parentId).append('<textarea class="form-control m-2" placeholder="Untitled question" style="height: 20px !important;" id="long_answer_question'+parentId+'" ></textarea>');
-                            $('#quiztioncontent' + parentId).append('<input type="text" class="form-control mt-2" placeholder="Long answer text" disabled>');
+                            $('#quiztioncontent' + parentId).append('<input type="text" class="form-control mt-2 ml-2" placeholder="Long answer text" disabled>');
 
                             
                         }
@@ -1444,12 +1465,16 @@
                             if(select_quiz_type == 'fill_n_blanks'){
                                 var option = 0;
                                 $('#quiztioncontent' + parentId).empty();
-                                $('#quiztioncontent' + parentId).append(`<p><b>Note: </b>To set up the blanks, please input [~input] where you want the blank to appear. Ex. The planet ~input is the biggest planet in the solar system</p>
+                                $('#quiztioncontent' + parentId).append(`<div class="row">
+                            '                                           <div class="col-12 m-2">
+                                                                        <p><b>Note: </b>To set up the blanks, please input [~input] where you want the blank to appear. Ex. The planet ~input is the biggest planet in the solar system</p>
                                                                         <div id="item_fill${parentId}">
                                                                         <input type="text" class="form-control fill${parentId}" style="margin-top: 10px; border: 2px solid dodgerblue; color: black;" placeholder="Item text &nbsp;${option}">
                                                                         </div>
                                                                         <div class="row justify-content-end p-3 mt-2">
                                                                         <button class="btn btn-success add_fill_question"  id="${parentId}">Add fill question</button>
+                                                                        </div>
+                                                                        </div>
                                                                         </div>`);
                             
                             }       
@@ -1460,12 +1485,14 @@
                         if(select_quiz_type == 'drag_drop'){
                             var option = 0;
                             $('#quiztioncontent' + parentId).empty();
-                            $('#quiztioncontent' + parentId).append('<div class="options p-3 mt-2" id="options'+parentId+'" style="border:3px solid #3e416d;border-radius:6px;">'+
-                                    '<div class="drag-option btn bg-primary text-white m-1 drag'+parentId+'" contentEditable="true" data-target="drag-1">Option &nbsp;' + option  + '</div>'+
-                                    '</div>' +
-                                    '<div class="row justify-content-end p-3 mt-2">' +
-                                        '<button class="btn btn-success add_drag_option" id="'+parentId+'">Add drag option</button>'+
-                                    '</div>'
+                            $('#quiztioncontent' + parentId).append('<div class="row">'+
+                                                                    '<div class="col-12 m-2">'+
+                                                                    '<div class="options p-3 mt-2" id="options'+parentId+'" style="border:3px solid #3e416d;border-radius:6px;">'+
+                                                                    '<div class="drag-option btn bg-primary text-white m-1 drag'+parentId+'" contentEditable="true" data-target="drag-1">Option &nbsp;' + option  + '</div>'+
+                                                                    '</div>' +
+                                                                    '<div class="row justify-content-end p-3 mt-2">' +
+                                                                        '<button class="btn btn-success add_drag_option" id="'+parentId+'">Add drag option</button>'+
+                                                                    '</div>'
                                 );
 
                                 // <button class="form-control add_drag_option" style="margin-top: 10px; " id="add_dragoption'+parentId+'">Add drag option</button>`
@@ -1475,8 +1502,10 @@
                                                 '</div>'+
                                                 '<div class="row justify-content-end p-3 mt-2">' +
                                                     '<button class="btn btn-success add_drag_question"  id="'+parentId+'">Add drop question</button>' +
+                                                '</div>'+ 
+                                                '</div>'+ 
                                                 '</div>'+
-                                            '</div>')
+                                                '</div>')
                                 }
 
                             if(select_quiz_type == 'image'){
@@ -1821,6 +1850,79 @@
 
                         });
 
+
+                        $(document).on('click', '.answer-key-enum', function(){
+                            var parentId = $(this).attr('id');
+                            console.log(parentId)
+
+                            $.ajax({
+                                    type: "get",
+                                    dataType: 'json',
+                                    url: "/adminviewbook/getenumquestion",
+                                    data: { 
+                                        id: parentId
+                                
+                                            },
+                                    success: function(response) {
+                                            console.log(response);
+
+                                            $('#quiztype' + parentId).prop('disabled', true);
+                                            
+
+                                            var html = `<div class="form-check mt-2 ml-2">
+                                                            <input data-type="16" data-question-id="${response.id}" class="answer-field form-check-input" type="checkbox" data-type="1" name="${response.id}" value="${response.id}">
+                                                            <label for="${response.id}" class="form-check-label itemchoices">
+                                                                Order answers
+                                                            </label>
+                                                        </div>`
+
+                                            html +=`<p class="ml-2">1. ${response.question} </p>`
+
+                                            for (var i = 0; i < response.item; i++){
+
+                                            html +=   `<div class="row">
+                                                    <div class="col-md-12">
+                                    
+                                                            <p class="ml-2">
+                                                                <span style="display: inline-block; margin-right: 5px;">${i + 1}.</span>
+                                                                <input
+                                                                    data-question-id="${response.id}"
+                                                                    data-sortid="${i + 1}"
+                                                                    data-question-type="8"
+                                                                    data-type="8"
+                                                                    class="answer-field d-inline form-control q-input"
+                                                                    type="text"
+                                                                >
+                                                            </p>
+                                                        
+                                                    </div>
+                                                </div>`
+                                            }
+
+
+                                            // response.fill.forEach(function(item) {
+                                            //     html += `<p class="ml-2">${item.sortid}. ${item.question} </p>`;
+                                            
+                                            // });
+
+
+                                            html += `</div><div class="col-12 p-3 text-end">
+                                                                        <button class="btn btn-dark btn-sm answerdoneenum" id="${response.id}">Done</button>
+                                                                    </div></div>`;
+
+                                            $('#quiztioncontent' + parentId).empty().append(html);
+                                        },
+                                    error: function(xhr) {
+                                        console.log("Error");
+                                        // Handle error here
+                                    }
+                                    })
+
+
+
+
+                        });
+
                         $(document).on('click', '.answerdone', function(){
 
                             var id = $(this).attr("id");
@@ -2053,7 +2155,7 @@
                             
                             console.log(sortid)
 
-                            console.log(`student answer: ${answer}, question-id: ${questionId}`)
+                            console.log(`student answer: ${answer}, question-id: ${questionId}, question type: ${questiontype}`)
 
                             $.ajax({
                                 url: '/adminviewbook/save-answer-key',
