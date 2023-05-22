@@ -19,6 +19,69 @@
         padding: 0;
         margin: 0;
     }
+
+    .circle-points {
+        position: relative;
+        top: -50px;
+        left: -50px;
+        z-index: 9;
+    }
+
+    .menu_opener {
+        display: none !important;
+    }
+
+    .menu_opener_label {
+        width: 60px;
+        height: 60px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 600;
+        font-size:15pt;
+    }
+
+    /* fix pos */
+    .menu_opener:checked ~ .link_one { 
+        top: 65px;
+    }
+    .menu_opener:checked ~ .link_two {
+        top: -65px;
+    }
+    .menu_opener:checked ~ .link_three {
+        left: -65px;
+    }
+
+    /* fix pos */
+    .menu_opener:checked ~ .link_four {
+        left: 65px;
+    }
+
+    .link_general {
+        width: 58px;
+        height: 58px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 50%;
+        font-weight: 600;
+        font-size:15pt;
+        background: #4d4d99;
+        color: #fff;
+    }
+
+    .link_one, .link_two,
+    .link_three, .link_four {
+        -webkit-transition: all 0.4s ease;
+        transition: all 0.4s ease;
+        position: absolute;
+        top: 1px;
+        left: 1px;
+        z-index: -1;
+    }
+
+    
 </style>
 
     
@@ -115,6 +178,38 @@
                     @if($item->typeofquiz == 2)
                         <div class="card mt-5 ml-3 editcontent">
                             <div class="card-body">
+
+                                <div class="circle-points">
+                                    <input type="checkbox" id="menu_opener_id" class="menu_opener">
+                                    <label for="menu_opener_id" class="menu_opener_label bg-warning text-dark">0</label>
+    
+                                    <div class="link_one">
+                                        <div class="link_general">
+                                            1
+                                        </div>
+                                    </div>
+    
+                                    <div class="link_two">
+                                        <div class="link_general">
+                                            2
+                                        </div>
+                                    </div>
+    
+                                    <div class="link_three">
+                                        <div class="link_general">
+                                            3
+                                        </div>
+                                    </div>
+    
+                                    <div class="link_four">
+                                        <div class="link_general">
+                                            4
+                                        </div>
+                                    </div>
+                                </div>
+
+
+
                                 <p class="question" data-question-type="{{$item->typeofquiz}}">
                                     {{$key+=1}}. {{$item->question}}
                                 </p>
@@ -308,6 +403,7 @@
             calcScore()
             $('input').prop("disabled", true);
             $('textarea').prop("disabled", true);
+            $('input#menu_opener_id').prop("disabled", false);
             
         })
     </script>

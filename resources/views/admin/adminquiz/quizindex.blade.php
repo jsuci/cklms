@@ -130,14 +130,14 @@
                                             <div class="btn-group-verticals">
                                                 <a class="btn btn-sm text-white gfg_tooltip newrow" style="background-color: #3175c2; border: 3px solid #1d62b7;">
                                                     <i class="fas fa-plus m-0"></i><span class="gfg_text">Add Question</span>
-                                                </a>                                            </div>
+                                                </a>                                            
                                             </div>
+                                        </div>
                         
                                         <div class="col-lg-11 col-10 editcontent col-content" id = "header">
                                                 <div class="card mt-5 shadow-none  border-0">
                                                 <div class="card-header" id="quizTitle">
                                                 <h3 class="text-center" contenteditable="true">{{$quiz->title}}</h3>
-                                                {{-- <input type="text" class="form-control d-none" value="Untitled Quiz"> --}}
                                                 @if(empty($quiz->coverage))
                                                 <h4>Coverage:</h3>
                                                 <div class="row justify-content-center">
@@ -414,7 +414,7 @@
                                                                                 }
                                                                                 @endphp
                                                                                 @foreach($dropquestions as $item)
-                                                                                <input type="text" class="form-control drop{{$item->id}}" style="margin-top: 10px; border: 2px solid dodgerblue; color: black;" placeholder="Item text" value = "{{$item->question}}">
+                                                                                <input type="text" class="form-control drop{{$question->id}}" style="margin-top: 10px; border: 2px solid dodgerblue; color: black;" placeholder="Item text" value = "{{$item->question}}">
                                                                                 
                                                                                 <span>Answer is 
                                                                                     @if(empty($item->answer))
@@ -469,7 +469,7 @@
                                                         </div>
                                                     </div>
                                                     @endif
-                                                    @if($question->typeofquiz == 7)
+                                                    @if($question->typeofquiz ==7)
                                                     <div id={{$question->id}} class="col-lg-11 col-10 editcontent col-content identifier{{$question->id}}">
                                                         <div class="card mt-5 shadow-none border-0">
                                                             <div class="card-header">
@@ -487,52 +487,61 @@
                                                                         </select>
                                                                     </div>
                                                                 <div class="col-12 m-2" id="quiztioncontent{{$question->id}}">
-                                                                    <p><b>Note: </b>To set up the blanks, please input [~input] where you want the blank to appear. Ex. The planet ~input is the biggest planet in the solar system</p>
-                                                                    <div id="item_fill{{$question->id}}">
-
-                                                                        @php
+                                                                    <div class="row">
+                                                                        <div class="col-12 m-2">
+                                                                            <p><b>Note: </b>To set up the blanks, please input [~input] where you want the blank to appear. Ex. The planet ~input is the biggest planet in the solar system</p>
+                                                                            @php
                                                                                 $fillquestions = DB::table('lesson_fill_question')
                                                                                     ->where('questionid', $question->id)
                                                                                     ->orderBy('sortid')
                                                                                     ->get();
 
 
+
+
                                                                                 foreach($fillquestions as $item){
 
-                                                                                $answer = DB::table('lesson_quiz_fill_answer')
-                                                                                    ->where('headerid', $item->id)
-                                                                                    ->orderBy('sortid')
-                                                                                    ->pluck('answer');
+                                                                                    $answer = DB::table('lesson_quiz_fill_answer')
+                                                                                        ->where('headerid', $item->id)
+                                                                                        ->orderBy('sortid')
+                                                                                        ->pluck('answer');
 
-                                                                                $answerString = implode(',', $answer->toArray());
+                                                                                    if(isset($answer)){
+                                                                                    $answerString = implode(',', $answer->toArray());
 
-                                                                                $item->answer = $answerString;
-                                                                                }
+                                                                                    $item->answer = $answerString;
+                                                                                        }
+                                                                                    }
                                                                             
                                                                         @endphp
-                                                                    @foreach($fillquestions as $item)
-                                                                        <input type="text" class="form-control fill{{$question->id}}" style="margin-top: 10px; border: 2px solid dodgerblue; color: black;" placeholder="Item text" value="{{$item->question}}">
-                                                                    
-                                                                        <span>Answer is 
-                                                                                    @if(empty($item->answer))
-                                                                                        <em>undefined</em>
-                                                                                    @else
-                                                                                        <em>{{$item->answer}}</em>.
-                                                                                    @endif
-                                                                                    
-                                                                        </span>
-                                                                    @endforeach
+                                                                        <div id="item_fill{{$question->id}}">
+                                                                            @foreach($fillquestions as $item)
+                                                                                <input type="text" class="form-control fill{{$question->id}}" style="margin-top: 10px; border: 2px solid dodgerblue; color: black;" placeholder="Item text" value="{{$item->question}}">
+                                                                            
+                                                                                <span>Answer is 
+                                                                                            @if(empty($item->answer))
+                                                                                                <em>undefined</em>
+                                                                                            @else
+                                                                                                <em>{{$item->answer}}</em>.
+                                                                                            @endif
+                                                                                            
+                                                                                </span>
+                                                                            @endforeach
+                                                                        </div>
+                                                                        <div class="row justify-content-end p-3 mt-2">
+                                                                            <button class="btn btn-success add_fill_question"  id="{{$question->id}}">Add fill question</button>
+                                                                        </div>
+                                                                        <div class="col-12">
+                                                                            <button class="btn btn-link btn-sm answer-key-fill" id="{{$question->id}}">Answer key</button>
+                                                                        </div>
+                                                                        </div>
                                                                     </div>
-                                                                    <div class="row justify-content-end p-3 mt-2">
-                                                                        <button class="btn btn-success add_fill_question"  id="{{$question->id}}">Add fill question</button>
-                                                                    </div>
-                                                                <div class="col-12">
-                                                                    <button class="btn btn-link btn-sm answer-key-fill" id="{{$question->id}}">Answer key</button>
-                                                                </div>
                                                                 </div>
                                                             </div>
                                                         </div>
                                                     </div>
+                                                
+                                                                    
                                                     @endif
 
                                                     {{-- Enumerations --}}
@@ -972,7 +981,7 @@
                                         $('.drop' + last_id).each(function() {
                                         // Get the value of the current label element using its id attribute
                                         const value = $(this).val();
-
+                                        console.log(value);
 
                                                 $.ajax({
                                                     type: "get",
@@ -1040,32 +1049,11 @@
 
                             else if(last_quiz_type == 'fill_n_blanks'){
 
-                                    $.ajax({
-                                        type: "get",
-                                        url: "/adminviewbook/createquestion",
-                                        data: { 
-                                            question : "Fill in the blanks",
-                                            typeofquiz : 7,
-                                            id: last_id
-                                                },
-                                        success: function(response) {
-
-                                            if (response == 1){
-                                        
-                                            Toast.fire({
-                                                icon: 'success',
-                                                title: 'All the changes have been saved'
-                                            })
-
-                                            }
-                                            
-                                        },
-                                        error: function(xhr) {
-                                            // Handle error here
-                                        }
-                                    });
 
                                     var i = 1;
+                                    var validation = true;
+                                    
+
                                     $('.fill' + last_id).each(function() {
                                             // Get the value of the current label element using its id attribute
                                             const value = $(this).val();
@@ -1074,32 +1062,67 @@
                                             console.log(value);
 
 
+                                            if (value.length != 0) {
 
-                                            $.ajax({
-                                                    type: "get",
-                                                    url: "/adminviewbook/createfillquestion",
-                                                    data: { 
-                                                        questionid : last_id,
-                                                        sortid: i,
-                                                        description : value
-                                                            },
-                                                    success: function(response) {
+                                                if(i==1){
 
-                                                        console.log("Drop question Succesfully save!");
+                                                    $.ajax({
+                                                        type: "get",
+                                                        url: "/adminviewbook/createquestion",
+                                                        data: { 
+                                                            question : "Fill in the blanks",
+                                                            typeofquiz : 7,
+                                                            id: last_id
+                                                                },
+                                                        success: function(response) {
+
+                                                            if (response == 1){
                                                         
-                                                        
-                                                    },
-                                                    error: function(xhr) {
-                                                        // Handle error here
-                                                    }
+                                                            Toast.fire({
+                                                                icon: 'success',
+                                                                title: 'All the changes have been saved'
+                                                            })
+
+                                                            }
+                                                            
+                                                        },
+                                                        error: function(xhr) {
+                                                            // Handle error here
+                                                        }
                                                     });
+                                                }
 
-                                            i+=1;
+                                                $.ajax({
+                                                        type: "get",
+                                                        url: "/adminviewbook/createfillquestion",
+                                                        data: { 
+                                                            questionid : last_id,
+                                                            sortid: i,
+                                                            description : value
+                                                                },
+                                                        success: function(response) {
+
+                                                            console.log("Drop question Succesfully save!");
+                                                            
+                                                            
+                                                        },
+                                                        error: function(xhr) {
+                                                            // Handle error here
+                                                        }
+                                                        });
+
+                                                i+=1;
+
+                                            }
                                         
 
                                             
 
                                             });
+
+                                    
+
+                                    
 
                                 }
 
@@ -1224,6 +1247,7 @@
                         allowOutsideClick: false
                     }).then((confirm) => {
                         if (confirm.value) {
+                            $('.dragrow' + rowid).remove()
 
                             $.ajax({
                                     type: "get",
@@ -1233,7 +1257,6 @@
                                         id: rowid
                                             },
                                     complete: function(data){
-                                    $('.dragrow' + rowid).remove()
                                     Swal.fire({
                                         title: 'Deleted successfully',
                                         type: 'success',
