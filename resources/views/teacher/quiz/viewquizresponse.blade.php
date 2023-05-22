@@ -41,6 +41,8 @@
         font-weight: 600;
         font-size:15pt;
         cursor: pointer;
+        color: #000;
+        background: rgb(247 103 0);
     }
 
     .menu_opener:checked ~ .link_one { 
@@ -66,7 +68,8 @@
         border-radius: 50%;
         font-weight: 600;
         font-size:15pt;
-        background: #4d4d99;
+        /* background: #4d4d99; */
+        background: #606060;
         color: #fff;
         cursor: pointer;
     }
@@ -181,7 +184,7 @@
 
                                 <div class="circle-points" >
                                     <input type="checkbox" id="menu_opener_id_{{$item->id}}" class="menu_opener">
-                                    <label for="menu_opener_id_{{$item->id}}" class="menu_opener_label bg-warning text-dark">0</label>
+                                    <label for="menu_opener_id_{{$item->id}}" data-points-edit="{{$item->id}}" class="menu_opener_label">0</label>
     
                                     <div class="link_one">
                                         <div class="link_general">
@@ -385,6 +388,20 @@
     <script>
         $(document).ready(function() {
 
+            // globals
+            var questionId;
+            var Toast = Swal.mixin({
+                toast: true,
+                position: 'top-end',
+                showConfirmButton: false,
+                timer: 3000,
+                timerProgressBar: true,
+                didOpen: (toast) => {
+                    toast.addEventListener('mouseenter', Swal.stopTimer)
+                    toast.addEventListener('mouseleave', Swal.resumeTimer)
+                }
+            })
+
             // helper functions
             function calcScore() {
                 var totalScore = 0;
@@ -407,9 +424,9 @@
             $('input.menu_opener').prop("disabled", false);
             
 
-            // teacher points
+            // clicking + on circle menu
             $(document).on('click', '.link_four', function() {
-                var questionId = $(this).data('question-id');
+                questionId = $(this).data('question-id');
 
                 // hide the menu
                 $(`input#menu_opener_id_${questionId}`).prop('checked', false);
@@ -421,13 +438,52 @@
                 $(`label[for=menu_opener_id_${questionId}]`).attr('contenteditable', true)
 
                 // make edit text distinction
-                $(`label[for=menu_opener_id_${questionId}]`).html(`_`);
+                // $(`label[for=menu_opener_id_${questionId}]`).html(`&nbsp`);
+                $(`label[for=menu_opener_id_${questionId}]`).html(`&nbsp`);
+
 
                 // focus on the editable area
                 $(`label[for=menu_opener_id_${questionId}]`).focus();
+            })
+
+            // user types on the circle menu
+            $(document).on('blur', `.menu_opener_label`, function() {
+                var pointsIdEdit = $(this).data('points-edit')
+                var updatedText = $(this).text().trim()
+
+                // filter text
+                if (updatedText === '') {
+                    updatedText = '0';
+                } else if (isNaN(updatedText)) {
+                    updatedText = '0';
+                } else {
+                    var number = parseInt(updatedText);
+                    if (number > 10) {
+
+                        Toast.fire({
+                            icon: 'error',
+                            title: 'Maximum points limit reached',
+                            timer: 2000,
+                        })
+
+                        updatedText = '0';
+                    }
+                }
+
+                // change the text inside label
+                $(this).text(updatedText)
+
+                // reset back to original state of circle menu
+                $(`input#menu_opener_id_${questionId}`).prop("disabled", false);
+                $(`label[for=menu_opener_id_${questionId}]`).attr('contenteditable', false)
+
+                
+
 
             })
-            
+
+
+
         })
     </script>
 @endsection
