@@ -186,19 +186,19 @@
                                     <input type="checkbox" id="menu_opener_id_{{$item->id}}" class="menu_opener">
                                     <label for="menu_opener_id_{{$item->id}}" data-points-edit="{{$item->id}}" class="menu_opener_label student-score">0</label>
     
-                                    <div class="link_one">
+                                    <div class="link_one" data-question-id="{{$item->id}}">
                                         <div class="link_general">
                                             1
                                         </div>
                                     </div>
     
-                                    <div class="link_two">
+                                    <div class="link_two" data-question-id="{{$item->id}}">
                                         <div class="link_general">
                                             3
                                         </div>
                                     </div>
     
-                                    <div class="link_three">
+                                    <div class="link_three" data-question-id="{{$item->id}}">
                                         <div class="link_general">
                                             5
                                         </div>
@@ -211,8 +211,6 @@
                                     </div>
                                 </div>
 
-
-
                                 <p class="question" data-question-type="{{$item->typeofquiz}}">
                                     {{$key+=1}}. {{$item->question}}
                                 </p>
@@ -224,6 +222,36 @@
                     @if($item->typeofquiz == 3)
                         <div class="card mt-5 ml-3 editcontent">
                             <div class="card-body">
+
+                                <div class="circle-points" >
+                                    <input type="checkbox" id="menu_opener_id_{{$item->id}}" class="menu_opener">
+                                    <label for="menu_opener_id_{{$item->id}}" data-points-edit="{{$item->id}}" class="menu_opener_label student-score">0</label>
+    
+                                    <div class="link_one" data-question-id="{{$item->id}}">
+                                        <div class="link_general">
+                                            1
+                                        </div>
+                                    </div>
+    
+                                    <div class="link_two" data-question-id="{{$item->id}}">
+                                        <div class="link_general">
+                                            3
+                                        </div>
+                                    </div>
+    
+                                    <div class="link_three" data-question-id="{{$item->id}}">
+                                        <div class="link_general">
+                                            5
+                                        </div>
+                                    </div>
+    
+                                    <div class="link_four" data-question-id="{{$item->id}}">
+                                        <div class="link_general">
+                                            <i class="fa fa-plus"></i>
+                                        </div>
+                                    </div>
+                                </div>
+
                                 <p class="question" data-question-type="{{$item->typeofquiz}}">
                                     {{$key+=1}}. {{$item->question}}
                                 </p>
@@ -409,14 +437,29 @@
                 $('.student-score').each(function() {
                     var score = parseInt($(this).text())
 
-                    console.log(score)
-
                     if (!isNaN(score)) {
                         totalScore += score;
                     }
                 })
                 // console.log(totalScore)
                 $('.pscore').text(`Score: ${totalScore}`)
+            }
+
+            function setScore(element) {
+                var score = element.find('.link_general').text().trim();
+                questionId = element.data('question-id');
+                
+
+                // hide the menu
+                $(`input#menu_opener_id_${questionId}`).prop('checked', false);
+
+                // change background color
+                $(`label[for=menu_opener_id_${questionId}]`).css('background-color', '#4d4d99');
+                $(`label[for=menu_opener_id_${questionId}]`).css('color', '#fff');
+
+                // set the label text
+                $(`label[for=menu_opener_id_${questionId}]`).text(score);
+
             }
 
 
@@ -427,7 +470,7 @@
             $('input.menu_opener').prop("disabled", false);
             
 
-            // clicking + on circle menu
+            // user clicks on the + on circle menu
             $(document).on('click', '.link_four', function() {
                 questionId = $(this).data('question-id');
 
@@ -505,7 +548,10 @@
 
             })
 
-
+            // user clicks on the numbers on the circle menu
+            $(document).on('click', `.link_one, .link_two, .link_three`, function() {
+                setScore($(this))
+            })
 
         })
     </script>
