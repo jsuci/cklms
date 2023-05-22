@@ -40,6 +40,7 @@
         justify-content: center;
         font-weight: 600;
         font-size:15pt;
+        cursor: pointer;
     }
 
     .menu_opener:checked ~ .link_one { 
@@ -67,6 +68,7 @@
         font-size:15pt;
         background: #4d4d99;
         color: #fff;
+        cursor: pointer;
     }
 
     .link_one, .link_two,
@@ -177,9 +179,9 @@
                         <div class="card mt-5 ml-3 editcontent">
                             <div class="card-body">
 
-                                <div class="circle-points">
-                                    <input type="checkbox" id="menu_opener_id" class="menu_opener">
-                                    <label for="menu_opener_id" class="menu_opener_label bg-warning text-dark">0</label>
+                                <div class="circle-points" >
+                                    <input type="checkbox" id="menu_opener_id_{{$item->id}}" class="menu_opener">
+                                    <label for="menu_opener_id_{{$item->id}}" class="menu_opener_label bg-warning text-dark">0</label>
     
                                     <div class="link_one">
                                         <div class="link_general">
@@ -189,19 +191,19 @@
     
                                     <div class="link_two">
                                         <div class="link_general">
-                                            2
+                                            3
                                         </div>
                                     </div>
     
                                     <div class="link_three">
                                         <div class="link_general">
-                                            3
+                                            5
                                         </div>
                                     </div>
     
                                     <div class="link_four">
                                         <div class="link_general">
-                                            4
+                                            <i class="fa fa-plus"></i>
                                         </div>
                                     </div>
                                 </div>
@@ -401,7 +403,7 @@
             calcScore()
             $('input').prop("disabled", true);
             $('textarea').prop("disabled", true);
-            $('input#menu_opener_id').prop("disabled", false);
+            $('input.menu_opener').prop("disabled", false);
             
         })
     </script>
