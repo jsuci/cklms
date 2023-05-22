@@ -42,18 +42,16 @@
         font-size:15pt;
     }
 
-    /* fix pos */
     .menu_opener:checked ~ .link_one { 
         top: 65px;
     }
     .menu_opener:checked ~ .link_two {
-        top: -65px;
-    }
-    .menu_opener:checked ~ .link_three {
         left: -65px;
     }
+    .menu_opener:checked ~ .link_three {
+        top: -65px;
+    }
 
-    /* fix pos */
     .menu_opener:checked ~ .link_four {
         left: 65px;
     }
