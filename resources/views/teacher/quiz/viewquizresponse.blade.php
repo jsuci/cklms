@@ -201,7 +201,7 @@
                                         </div>
                                     </div>
     
-                                    <div class="link_four">
+                                    <div class="link_four" data-question-id="{{$item->id}}">
                                         <div class="link_general">
                                             <i class="fa fa-plus"></i>
                                         </div>
@@ -400,10 +400,33 @@
             }
 
 
+            // initial state
             calcScore()
             $('input').prop("disabled", true);
             $('textarea').prop("disabled", true);
             $('input.menu_opener').prop("disabled", false);
+            
+
+            // teacher points
+            $(document).on('click', '.link_four', function() {
+                var questionId = $(this).data('question-id');
+
+                // hide the menu
+                $(`input#menu_opener_id_${questionId}`).prop('checked', false);
+
+                // disable input
+                $(`input#menu_opener_id_${questionId}`).prop("disabled", true);
+
+                // make label editable
+                $(`label[for=menu_opener_id_${questionId}]`).attr('contenteditable', true)
+
+                // make edit text distinction
+                $(`label[for=menu_opener_id_${questionId}]`).html(`_`);
+
+                // focus on the editable area
+                $(`label[for=menu_opener_id_${questionId}]`).focus();
+
+            })
             
         })
     </script>
