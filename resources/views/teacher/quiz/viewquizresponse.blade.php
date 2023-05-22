@@ -460,6 +460,9 @@
                 // set the label text
                 $(`label[for=menu_opener_id_${questionId}]`).text(score);
 
+                // recalc score
+                calcScore()
+
             }
 
 
