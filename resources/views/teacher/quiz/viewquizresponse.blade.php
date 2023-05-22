@@ -13,11 +13,11 @@
         display: flex;
         align-items: center;
         justify-content: center;
-    }
-    .points h4 {
         color: #fff;
         padding: 0;
         margin: 0;
+        font-size: 15pt;
+        font-weight: 600;
     }
 
     .circle-points {
@@ -135,11 +135,11 @@
 
                                 <div class="row">
                                     <div class="col-md-12">
-                                        <div class="points">
+                                        <div class="points student-score">
                                             @if($item->check == 1)
-                                                <h4>1</h4>
+                                                1
                                             @else
-                                                <h4>0</h4>
+                                                0
                                             @endif
                                         </div>
                                     </div>
@@ -184,7 +184,7 @@
 
                                 <div class="circle-points" >
                                     <input type="checkbox" id="menu_opener_id_{{$item->id}}" class="menu_opener">
-                                    <label for="menu_opener_id_{{$item->id}}" data-points-edit="{{$item->id}}" class="menu_opener_label">0</label>
+                                    <label for="menu_opener_id_{{$item->id}}" data-points-edit="{{$item->id}}" class="menu_opener_label student-score">0</label>
     
                                     <div class="link_one">
                                         <div class="link_general">
@@ -247,8 +247,8 @@
 
                                 <div class="row">
                                     <div class="col-md-12">
-                                        <div class="points">
-                                            <h4>{{$item->score}}</h4>
+                                        <div class="points student-score">
+                                            {{$item->score}}
                                             {{-- @if($item->check == 1)
                                                 <h4><span><i class="fa fa-check" style="color:rgb(7, 255, 7)" aria-hidden="true"></i></span></h4>
                                             @else
@@ -303,8 +303,8 @@
 
                                 <div class="row">
                                     <div class="col-md-12">
-                                        <div class="points">
-                                            <h4>{{$item->score}}</h4>
+                                        <div class="points student-score">
+                                            {{$item->score}}
                                         </div>
                                     </div>
                                 </div>
@@ -406,8 +406,11 @@
             function calcScore() {
                 var totalScore = 0;
 
-                $('.points').each(function() {
-                    var score = parseInt($(this).find('h4').text())
+                $('.student-score').each(function() {
+                    var score = parseInt($(this).text())
+
+                    console.log(score)
+
                     if (!isNaN(score)) {
                         totalScore += score;
                     }
@@ -438,9 +441,12 @@
                 $(`label[for=menu_opener_id_${questionId}]`).attr('contenteditable', true)
 
                 // make edit text distinction
-                // $(`label[for=menu_opener_id_${questionId}]`).html(`&nbsp`);
                 $(`label[for=menu_opener_id_${questionId}]`).html(`&nbsp`);
 
+                
+                // change background
+                $(`label[for=menu_opener_id_${questionId}]`).css('background-color', 'rgb(255 200 160)');
+                $(`label[for=menu_opener_id_${questionId}]`).css('color', '#000');
 
                 // focus on the editable area
                 $(`label[for=menu_opener_id_${questionId}]`).focus();
@@ -454,30 +460,47 @@
                 // filter text
                 if (updatedText === '') {
                     updatedText = '0';
+                    // change background color
+                    $(`label[for=menu_opener_id_${questionId}]`).css('background-color', 'rgb(247 103 0)');
+                    $(`label[for=menu_opener_id_${questionId}]`).css('color', '#000');
                 } else if (isNaN(updatedText)) {
                     updatedText = '0';
+                    // change background color
+                    $(`label[for=menu_opener_id_${questionId}]`).css('background-color', 'rgb(247 103 0)');
+                    $(`label[for=menu_opener_id_${questionId}]`).css('color', '#000');
                 } else {
                     var number = parseInt(updatedText);
                     if (number > 10) {
 
                         Toast.fire({
                             icon: 'error',
-                            title: 'Maximum points limit reached',
-                            timer: 2000,
+                            title: 'A maximum of 10 points is allowed.',
+                            timer: 3000,
                         })
 
                         updatedText = '0';
+                        
+                        // change background color
+                        $(`label[for=menu_opener_id_${questionId}]`).css('background-color', 'rgb(247 103 0)');
+                        $(`label[for=menu_opener_id_${questionId}]`).css('color', '#000');
+                    } else {
+                        // change background color
+                        $(`label[for=menu_opener_id_${questionId}]`).css('background-color', '#4d4d99');
+                        $(`label[for=menu_opener_id_${questionId}]`).css('color', '#fff');
                     }
                 }
 
                 // change the text inside label
                 $(this).text(updatedText)
 
+
+                
                 // reset back to original state of circle menu
                 $(`input#menu_opener_id_${questionId}`).prop("disabled", false);
                 $(`label[for=menu_opener_id_${questionId}]`).attr('contenteditable', false)
 
-                
+                // recalculate score
+                calcScore()
 
 
             })
