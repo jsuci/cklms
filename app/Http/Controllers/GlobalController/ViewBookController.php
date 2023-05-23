@@ -404,7 +404,8 @@ class ViewBookController extends Controller
                         'lessonquizquestions.question',
                         'lessonquizquestions.typeofquiz',
                         'lessonquizquestions.item',
-                        'lessonquizquestions.points'
+                        'lessonquizquestions.points',
+                        'lessonquizquestions.ordered'
                     )
                     ->get();
 
@@ -633,7 +634,46 @@ class ViewBookController extends Controller
                         $newArray[] = $answer;
                     }
 
+                    $answerArray = [];
+
+                    $score = 0;
+
+                    foreach($newArray as $key=>$new) {
+                        
+
+                        if($item->ordered == 1){
+                            $countval = DB::table('lesson_quiz_enum_answer')
+                            ->where('answer', $new)
+                            ->where('headerid', $item->id)
+                            ->count();
+
+                            if($countval > 0){
+                                $answerArray[] = 1;
+                                $score+=1;
+                            }else{
+                                $answerArray[] = 0;
+                            }
+                        }else{
+                            $countval = DB::table('lesson_quiz_enum_answer')
+                            ->where('answer', $new)
+                            ->where('headerid', $item->id)
+                            ->where('sortid', $key + 1)
+                            ->count();
+
+                            if($countval > 0){
+                                $answerArray[] = 1;
+                                $score+=1;
+                            }else{
+                                $answerArray[] = 0;
+                            }
+
+                        }
+                    }
+
+
                     $item->answer = $newArray;
+                    $item->check =  $answerArray;
+                    $item->score =  $score;
 
 
                 }
