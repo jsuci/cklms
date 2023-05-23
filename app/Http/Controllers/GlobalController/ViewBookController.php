@@ -758,12 +758,25 @@ class ViewBookController extends Controller
 
     }
 
-    public function updatepoint(Request $request)
+    public function updatescore(Request $request)
     {
         $quizId = $request->get('quizId');
         $points = $request->get('points');
 
         DB::table('lessonquizquestions')
+            ->update([
+                'quizid'=> $quizId,
+                'points'=> $points,
+                'updateddatetime'=> \Carbon\Carbon::now('Asia/Manila')
+            ]);
+    }
+
+    public function readscore(Request $request)
+    {
+        $quizId = $request->get('quizId');
+        $points = $request->get('points');
+
+        DB::table('chapterquizrecords')
             ->update([
                 'quizid'=> $quizId,
                 'points'=> $points,

@@ -31,7 +31,8 @@
             <tr>
                 <th>Name</th>
                 <th>Date &amp; Time Submitted</th>
-                <th>No. of Attempts Made</th>
+                <th>No. of Attempts</th>
+                <th>Score</th>
                 <th></th>
             </tr>
             </thead>
@@ -215,12 +216,12 @@
 
         // listen for the modal's hidden.bs.modal event
         myModal.on('hidden.bs.modal', function (event) {
-        // clear the form fields
-        $('#date-from').val('');
-        $('#time-from').val('');
-        $('#date-to').val('');
-        $('#time-to').val('');
-        $('#attempts').val('');
+            // clear the form fields
+            $('#date-from').val('');
+            $('#time-from').val('');
+            $('#date-to').val('');
+            $('#time-to').val('');
+            $('#attempts').val('');
         });
 
 
@@ -343,6 +344,7 @@
                     <td>${entry.name}</td>
                     <td>${formattedDate}</td>
                     <td>${data.length} / ${filteredQuiz[0].noofattempts}</td>
+                    <td>Not scored yet</td>
                     <td><button class="btn btn-primary view-response" data-quiz-id="${filteredQuiz[0].id}" data-record-id="${entry.id}">View Response</button></td>
                     </tr>
                 `;
