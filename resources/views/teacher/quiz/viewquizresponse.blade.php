@@ -127,13 +127,14 @@
 
             @foreach($quizQuestions as $key=>$item)
                 @if($item->typeofquiz == 1)
-                    <div class="card mt-5 ml-3 editcontent" data-question-id="{{$item->id}}">
+                    <!-- multiple choice -->
+                    <div class="card mt-5 ml-3 editcontent" id="quiz-question-{{$item->id}}">
                         <div class="card-body">
 
                             <div class="row">
                                 <div class="col-md-12">
                                     <div class="points student-score">
-                                        @if($item->check == 1)
+                                        @if(isset($item->check) == 1)
                                             1
                                         @else
                                             0
@@ -158,13 +159,13 @@
                                     @endif
                                     <label for="{{$item->id}}" class="form-check-label">
                                         {{$questioninfo->description}}
-                                    @if($item->check == 1 && $questioninfo->id == $item->answer)
+                                    @if(isset($item->check) == 1 && $questioninfo->id == $item->answer)
                                         <span><i class="fa fa-check" style="color:rgb(7, 255, 7)" aria-hidden="true"></i></span>
                                     @endif
-                                    @if($item->check == 0 && $questioninfo->id == $item->answer)
+                                    @if(isset($item->check) == 0 && $questioninfo->id == $item->answer)
                                         <span><i class="fa fa-times" style="color: red;" aria-hidden="true"></i></span>
                                     @endif
-                                        {{-- <span><i class="fa fa-times" style="color: red;" aria-hidden="true"></i></span> --}}
+                                
                                     
                                     
                                     </label>
@@ -176,12 +177,12 @@
                 @endif
 
                 @if($item->typeofquiz == 2)
-                    <div class="card mt-5 ml-3 editcontent" data-question-id="{{$item->id}}">
+                    <div class="card mt-5 ml-3 editcontent">
                         <div class="card-body">
 
                             <div class="circle-points" >
                                 <input type="checkbox" id="menu_opener_id_{{$item->id}}" class="menu_opener">
-                                <label for="menu_opener_id_{{$item->id}}" data-points-edit="{{$item->id}}" class="menu_opener_label student-score">{{$item->points ? $item->points : 0}}</label>
+                                <label for="menu_opener_id_{{$item->id}}" data-points-edit="{{$item->id}}" class="menu_opener_label student-score">0</label>
 
                                 <div class="link_one" data-question-id="{{$item->id}}">
                                     <div class="link_general">
@@ -217,12 +218,12 @@
                 @endif
 
                 @if($item->typeofquiz == 3)
-                    <div class="card mt-5 ml-3 editcontent" data-question-id="{{$item->id}}">
+                    <div class="card mt-5 ml-3 editcontent">
                         <div class="card-body">
 
                             <div class="circle-points" >
                                 <input type="checkbox" id="menu_opener_id_{{$item->id}}" class="menu_opener">
-                                <label for="menu_opener_id_{{$item->id}}" data-points-edit="{{$item->id}}" class="menu_opener_label student-score">{{$item->points ? $item->points : 0}}</label>
+                                <label for="menu_opener_id_{{$item->id}}" data-points-edit="{{$item->id}}" class="menu_opener_label student-score">0</label>
 
                                 <div class="link_one" data-question-id="{{$item->id}}">
                                     <div class="link_general">
@@ -258,7 +259,7 @@
                 @endif
 
                 @if($item->typeofquiz == 4)
-                    <div class="card mt-5 ml-3 editcontent" data-question-id="{{$item->id}}">
+                    <div class="card mt-5 ml-3 editcontent">
                         <div class="card-body">
                             <p>Instruction. {!! $item->question !!}</p>
                         </div>
@@ -266,18 +267,14 @@
                 @endif
 
                 @if($item->typeofquiz == 5)
-                    <div class="card mt-5 ml-3 editcontent" data-question-id="{{$item->id}}">
+                    <!-- drag and drop -->
+                    <div class="card mt-5 ml-3 editcontent">
                         <div class="card-body">
 
                             <div class="row">
                                 <div class="col-md-12">
                                     <div class="points student-score">
                                         {{$item->score}}
-                                        {{-- @if($item->check == 1)
-                                            <h4><span><i class="fa fa-check" style="color:rgb(7, 255, 7)" aria-hidden="true"></i></span></h4>
-                                        @else
-                                            <h4><span><i class="fa fa-times" style="color: red;" aria-hidden="true"></i></span></h4>
-                                        @endif --}}
                                     </div>
                                 </div>
                             </div>
@@ -300,7 +297,8 @@
                 @endif
 
                 @if($item->typeofquiz == 6)
-                    <div class="card mt-5 ml-3 editcontent" data-question-id="{{$item->id}}">
+                    <!-- upload image -->
+                    <div class="card mt-5 ml-3 editcontent">
                         <div class="card-body">
                             <p>{!! $item->question !!}</p>
                             <div class="form-group">
@@ -320,7 +318,7 @@
                 @endif
 
                 @if($item->typeofquiz == 7)
-                    <div class="card mt-5 ml-3 editcontent" data-question-id="{{$item->id}}">
+                    <div class="card mt-5 ml-3 editcontent">
                         <div class="card-body">
 
 
@@ -348,44 +346,63 @@
                 @endif
 
                 @if($item->typeofquiz == 8)
-                    <div class="card mt-5 ml-3 editcontent" data-question-id="{{$item->id}}">
-                        <div class="card-body">
-                            <span style="font-weight:600;font-size:1.0pc">
-                                Enumeration
-                            </span>
-    
-                            <ol class="list-group list-group-numbered p-3" type="A">
-                            <li>
-                                <p>{{$item->question}}</p>
-                            <ol>
-    
-                            @php
-    
-                                $numberOfTimes = $item->item
-    
-                            @endphp
-                            
-                            @for ($i = 0; $i < $numberOfTimes; $i++)
-    
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <li>
-                                        <p><input data-question-id="{{ $item->id }}" data-sortid={{ $i+1 }} data-question-type="8" class="answer-field d-inline form-control q-input" value="{{$item->answer[$i]}}" type="text"></p>
-                                    </li>
+                        <div class="card mt-5 ml-3 editcontent">
+                            <div class="card-body">
+
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="points student-score">
+                                            {{$item->score}}
+                                        </div>
+                                    </div>
                                 </div>
-                            </div>
-                            
-                            @endfor
-                            
+
+                                <span style="font-weight:600;font-size:1.0pc">
+                                    Enumeration
+                                </span>
+        
+                                <ol class="list-group list-group-numbered p-3" type="A">
+                                    <li>
+                                        <p>{{$item->question}}</p>
+                                    <ol>
+        
+                                    @php
+            
+                                        $numberOfTimes = $item->item
+            
+                                    @endphp
+                                    
+                                    @for ($i = 0; $i < $numberOfTimes; $i++)
+            
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <li>
+                                                <div class="input-group mt-2">
+                                                    <input data-question-id="{{ $item->id }}" data-sortid="{{ $i+1 }}" data-question-type="8" class="answer-field d-inline form-control q-input" value="{{$item->answer[$i]}}" type="text">
+                                                    <div class="input-group-append">
+                                                        <span class="input-group-text">
+                                                        @if($item->check[$i] == 1)
+                                                            <span><i class="fa fa-check" style="color:rgb(7, 255, 7)" aria-hidden="true"></i></span>
+                                                        @endif
+                                                        
+                                                        @if($item->check[$i] == 0)
+                                                            <span><i class="fa fa-times" style="color: red;" aria-hidden="true"></i></span>
+                                                        @endif
+                                                    </div>
+                                                </div>
+                                            </li>
+                                        </div>
+                                    </div>
+                                @endfor
+                                
+                                </ol>
+                                </li>
                             </ol>
-                            
-                            </li>
-                        </ol>
-                            
-    
+                                
+        
+                            </div>
                         </div>
-                    </div>
-                @endif
+                    @endif
 
 
             @endforeach
@@ -453,62 +470,42 @@
 
         function setScore(element) {
             var score = element.find('.link_general').text().trim();
-            var $card = element.closest('.editcontent');
-            questionId = $card.data('question-id')
-
-
-            // update question points in chapterquizrecordsdetail
-            $.ajax({
-                type:'GET',
-                url: '/updatepoints',
-                data: {
-                    recordid: questionId,
-                    points: score
-                },
-                success: function(data){
-                    if (data == 0) {
-                        console.log('error updating points')
-                    } else {
-                        // hide the menu
-                        $(`input#menu_opener_id_${questionId}`).prop('checked', false);
-
-                        // change background color
-                        // $(`label[for=menu_opener_id_${questionId}]`).css('background-color', '#4d4d99');
-                        // $(`label[for=menu_opener_id_${questionId}]`).css('color', '#fff');
-                        $(`label[for=menu_opener_id_${questionId}]`).css('background-color', 'rgb(247 103 0)');
-                        $(`label[for=menu_opener_id_${questionId}]`).css('color', '#000');
-
-                        // set the label text
-                        $(`label[for=menu_opener_id_${questionId}]`).text(score);
-
-                        // recalculate and save score
-                        calcScore().then((data) => {
-                            if (data == 1) {
-                                Toast.fire({
-                                    icon: 'success',
-                                    title: 'Score updated successfully',
-                                    timer: 2000,
-                                })
-                            } else {
-                                Toast.fire({
-                                    icon: 'success',
-                                    title: 'Error updating score',
-                                    timer: 2000,
-                                })
-                            }
-                        })
-                    }
-                }
-            })
+            questionId = element.data('question-id');
             
 
+            // hide the menu
+            $(`input#menu_opener_id_${questionId}`).prop('checked', false);
 
+            // change background color
+            // $(`label[for=menu_opener_id_${questionId}]`).css('background-color', '#4d4d99');
+            // $(`label[for=menu_opener_id_${questionId}]`).css('color', '#fff');
+            $(`label[for=menu_opener_id_${questionId}]`).css('background-color', 'rgb(247 103 0)');
+            $(`label[for=menu_opener_id_${questionId}]`).css('color', '#000');
+
+            // set the label text
+            $(`label[for=menu_opener_id_${questionId}]`).text(score);
+
+            // recalculate and save score
+            calcScore().then((data) => {
+                if (data == 1) {
+                    Toast.fire({
+                        icon: 'success',
+                        title: 'Score updated successfully',
+                        timer: 2000,
+                    })
+                } else {
+                    Toast.fire({
+                        icon: 'success',
+                        title: 'Error updating score',
+                        timer: 2000,
+                    })
+                }
+            })
 
         }
 
         // initial state
         calcScore()
-        
         $('input').prop("disabled", true);
         $('textarea').prop("disabled", true);
         $('input.menu_opener').prop("disabled", false);
@@ -647,3 +644,5 @@
 
     })
 </script>
+@endsection
+
