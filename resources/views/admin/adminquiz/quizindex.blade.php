@@ -594,7 +594,13 @@
 
                                                                     @endphp
 
-                                                                    <span>Answer is 
+                                                                    <span class ="ml-2 mt-2"><b>Answer is  </b>
+                                                                                    @if($question->ordered == 0)
+                                                                                            [IN ORDER]
+                                                                                    @else
+                                                                                            [RANDOM]
+                                                                                    @endif
+
                                                                                     @if(empty($answerarray))
                                                                                         <em>undefined</em>
                                                                                     @else
@@ -610,7 +616,7 @@
                                                                 <button class="form-control additem" style="margin: 8px; " data-id="{{$question->id}}" id="add_item{{$question->id}}">Add Item</button>
                                                             </div>
                                                             <div class="col-12">
-                                                                <button class="btn btn-link btn-sm answer-key-enum" id="{{$question->id}}">Answer key</button>
+                                                                <button class="btn btn-link btn-sm ml-2 answer-key-enum" id="{{$question->id}}">Answer key</button>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -1869,22 +1875,29 @@
                                             $('#quiztype' + parentId).prop('disabled', true);
                                             
 
-                                            var html = `<div class="form-check mt-2 ml-2">
-                                                            <input data-type="16" data-question-id="${response.id}" class="answer-field form-check-input" type="checkbox" data-type="1" name="${response.id}" value="${response.id}">
-                                                            <label for="${response.id}" class="form-check-label itemchoices">
-                                                                Order answers
+                                            var html = `<div class="form-check mt-2 ml-4 border border-4 p-3 pl-2">
+                                                            <input data-type="16" data-question-id="${response.id}" class="answer-field form-check-input" type="radio" name="${response.id}" value="0">
+                                                            <label for="0" class="form-check-label">
+                                                                Order answer
+                                                            </label>
+                                                        `
+                                            html += `
+                                                            <input data-type="16" data-question-id="${response.id}" class="answer-field form-check-input" type="radio" name="${response.id}" value="1">
+                                                            <label for="1" class="form-check-label">
+                                                                Random
                                                             </label>
                                                         </div>`
 
-                                            html +=`<p class="ml-2">1. ${response.question} </p>`
+                                            html +=`<p class="ml-4 mt-2 mb-2">A. ${response.question} </p>`
+                                            html +=`<ol>`
 
                                             for (var i = 0; i < response.item; i++){
 
                                             html +=   `<div class="row">
                                                     <div class="col-md-12">
-                                    
-                                                            <p class="ml-2">
-                                                                <span style="display: inline-block; margin-right: 5px;">${i + 1}.</span>
+                                                        <li>
+                                                            <p class="ml-2 d-inline">
+                                                                
                                                                 <input
                                                                     data-question-id="${response.id}"
                                                                     data-sortid="${i + 1}"
@@ -1893,18 +1906,14 @@
                                                                     class="answer-field d-inline form-control q-input"
                                                                     type="text"
                                                                 >
+                                                            </li>
                                                             </p>
                                                         
                                                     </div>
                                                 </div>`
                                             }
 
-
-                                            // response.fill.forEach(function(item) {
-                                            //     html += `<p class="ml-2">${item.sortid}. ${item.question} </p>`;
-                                            
-                                            // });
-
+                                            html +=`</ol>`
 
                                             html += `</div><div class="col-12 p-3 text-end">
                                                                         <button class="btn btn-dark btn-sm answerdoneenum" id="${response.id}">Done</button>
@@ -2137,6 +2146,8 @@
                                 // "padding": "20px",
                             });
                         });
+
+
 
     
 
