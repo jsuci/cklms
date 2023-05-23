@@ -429,6 +429,7 @@ class ViewBookController extends Controller
 
             foreach($quizQuestions as $item){
 
+                // multiple choice
                 if($item->typeofquiz == 1){
 
                     $choices = DB::table('lessonquizchoices')
@@ -461,14 +462,13 @@ class ViewBookController extends Controller
                         }
                         
                     }else{
-
                         $item->answer = 0;
-
                     }
 
 
                 }
 
+                // essay and short-answer
                 if($item->typeofquiz == 2 || $item->typeofquiz == 3 ){
 
                     $answer = DB::table('chapterquizrecordsdetail')
@@ -479,12 +479,11 @@ class ViewBookController extends Controller
                     if(isset($answer)){
                         $item->answer = $answer;
                     }else{
-
                         $item->answer = "";
-
                     }
                 }
 
+                // fill in the blanks
                 if($item->typeofquiz == 7 ){
 
 
@@ -593,7 +592,7 @@ class ViewBookController extends Controller
 
                 }
 
-
+                // image-answer
                 if($item->typeofquiz == 6 ){
 
                     $protocol = $request->getScheme();
@@ -614,7 +613,7 @@ class ViewBookController extends Controller
                     }
                 }
 
-
+                // enumeration
                 if($item->typeofquiz == 8){
                 
 
@@ -649,7 +648,7 @@ class ViewBookController extends Controller
 
                             if($countval > 0){
                                 $answerArray[] = 1;
-                                $score+=1;
+                                $score += 1;
                             }else{
                                 $answerArray[] = 0;
                             }
@@ -678,6 +677,7 @@ class ViewBookController extends Controller
 
                 }
 
+                // drag and drop
                 if($item->typeofquiz == 5){
 
                     $dragoption = DB::table('lesson_quiz_drag_option')
@@ -698,9 +698,6 @@ class ViewBookController extends Controller
 
                     $score = 0;
 
-                    
-
-                    
                     foreach($dropquestions as $index => $drop) {
                         $key = 0;
                         $answercount = DB::table('chapterquizrecordsdetail')
@@ -778,10 +775,6 @@ class ViewBookController extends Controller
                     }
 
                     $item->score = $score;
-
-                    
-
-
                 }
 
 
@@ -813,6 +806,32 @@ class ViewBookController extends Controller
                     'updatedby'=> auth()->user()->id,
                     'updateddatetime'=> \Carbon\Carbon::now('Asia/Manila')
                 ]);
+
+            return 1;
+        } catch (\Exception $e) {
+            return 0;
+        }
+
+    }
+
+    public function updatepoints(Request $request)
+    {
+
+        try {
+            $recordid = $request->get('recordid');
+            $points = $request->get('points');
+            
+            $items = DB::table('chapterquizrecordsdetail')
+                ->where('questionid', $recordid)
+                ->where('deleted', 0)
+                ->get();
+            
+            foreach ($items as $item) {
+                DB::table('chapterquizrecordsdetail')
+                    ->where('id', $item->id)
+                    ->update(['points' => $points]);
+            }
+            
 
             return 1;
         } catch (\Exception $e) {
