@@ -606,7 +606,7 @@
         // save quiz score
         $(document).on('click', '#save-quiz-score', function() {
             Swal.fire({
-                title: 'Are you sure you want to save the score for this quiz?',
+                title: 'Are you done reviewing this quiz?',
                 text: $(this).attr('label'),
                 icon: 'warning',
                 confirmButtonColor: 'rgb(15 151 19)',
