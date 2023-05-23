@@ -372,7 +372,7 @@ class ViewBookController extends Controller
             ->where('chapterquizrecords.chapterquizid', $chapterquizid)
             ->where('chapterquizrecords.deleted','0')
             ->where('chapterquizrecords.quizstatus','1')
-            ->select('chapterquizrecords.id', 'chapterquizrecords.classroomid', 'chapterquizrecords.chapterquizid', 'chapterquizrecords.submittedby', 'users.name', 'chapterquizrecords.submitteddatetime', 'chapterquizrecords.deleted', 'chapterquizrecords.quizstatus', 'chapterquizrecords.deletedby', 'chapterquizrecords.updatedby', 'chapterquizrecords.updateddatetime')
+            ->select('chapterquizrecords.id', 'chapterquizrecords.classroomid', 'chapterquizrecords.chapterquizid', 'chapterquizrecords.submittedby', 'users.name', 'chapterquizrecords.totalscore', 'chapterquizrecords.submitteddatetime', 'chapterquizrecords.deleted', 'chapterquizrecords.quizstatus', 'chapterquizrecords.deletedby', 'chapterquizrecords.updatedby', 'chapterquizrecords.updateddatetime')
             ->get();
     
         return $responses;

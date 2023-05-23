@@ -325,29 +325,30 @@
 
                 // Create the HTML for the latest entries
                 const latestEntriesHtml = Object.values(latestEntries).map(({ entry, datetime }) => {
-                let options = { year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric' };
-                let formattedDate = datetime.toLocaleDateString('en-US', options);
+                    let options = { year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric' };
+                    let formattedDate = datetime.toLocaleDateString('en-US', options);
 
 
-                // Calculate no. of attempts
-                var filteredQuiz = activequiz.filter(function(quiz) {
-                    if (quiz.id == chapterquizid) {
-                        return quiz
-                    }
-                });
+                    // Calculate no. of attempts
+                    var filteredQuiz = activequiz.filter(function(quiz) {
+                        if (quiz.id == chapterquizid) {
+                            return quiz
+                        }
+                    });
 
-                console.log('filtered-quiz', filteredQuiz)
+                    console.log('filtered-quiz', filteredQuiz)
+                    console.log('entry', entry)
                 
 
-                return `
-                    <tr>
-                    <td>${entry.name}</td>
-                    <td>${formattedDate}</td>
-                    <td>${data.length} / ${filteredQuiz[0].noofattempts}</td>
-                    <td>Not scored yet</td>
-                    <td><button class="btn btn-primary view-response" data-quiz-id="${filteredQuiz[0].id}" data-record-id="${entry.id}">View Response</button></td>
-                    </tr>
-                `;
+                    return `
+                        <tr>
+                        <td>${entry.name}</td>
+                        <td>${formattedDate}</td>
+                        <td>${data.length} / ${filteredQuiz[0].noofattempts}</td>
+                        <td>${entry.totalscore ? entry.totalscore : 'Not yet scored.'}</td>
+                        <td><button class="btn btn-primary view-response" data-quiz-id="${filteredQuiz[0].id}" data-record-id="${entry.id}">View Response</button></td>
+                        </tr>
+                    `;
                 }).join('');
 
                 $(latestEntriesHtml).appendTo('#quizResponseDetails');
