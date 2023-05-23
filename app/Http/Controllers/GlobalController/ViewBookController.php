@@ -760,29 +760,27 @@ class ViewBookController extends Controller
 
     public function updatescore(Request $request)
     {
-        $quizId = $request->get('quizId');
-        $points = $request->get('points');
 
-        DB::table('lessonquizquestions')
-            ->update([
-                'quizid'=> $quizId,
-                'points'=> $points,
-                'updateddatetime'=> \Carbon\Carbon::now('Asia/Manila')
-            ]);
+        try {
+            $recordId = $request->get('recordid');
+            $score = $request->get('score');
+    
+            DB::table('chapterquizrecords')
+                ->where('id', $recordId)
+                ->where('deleted', 0)
+                ->update([
+                    'totalscore'=> $score,
+                    'updatedby'=> auth()->user()->id,
+                    'updateddatetime'=> \Carbon\Carbon::now('Asia/Manila')
+                ]);
+
+            return 1;
+        } catch (\Exception $e) {
+            return 0;
+        }
+
     }
 
-    public function readscore(Request $request)
-    {
-        $quizId = $request->get('quizId');
-        $points = $request->get('points');
-
-        DB::table('chapterquizrecords')
-            ->update([
-                'quizid'=> $quizId,
-                'points'=> $points,
-                'updateddatetime'=> \Carbon\Carbon::now('Asia/Manila')
-            ]);
-    }
 
     public function chaptertestavailability(Request $request)
     {

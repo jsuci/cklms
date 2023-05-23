@@ -443,6 +443,16 @@
                 })
                 // console.log(totalScore)
                 $('.pscore').text(`Score: ${totalScore}`)
+
+                // ajax call to save score to chapterquizrecords
+                return $.ajax({
+                    type:'GET',
+                    url: '/updatescore',
+                    data: {
+                        recordid: {{$headerid}},
+                        score: totalScore
+                    }
+                })
             }
 
             function setScore(element) {
@@ -460,8 +470,22 @@
                 // set the label text
                 $(`label[for=menu_opener_id_${questionId}]`).text(score);
 
-                // recalc score
-                calcScore()
+                // recalculate and save score
+                calcScore().then((data) => {
+                    if (data == 1) {
+                        Toast.fire({
+                            icon: 'success',
+                            title: 'Score updated successfully',
+                            timer: 2000,
+                        })
+                    } else {
+                        Toast.fire({
+                            icon: 'success',
+                            title: 'Error updating score',
+                            timer: 2000,
+                        })
+                    }
+                })
 
             }
 
@@ -514,13 +538,19 @@
                     // change background color
                     $(`label[for=menu_opener_id_${questionId}]`).css('background-color', 'rgb(247 103 0)');
                     $(`label[for=menu_opener_id_${questionId}]`).css('color', '#000');
+
+                    Toast.fire({
+                        icon: 'error',
+                        title: 'Please enter numbers between 1 - 10 only',
+                        timer: 3000,
+                    })
                 } else {
                     var number = parseInt(updatedText);
                     if (number > 10) {
 
                         Toast.fire({
                             icon: 'error',
-                            title: 'A maximum of 10 points is allowed.',
+                            title: 'Maximum allowable points is 10',
                             timer: 3000,
                         })
 
@@ -530,23 +560,39 @@
                         $(`label[for=menu_opener_id_${questionId}]`).css('background-color', 'rgb(247 103 0)');
                         $(`label[for=menu_opener_id_${questionId}]`).css('color', '#000');
                     } else {
+                        // if everything is correct
+
                         // change background color
                         $(`label[for=menu_opener_id_${questionId}]`).css('background-color', '#4d4d99');
                         $(`label[for=menu_opener_id_${questionId}]`).css('color', '#fff');
-                    }
-                }
+
+
+                        // recalculate and save score
+                        calcScore().then((data) => {
+                            if (data == 1) {
+                                Toast.fire({
+                                    icon: 'success',
+                                    title: 'Score updated successfully',
+                                    timer: 2000,
+                                })
+                            } else {
+                                Toast.fire({
+                                    icon: 'success',
+                                    title: 'Error updating score',
+                                    timer: 2000,
+                                })
+                            }
+                        })
+                    } // end if (number > 10)
+
+                } // end if (updatedText === '')
 
                 // change the text inside label
                 $(this).text(updatedText)
-
-
                 
                 // reset back to original state of circle menu
                 $(`input#menu_opener_id_${questionId}`).prop("disabled", false);
                 $(`label[for=menu_opener_id_${questionId}]`).attr('contenteditable', false)
-
-                // recalculate score
-                calcScore()
 
 
             })

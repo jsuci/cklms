@@ -374,17 +374,17 @@
             CLASSROOM_ID = classroomid
             
             $.ajax({
-                    type:'GET',
-                    url: '/getactivequiz',
-                            data:{
-                                classroomid: classroomid
-                            },
+                type:'GET',
+                url: '/getactivequiz',
+                data:{
+                    classroomid: classroomid
+                },
 
-                    success:function(data) {
-                        activequiz = data
-                        loaddatatable()
-                    }
-                })
+                success:function(data) {
+                    activequiz = data
+                    loaddatatable()
+                }
+            })
         }
 
         function getQuizResponses(chapterquizid) {
