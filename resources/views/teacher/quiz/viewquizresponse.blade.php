@@ -552,19 +552,24 @@
                 $(`label[for=menu_opener_id_${questionId}]`).css('background-color', 'rgb(247 103 0)');
                 $(`label[for=menu_opener_id_${questionId}]`).css('color', '#000');
 
-                Toast.fire({
-                    icon: 'error',
+                Swal.fire({
                     title: 'Please enter numbers between 1 - 10 only',
-                    timer: 3000,
+                    text: $(this).attr('label'),
+                    icon: 'warning',
+                    showCancelButton: false,
+                    allowOutsideClick: true
                 })
+
             } else {
                 var number = parseInt(updatedText);
                 if (number > 10) {
 
-                    Toast.fire({
-                        icon: 'error',
-                        title: 'Maximum allowable points is 10',
-                        timer: 3000,
+                    Swal.fire({
+                        title: `Maximum allowable points for this question is ${10}`,
+                        text: $(this).attr('label'),
+                        icon: 'warning',
+                        showCancelButton: false,
+                        allowOutsideClick: true
                     })
 
                     updatedText = '0';
