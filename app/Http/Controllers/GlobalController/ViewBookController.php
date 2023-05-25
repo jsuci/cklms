@@ -897,28 +897,8 @@ class ViewBookController extends Controller
 
     }
 
-
     public function chaptertestavailability(Request $request)
     {
-
-        // return $request->all();
-        
-        // date_default_timezone_set('Asia/Manila');
-
-        // $noofattempts = $request->get('noofattempts');
-        // $chaptertestid = $request->get('chaptertestid');
-        // $classroomid = $request->get('classroomid');
-
-        // $activityrange = explode(' - ', $request->get('activitydatetimerange'));
-
-        // $datetimefrom = explode(' ',$activityrange[0]);
-        // $datefrom = date('Y-m-d', strtotime($datetimefrom[0]));
-        // $timefrom = date('H:i:s', strtotime($datetimefrom[1].' '.$datetimefrom[2]));
-
-        // $datetimeto = explode(' ',$activityrange[1]);
-        // $dateto = date('Y-m-d', strtotime($datetimeto[0]));
-        // $timeto = date('H:i:s', strtotime($datetimeto[1].' '.$datetimeto[2])); 
-
         $checkifexists = DB::table('chapterquizsched')
             ->where('chapterquizid', $request->get('quizId'))
             ->where('classroomid', $request->get('classroomId'))
@@ -945,41 +925,20 @@ class ViewBookController extends Controller
         }else{
 
             DB::table('chapterquizsched')
-                        ->where('id', $checkifexists[0]->id)
-                        ->update([
-                            'chapterquizid'         => $request->get('quizId'),
-                            'classroomid'           => $request->get('classroomId'),
-                            'datefrom'              => $request->get('dateFrom'),
-                            'timefrom'              => $request->get('timeFrom'),
-                            'dateto'                => $request->get('dateTo'),
-                            'timeto'                => $request->get('timeTo'),
-                            'noofattempts'          => $request->get('attempts'),
-                            'updateddatetime'       => \Carbon\Carbon::now('Asia/Manila')
-                        ]);
+                ->where('id', $checkifexists[0]->id)
+                ->update([
+                    'chapterquizid'         => $request->get('quizId'),
+                    'classroomid'           => $request->get('classroomId'),
+                    'datefrom'              => $request->get('dateFrom'),
+                    'timefrom'              => $request->get('timeFrom'),
+                    'dateto'                => $request->get('dateTo'),
+                    'timeto'                => $request->get('timeTo'),
+                    'noofattempts'          => $request->get('attempts'),
+                    'updateddatetime'       => \Carbon\Carbon::now('Asia/Manila')
+                ]);
 
-
-            return 0;
+                return 0;
         }
-
-
-            // $schedinfo = Db::table('chapterquizsched')
-            //     ->where('id', $schedid)
-            //     ->first();
-
-            // $schedinfo->datefrom    = date('m-d-Y', strtotime($schedinfo->datefrom));
-            // $schedinfo->timefrom    = date('h:i:s A', strtotime($schedinfo->timefrom));
-            // $schedinfo->dateto      = date('m-d-Y', strtotime($schedinfo->dateto));
-            // $schedinfo->timeto      = date('h:i:s A', strtotime($schedinfo->timeto));
-
-            // return collect($schedinfo);
-
-        // }else{
-
-        // }
-
-        
-
-
     }
 
     public function takethetest(Request $request)
