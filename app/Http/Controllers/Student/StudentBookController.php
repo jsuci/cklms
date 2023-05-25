@@ -318,27 +318,32 @@ class StudentBookController extends Controller
 
     public function studentQuizContent($quizid, $clasroomid){
 
-
-
             $chapterquizsched = DB::table('chapterquizsched')
-                            ->where('chapterquizid',$quizid)
-                            ->where('classroomid',$clasroomid)
-                            ->select(
-                                'classroomid',
-                                'datefrom',
-                                'dateto',
-                                'timefrom',
-                                'timeto',
-                                'noofattempts',
-                                'status',
-                                'createddatetime',
-                                'updateddatetime',
-                                'id'
-                            )
-                            ->where('deleted',0)
-                            ->first();
+                ->where('chapterquizid',$quizid)
+                ->where('classroomid',$clasroomid)
+                ->select(
+                    'classroomid',
+                    'datefrom',
+                    'dateto',
+                    'timefrom',
+                    'timeto',
+                    'noofattempts',
+                    'status',
+                    'createddatetime',
+                    'updateddatetime',
+                    'id'
+                )
+                ->where('deleted',0)
+                ->first();
 
-            
+            $allowedStudents = null;
+
+            if($chapterquizsched->status == 3){
+                $allowedStudents = DB::table('allowed_student_quiz')
+                    ->where('studentid',auth()->user()->id)
+                    ->where('chapterquizschedid',$chapterquizsched->id)
+                    ->count();
+            }
 
 
             // $isAnswered = false;
@@ -346,9 +351,9 @@ class StudentBookController extends Controller
             $numberOfAttempts = 0;
 
             $numberOfAttempts =  DB::table('chapterquizrecords')
-                                    ->where('submittedby',auth()->user()->id)
-                                    ->where('chapterquizid',$quizid)
-                                    ->count();
+                ->where('submittedby',auth()->user()->id)
+                ->where('chapterquizid',$quizid)
+                ->count();
             
             
 
@@ -452,7 +457,8 @@ class StudentBookController extends Controller
                         //  ->with('quizRecord',$checkIfAnswered)
                         //  ->with('clasroomid',$clasroomid)
                         ->with('attemptsLeft',$attemptsLeft)
-                        ->with('lastattempt',$lastattempt);
+                        ->with('lastattempt',$lastattempt)
+                        ->with('allowedstudentcount', $allowedStudents);
                         //  ->with('quizAnswersInfo',$quizAnswersInfo)
                         // ->with('quizQuestions',$quizQuestions);
 

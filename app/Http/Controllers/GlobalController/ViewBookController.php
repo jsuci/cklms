@@ -967,26 +967,38 @@ class ViewBookController extends Controller
             $quizschedid = $checkifexists[0]->id;
         }
 
-        foreach ($allowed_students as $student_id) {
-            $student = DB::table('allowed_student_quiz')
-                ->where('id', $student_id)
-                ->first();
-        
-            if ($student) {
-                // Student exists in the 'allowed_students' table
-                // Perform further actions or logic here
-                // ...
-            } else {
-                // Student does not exist in the 'allowed_students' table
-                DB::table('allowed_student_quiz')
-                    ->insert([
-                        'chapterquizschedid'    => $quizschedid,
-                        'studentid'             => $student_id,
-                        'createdby'             => auth()->user()->id,
-                        'createddatetime'       => \Carbon\Carbon::now('Asia/Manila')
-                    ]);
+        if (count($allowed_students) != 0) {
+
+            DB::table('chapterquizsched')
+                ->where('id', $checkifexists[0]->id)
+                ->update([
+                    'status'            => 3,
+                    'updateddatetime'   => \Carbon\Carbon::now('Asia/Manila')
+                ]);
+
+            foreach ($allowed_students as $student_id) {
+                $student = DB::table('allowed_student_quiz')
+                    ->where('id', $student_id)
+                    ->first();
+            
+                if ($student) {
+                    // Student exists in the 'allowed_students' table
+                    // Perform further actions or logic here
+                    // ...
+                } else {
+                    // Student does not exist in the 'allowed_students' table
+                    DB::table('allowed_student_quiz')
+                        ->insert([
+                            'chapterquizschedid'    => $quizschedid,
+                            'studentid'             => $student_id,
+                            'createdby'             => auth()->user()->id,
+                            'createddatetime'       => \Carbon\Carbon::now('Asia/Manila')
+                        ]);
+                }
             }
         }
+
+
 
         return $status;
 
