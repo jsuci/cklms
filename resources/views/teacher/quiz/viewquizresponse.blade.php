@@ -613,8 +613,6 @@
             // reset back to original state of circle menu
             $(`input#menu_opener_id_${questionId}`).prop("disabled", false);
             $(`label[for=menu_opener_id_${questionId}]`).attr('contenteditable', false)
-
-
         })
 
         // user clicks on the numbers on the circle menu
