@@ -918,16 +918,22 @@ class ViewBookController extends Controller
 
     public function chaptertestavailability(Request $request)
     {
+
+        $allowed_students = $request->get('allowed_students');
+        
         $checkifexists = DB::table('chapterquizsched')
             ->where('chapterquizid', $request->get('quizId'))
             ->where('classroomid', $request->get('classroomId'))
             ->where('deleted','0')
             ->get();
 
+        $status = null;
+        $quizschedid = null;
+
         if(count($checkifexists) == 0)
         {
-            DB::table('chapterquizsched')
-                ->insert([
+            $createdsched = DB::table('chapterquizsched')
+                ->insertGetId([
                     'chapterquizid'         => $request->get('quizId'),
                     'classroomid'           => $request->get('classroomId'),
                     'datefrom'              => $request->get('dateFrom'),
@@ -939,9 +945,10 @@ class ViewBookController extends Controller
                     'createddatetime'       => \Carbon\Carbon::now('Asia/Manila')
                 ]);
 
-                return 1;
+                $status = 1;
+                $quizschedid = $createdsched;
 
-        }else{
+        } else {
 
             DB::table('chapterquizsched')
                 ->where('id', $checkifexists[0]->id)
@@ -956,8 +963,33 @@ class ViewBookController extends Controller
                     'updateddatetime'       => \Carbon\Carbon::now('Asia/Manila')
                 ]);
 
-                return 0;
+            $status = 0;
+            $quizschedid = $checkifexists[0]->id;
         }
+
+        foreach ($allowed_students as $student_id) {
+            $student = DB::table('allowed_student_quiz')
+                ->where('id', $student_id)
+                ->first();
+        
+            if ($student) {
+                // Student exists in the 'allowed_students' table
+                // Perform further actions or logic here
+                // ...
+            } else {
+                // Student does not exist in the 'allowed_students' table
+                DB::table('allowed_student_quiz')
+                    ->insert([
+                        'chapterquizschedid'    => $quizschedid,
+                        'studentid'             => $student_id,
+                        'createdby'             => auth()->user()->id,
+                        'createddatetime'       => \Carbon\Carbon::now('Asia/Manila')
+                    ]);
+            }
+        }
+
+        return $status;
+
     }
 
     public function takethetest(Request $request)

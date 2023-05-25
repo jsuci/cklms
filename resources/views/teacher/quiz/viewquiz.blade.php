@@ -148,7 +148,7 @@
             <form class="was-validated">
                 <div class="form-group">
                     <label for="attempts">Select Students</label>
-                    <select class="select-students select2" name="students[]" multiple="multiple">
+                    <select id="select-students" class="select-students select2" name="students[]" multiple="multiple">
                     </select>
                 </div>
                 <div class="form-group">
@@ -266,6 +266,9 @@
             var dateTo = $('#date-to').val();
             var timeTo = $('#time-to').val();
             var attempts = $('#attempts').val();
+            var students = $('#select-students').val();
+
+            // console.log(students)
 
             if (!dateFrom || !timeFrom || !dateTo || !timeTo || !attempts) {
                 alert('Please fill in all fields.');
@@ -278,41 +281,41 @@
             }
             // if the form inputs are valid, submit the form
             $.ajax({
-					type:'GET',
-					url: '/viewbookchaptertestavailability',
-                    data:{
+                type:'GET',
+                url: '/viewbookchaptertestavailability',
+                data:{
 
-                        dateFrom : dateFrom,
-                        timeFrom : timeFrom,
-                        dateTo   : dateTo,
-                        timeTo   : timeTo,
-                        attempts : attempts,
-                        quizId   : quizid,
-                        classroomId : classroomId
-                    },
-                    success:function(data) {
-                        if(data ==1){
-                            $('.close').click();
-                            Toast.fire({
-                                    type: 'success',
-                                    title: 'Added successfully!'
-                                })
+                    dateFrom : dateFrom,
+                    timeFrom : timeFrom,
+                    dateTo   : dateTo,
+                    timeTo   : timeTo,
+                    attempts : attempts,
+                    quizId   : quizid,
+                    classroomId : classroomId,
+                    allowed_students: students
+                },
+                success:function(data) {
+                    if(data ==1){
+                        $('.close').click();
+                        Toast.fire({
+                                type: 'success',
+                                title: 'Added successfully!'
+                            })
 
-                            getactivequiz()
-                        }
-
-                        if(data ==0){
-                            $('.close').click();
-                            Toast.fire({
-                                    type: 'success',
-                                    title: 'The quiz has been reactivated successfully!'
-                                })
-
-                            getactivequiz()
-                        }
+                        getactivequiz()
                     }
 
-                    })
+                    if(data ==0){
+                        $('.close').click();
+                        Toast.fire({
+                                type: 'success',
+                                title: 'The quiz has been reactivated successfully!'
+                            })
+
+                        getactivequiz()
+                    }
+                }
+            })
         });
 
         $(document).on('click','.modal_activate',function(){
