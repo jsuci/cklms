@@ -58,155 +58,148 @@
                         
 
                             @if($item->typeofquiz == 2)
-                        <div class="card mt-5 editcontent">
-                            <div class="card-body">
-                                
-                                        <p class="question" data-question-type="{{$item->typeofquiz}}">{{$key+=1}}. {{$item->question}}</p>
-                                        <input type="text" data-question-type="{{$item->typeofquiz}}" data-question-id="{{ $item->id}}" id="{{ $questioninfo->id}}" class="answer-field form-control mt-2" placeholder="Answer here" value="{{$item->answer}}" >
+                            <div class="card mt-5 editcontent">
+                                <div class="card-body">
+                                    
+                                            <p class="question" data-question-type="{{$item->typeofquiz}}">{{$key+=1}}. {{$item->question}}</p>
+                                            <input type="text" data-question-type="{{$item->typeofquiz}}" data-question-id="{{ $item->id}}" id="{{ $questioninfo->id}}" class="answer-field form-control mt-2" placeholder="Answer here" value="{{$item->answer}}" >
 
+                                </div>
                             </div>
-                        </div>
-                            @endif
+                        @endif
 
+                        @if($item->typeofquiz == 3)
+                            <div class="card mt-5 editcontent">
+                                <div class="card-body">
+                                    
+                                            <p class="question" data-question-type="{{$item->typeofquiz}}">{{$key+=1}}. {{$item->question}}</p>
+                                            <textarea data-question-type="{{$item->typeofquiz}}" data-question-id="{{ $item->id}}" id="{{ $questioninfo->id}}" class="answer-field form-control mt-2"type="text" value="{{$item->answer}}">{{$item->answer}}</textarea>
 
-                            @if($item->typeofquiz == 3)
-                                <div class="card mt-5 editcontent">
-                                    <div class="card-body">
-                                        
-                                                <p class="question" data-question-type="{{$item->typeofquiz}}">{{$key+=1}}. {{$item->question}}</p>
-                                                <textarea data-question-type="{{$item->typeofquiz}}" data-question-id="{{ $item->id}}" id="{{ $questioninfo->id}}" class="answer-field form-control mt-2"type="text" value="{{$item->answer}}">{{$item->answer}}</textarea>
+                                </div>
+                            </div>
+                        @endif
+
+                        @if($item->typeofquiz == 4)
+                            <div class="card mt-5 editcontent">
+                                <div class="card-body">
+                                    
+                                            <p>Instruction. {!! $item->question !!}</p>
+
+                                </div>
+                            </div>
+                        @endif
+
+                        @if($item->typeofquiz == 5)
+                            <!-- drag and drop -->
+                            <div class="card mt-5 editcontent">
+                                <div class="card-body">
+                                    <p class="question" data-question-type="{{$item->typeofquiz}}">
+                                        Drag the correct option and drop it onto the corresponding box. 
+                                    </p>
+
+                                    <div class="options p-3 mt-2" style="border:3px solid #3e416d;border-radius:6px;">
+                                        @foreach ($item->drag as $questioninfo)
+                                            <div class="drag-option btn bg-primary text-white m-1" data-target="drag-1">{{$questioninfo->description}}</div>
+                                        @endforeach
+                                    </div>
+
+                                        @foreach($item->drop as $items)
+                                    
+                                            <p>
+
+                                                {{$items->sortid}}. {!! $items->question !!}
+
+                                            </p>
+                                        @endforeach
 
                                     </div>
                                 </div>
-                            @endif
+                        @endif
 
-
-                            @if($item->typeofquiz == 4)
-                                <div class="card mt-5 editcontent">
-                                    <div class="card-body">
+                        @if($item->typeofquiz == 6)
+                            <!-- upload image -->
+                            <div class="card mt-5 editcontent">
+                                <div class="card-body">
+                                    <p>{!! $item->question !!}</p>
+                                    <div class="form-group">
+                                        <input class="answer-field form-control-file imageInput" data-question-type="{{$item->typeofquiz}}" data-question-id="{{$item->id}}" id="{{$questioninfo->id}}" type="file" accept="image/*">
                                         
-                                                <p>Instruction. {!! $item->question !!}</p>
+                                        @if($item->picurl != '')
+                                            <a id="preview-link" href="{{$item->picurl}}" target="_blank">
+                                                <img id="preview" src="{{$item->picurl}}" alt="Preview" style="max-width: 250px; max-height: 250px;">
+                                            </a>
+                                        @else
+                                            <a id="preview-link" href="#" target="_blank">
+                                                <img id="preview" src="#" alt="Preview" style="max-width: 250px; max-height: 250px;display:none;">
+                                            </a>
+                                        @endif
 
                                     </div>
                                 </div>
-                            @endif
+                            </div>
+                        @endif
 
-                        
-
-
-                            @if($item->typeofquiz == 5)
-                                <!-- drag and drop -->
-                                <div class="card mt-5 editcontent">
-                                    <div class="card-body">
-                                        <p class="question" data-question-type="{{$item->typeofquiz}}">
-                                            Drag the correct option and drop it onto the corresponding box. 
-                                        </p>
-
-                                        <div class="options p-3 mt-2" style="border:3px solid #3e416d;border-radius:6px;">
-                                            @foreach ($item->drag as $questioninfo)
-                                                <div class="drag-option btn bg-primary text-white m-1" data-target="drag-1">{{$questioninfo->description}}</div>
-                                            @endforeach
-                                        </div>
-
-                                            @foreach($item->drop as $items)
-                                        
-                                                <p>
-
-                                                    {{$items->sortid}}. {!! $items->question !!}
-
-                                                </p>
-                                            @endforeach
-
-                                        </div>
-                                    </div>
-                            @endif
-
-                            @if($item->typeofquiz == 6)
-                                <!-- upload image -->
-                                <div class="card mt-5 editcontent">
-                                    <div class="card-body">
-                                        <p>{!! $item->question !!}</p>
-                                        <div class="form-group">
-                                            <input class="answer-field form-control-file imageInput" data-question-type="{{$item->typeofquiz}}" data-question-id="{{$item->id}}" id="{{$questioninfo->id}}" type="file" accept="image/*">
-                                            
-                                            @if($item->picurl != '')
-                                                <a id="preview-link" href="{{$item->picurl}}" target="_blank">
-                                                    <img id="preview" src="{{$item->picurl}}" alt="Preview" style="max-width: 250px; max-height: 250px;">
-                                                </a>
-                                            @else
-                                                <a id="preview-link" href="#" target="_blank">
-                                                    <img id="preview" src="#" alt="Preview" style="max-width: 250px; max-height: 250px;display:none;">
-                                                </a>
-                                            @endif
-
-                                        </div>
-                                    </div>
+                        @if($item->typeofquiz == 7)
+                            <div class="card mt-5 editcontent">
+                                <div class="card-body">
+                                    <span style="font-weight:600;font-size:1.0pc">
+                                        Fill in the blanks
+                                    </span>
+            
+                                    
+            
+                                    @foreach($item->fill as $items)
+                                    
+                                            <p>
+                                                {{$items->sortid}}. {!! $items->question !!}
+            
+                                            </p>
+                                        @endforeach
+            
                                 </div>
-                            @endif
+                            </div>
+                        @endif
 
-                            @if($item->typeofquiz == 7)
-                                <div class="card mt-5 editcontent">
-                                    <div class="card-body">
-                                        <span style="font-weight:600;font-size:1.0pc">
-                                            Fill in the blanks
-                                        </span>
-                
-                                        
-                
-                                        @foreach($item->fill as $items)
-                                        
-                                                <p>
-                                                    {{$items->sortid}}. {!! $items->question !!}
-                
-                                                </p>
-                                            @endforeach
-                
-                                    </div>
-                                </div>
-                            @endif
-
-                            @if($item->typeofquiz == 8)
-                                <div class="card mt-5 editcontent">
-                                    <div class="card-body">
-                                        <span style="font-weight:600;font-size:1.0pc">
-                                            Enumeration
-                                        </span>
-                
-                                        <ol class="list-group list-group-numbered p-3" type="A">
-                                        <li>
-                                            <p>{{$item->question}}</p>
-                                        <ol>
-                
-                                        @php
-                
-                                            $numberOfTimes = $item->item
-                
-                                        @endphp
-                                        
-                                        @for ($i = 0; $i < $numberOfTimes; $i++)
-                
-                                        <div class="row">
-                                            <div class="col-md-12">
-                                                <li>
-                                                    <p><input data-question-id="{{ $item->id }}" data-sortid={{ $i+1 }} data-question-type="8" class="answer-field d-inline form-control q-input" value="{{$item->answer[$i]}}" type="text"></p>
-                                                </li>
-                                            </div>
+                        @if($item->typeofquiz == 8)
+                            <div class="card mt-5 editcontent">
+                                <div class="card-body">
+                                    <span style="font-weight:600;font-size:1.0pc">
+                                        Enumeration
+                                    </span>
+            
+                                    <ol class="list-group list-group-numbered p-3" type="A">
+                                    <li>
+                                        <p>{{$item->question}}</p>
+                                    <ol>
+            
+                                    @php
+            
+                                        $numberOfTimes = $item->item
+            
+                                    @endphp
+                                    
+                                    @for ($i = 0; $i < $numberOfTimes; $i++)
+            
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <li>
+                                                <p><input data-question-id="{{ $item->id }}" data-sortid={{ $i+1 }} data-question-type="8" class="answer-field d-inline form-control q-input" value="{{$item->answer[$i]}}" type="text"></p>
+                                            </li>
                                         </div>
-                                        
-                                        @endfor
-                                        
-                                        </ol>
-                                        
-                                        </li>
+                                    </div>
+                                    
+                                    @endfor
+                                    
                                     </ol>
-                                        
-                
-                                    </div>
+                                    
+                                    </li>
+                                </ol>
+                                    
+            
                                 </div>
-                            @endif
-
-
-                        @endforeach
+                            </div>
+                        @endif
+                    @endforeach
 
                         <div class="save mb-5">
                         <div class="row">
@@ -225,8 +218,6 @@
 <script>
 
     $(document).ready(function(){
-
-                console.log("hello world")
 
                 var data = {!! json_encode($quizQuestions) !!};
                 console.log(data);
