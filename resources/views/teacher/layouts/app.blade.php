@@ -21,6 +21,8 @@
     <link rel="stylesheet" href="{{asset('templatefiles/framework.css')}}">
     <link rel="stylesheet" href="{{asset('templatefiles/bootstrap.css')}}">
 
+    <link rel="stylesheet" href="{{asset('plugins/select2/css/select2.min.css')}}">
+
     <link rel="stylesheet" href="{{asset('plugins/fontawesome-free/css/all.min.css')}}">
     <!-- SweetAlert2 -->
     <link rel="stylesheet" href="{{asset('plugins/sweetalert2-theme-bootstrap-4/bootstrap-4.min.css')}}">
@@ -32,8 +34,6 @@
 
     <!-- font-awesome -->
     {{-- <link rel="stylesheet" href="{{asset('plugins/font-awesome/css/font-awesome.min.css')}}"> --}}
-
-
 
 </head>
 
@@ -67,8 +67,10 @@
         {{-- <script type="text/javascript" src="{{asset('plugins/jquery-ui/jquery-ui.min.js')}}"></script> --}}
         <script src="{{asset('templatefiles/chart-custom.js')}}"></script>
         <script src="{{asset('plugins/jquery-ui/jquery-ui.min.js')}}"></script>
+
         <!-- Select2 -->
         <script src="{{asset('plugins/select2/js/select2.full.min.js')}}"></script>
+
         <!-- SweetAlert2 -->
         <script src="{{asset('plugins/sweetalert2/sweetalert2.min.js')}}"></script>
         <script src="{{asset('plugins/sweetalert2/sweetalert2.all.min.js')}}"></script>

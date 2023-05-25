@@ -848,6 +848,25 @@ class ViewBookController extends Controller
 
     }
 
+    public function getclassroomstudents(Request $request)
+    {
+        try {
+            $classroomid = $request->get('classroomid');
+
+            $students = DB::table('classroomstudents')
+                ->join('users', 'classroomstudents.studentid', '=', 'users.id')
+                ->select('classroomstudents.*', 'users.name')
+                ->where('classroomstudents.classroomid', $classroomid)
+                ->where('classroomstudents.deleted', 0)
+                ->get();
+
+            return $students;
+
+        } catch (\Exception $e) {
+            return 0;
+        }
+    }
+
     public function updatescore(Request $request)
     {
 

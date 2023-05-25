@@ -146,26 +146,31 @@
         </div>
         <div class="modal-body">
             <form class="was-validated">
-            <div class="form-group">
-                <label for="dateFrom">Date From</label>
-                <input type="date" class="form-control" id="date-from" name="dateFrom" required>
-            </div>
-            <div class="form-group">
-                <label for="timeFrom">Time From</label>
-                <input type="time" class="form-control" id="time-from" name="timeFrom" required>
-            </div>
-            <div class="form-group">
-                <label for="dateTo">Date To</label>
-                <input type="date" class="form-control" id="date-to" name="dateTo" required>
-            </div>
-            <div class="form-group">
-                <label for="timeTo">Time To</label>
-                <input type="time" class="form-control" id="time-to" name="timeTo" required>
-            </div>
-            <div class="form-group">
-                <label for="attempts">Number of Attempts</label>
-                <input type="number" class="form-control" id="attempts" name="attempts" required>
-            </div>
+                <div class="form-group">
+                    <label for="attempts">Select Students</label>
+                    <select class="select-students select2" name="students[]" multiple="multiple">
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="dateFrom">Date From</label>
+                    <input type="date" class="form-control" id="date-from" name="dateFrom" required>
+                </div>
+                <div class="form-group">
+                    <label for="timeFrom">Time From</label>
+                    <input type="time" class="form-control" id="time-from" name="timeFrom" required>
+                </div>
+                <div class="form-group">
+                    <label for="dateTo">Date To</label>
+                    <input type="date" class="form-control" id="date-to" name="dateTo" required>
+                </div>
+                <div class="form-group">
+                    <label for="timeTo">Time To</label>
+                    <input type="time" class="form-control" id="time-to" name="timeTo" required>
+                </div>
+                <div class="form-group">
+                    <label for="attempts">Number of Attempts</label>
+                    <input type="number" class="form-control" id="attempts" name="attempts" required>
+                </div>
             </form>
         </div>
         <div class="modal-footer">
@@ -183,10 +188,9 @@
 <script src="{{asset('templatefiles/jquery-3.3.1.min.js')}}"></script>
 
 <script src="{{asset('templatefiles/chart.min.js')}}"></script>
-{{-- <script type="text/javascript" src="{{asset('plugins/jquery-ui/jquery-ui.min.js')}}"></script> --}}
 <script src="{{asset('templatefiles/chart-custom.js')}}"></script>
 <script src="{{asset('plugins/jquery-ui/jquery-ui.min.js')}}"></script>
-<!-- Select2 -->
+
 <!-- SweetAlert2 -->
 <script src="{{asset('plugins/sweetalert2/sweetalert2.min.js')}}"></script>
 <script src="{{asset('plugins/sweetalert2/sweetalert2.all.min.js')}}"></script>
@@ -224,6 +228,29 @@
             $('#attempts').val('');
         });
 
+        // select2 students
+        $('.select-students').select2({
+            width: '100%',
+            minimumResultsForSearch: Infinity,
+            ajax: {
+                url: '/getclassroomstudents',
+                type: 'get',
+                dataType: 'json',
+                data: {
+                    classroomid: CLASSROOM_ID
+                },
+                processResults: function (data) {
+                    return {
+                        results: data.map(function (student) {
+                            return {
+                                id: student.id,
+                                text: student.name
+                            };
+                        })
+                    };
+                },
+            },
+        })
 
         // Set the data-id attribute of the second button when it is clicked
         $("button[type='submit']").click(function(event) {
