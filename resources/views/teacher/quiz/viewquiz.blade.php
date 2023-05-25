@@ -283,7 +283,6 @@
 
                             getactivequiz()
                         }
-                    
                     }
 
                     })
@@ -292,7 +291,6 @@
         $(document).on('click','.modal_activate',function(){
             var quizid = $(this).attr('data-id');
             $('.activate').attr('data-id', quizid)
-
         })
         
         $(document).on('click','.refresh_table',function(){
