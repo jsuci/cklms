@@ -23,6 +23,7 @@
     }
     .modal-content {
         overflow:hidden;
+        border: 0px solid rgba(0, 0, 0, 0.2) !important;
     }
 </style>
 
@@ -205,7 +206,7 @@
         </div>
         <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-            <button type="submit" class="btn btn-primary activate">Activate</button>
+            <button type="submit" class="btn btn-success activate">Save</button>
         </div>
         </div>
     </div>
@@ -485,6 +486,9 @@
             // get the quiz id from data-id
             selectedQuizId = $(this).data('id');
 
+            // change modal title
+            $('#activateQuizModalLabel').text('Activate Quiz');
+
             // change modal color to green
             $('#activateQuizModal .modal-header').addClass('bg-success');
             
@@ -520,6 +524,7 @@
             console.log(selectedQuizData);
 
             // change modal color to green
+            $('#activateQuizModal .modal-header').removeClass('bg-success');
             $('#activateQuizModal .modal-header').addClass('bg-primary');
 
             // change modal title
