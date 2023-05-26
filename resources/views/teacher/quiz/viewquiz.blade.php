@@ -15,6 +15,12 @@
 
 @section('content')
 
+<style>
+    #allowed-students li {
+        margin-top: 3px;
+    }
+</style>
+
 <!-- Modal -->
 <div class="modal fade" id="responseModal" tabindex="-1" aria-labelledby="responseModal" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-lg">
@@ -115,20 +121,29 @@
                             <tbody>
                             @foreach ($quizzes as $quiz)
                             <tr>
-                                <td>{{ $quiz->chapter}}</td>
+                                <td>{{ $quiz->chapter }}</td>
                                 <td>{{ $quiz->coverage }}</td>
                                 <td>{{ $quiz->title }}</td>
                                 <td>{{ strip_tags($quiz->description) }}</td>
                                 <td>
-                                    if()
-                                    @foreach ($quiz->allowed_students as $student)
-                                        <span>{{ $student }}</span>
-                                    @endforeach
+                                    <ul id="allowed-students">
+                                        @if (!empty($quiz->allowed_students))
+                                            @foreach ($quiz->allowed_students as $student)
+                                                <li data-allowed-student="{{ $student->id }}">{{ $student->name }}</li>
+                                            @endforeach
+                                        @endif
+                                    </ul>                                    
                                 </td>
                                 <td>
-                                    <button type="button" class="btn btn-success modal_activate" data-id="{{$quiz->id}}" data-toggle="modal" data-target="#activateQuizModal">
-                                        Activate
-                                    </button>
+                                    @if ($quiz->isactivated == 0)
+                                        <button type="button" class="btn btn-success modal_activate" data-id="{{$quiz->id}}" data-toggle="modal" data-target="#activateQuizModal">
+                                            Activate
+                                        </button>
+                                    @else
+                                        <button type="button" class="btn btn-primary modal_activate" data-id="{{$quiz->id}}" data-toggle="modal" data-target="#activateQuizModal">
+                                            Reactivate
+                                        </button>
+                                    @endif
                                 </td>
                             </tr>
                             @endforeach

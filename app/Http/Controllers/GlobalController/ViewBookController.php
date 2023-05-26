@@ -319,23 +319,34 @@ class ViewBookController extends Controller
             $quizsched = DB::table('chapterquizsched')
                 ->where('classroomid',$classroomid)
                 ->where('chapterquizid',$item->id)
-                ->first();
+                ->get();
 
-            if(!empty($quizsched)){
-                // $item->allowed_students = DB::table('allowed_student_quiz')
-                // ->where('chapterquizschedid',$quizsched->id)
-                // ->get();
+            // dd($quizsched);
 
-                $item->allowed_students = DB::table('allowed_student_quiz')
+            // $item->quizsched = $quizsched;
+
+            if(count($quizsched) != 0){
+
+                $item->isactivated = 1; 
+
+                $allowed_students = DB::table('allowed_student_quiz')
                     ->join('users', 'allowed_student_quiz.studentid', '=', 'users.id')
-                    ->select('allowed_student_quiz.*', 'users.name')
-                    ->where('allowed_student_quiz.chapterquizschedid', $quizsched->id)
+                    ->select(
+                        'allowed_student_quiz.id',
+                        'users.name')
+                    ->where('allowed_student_quiz.chapterquizschedid', $quizsched[0]->id)
                     ->get();
+
+                if(count($allowed_students) == 0) {
+                    $item->allowed_students = null;
+                } else {
+                    $item->allowed_students = $allowed_students;
+                }
 
             } else {
                 $item->allowed_students = null;
+                $item->isactivated = 0; 
             }
-
 
         }
 
