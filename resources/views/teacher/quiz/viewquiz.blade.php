@@ -15,44 +15,16 @@
 
 @section('content')
 
+
+<!-- Styles -->
 <style>
     #allowed-students li {
         margin-top: 3px;
     }
 </style>
 
-<!-- Modal -->
-<div class="modal fade" id="responseModal" tabindex="-1" aria-labelledby="responseModal" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered modal-lg">
-    <div class="modal-content">
-        <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Responses</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-        </button>
-        </div>
-        <div class="modal-body">
-        <table class="table">
-            <thead>
-            <tr>
-                <th>Name</th>
-                <th>Date &amp; Time Submitted</th>
-                <th>No. of Attempts</th>
-                <th>Score</th>
-                <th></th>
-            </tr>
-            </thead>
-            <tbody id="quizResponseDetails">
-            </tbody>
-        </table>
-        </div>
-        <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        </div>
-    </div>
-    </div>
-</div>
 
+<!-- Content -->
 <div class="container-fluid">
     <div class="row justify-content-center">
         <div class="col-md-10">
@@ -115,7 +87,7 @@
                                     <th>Title</th>
                                     <th>Description</th>
                                     <th>Allowed Students</th>
-                                    <th>Activate</th>
+                                    <th>Activation</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -136,11 +108,11 @@
                                 </td>
                                 <td>
                                     @if ($quiz->isactivated == 0)
-                                        <button type="button" class="btn btn-success modal_activate" data-id="{{$quiz->id}}" data-toggle="modal" data-target="#activateQuizModal">
+                                        <button type="button" class="btn btn-success modal_activate" data-id="{{$quiz->id}}" id="activate-quiz">
                                             Activate
                                         </button>
                                     @else
-                                        <button type="button" class="btn btn-primary modal_activate" data-id="{{$quiz->id}}" data-toggle="modal" data-target="#activateQuizModal">
+                                        <button type="button" class="btn btn-primary modal_activate" data-id="{{$quiz->id}}" id="reactive-quiz">
                                             Reactivate
                                         </button>
                                     @endif
@@ -157,10 +129,43 @@
     </div>
 </div>
 
-<div class="modal fade" id="activateQuizModal" tabindex="-1" aria-labelledby="activateQuizModalLabel" aria-hidden="true">
+
+<!-- Modals -->
+<div class="modal fade" id="responseModal" tabindex="-1" aria-labelledby="responseModal" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+    <div class="modal-content">
+        <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Responses</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+        </div>
+        <div class="modal-body">
+        <table class="table">
+            <thead>
+            <tr>
+                <th>Name</th>
+                <th>Date &amp; Time Submitted</th>
+                <th>No. of Attempts</th>
+                <th>Score</th>
+                <th></th>
+            </tr>
+            </thead>
+            <tbody id="quizResponseDetails">
+            </tbody>
+        </table>
+        </div>
+        <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        </div>
+    </div>
+    </div>
+</div>
+
+<div class="modal fade" id="activateQuizModal" tabindex="-1" aria-labelledby="quizModal" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
-        <div class="modal-header " style="background-color: #673AB7 ">
+        <div class="modal-header" style="background-color: #673AB7 ">
             <h5 class="modal-title" id="activateQuizModalLabel" style="color:white" >Activate Quiz</h5>
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
@@ -213,7 +218,6 @@
 <script src="{{asset('templatefiles/chart-custom.js')}}"></script>
 <script src="{{asset('plugins/jquery-ui/jquery-ui.min.js')}}"></script>
 
-<!-- SweetAlert2 -->
 <script src="{{asset('plugins/sweetalert2/sweetalert2.min.js')}}"></script>
 <script src="{{asset('plugins/sweetalert2/sweetalert2.all.min.js')}}"></script>
 <script src="{{asset('plugins/datatables/jquery.dataTables.js')}}"></script>
@@ -222,35 +226,192 @@
 <script>
     $(document).ready(function() {
 
-        const Toast = Swal.mixin({
+        // globals
+        var CLASSROOM_ID;
+        var QUIZ_RESPONSES;
+        var activequiz;
+        var Toast = Swal.mixin({
             toast: true,
             position: 'top-end',
             showConfirmButton: false,
             timer: 3000
         });
 
-        // globals
-        var CLASSROOM_ID;
-        var QUIZ_RESPONSES;
 
-        var activequiz;
+        // helper functions
+        function getactivequiz(){
 
+            var classroomid = $('.container-fluid.classroom').data('id');
+            CLASSROOM_ID = classroomid
+
+            $.ajax({
+                type:'GET',
+                url: '/getactivequiz',
+                data:{
+                    classroomid: classroomid
+                },
+
+                success:function(data) {
+                    activequiz = data
+                    loaddatatable()
+                }
+            })
+        }
+
+        function getQuizResponses(chapterquizid) {
+            return $.ajax({
+                type:'GET',
+                url: '/quizresponses',
+                data:{
+                    classroomid: CLASSROOM_ID,
+                    chapterquizid: chapterquizid
+                }
+            })
+        }
+
+        function loaddatatable(){
+            $("#quizDataTable2").DataTable({
+                destroy: true,
+                data:activequiz,
+                order: [[0, 'asc']],
+                lengthChange: false,
+                responsive: true,
+                ordering: false,
+                columns: [
+                    { "data": null},
+                    { "data": null},
+                    { "data": null},
+                    { "data": null},
+                    { "data": null},
+                    { "data": null},
+                    { "data": null},
+                    { "data": "search"}
+                ],
+                columnDefs: [
+                    {
+                        'targets': 0,
+                        'orderable': false, 
+                        'createdCell':  function (td, cellData, rowData, row, col) {
+                                var text = '<a class="mb-0">'+rowData.title+'</a>'
+                                $(td)[0].innerHTML =  text
+                        }
+                    },
+                    {
+                        'targets': 1,
+                        'orderable': false, 
+                        'createdCell':  function (td, cellData, rowData, row, col) {
+                            var date2 =  new Date(Date.parse(rowData.datefrom));
+                            var markdate = date2.toLocaleDateString("en-US", {month: "long", year: "numeric", day: "numeric"});
+                            var text = '<a class="mb-0">'+markdate+'</a>'
+                            $(td)[0].innerHTML =  text
+                        }
+                    },
+                    {
+                        'targets': 2,
+                        'orderable': false, 
+                        'createdCell':  function (td, cellData, rowData, row, col) {
+                            var date2 =  new Date(Date.parse( '1970-01-01T' + rowData.timefrom));
+                            const timeString = date2.toLocaleTimeString("en-US", { hour12: true, hour: "2-digit", minute: "2-digit"});
+                            var text = '<a class="mb-0">'+timeString+'</a>';
+                            $(td)[0].innerHTML = text;
+                        }
+                    },
+                    {
+                        'targets': 3,
+                        'orderable': false, 
+                        'createdCell':  function (td, cellData, rowData, row, col) {
+                            var date2 =  new Date(Date.parse(rowData.dateto));
+                            var markdate = date2.toLocaleDateString("en-US", {month: "long", year: "numeric", day: "numeric"});
+                            var text = '<a class="mb-0">'+markdate+'</a>'
+                            $(td)[0].innerHTML =  text
+                        }
+                    },
+                    {
+                        'targets': 4,
+                        'orderable': false, 
+                        'createdCell':  function (td, cellData, rowData, row, col) {
+                            var date2 =  new Date(Date.parse( '1970-01-01T' + rowData.timeto));
+                            const timeString = date2.toLocaleTimeString("en-US", { hour12: true, hour: "2-digit", minute: "2-digit"});
+                            var text = '<a class="mb-0">'+timeString+'</a>'
+                            $(td)[0].innerHTML =  text
+                        }
+                    },
+                    {
+                        'targets': 5,
+                        'orderable': false, 
+                        'createdCell':  function (td, cellData, rowData, row, col) {
+                            var text = '<a class="mb-0">'+rowData.noofattempts+'</a>'
+                            $(td)[0].innerHTML =  text
+                        }
+                    },
+                    {
+                        'targets': 6,
+                        'orderable': false, 
+                        'createdCell':  function (td, cellData, rowData, row, col) {
+                            var date2 = new Date(Date.parse(rowData.createddatetime));
+                            const dateString = date2.toLocaleDateString("en-US", { year: "numeric", month: "2-digit", day: "2-digit" });
+                            const timeString = date2.toLocaleTimeString("en-US", { hour12: true, hour: "2-digit", minute: "2-digit", second: "2-digit" });
+                            var text = '<a class="mb-0">'+ dateString + ' ' + timeString +'</a>'
+                            $(td)[0].innerHTML =  text
+                        }
+                    },
+                    {
+                        'targets': 7,
+                        'orderable': false, 
+                        'createdCell':  function (td, cellData, rowData, row, col) {
+                            getQuizResponses(rowData.id).then(function(data) {
+
+                                var latestEntries = {}
+
+                                // Iterate through the data and update the latest entry for each submittedby
+                                data.forEach(entry => {
+                                    const submittedby = entry.submittedby;
+                                    const datetime = new Date(entry.submitteddatetime);
+                                    
+                                    if (!latestEntries[submittedby] || datetime > latestEntries[submittedby].datetime) {
+                                        latestEntries[submittedby] = { entry, datetime };
+                                    }
+                                });
+
+
+                                var buttons = '<a href="#" class="response ml-4 text-blue-500" data-id="'+rowData.id+'">Responses ('+Object.keys(latestEntries).length+')</a>';
+
+                                $(td)[0].innerHTML =  buttons
+                            })
+
+                            $(td).addClass('text-center')
+                            $(td).addClass('align-middle')
+                        }
+                    }
+                ]
+            });
+        }
+
+        function getclassroomstudents() {
+            $.ajax({
+                type:'GET',
+                url: '/getclassroomstudents',
+                data: {
+                    classroomid: CLASSROOM_ID
+                },
+                success: function(data) {
+                    
+                    // display existing selected students
+
+                    $(".select-students").empty()
+                    $(".select-students").select2({
+                        data: data,
+                        width: '100%',
+                        minimumResultsForSearch: Infinity
+                    })
+                }
+            })
+        }
+
+
+        // init
         getactivequiz()
-
         getclassroomstudents()
-
-        // target the modal element
-        var myModal = $('#activateQuizModal');
-
-        // listen for the modal's hidden.bs.modal event
-        myModal.on('hidden.bs.modal', function (event) {
-            // clear the form fields
-            $('#date-from').val('');
-            $('#time-from').val('');
-            $('#date-to').val('');
-            $('#time-to').val('');
-            $('#attempts').val('');
-        });
 
         // Set the data-id attribute of the second button when it is clicked
         $("button[type='submit']").click(function(event) {
@@ -398,186 +559,6 @@
             window.open(url, '_blank');
         })
 
-        function getactivequiz(){
-
-            var classroomid = $('.container-fluid.classroom').data('id');
-            CLASSROOM_ID = classroomid
-            
-            $.ajax({
-                type:'GET',
-                url: '/getactivequiz',
-                data:{
-                    classroomid: classroomid
-                },
-
-                success:function(data) {
-                    activequiz = data
-                    loaddatatable()
-                }
-            })
-        }
-
-        function getQuizResponses(chapterquizid) {
-            return $.ajax({
-                type:'GET',
-                url: '/quizresponses',
-                data:{
-                    classroomid: CLASSROOM_ID,
-                    chapterquizid: chapterquizid
-                }
-            })
-        }
-
-        function loaddatatable(){
-            $("#quizDataTable2").DataTable({
-                        destroy: true,
-                        data:activequiz,
-                        order: [[0, 'asc']],
-                        lengthChange: false,
-                        responsive: true,
-                        ordering: false,
-                        columns: [
-                            { "data": null},
-                            { "data": null},
-                            { "data": null},
-                            { "data": null},
-                            { "data": null},
-                            { "data": null},
-                            { "data": null},
-                            { "data": "search"}
-                        ],
-
-                        columnDefs: [
-                                        {
-                            'targets': 0,
-                            'orderable': false, 
-                            'createdCell':  function (td, cellData, rowData, row, col) {
-                                                    var text = '<a class="mb-0">'+rowData.title+'</a>'
-                                                    $(td)[0].innerHTML =  text
-                                                    
-                            }
-                                    },
-                                        {
-                            'targets': 1,
-                            'orderable': false, 
-                            'createdCell':  function (td, cellData, rowData, row, col) {
-
-                                                    var date2 =  new Date(Date.parse(rowData.datefrom));
-                                                    var markdate = date2.toLocaleDateString("en-US", {month: "long", year: "numeric", day: "numeric"});
-                                                    var text = '<a class="mb-0">'+markdate+'</a>'
-                                                    $(td)[0].innerHTML =  text
-                                                    
-                            }
-                                    },
-                                        {
-                            'targets': 2,
-                            'orderable': false, 
-                            'createdCell':  function (td, cellData, rowData, row, col) {
-                                                    
-                                                    var date2 =  new Date(Date.parse( '1970-01-01T' + rowData.timefrom));
-                                                    const timeString = date2.toLocaleTimeString("en-US", { hour12: true, hour: "2-digit", minute: "2-digit"});
-                                                    var text = '<a class="mb-0">'+timeString+'</a>';
-                                                    $(td)[0].innerHTML = text;
-                            }
-                                    },
-                                        {
-                            'targets': 3,
-                            'orderable': false, 
-                            'createdCell':  function (td, cellData, rowData, row, col) {
-
-                                                    var date2 =  new Date(Date.parse(rowData.dateto));
-                                                    var markdate = date2.toLocaleDateString("en-US", {month: "long", year: "numeric", day: "numeric"});
-                                                    var text = '<a class="mb-0">'+markdate+'</a>'
-                                                    $(td)[0].innerHTML =  text
-                            }
-                                    },
-                                        {
-                            'targets': 4,
-                            'orderable': false, 
-                            'createdCell':  function (td, cellData, rowData, row, col) {
-
-                                                    var date2 =  new Date(Date.parse( '1970-01-01T' + rowData.timeto));
-                                                    const timeString = date2.toLocaleTimeString("en-US", { hour12: true, hour: "2-digit", minute: "2-digit"});
-                                                    var text = '<a class="mb-0">'+timeString+'</a>'
-                                                    $(td)[0].innerHTML =  text
-                            }
-                                    },
-                                        {
-                            'targets': 5,
-                            'orderable': false, 
-                            'createdCell':  function (td, cellData, rowData, row, col) {
-                                                    var text = '<a class="mb-0">'+rowData.noofattempts+'</a>'
-                                                    $(td)[0].innerHTML =  text
-                            }
-                                    },
-                        {
-                            'targets': 6,
-                            'orderable': false, 
-                            'createdCell':  function (td, cellData, rowData, row, col) {
-
-                                                    var date2 = new Date(Date.parse(rowData.createddatetime));
-                                                    const dateString = date2.toLocaleDateString("en-US", { year: "numeric", month: "2-digit", day: "2-digit" });
-                                                    const timeString = date2.toLocaleTimeString("en-US", { hour12: true, hour: "2-digit", minute: "2-digit", second: "2-digit" });
-                                                    var text = '<a class="mb-0">'+ dateString + ' ' + timeString +'</a>'
-                                                    $(td)[0].innerHTML =  text
-                            }
-                                    },
-                                        {
-                            'targets': 7,
-                            'orderable': false, 
-                            'createdCell':  function (td, cellData, rowData, row, col) {
-
-
-                                getQuizResponses(rowData.id).then(function(data) {
-
-                                    var latestEntries = {}
-
-                                    // Iterate through the data and update the latest entry for each submittedby
-                                    data.forEach(entry => {
-                                        const submittedby = entry.submittedby;
-                                        const datetime = new Date(entry.submitteddatetime);
-                                        
-                                        if (!latestEntries[submittedby] || datetime > latestEntries[submittedby].datetime) {
-                                            latestEntries[submittedby] = { entry, datetime };
-                                        }
-                                    });
-
-
-                                    var buttons = '<a href="#" class="response ml-4 text-blue-500" data-id="'+rowData.id+'">Responses ('+Object.keys(latestEntries).length+')</a>';
-
-                                    $(td)[0].innerHTML =  buttons
-                                })
-
-                                $(td).addClass('text-center')
-                                $(td).addClass('align-middle')
-
-                            }
-                        },
-
-                    ]                                                      
-            });        
-        }
-
-        function getclassroomstudents() {
-            $.ajax({
-                type:'GET',
-                url: '/getclassroomstudents',
-                data: {
-                    classroomid: CLASSROOM_ID
-                },
-                success: function(data) {
-                    
-                    // display existing selected students
-
-                    $(".select-students").empty()
-                    $(".select-students").select2({
-                        data: data,
-                        width: '100%',
-                        minimumResultsForSearch: Infinity
-                    })
-                }
-            })
-        }
 
     });
 </script>
