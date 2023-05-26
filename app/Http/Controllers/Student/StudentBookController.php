@@ -336,16 +336,6 @@ class StudentBookController extends Controller
                 ->where('deleted',0)
                 ->first();
 
-            $allowedStudents = null;
-
-            if($chapterquizsched->status == 3){
-                $allowedStudents = DB::table('allowed_student_quiz')
-                    ->where('studentid',auth()->user()->id)
-                    ->where('chapterquizschedid',$chapterquizsched->id)
-                    ->count();
-            }
-
-
             // $isAnswered = false;
 
             $numberOfAttempts = 0;
@@ -393,61 +383,6 @@ class StudentBookController extends Controller
                                 ->value('id');
             
 
-            // if(isset($checkIfAnswered->id)){
-            //     $isAnswered = true;
-            // }
-
-            // $quizAnswersInfo = DB::table('chapterquizrecords')
-            //                     ->where('submittedby',auth()->user()->id)
-            //                     ->where('chapterquizid',$quizid)
-            //                     ->where('chapterquizrecords.deleted',0)
-            //                     ->join('chapterquizrecordsdetail',function($join){
-            //                         $join->on('chapterquizrecords.id','=','chapterquizrecordsdetail.headerid');
-            //                         $join->where('chapterquizrecordsdetail.deleted',0);
-            //                     })
-            //                     ->join('chapterquizquestions',function($join){
-            //                         $join->on('chapterquizrecordsdetail.questionid','=','chapterquizquestions.id');
-            //                     })
-            //                     ->select(
-            //                         'choiceid',
-            //                         'questionid',
-            //                         'question',
-            //                         'type',
-            //                         'description',
-            //                         'chapterquizrecordsdetail.points as studPoints',
-            //                         'chapterquizquestions.points'
-            //                         )
-            //                     ->get();
-
-   
-            
-            // foreach($quizAnswersInfo as $item){
-
-            //     if($item->type == 1){
-
-            //         $choices = DB::table('chapterquizchoices')
-            //                         ->where('id',$item->choiceid)
-            //                         ->where('deleted',0)
-            //                         ->select('description','id','answer')
-            //                         ->first();
-
-            //         if(isset($choices->id)){
-
-            //             $item->description = $choices->description;
-
-            //         }
-
-            //     }
-
-            // }
-            
-
-
-
-            // $quizAnswersInfo = collect( $quizAnswersInfo)->groupBy('questionid');
-
-            // return $quizAnswersInfo;
-
             return view('global.viewbook.quizcontent.studentquiz')
             
                         // ->with('quizInfo',$quizInfo)
@@ -458,7 +393,6 @@ class StudentBookController extends Controller
                         //  ->with('clasroomid',$clasroomid)
                         ->with('attemptsLeft',$attemptsLeft)
                         ->with('lastattempt',$lastattempt)
-                        ->with('allowedstudentcount', $allowedStudents);
                         //  ->with('quizAnswersInfo',$quizAnswersInfo)
                         // ->with('quizQuestions',$quizQuestions);
 

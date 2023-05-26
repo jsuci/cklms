@@ -215,6 +215,8 @@
 
         getactivequiz()
 
+        getclassroomstudents()
+
         // target the modal element
         var myModal = $('#activateQuizModal');
 
@@ -227,30 +229,6 @@
             $('#time-to').val('');
             $('#attempts').val('');
         });
-
-        // select2 students
-        $('.select-students').select2({
-            width: '100%',
-            minimumResultsForSearch: Infinity,
-            ajax: {
-                url: '/getclassroomstudents',
-                type: 'get',
-                dataType: 'json',
-                data: {
-                    classroomid: CLASSROOM_ID
-                },
-                processResults: function (data) {
-                    return {
-                        results: data.map(function (student) {
-                            return {
-                                id: student.id,
-                                text: student.name
-                            };
-                        })
-                    };
-                },
-            },
-        })
 
         // Set the data-id attribute of the second button when it is clicked
         $("button[type='submit']").click(function(event) {
@@ -554,6 +532,24 @@
 
                     ]                                                      
             });        
+        }
+
+        function getclassroomstudents() {
+            $.ajax({
+                type:'GET',
+                url: '/getclassroomstudents',
+                data: {
+                    classroomid: CLASSROOM_ID
+                },
+                success: function(data) {
+                    $(".select-students").empty()
+                    $(".select-students").select2({
+                        data: data,
+                        width: '100%',
+                        minimumResultsForSearch: Infinity
+                    })
+                }
+            })
         }
 
     });

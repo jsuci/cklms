@@ -243,7 +243,6 @@ Route::middleware(['auth', 'isAdministrator','isDefaultPass'])->group(function (
         
     // });     
     
-           
     // Route::get('/adminstudents', function () {
     
     //     return view('admin.adminstudents');
@@ -299,7 +298,6 @@ Route::middleware(['auth', 'isTeacher','isDefaultPass'])->group(function () {
 
     Route::get('submitStudentScore/{od}', 'Teacher\BookController@submitStudentScore');
 
-
 });
 
 Route::middleware(['auth', 'isStudent','isDefaultPass'])->group(function () {  
@@ -330,15 +328,11 @@ Route::middleware(['auth', 'isStudent','isDefaultPass'])->group(function () {
     Route::get('/studentQuizContent/{id}/{classroomid}', 'Student\StudentBookController@studentQuizContent');
     Route::get('/studentQuizContentattempt/{id}/{classroomid}', 'Student\StudentBookController@studentQuizContentattempt');
 });
-  
 
 Route::group(['middleware' => ['auth', 'web']], function() {
 
     Route::get('/allbooks', 'Teacher\ClassroomController@allbooks');
     Route::get('/lessonContent/{id}', 'Teacher\BookController@lessonContent');
-  
-
-    
     Route::get('/messages', 'GlobalController\MessageController@index');
     Route::get('/messages/getmessage', 'GlobalController\MessageController@getmessage');
     Route::get('/messages/sendmessage', 'GlobalController\MessageController@sendmessage');
@@ -348,6 +342,7 @@ Route::group(['middleware' => ['auth', 'web']], function() {
     Route::get('/jitsi',function(){
         return view('jitsimeet');
     });
+
     //View quiz
     Route::get('/quiz/{ids}', 'GlobalController\ViewBookController@viewquiz');
     Route::get('/quizresponses', 'GlobalController\ViewBookController@quizresponses');
@@ -371,7 +366,6 @@ Route::group(['middleware' => ['auth', 'web']], function() {
     Route::get('/videoconference/closevideoconference',function(){
         return view('closebrowser');
     });
-       
 
 });
 

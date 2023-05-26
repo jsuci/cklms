@@ -852,18 +852,26 @@ class ViewBookController extends Controller
     {
         try {
             $classroomid = $request->get('classroomid');
-
+    
             $students = DB::table('classroomstudents')
                 ->join('users', 'classroomstudents.studentid', '=', 'users.id')
                 ->select('classroomstudents.*', 'users.name')
                 ->where('classroomstudents.classroomid', $classroomid)
                 ->where('classroomstudents.deleted', 0)
                 ->get();
-
-            return $students;
-
+    
+            // Transform the data into the expected format
+            $formattedData = $students->map(function ($student) {
+                return [
+                    'id' => $student->id,
+                    'text' => $student->name
+                ];
+            });
+    
+            return response()->json($formattedData);
+    
         } catch (\Exception $e) {
-            return 0;
+            return response()->json(['error' => 'Failed to retrieve students'], 500);
         }
     }
 
