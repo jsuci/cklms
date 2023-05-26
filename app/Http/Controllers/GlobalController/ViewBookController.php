@@ -379,6 +379,35 @@ class ViewBookController extends Controller
 
         foreach($quiz as $item){
             $item->search = $item->datefrom.' '.$item->timefrom.', '.$item->dateto.' '.$item->timeto.' '.$item->title;
+
+            $quizsched = DB::table('chapterquizsched')
+                ->where('classroomid',$request->get('classroomid'))
+                ->where('chapterquizid',$item->id)
+                ->get();
+
+            if(count($quizsched) != 0){
+
+                $item->isactivated = 1; 
+
+                $allowed_students = DB::table('allowed_student_quiz')
+                    ->join('users', 'allowed_student_quiz.studentid', '=', 'users.id')
+                    ->select(
+                        'allowed_student_quiz.id',
+                        'users.name')
+                    ->where('allowed_student_quiz.chapterquizschedid', $quizsched[0]->id)
+                    ->get();
+
+                if(count($allowed_students) == 0) {
+                    $item->allowed_students = null;
+                } else {
+                    $item->allowed_students = $allowed_students;
+                }
+
+            } else {
+                $item->allowed_students = null;
+                $item->isactivated = 0; 
+            }
+
         }
         
         return $quiz;

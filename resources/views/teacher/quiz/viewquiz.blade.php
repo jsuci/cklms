@@ -399,10 +399,6 @@
                     classroomid: CLASSROOM_ID
                 },
                 success: function(data) {
-                    
-                    // display existing selected students
-
-                    $(".select-students").empty()
                     $(".select-students").select2({
                         data: data,
                         width: '100%',
@@ -484,12 +480,6 @@
             })
         });
 
-        // $(document).on('click','.modal_activate',function(){
-        //     var quizid = $(this).attr('data-id');
-        //     $('.activate').attr('data-id', quizid)
-
-        //     getclassroomstudents()
-        // })
 
         $(document).on('click', '#activate-quiz', function() {
             // get the quiz id from data-id
@@ -497,6 +487,9 @@
 
             // change modal color to green
             $('#activateQuizModal .modal-header').addClass('bg-success');
+            
+            // render class list
+            getclassroomstudents()
 
             Promise.all([
 
@@ -508,18 +501,50 @@
                 $("#time-to").val('').promise(),
                 $("#attempts").val('').promise(),
 
-                // reset validation styles
-
             ]).then(function() {
-                // Code to execute after all values have been reset
-
-                // reset any validation styles
 
                 // show activate quiz modal
                 $('#activateQuizModal').modal();
             });
         });
 
+        $(document).on('click', '#reactive-quiz', function() {
+            // get the quiz id from data-id
+            selectedQuizId = $(this).data('id');
+            selectedQuizData = activequiz.filter((quiz) => {
+                return quiz.id == selectedQuizId
+            })
+
+            var allowed_students = selectedQuizData['allowed_students']
+
+            console.log(selectedQuizData);
+
+            // change modal color to green
+            $('#activateQuizModal .modal-header').addClass('bg-primary');
+
+            // change modal title
+            $('#activateQuizModalLabel').text('Reactivate Quiz');
+            
+            // render class list
+            getclassroomstudents()
+
+
+            Promise.all([
+
+                // reset any input values entered
+                $(".select-students").empty().promise(),
+                $("#date-from").val('').promise(),
+                $("#time-from").val('').promise(),
+                $("#date-to").val('').promise(),
+                $("#time-to").val('').promise(),
+                $("#attempts").val('').promise(),
+
+            ]).then(function() {
+
+                // show activate quiz modal
+                $('#activateQuizModal').modal();
+            });
+        })
         
         $(document).on('click','.refresh_table',function(){
                 console.log("Refreshed")
