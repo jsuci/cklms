@@ -108,6 +108,7 @@
                                     <th>Lesson</th>
                                     <th>Title</th>
                                     <th>Description</th>
+                                    <th>Allowed Students</th>
                                     <th>Activate</th>
                                 </tr>
                             </thead>
@@ -118,6 +119,12 @@
                                 <td>{{ $quiz->coverage }}</td>
                                 <td>{{ $quiz->title }}</td>
                                 <td>{{ strip_tags($quiz->description) }}</td>
+                                <td>
+                                    if()
+                                    @foreach ($quiz->allowed_students as $student)
+                                        <span>{{ $student }}</span>
+                                    @endforeach
+                                </td>
                                 <td>
                                     <button type="button" class="btn btn-success modal_activate" data-id="{{$quiz->id}}" data-toggle="modal" data-target="#activateQuizModal">
                                         Activate
@@ -299,6 +306,8 @@
         $(document).on('click','.modal_activate',function(){
             var quizid = $(this).attr('data-id');
             $('.activate').attr('data-id', quizid)
+
+            getclassroomstudents()
         })
         
         $(document).on('click','.refresh_table',function(){
@@ -542,6 +551,9 @@
                     classroomid: CLASSROOM_ID
                 },
                 success: function(data) {
+                    
+                    // display existing selected students
+
                     $(".select-students").empty()
                     $(".select-students").select2({
                         data: data,

@@ -309,24 +309,37 @@ class ViewBookController extends Controller
             ->get();
 
         foreach ($quiz as $item) {
-            
-            // DB::table('lesson_quiz_record')
-            //             ->insert([
-            //                 'postid'            => $postid,
-            //                 'filename'          => $filename,
-            //                 'filepath'          => 'Classrooms/classroom'.$request->get('classroomid').'/'.'Attachments'.'/'.$file->getClientOriginalName(),
-            //                 'extension'         => $extension
-            //             ]);
-            
-            
+
             $item->chapter = DB::table('chapters')->where('id',$item->chapterid)->value('title');
 
-
             if(empty($item->coverage)){
-            $item->coverage = "Coverage not defined";
+                $item->coverage = "Coverage not defined";
             }
 
+            $quizsched = DB::table('chapterquizsched')
+                ->where('classroomid',$classroomid)
+                ->where('chapterquizid',$item->id)
+                ->first();
+
+            if(!empty($quizsched)){
+                // $item->allowed_students = DB::table('allowed_student_quiz')
+                // ->where('chapterquizschedid',$quizsched->id)
+                // ->get();
+
+                $item->allowed_students = DB::table('allowed_student_quiz')
+                    ->join('users', 'allowed_student_quiz.studentid', '=', 'users.id')
+                    ->select('allowed_student_quiz.*', 'users.name')
+                    ->where('allowed_student_quiz.chapterquizschedid', $quizsched->id)
+                    ->get();
+
+            } else {
+                $item->allowed_students = null;
+            }
+
+
         }
+
+        // dd($quiz);
 
         return view('teacher.quiz.viewquiz')
             ->with('quizzes', $quiz)
@@ -352,7 +365,6 @@ class ViewBookController extends Controller
                                 'chapterquizsched.createddatetime'
                     )
             ->get();
-
 
         foreach($quiz as $item){
             $item->search = $item->datefrom.' '.$item->timefrom.', '.$item->dateto.' '.$item->timeto.' '.$item->title;
@@ -1000,7 +1012,7 @@ class ViewBookController extends Controller
                             'chapterquizschedid'    => $quizschedid,
                             'studentid'             => $student_id,
                             'createdby'             => auth()->user()->id,
-                            'createddatetime'       => \Carbon\Carbon::now('Asia/Manila')
+                            'createddatetime'       => \Carbon\Carbon::now('Asia/Manila'),
                         ]);
                 }
             }
