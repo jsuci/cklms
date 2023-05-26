@@ -21,6 +21,9 @@
     #allowed-students li {
         margin-top: 3px;
     }
+    .modal-content {
+        overflow:hidden;
+    }
 </style>
 
 
@@ -108,11 +111,11 @@
                                 </td>
                                 <td>
                                     @if ($quiz->isactivated == 0)
-                                        <button type="button" class="btn btn-success modal_activate" data-id="{{$quiz->id}}" id="activate-quiz">
+                                        <button type="button" class="btn btn-success" data-id="{{$quiz->id}}" id="activate-quiz">
                                             Activate
                                         </button>
                                     @else
-                                        <button type="button" class="btn btn-primary modal_activate" data-id="{{$quiz->id}}" id="reactive-quiz">
+                                        <button type="button" class="btn btn-primary" data-id="{{$quiz->id}}" id="reactive-quiz">
                                             Reactivate
                                         </button>
                                     @endif
@@ -165,7 +168,7 @@
 <div class="modal fade" id="activateQuizModal" tabindex="-1" aria-labelledby="quizModal" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
-        <div class="modal-header" style="background-color: #673AB7 ">
+        <div class="modal-header">
             <h5 class="modal-title" id="activateQuizModalLabel" style="color:white" >Activate Quiz</h5>
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
@@ -230,6 +233,7 @@
         var CLASSROOM_ID;
         var QUIZ_RESPONSES;
         var activequiz;
+        var selectedQuizId;
         var Toast = Swal.mixin({
             toast: true,
             position: 'top-end',
@@ -413,7 +417,8 @@
         getactivequiz()
         getclassroomstudents()
 
-        // Set the data-id attribute of the second button when it is clicked
+
+        // event handlers
         $("button[type='submit']").click(function(event) {
 
             event.preventDefault();
@@ -479,12 +484,42 @@
             })
         });
 
-        $(document).on('click','.modal_activate',function(){
-            var quizid = $(this).attr('data-id');
-            $('.activate').attr('data-id', quizid)
+        // $(document).on('click','.modal_activate',function(){
+        //     var quizid = $(this).attr('data-id');
+        //     $('.activate').attr('data-id', quizid)
 
-            getclassroomstudents()
-        })
+        //     getclassroomstudents()
+        // })
+
+        $(document).on('click', '#activate-quiz', function() {
+            // get the quiz id from data-id
+            selectedQuizId = $(this).data('id');
+
+            // change modal color to green
+            $('#activateQuizModal .modal-header').addClass('bg-success');
+
+            Promise.all([
+
+                // reset any input values entered
+                $(".select-students").empty().promise(),
+                $("#date-from").val('').promise(),
+                $("#time-from").val('').promise(),
+                $("#date-to").val('').promise(),
+                $("#time-to").val('').promise(),
+                $("#attempts").val('').promise(),
+
+                // reset validation styles
+
+            ]).then(function() {
+                // Code to execute after all values have been reset
+
+                // reset any validation styles
+
+                // show activate quiz modal
+                $('#activateQuizModal').modal();
+            });
+        });
+
         
         $(document).on('click','.refresh_table',function(){
                 console.log("Refreshed")
