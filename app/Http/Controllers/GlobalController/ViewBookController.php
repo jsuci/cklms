@@ -321,13 +321,9 @@ class ViewBookController extends Controller
                 ->where('chapterquizid',$item->id)
                 ->get();
 
-            // dd($quizsched);
-
-            // $item->quizsched = $quizsched;
-
             if(count($quizsched) != 0){
 
-                $item->isactivated = 1; 
+                $item->isactivated = $quizsched[0]->status; 
 
                 $allowed_students = DB::table('allowed_student_quiz')
                     ->join('users', 'allowed_student_quiz.studentid', '=', 'users.id')
@@ -345,7 +341,7 @@ class ViewBookController extends Controller
 
             } else {
                 $item->allowed_students = null;
-                $item->isactivated = 0; 
+                $item->isactivated = null; 
             }
 
         }

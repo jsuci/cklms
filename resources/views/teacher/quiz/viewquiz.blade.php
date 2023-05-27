@@ -111,12 +111,16 @@
                                     </ul>                                    
                                 </td>
                                 <td>
-                                    @if ($quiz->isactivated == 0)
-                                        <button type="button" class="btn btn-success" data-id="{{$quiz->id}}" id="activate-quiz">
+                                    @if (is_null($quiz->isactivated))
+                                        <button type="button" class="btn btn-success" data-id="{{ $quiz->id }}" id="activate-quiz">
                                             Activate
                                         </button>
-                                    @else
-                                        <button type="button" class="btn btn-primary" data-id="{{$quiz->id}}" id="reactive-quiz">
+                                    @elseif ($quiz->isactivated == 0)
+                                        <button type="button" class="btn btn-warning" data-id="{{ $quiz->id }}" id="ongoing-quiz">
+                                            Ongoing
+                                        </button>
+                                    @elseif ($quiz->isactivated == 1)
+                                        <button type="button" class="btn btn-primary" data-id="{{ $quiz->id }}" id="reactivate-quiz">
                                             Reactivate
                                         </button>
                                     @endif
@@ -502,6 +506,8 @@
             $('#activateQuizModalLabel').text('Activate Quiz');
 
             // change modal color to green
+            $('#activateQuizModal .modal-header').removeClass('bg-primary');
+            $('#activateQuizModal .modal-header').removeClass('bg-warning');
             $('#activateQuizModal .modal-header').addClass('bg-success');
             
             // render class list
@@ -515,18 +521,58 @@
                 $("#date-to").val('').promise(),
                 $("#time-to").val('').promise(),
                 $("#attempts").val('').promise(),
-
+                $(".select-students").empty().promise()
             ]).then(function() {
-
-                // set select2 values
-                $(".select-students").val(allowed_students_id).change()
 
                 // show activate quiz modal
                 $('#activateQuizModal').modal();
             });
         });
 
-        $(document).on('click', '#reactive-quiz', function() {
+        $(document).on('click', '#ongoing-quiz', function() {
+            // get the quiz id from data-id
+            selectedQuizId = $(this).data('id');
+            var selectedQuizData = activequiz.filter((quiz) => {
+                return quiz.id == selectedQuizId
+            })
+
+            // get allow_student_ids
+            var allowed_students_id = [];
+            if(selectedQuizData.length != 0 && selectedQuizData[0].allowed_students != null) {
+                allowed_students_id = selectedQuizData[0].allowed_students.map(function(data) {
+                    return data.id
+                })
+            }
+
+            // change modal color to green
+            $('#activateQuizModal .modal-header').removeClass('bg-primary');
+            $('#activateQuizModal .modal-header').removeClass('bg-success');
+            $('#activateQuizModal .modal-header').addClass('bg-warning');
+
+            // change modal title
+            $('#activateQuizModalLabel').text('Ongoing Quiz');
+
+            // render select2 student list
+            getclassroomstudents()
+
+            Promise.all([
+
+                // reset any input values entered
+                $("#date-from").val('').promise(),
+                $("#time-from").val('').promise(),
+                $("#date-to").val('').promise(),
+                $("#time-to").val('').promise(),
+                $("#attempts").val('').promise(),
+                $(".select-students").val(allowed_students_id).change().promise()
+
+            ]).then(function() {
+
+                // show activate quiz modal
+                $('#activateQuizModal').modal();
+            });
+        })
+
+        $(document).on('click', '#reactivate-quiz', function() {
             // get the quiz id from data-id
             selectedQuizId = $(this).data('id');
             var selectedQuizData = activequiz.filter((quiz) => {
@@ -543,30 +589,26 @@
 
             // change modal color to green
             $('#activateQuizModal .modal-header').removeClass('bg-success');
+            $('#activateQuizModal .modal-header').removeClass('bg-warning');
             $('#activateQuizModal .modal-header').addClass('bg-primary');
 
             // change modal title
             $('#activateQuizModalLabel').text('Reactivate Quiz');
 
-            console.log(selectedQuizData, allowed_students_id)
-            
             // render select2 student list
             getclassroomstudents()
 
             Promise.all([
 
                 // reset any input values entered
-                // $(".select-students").empty().promise(),
                 $("#date-from").val('').promise(),
                 $("#time-from").val('').promise(),
                 $("#date-to").val('').promise(),
                 $("#time-to").val('').promise(),
                 $("#attempts").val('').promise(),
+                $(".select-students").val(allowed_students_id).change().promise()
 
             ]).then(function() {
-
-                // set select2 values
-                $(".select-students").val(allowed_students_id).change()
 
                 // show activate quiz modal
                 $('#activateQuizModal').modal();
