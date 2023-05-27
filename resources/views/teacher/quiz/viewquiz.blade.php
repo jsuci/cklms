@@ -448,17 +448,6 @@
                 $(`ul[data-id="${selectedQuizId}"`).prepend(`<li id="${selectedStudent[0].id}">${selectedStudent[0].text}</li>`)
             })
 
-
-            // if (saveType == 'activate') {
-                
-            // } else if (saveType == 'ongoing') {
-
-            // } else {
-
-            // }
-
-            // getactivequiz()
-
             if (!dateFrom || !timeFrom || !dateTo || !timeTo || !attempts) {
                 alert('Please fill in all fields.');
                 return;
@@ -486,7 +475,20 @@
                 },
                 success: function(data) {
 
-                    $("#activateQuizModal").modal('hide');
+                    // update activequiz data
+                    $.ajax({
+                        type:'GET',
+                        url: '/getactivequiz',
+                        data:{
+                            classroomid: CLASSROOM_ID
+                        },
+
+                        success:function(data) {
+                            activequiz = data
+                        }
+                    }).then(function() {
+                        $("#activateQuizModal").modal('hide');
+                    })
 
                     // if (saveType == 'activate') {
                     //     // add entry to <ul class="allowed-students">
