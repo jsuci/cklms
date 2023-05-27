@@ -409,6 +409,8 @@
             })
         }
 
+        
+
 
         // init
         getactivequiz()
@@ -496,10 +498,6 @@
                 })
             }
 
-            console.log(allowed_students_id)
-
-            // console.log(selectedQuizId, allowed_students_id)
-
             // change modal title
             $('#activateQuizModalLabel').text('Activate Quiz');
 
@@ -512,7 +510,6 @@
             Promise.all([
 
                 // reset any input values entered
-                $(".select-students").empty().promise(),
                 $("#date-from").val('').promise(),
                 $("#time-from").val('').promise(),
                 $("#date-to").val('').promise(),
@@ -520,6 +517,9 @@
                 $("#attempts").val('').promise(),
 
             ]).then(function() {
+
+                // set select2 values
+                $(".select-students").val(allowed_students_id).change()
 
                 // show activate quiz modal
                 $('#activateQuizModal').modal();
@@ -533,7 +533,6 @@
                 return quiz.id == selectedQuizId
             })
 
-
             // get allow_student_ids
             var allowed_students_id = [];
             if(selectedQuizData.length != 0 && selectedQuizData[0].allowed_students != null) {
@@ -542,23 +541,22 @@
                 })
             }
 
-            console.log(allowed_students_id)
-
             // change modal color to green
             $('#activateQuizModal .modal-header').removeClass('bg-success');
             $('#activateQuizModal .modal-header').addClass('bg-primary');
 
             // change modal title
             $('#activateQuizModalLabel').text('Reactivate Quiz');
-            
-            // render class list
-            getclassroomstudents()
 
+            console.log(selectedQuizData, allowed_students_id)
+            
+            // render select2 student list
+            getclassroomstudents()
 
             Promise.all([
 
                 // reset any input values entered
-                $(".select-students").empty().promise(),
+                // $(".select-students").empty().promise(),
                 $("#date-from").val('').promise(),
                 $("#time-from").val('').promise(),
                 $("#date-to").val('').promise(),
@@ -566,6 +564,9 @@
                 $("#attempts").val('').promise(),
 
             ]).then(function() {
+
+                // set select2 values
+                $(".select-students").val(allowed_students_id).change()
 
                 // show activate quiz modal
                 $('#activateQuizModal').modal();

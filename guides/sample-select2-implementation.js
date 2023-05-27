@@ -47,6 +47,13 @@ function getRoomsExcept(selected_bldg_id){
         $('#assignRoom').prepend('<option value="add">Add Room</option>')
 
         // update select2 current selection
+        // when setting select2 values make sure
+        // you are not calling the $("#myId").empty()
+        // use the code below to set multiple values as selected
+        // $(".select-students").val(allowed_students_id).change()
+
+
+
         if(room_selection_id != '') {
                 $('#assignRoom').val(room_selection_id).trigger('change')
         }

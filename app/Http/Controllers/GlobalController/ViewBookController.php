@@ -331,10 +331,10 @@ class ViewBookController extends Controller
 
                 $allowed_students = DB::table('allowed_student_quiz')
                     ->join('users', 'allowed_student_quiz.studentid', '=', 'users.id')
-                    ->select(
-                        'allowed_student_quiz.id',
-                        'users.name')
                     ->where('allowed_student_quiz.chapterquizschedid', $quizsched[0]->id)
+                    ->select(
+                        'users.id',
+                        'users.name')
                     ->get();
 
                 if(count($allowed_students) == 0) {
@@ -392,7 +392,7 @@ class ViewBookController extends Controller
                 $allowed_students = DB::table('allowed_student_quiz')
                     ->join('users', 'allowed_student_quiz.studentid', '=', 'users.id')
                     ->select(
-                        'allowed_student_quiz.id',
+                        'users.id',
                         'users.name')
                     ->where('allowed_student_quiz.chapterquizschedid', $quizsched[0]->id)
                     ->get();
