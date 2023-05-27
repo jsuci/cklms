@@ -481,10 +481,24 @@
             })
         });
 
-
         $(document).on('click', '#activate-quiz', function() {
             // get the quiz id from data-id
             selectedQuizId = $(this).data('id');
+            var selectedQuizData = activequiz.filter((quiz) => {
+                return quiz.id == selectedQuizId
+            })
+
+            // get allow_student_ids
+            var allowed_students_id = [];
+            if(selectedQuizData.length != 0 && selectedQuizData[0].allowed_students != null) {
+                allowed_students_id = selectedQuizData[0].allowed_students.map(function(data) {
+                    return data.id
+                })
+            }
+
+            console.log(allowed_students_id)
+
+            // console.log(selectedQuizId, allowed_students_id)
 
             // change modal title
             $('#activateQuizModalLabel').text('Activate Quiz');
@@ -515,13 +529,20 @@
         $(document).on('click', '#reactive-quiz', function() {
             // get the quiz id from data-id
             selectedQuizId = $(this).data('id');
-            selectedQuizData = activequiz.filter((quiz) => {
+            var selectedQuizData = activequiz.filter((quiz) => {
                 return quiz.id == selectedQuizId
             })
 
-            var allowed_students = selectedQuizData['allowed_students']
 
-            console.log(selectedQuizData);
+            // get allow_student_ids
+            var allowed_students_id = [];
+            if(selectedQuizData.length != 0 && selectedQuizData[0].allowed_students != null) {
+                allowed_students_id = selectedQuizData[0].allowed_students.map(function(data) {
+                    return data.id
+                })
+            }
+
+            console.log(allowed_students_id)
 
             // change modal color to green
             $('#activateQuizModal .modal-header').removeClass('bg-success');
