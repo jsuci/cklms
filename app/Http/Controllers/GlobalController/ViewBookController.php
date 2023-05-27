@@ -1042,6 +1042,7 @@ class ViewBookController extends Controller
                     'dateto'                => $request->get('dateTo'),
                     'timeto'                => $request->get('timeTo'),
                     'noofattempts'          => $request->get('attempts'),
+                    'status'                => $request->get('status'),
                     'updateddatetime'       => \Carbon\Carbon::now('Asia/Manila')
                 ]);
 
@@ -1051,16 +1052,15 @@ class ViewBookController extends Controller
 
         if (isset($allowed_students)) {
             foreach ($allowed_students as $student_id) {
-                $student = DB::table('allowed_student_quiz')
-                    ->where('id', $student_id)
-                    ->first();
+                $countStudent = DB::table('allowed_student_quiz')
+                    ->where('studentid', $student_id)
+                    ->where('chapterquizschedid', $quizschedid)
+                    ->where('deleted', 0)
+                    ->get();
+
             
-                if ($student) {
-                    // Student exists in the 'allowed_students' table
-                    // Perform further actions or logic here
-                    // ...
-                } else {
-                    // Student does not exist in the 'allowed_students' table
+                // only add new entry if it does not exists
+                if (count($countStudent) == 0) {
                     DB::table('allowed_student_quiz')
                         ->insert([
                             'chapterquizschedid'    => $quizschedid,

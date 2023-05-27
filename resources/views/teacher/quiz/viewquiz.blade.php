@@ -435,18 +435,7 @@
             var timeTo = $('#time-to').val();
             var attempts = $('#attempts').val();
             var students = $('#select-students').val();
-
-            // empty <ul class="allowed-students" data-id="">
-            $(`ul[data-id="${selectedQuizId}"`).empty();
-
-            // loop through each student and add to list
-            students.forEach(function(val, index) {
-                var selectedStudent = studentList.filter(function(data) {
-                    return data.id == val;
-                })
-                // add to list
-                $(`ul[data-id="${selectedQuizId}"`).prepend(`<li id="${selectedStudent[0].id}">${selectedStudent[0].text}</li>`)
-            })
+            var quizSchedStat = 0;
 
             if (!dateFrom || !timeFrom || !dateTo || !timeTo || !attempts) {
                 alert('Please fill in all fields.');
@@ -459,19 +448,23 @@
                 return;
             }
 
+            // temporarily disable save button
+            $(".activate").prop('disabled', true)
+
             // if the form inputs are valid, submit the form
             $.ajax({
                 type:'GET',
                 url: '/viewbookchaptertestavailability',
                 data:{
-                    dateFrom : dateFrom,
-                    timeFrom : timeFrom,
-                    dateTo   : dateTo,
-                    timeTo   : timeTo,
-                    attempts : attempts,
-                    quizId   : selectedQuizId,
+                    dateFrom    : dateFrom,
+                    timeFrom    : timeFrom,
+                    dateTo      : dateTo,
+                    timeTo      : timeTo,
+                    attempts    : attempts,
+                    quizId      : selectedQuizId,
                     classroomId : CLASSROOM_ID,
-                    allowed_students: students
+                    allowed_students: students,
+                    status      : quizSchedStat
                 },
                 success: function(data) {
 
@@ -482,44 +475,54 @@
                         data:{
                             classroomid: CLASSROOM_ID
                         },
-
                         success:function(data) {
                             activequiz = data
+
+                            // enable back the save button
+                            $(".activate").prop('disabled', false)
+
+                            if (saveType == 'reactivate') {
+                                // update chapterquizsched status 0 for 'ongoing'
+                                quizSchedStat = 0;
+
+                                // change the button color and text
+                                $(`#reactivate-quiz[data-id="${selectedQuizId}"]`).removeClass('btn-primary')
+                                $(`#reactivate-quiz[data-id="${selectedQuizId}"]`).addClass('btn-warning')
+                                $(`#reactivate-quiz[data-id="${selectedQuizId}"]`).text('Ongoing')
+                                $(`#reactivate-quiz[data-id="${selectedQuizId}"]`).attr('id', 'ongoing-quiz');
+
+                            }
+                            
+                            if (saveType == 'activate') {
+
+                                // update chapterquizsched status 0 for 'ongoing'
+                                quizSchedStat = 0;
+
+                                // change the button color and text
+                                $(`#activate-quiz[data-id="${selectedQuizId}"]`).removeClass('btn-success')
+                                $(`#activate-quiz[data-id="${selectedQuizId}"]`).addClass('btn-warning')
+                                $(`#activate-quiz[data-id="${selectedQuizId}"]`).text('Ongoing')
+                                $(`#activate-quiz[data-id="${selectedQuizId}"]`).attr('id', 'ongoing-quiz');
+                            }
                         }
                     }).then(function() {
+
+                        // empty <ul class="allowed-students" data-id="">
+                        $(`ul[data-id="${selectedQuizId}"`).empty();
+
+                        // loop through each student and add to list
+                        students.forEach(function(val, index) {
+                            var selectedStudent = studentList.filter(function(data) {
+                                return data.id == val;
+                            })
+                            // add to list
+                            $(`ul[data-id="${selectedQuizId}"`).prepend(`<li id="${selectedStudent[0].id}">${selectedStudent[0].text}</li>`)
+                        })
+
+                        // hide modal
                         $("#activateQuizModal").modal('hide');
                     })
 
-                    // if (saveType == 'activate') {
-                    //     // add entry to <ul class="allowed-students">
-                        
-
-                    // } else if (saveType == 'ongoing') {
-
-                    // } else {
-
-                    // }
-
-
-                    // if(data ==1){
-                    //     $('.close').click();
-                    //     Toast.fire({
-                    //             type: 'success',
-                    //             title: 'Added successfully!'
-                    //         })
-
-                    //     getactivequiz()
-                    // }
-
-                    // if(data ==0){
-                    //     $('.close').click();
-                    //     Toast.fire({
-                    //             type: 'success',
-                    //             title: 'The quiz has been reactivated successfully!'
-                    //         })
-
-                    //     getactivequiz()
-                    // }
                 }
             })
         });
@@ -545,7 +548,7 @@
 
                         success:function(data) {
                             if (data == 1) {
-                                console.log('success delete')
+                                // console.log('success delete')
                             }
                         }
                     })
