@@ -18,7 +18,7 @@
 
 <!-- Styles -->
 <style>
-    #allowed-students li {
+    .allowed-students li {
         margin-top: 3px;
     }
     .modal-content {
@@ -102,7 +102,7 @@
                                 <td>{{ $quiz->title }}</td>
                                 <td>{{ strip_tags($quiz->description) }}</td>
                                 <td>
-                                    <ul id="allowed-students">
+                                    <ul class="allowed-students" data-id="{{ $quiz->id }}">
                                         @if (!empty($quiz->allowed_students))
                                             @foreach ($quiz->allowed_students as $student)
                                                 <li data-allowed-student="{{ $student->id }}">{{ $student->name }}</li>
@@ -239,6 +239,9 @@
         var QUIZ_RESPONSES;
         var activequiz;
         var selectedQuizId;
+        var selectedQuizData;
+        var studentList;
+        var saveType;
         var Toast = Swal.mixin({
             toast: true,
             position: 'top-end',
@@ -404,6 +407,8 @@
                     classroomid: CLASSROOM_ID
                 },
                 success: function(data) {
+                    studentList = data;
+
                     $(".select-students").select2({
                         data: data,
                         width: '100%',
@@ -412,8 +417,6 @@
                 }
             })
         }
-
-        
 
 
         // init
@@ -425,10 +428,6 @@
         $("button[type='submit']").click(function(event) {
 
             event.preventDefault();
-            var quizid = $(this).attr('data-id');
-
-            var classroomId = $('.container-fluid.classroom').data('id');
-            CLASSROOM_ID = classroomId
 
             var dateFrom = $('#date-from').val();
             var timeFrom = $('#time-from').val();
@@ -437,60 +436,93 @@
             var attempts = $('#attempts').val();
             var students = $('#select-students').val();
 
-            // console.log(students)
+            console.log(students, studentList, selectedQuizId)
 
-            if (!dateFrom || !timeFrom || !dateTo || !timeTo || !attempts) {
-                alert('Please fill in all fields.');
-                return;
-            }
-            // check if the date and time inputs are valid
-            if (new Date(dateFrom + 'T' + timeFrom + ':00') >= new Date(dateTo + 'T' + timeTo + ':00')) {
-                alert('The date and time inputs are not valid.');
-                return;
-            }
-            // if the form inputs are valid, submit the form
-            $.ajax({
-                type:'GET',
-                url: '/viewbookchaptertestavailability',
-                data:{
+            
+            // empty <ul class="allowed-students" data-id="">
+            $(`ul[data-id="${selectedQuizId}"`).empty();
 
-                    dateFrom : dateFrom,
-                    timeFrom : timeFrom,
-                    dateTo   : dateTo,
-                    timeTo   : timeTo,
-                    attempts : attempts,
-                    quizId   : quizid,
-                    classroomId : classroomId,
-                    allowed_students: students
-                },
-                success:function(data) {
-                    if(data ==1){
-                        $('.close').click();
-                        Toast.fire({
-                                type: 'success',
-                                title: 'Added successfully!'
-                            })
+            // loop through each student and add to list
+            students.forEach(function(val, index) {
+                var selectedStudent = studentList.filter(function(data) {
+                    return data.id == val;
+                })
 
-                        getactivequiz()
-                    }
-
-                    if(data ==0){
-                        $('.close').click();
-                        Toast.fire({
-                                type: 'success',
-                                title: 'The quiz has been reactivated successfully!'
-                            })
-
-                        getactivequiz()
-                    }
-                }
+                // // add to list
+                $(`ul[data-id="${selectedQuizId}"`).prepend(`<li id="${selectedStudent[0].id}">${selectedStudent[0].text}</li>`)
             })
+
+
+            // if (saveType == 'activate') {
+                
+            // } else if (saveType == 'ongoing') {
+
+            // } else {
+
+            // }
+
+            getactivequiz()
+
+            // if (!dateFrom || !timeFrom || !dateTo || !timeTo || !attempts) {
+            //     alert('Please fill in all fields.');
+            //     return;
+            // }
+            // // check if the date and time inputs are valid
+            // if (new Date(dateFrom + 'T' + timeFrom + ':00') >= new Date(dateTo + 'T' + timeTo + ':00')) {
+            //     alert('The date and time inputs are not valid.');
+            //     return;
+            // }
+            // // if the form inputs are valid, submit the form
+            // $.ajax({
+            //     type:'GET',
+            //     url: '/viewbookchaptertestavailability',
+            //     data:{
+            //         dateFrom : dateFrom,
+            //         timeFrom : timeFrom,
+            //         dateTo   : dateTo,
+            //         timeTo   : timeTo,
+            //         attempts : attempts,
+            //         quizId   : selectedQuizId,
+            //         classroomId : CLASSROOM_ID,
+            //         allowed_students: students
+            //     },
+            //     success: function(data) {
+            //         if (saveType == 'activate') {
+            //             // add entry to <ul class="allowed-students">
+                        
+
+            //         } else if (saveType == 'ongoing') {
+
+            //         } else {
+
+            //         }
+            //         // if(data ==1){
+            //         //     $('.close').click();
+            //         //     Toast.fire({
+            //         //             type: 'success',
+            //         //             title: 'Added successfully!'
+            //         //         })
+
+            //         //     getactivequiz()
+            //         // }
+
+            //         // if(data ==0){
+            //         //     $('.close').click();
+            //         //     Toast.fire({
+            //         //             type: 'success',
+            //         //             title: 'The quiz has been reactivated successfully!'
+            //         //         })
+
+            //         //     getactivequiz()
+            //         // }
+            //     }
+            // })
         });
 
         $(document).on('click', '#activate-quiz', function() {
             // get the quiz id from data-id
             selectedQuizId = $(this).data('id');
-            var selectedQuizData = activequiz.filter((quiz) => {
+            selectedQuizData = activequiz.filter((quiz) => {
                 return quiz.id == selectedQuizId
             })
 
@@ -513,6 +545,9 @@
             // render class list
             getclassroomstudents()
 
+            // set save type
+            saveType = 'activate'
+
             Promise.all([
 
                 // reset any input values entered
@@ -532,7 +567,7 @@
         $(document).on('click', '#ongoing-quiz', function() {
             // get the quiz id from data-id
             selectedQuizId = $(this).data('id');
-            var selectedQuizData = activequiz.filter((quiz) => {
+            selectedQuizData = activequiz.filter((quiz) => {
                 return quiz.id == selectedQuizId
             })
 
@@ -543,6 +578,13 @@
                     return data.id
                 })
             }
+
+            // assign values
+            var dateFrom = selectedQuizData[0].datefrom;
+            var timeFrom = selectedQuizData[0].timefrom;
+            var dateTo = selectedQuizData[0].dateto;
+            var timeTo = selectedQuizData[0].timeto;
+            var attempts = selectedQuizData[0].noofattempts;
 
             // change modal color to green
             $('#activateQuizModal .modal-header').removeClass('bg-primary');
@@ -555,14 +597,17 @@
             // render select2 student list
             getclassroomstudents()
 
+            // set save type
+            saveType = 'ongoing'
+
             Promise.all([
 
                 // reset any input values entered
-                $("#date-from").val('').promise(),
-                $("#time-from").val('').promise(),
-                $("#date-to").val('').promise(),
-                $("#time-to").val('').promise(),
-                $("#attempts").val('').promise(),
+                $("#date-from").val(dateFrom).promise(),
+                $("#time-from").val(timeFrom).promise(),
+                $("#date-to").val(dateTo).promise(),
+                $("#time-to").val(timeTo).promise(),
+                $("#attempts").val(attempts).promise(),
                 $(".select-students").val(allowed_students_id).change().promise()
 
             ]).then(function() {
@@ -575,7 +620,7 @@
         $(document).on('click', '#reactivate-quiz', function() {
             // get the quiz id from data-id
             selectedQuizId = $(this).data('id');
-            var selectedQuizData = activequiz.filter((quiz) => {
+            selectedQuizData = activequiz.filter((quiz) => {
                 return quiz.id == selectedQuizId
             })
 
@@ -586,6 +631,13 @@
                     return data.id
                 })
             }
+
+            // assign values
+            var dateFrom = selectedQuizData[0].datefrom;
+            var timeFrom = selectedQuizData[0].timefrom;
+            var dateTo = selectedQuizData[0].dateto;
+            var timeTo = selectedQuizData[0].timeto;
+            var attempts = selectedQuizData[0].noofattempts;
 
             // change modal color to green
             $('#activateQuizModal .modal-header').removeClass('bg-success');
@@ -598,14 +650,17 @@
             // render select2 student list
             getclassroomstudents()
 
+            // set save type
+            saveType = 'reactivate'
+
             Promise.all([
 
                 // reset any input values entered
-                $("#date-from").val('').promise(),
-                $("#time-from").val('').promise(),
-                $("#date-to").val('').promise(),
-                $("#time-to").val('').promise(),
-                $("#attempts").val('').promise(),
+                $("#date-from").val(dateFrom).promise(),
+                $("#time-from").val(timeFrom).promise(),
+                $("#date-to").val(dateTo).promise(),
+                $("#time-to").val(timeTo).promise(),
+                $("#attempts").val(attempts).promise(),
                 $(".select-students").val(allowed_students_id).change().promise()
 
             ]).then(function() {

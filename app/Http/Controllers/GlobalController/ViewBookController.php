@@ -1025,13 +1025,6 @@ class ViewBookController extends Controller
 
         if (count($allowed_students) != 0) {
 
-            DB::table('chapterquizsched')
-                ->where('id', $checkifexists[0]->id)
-                ->update([
-                    'status'            => 3,
-                    'updateddatetime'   => \Carbon\Carbon::now('Asia/Manila')
-                ]);
-
             foreach ($allowed_students as $student_id) {
                 $student = DB::table('allowed_student_quiz')
                     ->where('id', $student_id)
