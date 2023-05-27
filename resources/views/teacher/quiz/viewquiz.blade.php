@@ -19,7 +19,7 @@
 <!-- Styles -->
 <style>
     .allowed-students li {
-        margin-top: 3px;
+        margin-top: 1em;
     }
     .modal-content {
         overflow:hidden;
@@ -436,9 +436,6 @@
             var attempts = $('#attempts').val();
             var students = $('#select-students').val();
 
-            console.log(students, studentList, selectedQuizId)
-
-            
             // empty <ul class="allowed-students" data-id="">
             $(`ul[data-id="${selectedQuizId}"`).empty();
 
@@ -447,8 +444,7 @@
                 var selectedStudent = studentList.filter(function(data) {
                     return data.id == val;
                 })
-
-                // // add to list
+                // add to list
                 $(`ul[data-id="${selectedQuizId}"`).prepend(`<li id="${selectedStudent[0].id}">${selectedStudent[0].text}</li>`)
             })
 
@@ -461,62 +457,98 @@
 
             // }
 
-            getactivequiz()
+            // getactivequiz()
 
-            // if (!dateFrom || !timeFrom || !dateTo || !timeTo || !attempts) {
-            //     alert('Please fill in all fields.');
-            //     return;
-            // }
-            // // check if the date and time inputs are valid
-            // if (new Date(dateFrom + 'T' + timeFrom + ':00') >= new Date(dateTo + 'T' + timeTo + ':00')) {
-            //     alert('The date and time inputs are not valid.');
-            //     return;
-            // }
-            // // if the form inputs are valid, submit the form
-            // $.ajax({
-            //     type:'GET',
-            //     url: '/viewbookchaptertestavailability',
-            //     data:{
-            //         dateFrom : dateFrom,
-            //         timeFrom : timeFrom,
-            //         dateTo   : dateTo,
-            //         timeTo   : timeTo,
-            //         attempts : attempts,
-            //         quizId   : selectedQuizId,
-            //         classroomId : CLASSROOM_ID,
-            //         allowed_students: students
-            //     },
-            //     success: function(data) {
-            //         if (saveType == 'activate') {
-            //             // add entry to <ul class="allowed-students">
+            if (!dateFrom || !timeFrom || !dateTo || !timeTo || !attempts) {
+                alert('Please fill in all fields.');
+                return;
+            }
+
+            // check if the date and time inputs are valid
+            if (new Date(dateFrom + 'T' + timeFrom + ':00') >= new Date(dateTo + 'T' + timeTo + ':00')) {
+                alert('The date and time inputs are not valid.');
+                return;
+            }
+
+            // if the form inputs are valid, submit the form
+            $.ajax({
+                type:'GET',
+                url: '/viewbookchaptertestavailability',
+                data:{
+                    dateFrom : dateFrom,
+                    timeFrom : timeFrom,
+                    dateTo   : dateTo,
+                    timeTo   : timeTo,
+                    attempts : attempts,
+                    quizId   : selectedQuizId,
+                    classroomId : CLASSROOM_ID,
+                    allowed_students: students
+                },
+                success: function(data) {
+
+                    $("#activateQuizModal").modal('hide');
+
+                    // if (saveType == 'activate') {
+                    //     // add entry to <ul class="allowed-students">
                         
 
-            //         } else if (saveType == 'ongoing') {
+                    // } else if (saveType == 'ongoing') {
 
-            //         } else {
+                    // } else {
 
-            //         }
-            //         // if(data ==1){
-            //         //     $('.close').click();
-            //         //     Toast.fire({
-            //         //             type: 'success',
-            //         //             title: 'Added successfully!'
-            //         //         })
+                    // }
 
-            //         //     getactivequiz()
-            //         // }
 
-            //         // if(data ==0){
-            //         //     $('.close').click();
-            //         //     Toast.fire({
-            //         //             type: 'success',
-            //         //             title: 'The quiz has been reactivated successfully!'
-            //         //         })
+                    // if(data ==1){
+                    //     $('.close').click();
+                    //     Toast.fire({
+                    //             type: 'success',
+                    //             title: 'Added successfully!'
+                    //         })
 
-            //         //     getactivequiz()
-            //         // }
-            //     }
-            // })
+                    //     getactivequiz()
+                    // }
+
+                    // if(data ==0){
+                    //     $('.close').click();
+                    //     Toast.fire({
+                    //             type: 'success',
+                    //             title: 'The quiz has been reactivated successfully!'
+                    //         })
+
+                    //     getactivequiz()
+                    // }
+                }
+            })
+        });
+
+        $('.select-students').on('select2:unselect', function (e) {
+            // Do something
+            var data = e.params.data;
+            var allowed_stud = selectedQuizData[0].allowed_students
+
+            if (selectedQuizData[0].allowed_students) {
+                var studentExists = allowed_stud.filter(function(student) {
+                    return student.id == data.id
+                })
+
+                if (studentExists.length != 0) {
+                    $.ajax({
+                        type:'GET',
+                        url: '/removeallowedstudent',
+                        data:{
+                            chapterquizschedid: studentExists[0].chapterquizschedid,
+                            studentid: studentExists[0].id
+                        },
+
+                        success:function(data) {
+                            if (data == 1) {
+                                console.log('success delete')
+                            }
+                        }
+                    })
+                }
+            }
         });
 
         $(document).on('click', '#activate-quiz', function() {

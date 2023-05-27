@@ -328,8 +328,10 @@ class ViewBookController extends Controller
                 $allowed_students = DB::table('allowed_student_quiz')
                     ->join('users', 'allowed_student_quiz.studentid', '=', 'users.id')
                     ->where('allowed_student_quiz.chapterquizschedid', $quizsched[0]->id)
+                    ->where('allowed_student_quiz.deleted', 0)
                     ->select(
                         'users.id',
+                        'allowed_student_quiz.chapterquizschedid',
                         'users.name')
                     ->get();
 
@@ -359,8 +361,8 @@ class ViewBookController extends Controller
             ->where('chapterquizsched.deleted', 0)
             ->where('classroomid', $request->get('classroomid'))
             ->join('lesssonquiz',function($join){
-                                $join->on('chapterquizsched.chapterquizid','=','lesssonquiz.id');
-                            })
+                $join->on('chapterquizsched.chapterquizid','=','lesssonquiz.id');
+            })
             ->select(
                                 'lesssonquiz.title',
                                 'lesssonquiz.id',
@@ -387,10 +389,12 @@ class ViewBookController extends Controller
 
                 $allowed_students = DB::table('allowed_student_quiz')
                     ->join('users', 'allowed_student_quiz.studentid', '=', 'users.id')
+                    ->where('allowed_student_quiz.chapterquizschedid', $quizsched[0]->id)
+                    ->where('allowed_student_quiz.deleted', 0)
                     ->select(
                         'users.id',
+                        'allowed_student_quiz.chapterquizschedid',
                         'users.name')
-                    ->where('allowed_student_quiz.chapterquizschedid', $quizsched[0]->id)
                     ->get();
 
                 if(count($allowed_students) == 0) {
@@ -923,6 +927,30 @@ class ViewBookController extends Controller
         }
     }
 
+    public function removeallowedstudent(Request $request)
+    {
+
+        try {
+            $chapterquizschedid = $request->get('chapterquizschedid');
+            $studentid = $request->get('studentid');
+    
+            DB::table('allowed_student_quiz')
+                ->where('chapterquizschedid', $chapterquizschedid)
+                ->where('studentid', $studentid)
+                ->where('deleted', 0)
+                ->update([
+                    'deleted'=> 1,
+                    'deletedby'=>auth()->user()->id,
+                    'deleteddatetime'=>\Carbon\Carbon::now('Asia/Manila')
+                ]);
+    
+            return 1;
+        } catch (\Exception $e) {
+            return 0;
+        }
+
+    }
+
     public function updatescore(Request $request)
     {
 
@@ -986,8 +1014,7 @@ class ViewBookController extends Controller
         $status = null;
         $quizschedid = null;
 
-        if(count($checkifexists) == 0)
-        {
+        if(count($checkifexists) == 0) {
             $createdsched = DB::table('chapterquizsched')
                 ->insertGetId([
                     'chapterquizid'         => $request->get('quizId'),
@@ -1005,7 +1032,6 @@ class ViewBookController extends Controller
                 $quizschedid = $createdsched;
 
         } else {
-
             DB::table('chapterquizsched')
                 ->where('id', $checkifexists[0]->id)
                 ->update([
@@ -1023,8 +1049,7 @@ class ViewBookController extends Controller
             $quizschedid = $checkifexists[0]->id;
         }
 
-        if (count($allowed_students) != 0) {
-
+        if (isset($allowed_students)) {
             foreach ($allowed_students as $student_id) {
                 $student = DB::table('allowed_student_quiz')
                     ->where('id', $student_id)
@@ -1046,8 +1071,6 @@ class ViewBookController extends Controller
                 }
             }
         }
-
-
 
         return $status;
 

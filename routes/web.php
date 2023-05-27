@@ -350,6 +350,7 @@ Route::group(['middleware' => ['auth', 'web']], function() {
     Route::get('/updatescore', 'GlobalController\ViewBookController@updatescore');
     Route::get('/updatepoints', 'GlobalController\ViewBookController@updatepoints');
     Route::get('/getclassroomstudents', 'GlobalController\ViewBookController@getclassroomstudents');
+    Route::get('/removeallowedstudent', 'GlobalController\ViewBookController@removeallowedstudent');
 
 
     //View Book    
