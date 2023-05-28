@@ -240,7 +240,7 @@
         var activequiz;
         var selectedQuizId;
         var selectedQuizData;
-        var allowedStudentIds;
+        var allowedStudentIds = [];
         var studentList;
         var saveType;
         var Toast = Swal.mixin({
@@ -455,15 +455,6 @@
                         minimumResultsForSearch: Infinity
                     })
 
-                    // get allow_student_ids
-                    if(selectedQuizData[0].length != 0 && selectedQuizData[0].allowed_students != null) {
-                        allowedStudentIds = selectedQuizData[0].allowed_students.map(function(data) {
-                            return data.id
-                        })
-                    }
-
-                    $(".select-students").val(allowedStudentIds).change().promise()
-
                 }
             })
         }
@@ -473,6 +464,7 @@
         // init
         fetchQuizDataTable()
         getActiveQuiz()
+        renderSelect2Students()
 
         // event handlers
         $("button[type='submit']").click(function(event) {
@@ -691,6 +683,7 @@
         });
 
         $(document).on('click', '#ongoing-quiz', function() {
+
             selectedQuizId = $(this).data('id');
             selectedQuizData = activequiz.filter(function(data) {
                 return data.id == selectedQuizId
@@ -712,7 +705,13 @@
             $('#activateQuizModalLabel').text('Ongoing Quiz');
 
             // render selection with selected values
-            renderSelect2Students()
+            if(selectedQuizData[0].allowed_students != null) {
+                allowedStudentIds = selectedQuizData[0].allowed_students.map(function(data) {
+                    return data.id
+                })
+            } else {
+                allowedStudentIds = []
+            }
 
             // set save type
             saveType = 'ongoing'
@@ -720,6 +719,7 @@
             Promise.all([
 
                 // reset any input values entered
+                // $(".select-students").empty().promise(),
                 $("#date-from").val(dateFrom).promise(),
                 $("#time-from").val(timeFrom).promise(),
                 $("#date-to").val(dateTo).promise(),
