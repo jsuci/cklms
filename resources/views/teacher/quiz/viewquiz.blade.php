@@ -267,6 +267,30 @@
 
         }
 
+        function updateAllowedList() {
+            return $.ajax({
+                type:'GET',
+                url: '/getactivequiz',
+                data:{
+                    classroomid: CLASSROOM_ID
+                },
+                success: function(data) {
+                    activequiz = data
+                    selectedQuizData = activequiz.filter(function(data) {
+                        return data.id == selectedQuizId
+                    })
+
+                    $(`ul[data-id="${selectedQuizId}"`).empty();
+                    if (selectedQuizData[0].allowed_students) {
+                        selectedQuizData[0].allowed_students.forEach(function(data, index) {
+                            $(`ul[data-id="${selectedQuizId}"`).prepend(`<li id="${data.id}">${data.name}</li>`)
+                        })
+                    }
+
+                }
+            })
+        }
+
         function fetchQuizDataTable(){
 
             var classroomid = $('.container-fluid.classroom').data('id');
@@ -565,32 +589,41 @@
                                 success:function(data) {
                                     if (data == 1) {
 
-                                        $.ajax({
-                                            type:'GET',
-                                            url: '/getactivequiz',
-                                            data:{
-                                                classroomid: CLASSROOM_ID
-                                            },
-                                            success: function(data) {
-                                                activequiz = data
-                                                selectedQuizData = activequiz.filter(function(data) {
-                                                    return data.id == selectedQuizId
-                                                })
-
-                                                $(`ul[data-id="${selectedQuizId}"`).empty();
-                                                selectedQuizData[0].allowed_students.forEach(function(data, index) {
-                                                    $(`ul[data-id="${selectedQuizId}"`).prepend(`<li id="${data.id}">${data.name}</li>`)
-                                                })
-
-                                                // show notification
-                                                Toast.fire({
-                                                        icon: 'success',
-                                                        title: 'Student removed successfully',
-                                                        timer: 2000,
-                                                    })
-
-                                            }
+                                        updateAllowedList().then(() => {
+                                            // show notification
+                                            Toast.fire({
+                                                icon: 'success',
+                                                title: 'Student removed successfully',
+                                                timer: 2000,
+                                            })
                                         })
+
+                                        // $.ajax({
+                                        //     type:'GET',
+                                        //     url: '/getactivequiz',
+                                        //     data:{
+                                        //         classroomid: CLASSROOM_ID
+                                        //     },
+                                        //     success: function(data) {
+                                        //         activequiz = data
+                                        //         selectedQuizData = activequiz.filter(function(data) {
+                                        //             return data.id == selectedQuizId
+                                        //         })
+
+                                        //         $(`ul[data-id="${selectedQuizId}"`).empty();
+                                        //         selectedQuizData[0].allowed_students.forEach(function(data, index) {
+                                        //             $(`ul[data-id="${selectedQuizId}"`).prepend(`<li id="${data.id}">${data.name}</li>`)
+                                        //         })
+
+                                        //         // show notification
+                                        //         Toast.fire({
+                                        //                 icon: 'success',
+                                        //                 title: 'Student removed successfully',
+                                        //                 timer: 2000,
+                                        //             })
+
+                                        //     }
+                                        // })
 
                                     } else {
                                         Toast.fire({
