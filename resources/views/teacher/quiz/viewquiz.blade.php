@@ -742,12 +742,13 @@
                 return quiz.id == selectedQuizId
             })
 
-
-            // get allow_student_ids
-            if(selectedQuizData.length != 0 && selectedQuizData[0].allowed_students != null) {
+            // render selection with selected values
+            if(selectedQuizData[0].allowed_students != null) {
                 allowedStudentIds = selectedQuizData[0].allowed_students.map(function(data) {
                     return data.id
                 })
+            } else {
+                allowedStudentIds = []
             }
 
             // assign values
@@ -764,9 +765,6 @@
 
             // change modal title
             $('#activateQuizModalLabel').text('Reactivate Quiz');
-
-            // render select2 student list
-            getclassroomstudents()
 
             // set save type
             saveType = 'reactivate'
