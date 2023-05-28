@@ -240,6 +240,7 @@
         var activequiz;
         var selectedQuizId;
         var selectedQuizData;
+        var allowedStudentIds;
         var studentList;
         var saveType;
         var Toast = Swal.mixin({
@@ -251,7 +252,22 @@
 
 
         // helper functions
-        function getactivequiz(){
+        function getActiveQuiz() {
+
+            $.ajax({
+                type:'GET',
+                url: '/getactivequiz',
+                data:{
+                    classroomid: CLASSROOM_ID
+                },
+                success: function(data) {
+                    activequiz = data
+                }
+            })
+
+        }
+
+        function fetchQuizDataTable(){
 
             var classroomid = $('.container-fluid.classroom').data('id');
             CLASSROOM_ID = classroomid
@@ -265,7 +281,7 @@
 
                 success:function(data) {
                     activequiz = data
-                    loaddatatable()
+                    renderQuizDataTable()
                 }
             })
         }
@@ -281,7 +297,7 @@
             })
         }
 
-        function loaddatatable(){
+        function renderQuizDataTable(){
             $("#quizDataTable2").DataTable({
                 destroy: true,
                 data:activequiz,
@@ -399,7 +415,7 @@
             });
         }
 
-        function getclassroomstudents() {
+        function renderSelect2Students() {
             $.ajax({
                 type:'GET',
                 url: '/getclassroomstudents',
@@ -414,15 +430,25 @@
                         width: '100%',
                         minimumResultsForSearch: Infinity
                     })
+
+                    // get allow_student_ids
+                    if(selectedQuizData[0].length != 0 && selectedQuizData[0].allowed_students != null) {
+                        allowedStudentIds = selectedQuizData[0].allowed_students.map(function(data) {
+                            return data.id
+                        })
+                    }
+
+                    $(".select-students").val(allowedStudentIds).change().promise()
+
                 }
             })
         }
 
 
-        // init
-        getactivequiz()
-        getclassroomstudents()
 
+        // init
+        fetchQuizDataTable()
+        getActiveQuiz()
 
         // event handlers
         $("button[type='submit']").click(function(event) {
@@ -468,95 +494,125 @@
                 },
                 success: function(data) {
 
-                    // update activequiz data
-                    $.ajax({
-                        type:'GET',
-                        url: '/getactivequiz',
-                        data:{
-                            classroomid: CLASSROOM_ID
-                        },
-                        success:function(data) {
-                            activequiz = data
+                    // enable back the save button
+                    $(".activate").prop('disabled', false)
 
-                            // enable back the save button
-                            $(".activate").prop('disabled', false)
+                    if (saveType == 'reactivate') {
+                        // update chapterquizsched status 0 for 'ongoing'
+                        quizSchedStat = 0;
 
-                            if (saveType == 'reactivate') {
-                                // update chapterquizsched status 0 for 'ongoing'
-                                quizSchedStat = 0;
+                        // change the button color and text
+                        $(`#reactivate-quiz[data-id="${selectedQuizId}"]`).removeClass('btn-primary')
+                        $(`#reactivate-quiz[data-id="${selectedQuizId}"]`).addClass('btn-warning')
+                        $(`#reactivate-quiz[data-id="${selectedQuizId}"]`).text('Ongoing')
+                        $(`#reactivate-quiz[data-id="${selectedQuizId}"]`).attr('id', 'ongoing-quiz');
 
-                                // change the button color and text
-                                $(`#reactivate-quiz[data-id="${selectedQuizId}"]`).removeClass('btn-primary')
-                                $(`#reactivate-quiz[data-id="${selectedQuizId}"]`).addClass('btn-warning')
-                                $(`#reactivate-quiz[data-id="${selectedQuizId}"]`).text('Ongoing')
-                                $(`#reactivate-quiz[data-id="${selectedQuizId}"]`).attr('id', 'ongoing-quiz');
+                    }
+                    
+                    if (saveType == 'activate') {
 
-                            }
-                            
-                            if (saveType == 'activate') {
+                        // update chapterquizsched status 0 for 'ongoing'
+                        quizSchedStat = 0;
 
-                                // update chapterquizsched status 0 for 'ongoing'
-                                quizSchedStat = 0;
+                        // change the button color and text
+                        $(`#activate-quiz[data-id="${selectedQuizId}"]`).removeClass('btn-success')
+                        $(`#activate-quiz[data-id="${selectedQuizId}"]`).addClass('btn-warning')
+                        $(`#activate-quiz[data-id="${selectedQuizId}"]`).text('Ongoing')
+                        $(`#activate-quiz[data-id="${selectedQuizId}"]`).attr('id', 'ongoing-quiz');
+                    }
 
-                                // change the button color and text
-                                $(`#activate-quiz[data-id="${selectedQuizId}"]`).removeClass('btn-success')
-                                $(`#activate-quiz[data-id="${selectedQuizId}"]`).addClass('btn-warning')
-                                $(`#activate-quiz[data-id="${selectedQuizId}"]`).text('Ongoing')
-                                $(`#activate-quiz[data-id="${selectedQuizId}"]`).attr('id', 'ongoing-quiz');
-                            }
-                        }
-                    }).then(function() {
 
-                        // empty <ul class="allowed-students" data-id="">
-                        $(`ul[data-id="${selectedQuizId}"`).empty();
+                    // render select2 students
+                    renderSelect2Students()
 
-                        // loop through each student and add to list
-                        students.forEach(function(val, index) {
-                            var selectedStudent = studentList.filter(function(data) {
-                                return data.id == val;
-                            })
-                            // add to list
-                            $(`ul[data-id="${selectedQuizId}"`).prepend(`<li id="${selectedStudent[0].id}">${selectedStudent[0].text}</li>`)
-                        })
-
-                        // hide modal
-                        $("#activateQuizModal").modal('hide');
-                    })
-
+                    // hide modal
+                    $("#activateQuizModal").modal('hide');
                 }
             })
         });
 
         $('.select-students').on('select2:unselect', function (e) {
-            // Do something
             var data = e.params.data;
-            var allowed_stud = selectedQuizData[0].allowed_students
+            var allowed_students = selectedQuizData[0].allowed_students
 
-            if (selectedQuizData[0].allowed_students) {
-                var studentExists = allowed_stud.filter(function(student) {
+            // remove only if student exists in allowed student list
+            if (allowed_students.length != 0) {
+                var studentExists = allowed_students.filter(function(student) {
                     return student.id == data.id
                 })
 
                 if (studentExists.length != 0) {
-                    $.ajax({
-                        type:'GET',
-                        url: '/removeallowedstudent',
-                        data:{
-                            chapterquizschedid: studentExists[0].chapterquizschedid,
-                            studentid: studentExists[0].id
-                        },
+                    // ask for confirmation to remove from db
+                    Swal.fire({
+                        html: `<span style="font-size:15pt;">Are you sure you want to remove <b><u>${studentExists[0].name}</u></b> from the list?</span>`,
+                        text: $(this).attr('label'),
+                        icon: 'warning',
+                        confirmButtonColor: 'rgb(211 29 29)',
+                        confirmButtonText: 'Remove',
+                        showCancelButton: true,
+                        allowOutsideClick: true
+                    }).then((confirm) => {
+                        if (confirm.value == true) {
 
-                        success:function(data) {
-                            if (data == 1) {
-                                // console.log('success delete')
-                            }
+                            $.ajax({
+                                type:'GET',
+                                url: '/removeallowedstudent',
+                                data:{
+                                    chapterquizschedid: studentExists[0].chapterquizschedid,
+                                    studentid: studentExists[0].id
+                                },
+
+                                success:function(data) {
+                                    if (data == 1) {
+
+                                        $.ajax({
+                                            type:'GET',
+                                            url: '/getactivequiz',
+                                            data:{
+                                                classroomid: CLASSROOM_ID
+                                            },
+                                            success: function(data) {
+                                                activequiz = data
+                                                selectedQuizData = activequiz.filter(function(data) {
+                                                    return data.id == selectedQuizId
+                                                })
+
+                                                $(`ul[data-id="${selectedQuizId}"`).empty();
+                                                selectedQuizData[0].allowed_students.forEach(function(data, index) {
+                                                    $(`ul[data-id="${selectedQuizId}"`).prepend(`<li id="${data.id}">${data.name}</li>`)
+                                                })
+
+                                                // show notification
+                                                Toast.fire({
+                                                        icon: 'success',
+                                                        title: 'Student removed successfully',
+                                                        timer: 2000,
+                                                    })
+
+                                            }
+                                        })
+
+                                    } else {
+                                        Toast.fire({
+                                            icon: 'warning',
+                                            title: 'Error removing student from list',
+                                            timer: 2000,
+                                        })
+                                    }
+                                }
+                            })
+                        } else {
+                            // redisplay the selected value
+                            $(".select-students").val(allowedStudentIds).change()
                         }
                     })
+
                 }
             }
         });
 
         $(document).on('click', '#activate-quiz', function() {
+
             // get the quiz id from data-id
             selectedQuizId = $(this).data('id');
             selectedQuizData = activequiz.filter((quiz) => {
@@ -564,9 +620,8 @@
             })
 
             // get allow_student_ids
-            var allowed_students_id = [];
             if(selectedQuizData.length != 0 && selectedQuizData[0].allowed_students != null) {
-                allowed_students_id = selectedQuizData[0].allowed_students.map(function(data) {
+                allowedStudentIds = selectedQuizData[0].allowed_students.map(function(data) {
                     return data.id
                 })
             }
@@ -579,7 +634,7 @@
             $('#activateQuizModal .modal-header').removeClass('bg-warning');
             $('#activateQuizModal .modal-header').addClass('bg-success');
             
-            // render class list
+            // render select2 class list
             getclassroomstudents()
 
             // set save type
@@ -593,7 +648,7 @@
                 $("#date-to").val('').promise(),
                 $("#time-to").val('').promise(),
                 $("#attempts").val('').promise(),
-                $(".select-students").empty().promise()
+                // $(".select-students").val(allowedStudentIds).change().promise()
             ]).then(function() {
 
                 // show activate quiz modal
@@ -602,19 +657,10 @@
         });
 
         $(document).on('click', '#ongoing-quiz', function() {
-            // get the quiz id from data-id
             selectedQuizId = $(this).data('id');
-            selectedQuizData = activequiz.filter((quiz) => {
-                return quiz.id == selectedQuizId
+            selectedQuizData = activequiz.filter(function(data) {
+                return data.id == selectedQuizId
             })
-
-            // get allow_student_ids
-            var allowed_students_id = [];
-            if(selectedQuizData.length != 0 && selectedQuizData[0].allowed_students != null) {
-                allowed_students_id = selectedQuizData[0].allowed_students.map(function(data) {
-                    return data.id
-                })
-            }
 
             // assign values
             var dateFrom = selectedQuizData[0].datefrom;
@@ -631,8 +677,8 @@
             // change modal title
             $('#activateQuizModalLabel').text('Ongoing Quiz');
 
-            // render select2 student list
-            getclassroomstudents()
+            // render selection with selected values
+            renderSelect2Students()
 
             // set save type
             saveType = 'ongoing'
@@ -645,7 +691,7 @@
                 $("#date-to").val(dateTo).promise(),
                 $("#time-to").val(timeTo).promise(),
                 $("#attempts").val(attempts).promise(),
-                $(".select-students").val(allowed_students_id).change().promise()
+                $(".select-students").val(allowedStudentIds).change().promise()
 
             ]).then(function() {
 
@@ -655,16 +701,17 @@
         })
 
         $(document).on('click', '#reactivate-quiz', function() {
+
             // get the quiz id from data-id
             selectedQuizId = $(this).data('id');
             selectedQuizData = activequiz.filter((quiz) => {
                 return quiz.id == selectedQuizId
             })
 
+
             // get allow_student_ids
-            var allowed_students_id = [];
             if(selectedQuizData.length != 0 && selectedQuizData[0].allowed_students != null) {
-                allowed_students_id = selectedQuizData[0].allowed_students.map(function(data) {
+                allowedStudentIds = selectedQuizData[0].allowed_students.map(function(data) {
                     return data.id
                 })
             }
@@ -698,7 +745,7 @@
                 $("#date-to").val(dateTo).promise(),
                 $("#time-to").val(timeTo).promise(),
                 $("#attempts").val(attempts).promise(),
-                $(".select-students").val(allowed_students_id).change().promise()
+                $(".select-students").val(allowedStudentIds).change().promise()
 
             ]).then(function() {
 
@@ -709,7 +756,7 @@
         
         $(document).on('click','.refresh_table',function(){
                 console.log("Refreshed")
-                getactivequiz()
+                fetchQuizDataTable()
         })
 
         $(document).on('click', '.response', function() {
