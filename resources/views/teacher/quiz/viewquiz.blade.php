@@ -281,7 +281,7 @@
                     })
 
                     $(`ul[data-id="${selectedQuizId}"`).empty();
-                    if (selectedQuizData[0].allowed_students) {
+                    if (selectedQuizData.length != 0 && selectedQuizData[0].allowed_students) {
                         selectedQuizData[0].allowed_students.forEach(function(data, index) {
                             $(`ul[data-id="${selectedQuizId}"`).prepend(`<li id="${data.id}">${data.name}</li>`)
                         })
@@ -550,7 +550,12 @@
 
         $('.select-students').on('select2:unselect', function (e) {
             var data = e.params.data;
-            var allowed_students = selectedQuizData[0].allowed_students
+            var allowed_students = []
+
+            if (selectedQuizData.length != 0 && selectedQuizData[0].allowed_students) {
+                allowed_students = selectedQuizData[0].allowed_students
+            }
+            
 
             // remove only if student exists in allowed student list
             if (allowed_students.length != 0) {
@@ -645,11 +650,14 @@
                 return quiz.id == selectedQuizId
             })
 
-            // get allow_student_ids
+
+            // render selection with selected values
             if(selectedQuizData.length != 0 && selectedQuizData[0].allowed_students != null) {
                 allowedStudentIds = selectedQuizData[0].allowed_students.map(function(data) {
                     return data.id
                 })
+            } else {
+                allowedStudentIds = []
             }
 
             // change modal title
@@ -659,9 +667,6 @@
             $('#activateQuizModal .modal-header').removeClass('bg-primary');
             $('#activateQuizModal .modal-header').removeClass('bg-warning');
             $('#activateQuizModal .modal-header').addClass('bg-success');
-            
-            // render select2 class list
-            getclassroomstudents()
 
             // set save type
             saveType = 'activate'
@@ -705,7 +710,7 @@
             $('#activateQuizModalLabel').text('Ongoing Quiz');
 
             // render selection with selected values
-            if(selectedQuizData[0].allowed_students != null) {
+            if(selectedQuizData.length != 0 && selectedQuizData[0].allowed_students != null) {
                 allowedStudentIds = selectedQuizData[0].allowed_students.map(function(data) {
                     return data.id
                 })
@@ -743,7 +748,7 @@
             })
 
             // render selection with selected values
-            if(selectedQuizData[0].allowed_students != null) {
+            if(selectedQuizData.length != 0 && selectedQuizData[0].allowed_students != null) {
                 allowedStudentIds = selectedQuizData[0].allowed_students.map(function(data) {
                     return data.id
                 })
