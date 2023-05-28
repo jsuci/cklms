@@ -545,7 +545,8 @@
                         $(`#activate-quiz[data-id="${selectedQuizId}"]`).attr('id', 'ongoing-quiz');
                     }
 
-
+                    updateAllowedList()
+                    
                     // render select2 students
                     renderSelect2Students()
 
