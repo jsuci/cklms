@@ -54,7 +54,7 @@
                 @else
 
 
-                    @if(count($allowedstudents) != 0 && $allowedstudents->contains('studentid', auth()->user()->id))
+                    @if(count($allowedstudents) == 0 || $allowedstudents->contains('studentid', auth()->user()->id))
 
                         <div class="card mt-5" style= "border-top: 10px solid #673AB7  !important;
                         border-radius: 10px  !important;" id="quiz-info">
