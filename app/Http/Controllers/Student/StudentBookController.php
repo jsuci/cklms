@@ -357,6 +357,7 @@ class StudentBookController extends Controller
             $numberOfAttempts =  DB::table('chapterquizrecords')
                 ->where('submittedby',auth()->user()->id)
                 ->where('chapterquizid',$quizid)
+                ->whereNotNull('totalscore')
                 ->count();
             
             if($numberOfAttempts == 0){
