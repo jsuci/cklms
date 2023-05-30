@@ -371,6 +371,7 @@ class ViewBookController extends Controller
                                 'dateto',
                                 'timeto',
                                 'noofattempts',
+                                'randomize',
                                 'chapterquizsched.createddatetime'
                     )
             ->get();

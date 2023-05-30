@@ -722,6 +722,13 @@
                 return data.id == selectedQuizId
             })
 
+            console.log(selectedQuizData)
+            if (selectedQuizData[0].randomize == 1) {
+                $("#randomizeQuestion").prop("checked", true);
+            } else {
+                $("#randomizeQuestion").prop("checked", false);
+            }
+
             // assign values
             var dateFrom = selectedQuizData[0].datefrom;
             var timeFrom = selectedQuizData[0].timefrom;
