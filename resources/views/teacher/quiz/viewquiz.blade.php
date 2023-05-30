@@ -25,6 +25,19 @@
         overflow:hidden;
         border: 0px solid rgba(0, 0, 0, 0.2) !important;
     }
+    .randomize-checkbox {
+        display: inline !important;
+        width: 21px !important;
+        padding: 0 !important;
+        border: 0 !important;
+        height: 21px !important;
+        margin-bottom: 0 !important;
+    }
+    .randomize-label {
+        margin: 0 !important;
+        padding: 0 !important;
+        display: inline !important;
+    }
 </style>
 
 
@@ -205,6 +218,12 @@
                 <div class="form-group">
                     <label for="attempts">Number of Attempts</label>
                     <input type="number" class="form-control" id="attempts" name="attempts" required>
+                </div>
+                <div class="form-group">
+                    <input class="randomize-checkbox" type="checkbox" value="" id="randomizeQuestion">
+                    <label class="randomize-label" for="randomizeQuestion">
+                        Randomize Quiz Questions
+                    </label>
                 </div>
             </form>
         </div>
@@ -477,6 +496,7 @@
             var timeTo = $('#time-to').val();
             var attempts = $('#attempts').val();
             var students = $('#select-students').val();
+            var isRandomize;
             var quizSchedStat = 0;
 
             if (!dateFrom || !timeFrom || !dateTo || !timeTo || !attempts) {
@@ -490,10 +510,15 @@
                 return;
             }
 
-            // temporarily disable save button
-            $(".activate").prop('disabled', true)
+            // check if randomize button is checked
+            if ($('#randomizeQuestion').prop('checked')) {
+                isRandomize = 1
+            } else {
+                isRandomize = 0
+            }
 
             // if the form inputs are valid, submit the form
+            $(".activate").prop('disabled', true)
             $.ajax({
                 type:'GET',
                 url: '/viewbookchaptertestavailability',
@@ -506,7 +531,8 @@
                     quizId      : selectedQuizId,
                     classroomId : CLASSROOM_ID,
                     allowed_students: students,
-                    status      : quizSchedStat
+                    status      : quizSchedStat,
+                    randomize   : isRandomize
                 },
                 success: function(data) {
 
@@ -546,6 +572,8 @@
                     $("#activateQuizModal").modal('hide');
                 }
             })
+
+
         });
 
         $('.select-students').on('select2:unselect', function (e) {

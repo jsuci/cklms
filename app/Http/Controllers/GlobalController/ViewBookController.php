@@ -1004,6 +1004,7 @@ class ViewBookController extends Controller
     {
 
         $allowed_students = $request->get('allowed_students');
+        $randomize = $request->get('randomize');
         
         $checkifexists = DB::table('chapterquizsched')
             ->where('chapterquizid', $request->get('quizId'))
@@ -1024,6 +1025,7 @@ class ViewBookController extends Controller
                     'dateto'                => $request->get('dateTo'),
                     'timeto'                => $request->get('timeTo'),
                     'noofattempts'          => $request->get('attempts'),
+                    'randomize'             => $randomize,
                     'createdby'             => auth()->user()->id,
                     'createddatetime'       => \Carbon\Carbon::now('Asia/Manila')
                 ]);
@@ -1042,6 +1044,7 @@ class ViewBookController extends Controller
                     'dateto'                => $request->get('dateTo'),
                     'timeto'                => $request->get('timeTo'),
                     'noofattempts'          => $request->get('attempts'),
+                    'randomize'             => $randomize,
                     'status'                => $request->get('status'),
                     'updateddatetime'       => \Carbon\Carbon::now('Asia/Manila')
                 ]);
