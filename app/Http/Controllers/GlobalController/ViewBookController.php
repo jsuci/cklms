@@ -443,28 +443,28 @@ class ViewBookController extends Controller
             ->value('studname');
 
         $quizInfo = DB::table('lesssonquiz')
-                        ->where('id',$quizid)
-                        ->select('id','title', 'coverage', 'description' )
-                        ->first();
+            ->where('id',$quizid)
+            ->select('id','title', 'coverage', 'description' )
+            ->first();
 
 
 
         $quizQuestions = DB::table('lessonquizquestions')
-                    ->where('lessonquizquestions.deleted','0')
-                    ->where('quizid', $quizInfo->id)
-                    ->select(
-                        'lessonquizquestions.id',
-                        'lessonquizquestions.question',
-                        'lessonquizquestions.typeofquiz',
-                        'lessonquizquestions.item',
-                        'lessonquizquestions.ordered'
-                    )
-                    ->get();
+            ->where('lessonquizquestions.deleted','0')
+            ->where('quizid', $quizInfo->id)
+            ->select(
+                'lessonquizquestions.id',
+                'lessonquizquestions.question',
+                'lessonquizquestions.typeofquiz',
+                'lessonquizquestions.item',
+                'lessonquizquestions.ordered'
+            )
+            ->get();
 
         foreach($quizQuestions as $item){
 
             // multiple choice
-            if($item->typeofquiz == 1){
+            if ($item->typeofquiz == 1) {
 
                 $choices = DB::table('lessonquizchoices')
                     ->where('questionid',$item->id)
@@ -510,12 +510,10 @@ class ViewBookController extends Controller
                 }else{
                     $item->answer = 0;
                 }
-
-
             }
 
             // essay and short-answer
-            if($item->typeofquiz == 2 || $item->typeofquiz == 3 ){
+            if ($item->typeofquiz == 2 || $item->typeofquiz == 3 ) {
 
                 $answer = DB::table('chapterquizrecordsdetail')
                                 ->where('questionid',$item->id)
@@ -530,13 +528,13 @@ class ViewBookController extends Controller
             }
 
             // fill in the blanks
-            if($item->typeofquiz == 7 ){
+            if ($item->typeofquiz == 7 ) {
 
 
                 $fillquestions = DB::table('lesson_fill_question')
-                                            ->where('questionid', $item->id)
-                                            ->orderBy('sortid')
-                                            ->get();
+                    ->where('questionid', $item->id)
+                    ->orderBy('sortid')
+                    ->get();
 
                 $item->fill = $fillquestions;
 
@@ -626,7 +624,6 @@ class ViewBookController extends Controller
                             }else{
                                 $ans->check = '<span><i class="fa fa-times" style="color: red;" aria-hidden="true"></i></span>'; 
                             }
-                            
 
                         } 
 
@@ -679,26 +676,20 @@ class ViewBookController extends Controller
 
             // enumeration
             if($item->typeofquiz == 8){
-            
-
                 $numberOfTimes = $item->item;
-
-
                 $newArray = []; // Declare an empty array
 
                 for ($i = 0; $i < $numberOfTimes; $i++) {
-
                     $answer  = DB::table('chapterquizrecordsdetail')
-                                    ->where('questionid',$item->id)
-                                    ->where('headerid', $recordid)
-                                    ->where('sortid', $i+1)
-                                    ->where('deleted',0)
-                                    ->value('stringanswer');
+                        ->where('questionid',$item->id)
+                        ->where('headerid', $recordid)
+                        ->where('sortid', $i+1)
+                        ->where('deleted',0)
+                        ->value('stringanswer');
                     $newArray[] = $answer;
                 }
 
                 $answerArray = [];
-
                 $score = 0;
 
                 foreach($newArray as $key=>$new) {
@@ -752,7 +743,6 @@ class ViewBookController extends Controller
                         }else{
                             $answerArray[] = 0;
                         }
-
                     }
                 }
 
@@ -781,7 +771,6 @@ class ViewBookController extends Controller
                                             ->get();
 
                 $item->drop = $dropquestions;
-
 
                 $score = 0;
 

@@ -153,6 +153,8 @@ Route::middleware(['auth', 'isAdministrator','isDefaultPass'])->group(function (
     Route::get('/adminviewbook/createdragoption', 'Admin\BookController@createdragoption');
     Route::get('/adminviewbook/createdropquestion', 'Admin\BookController@createdropquestion');
     Route::get('/adminviewbook/createfillquestion', 'Admin\BookController@createFillquestion');
+    Route::get('/adminviewbook/setpoints', 'Admin\BookController@setPoints');
+    Route::get('/adminviewbook/setguideanswer', 'Admin\BookController@setGuideanswer');
     
     //Answer Key
     Route::get('/adminviewbook/getquestion', 'Admin\BookController@getquestion');
@@ -164,6 +166,7 @@ Route::middleware(['auth', 'isAdministrator','isDefaultPass'])->group(function (
     Route::get('/adminviewbook/getfillquestion', 'Admin\BookController@getFillQuestion');
     Route::get('/adminviewbook/returneditquizfill', 'Admin\BookController@returnEditfill');
     Route::get('/adminviewbook/getenumquestion', 'Admin\BookController@getEnum');
+    Route::get('/adminviewbook/returneditquizenum', 'Admin\BookController@returnEditenum');
     
 
     

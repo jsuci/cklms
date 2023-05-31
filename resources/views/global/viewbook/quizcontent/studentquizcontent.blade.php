@@ -179,111 +179,126 @@
         </div> 
 
 <script>
-
     $(document).ready(function(){
 
-                var data = {!! json_encode($quizQuestions) !!};
-                console.log(data);
+        var data = {!! json_encode($quizQuestions) !!};
+        var STUDENT_ID = 2;
+        var Toast = Swal.mixin({
+            toast: true,
+            position: 'top-end',
+            showConfirmButton: false,
+            timer: 3000,
+            timerProgressBar: true,
+            didOpen: (toast) => {
+                toast.addEventListener('mouseenter', Swal.stopTimer)
+                toast.addEventListener('mouseleave', Swal.resumeTimer)
+            }
+        });
 
-                var STUDENT_ID = 2;
 
-                const Toast = Swal.mixin({
-                    toast: true,
-                    position: 'top-end',
-                    showConfirmButton: false,
-                    timer: 3000,
-                    timerProgressBar: true,
-                    didOpen: (toast) => {
-                        toast.addEventListener('mouseenter', Swal.stopTimer)
-                        toast.addEventListener('mouseleave', Swal.resumeTimer)
-                    }
-                });
+        function previewImage(input) {
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+                reader.onload = function (e) {
+                    $('#preview').attr('src', e.target.result);
+                    $('#preview').show();
+                }
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
 
-                function previewImage(input) {
-                    if (input.files && input.files[0]) {
-                        var reader = new FileReader();
-                        reader.onload = function (e) {
-                            $('#preview').attr('src', e.target.result);
-                            $('#preview').show();
+        function autoSaveAnswer(thisElement) {
+            // Get the answer data
+            var quizId = $('#quiz-info').data('quizid');
+            var headerId = $('.card-body').data('headerid');
+            var answer = $(thisElement).val();
+            var questionId = $(thisElement).data('question-id');
+            var questionType = $(thisElement).data('question-type');
+            var sortId = $(thisElement).data('sortid');
+
+
+            
+
+            console.log(`student answer: ${answer}, sortid: ${sortId}, question-id: ${questionId}, question-type: ${questionType}`)
+
+            //Send an AJAX request to save the answer data
+
+
+            if (questionType !== 6) {
+            //Send an AJAX request to save the answer data
+                $.ajax({
+                    url: '/save-answer',
+                    method: 'GET',
+                    data: {
+                    chapterquizid : quizId,
+                    answer: answer,
+                    headerId: headerId,
+                    questionType: questionType,
+                    sortId: sortId,
+                    question_id: questionId
+                    },
+                    success: function(response) {
+                        if (response == 1){
+                            console.log("Answer Inserted successfully");
+                        }else{
+                            console.log("Answer Updated successfully");
                         }
-                        reader.readAsDataURL(input.files[0]);
-                    }
-                }
 
-                function autoSaveAnswer(thisElement) {
-                    // Get the answer data
-                    var quizId = $('#quiz-info').data('quizid');
-                    var headerId = $('.card-body').data('headerid');
-                    var answer = $(thisElement).val();
-                    var questionId = $(thisElement).data('question-id');
-                    var questionType = $(thisElement).data('question-type');
-                    var sortId = $(thisElement).data('sortid');
-
-
-                    
-
-                    console.log(`student answer: ${answer}, sortid: ${sortId}, question-id: ${questionId}, question-type: ${questionType}`)
-
-                    //Send an AJAX request to save the answer data
-
-
-                    if (questionType !== 6) {
-                    //Send an AJAX request to save the answer data
-                        $.ajax({
-                            url: '/save-answer',
-                            method: 'GET',
-                            data: {
-                            chapterquizid : quizId,
-                            answer: answer,
-                            headerId: headerId,
-                            questionType: questionType,
-                            sortId: sortId,
-                            question_id: questionId
-                            },
-                            success: function(response) {
-                                if (response == 1){
-                                    console.log("Answer Inserted successfully");
-                                }else{
-                                    console.log("Answer Updated successfully");
-                                }
-
-                                //Handle the response from the server if needed
-                                // Update the href attribute of the <a> tag with the uploaded image URL
-                                var uploadedImageUrl = response['picurl']; // Replace this with the actual uploaded image URL from the server
-                                $('#preview-link').attr('href', uploadedImageUrl);
-                            }
-                        });
-                    }
-                }
-
-                
-
-
-
-                // drag and drop
-                $( ".drag-option" ).draggable({
-                    helper: "clone",
-                    revertDuration: 100,
-                    revert: 'invalid'
-                });
-
-                $( ".drop-option" ).droppable({
-                    drop: function(event, ui) {
-
-                        var dragElement = $(ui.draggable)
-                        var dropElement = $(this)
-
-                        dropElement.val(dragElement.text())
-                        dropElement.addClass('bg-primary text-white')
-                        dropElement.prop( "disabled", true );
-
-                        dragElement.removeClass('bg-primary')
-                        dragElement.addClass('bg-dark')
-
-                        // auto save answer
-                        autoSaveAnswer(dropElement)
+                        //Handle the response from the server if needed
+                        // Update the href attribute of the <a> tag with the uploaded image URL
+                        var uploadedImageUrl = response['picurl']; // Replace this with the actual uploaded image URL from the server
+                        $('#preview-link').attr('href', uploadedImageUrl);
                     }
                 });
+            }
+        }
+
+
+        // show preview image
+        $(document).on('change', '#imageInput', function(){
+			previewImage(this);
+        });
+
+        // highlight card selection
+        $(document).on('click', '.editcontent', function(){
+            $('.ui-helper-hidden-accessible').remove();
+            $('.editcontent').css({
+                "border": "2px solid white",
+                "border-radius": "5px"
+                // "padding": "20px",
+            });
+
+            $(this).css({
+                "border": "2px solid dodgerblue",
+                "border-radius": "5px"
+                // "padding": "20px",
+            });
+        });
+
+        // drag and drop
+        $( ".drag-option" ).draggable({
+            helper: "clone",
+            revertDuration: 100,
+            revert: 'invalid'
+        });
+
+        $( ".drop-option" ).droppable({
+            drop: function(event, ui) {
+
+                var dragElement = $(ui.draggable)
+                var dropElement = $(this)
+
+                dropElement.val(dragElement.text())
+                dropElement.addClass('bg-primary text-white')
+                dropElement.prop( "disabled", true );
+
+                dragElement.removeClass('bg-primary')
+                dragElement.addClass('bg-dark')
+
+                // auto save answer
+                autoSaveAnswer(dropElement)
+            }
+        });
 
         // select choice by clicking label
         $("label").click(function() {
@@ -292,6 +307,16 @@
 
             inputElement.prop("checked", true);
             autoSaveAnswer(inputElement);
+        });
+
+        // scroll to the bottom of the page when the button is clicked
+        $('#scroll-to-bottom').click(function() {
+            $('html, body').animate({
+                scrollTop: $(document).height(),
+            }, 'slow', function() {
+                $('#scroll-to-bottom').fadeOut();
+            });
+            return false;
         });
 
         // auto save answer when switching to 
@@ -306,7 +331,6 @@
             var questionId = $(this).data('question-id');
             var questionType = $(this).data('question-type');
 
-            console.log(questionId, questionType)
 
             // Get the file input element
             var fileInput = $(this)[0];
@@ -362,41 +386,7 @@
                 $('#scroll-to-bottom').fadeOut();
             }
         });
-        
-        // scroll to the bottom of the page when the button is clicked
-        $('#scroll-to-bottom').click(function() {
-            $('html, body').animate({
-                scrollTop: $(document).height(),
-            }, 'slow', function() {
-                $('#scroll-to-bottom').fadeOut();
-            });
-            return false;
-        });
-
-        // show preview image
-
-        $(document).on('change', '#imageInput', function(){
-			previewImage(this);
-        });
 
 
-
-        $(document).on('click', '.editcontent', function(){
-                    $('.ui-helper-hidden-accessible').remove();
-                    $('.editcontent').css({
-                        "border": "2px solid white",
-                        "border-radius": "5px"
-                        // "padding": "20px",
-            
-                    });
-
-                    $(this).css({
-                        "border": "2px solid dodgerblue",
-                        "border-radius": "5px"
-    
-                        // "padding": "20px",
-                    });
-
-                });
     })
-    </script>
+</script>

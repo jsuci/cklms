@@ -1424,7 +1424,6 @@ class BookController extends Controller
     }
 
     public function returnEditfill(Request $request)
-
     {
         $question = DB::table('lessonquizquestions')
             ->where('id', $request->get('id'))
@@ -1452,8 +1451,45 @@ class BookController extends Controller
         }
 
 
-    return response()->json($question);
-    
-        
+        return response()->json($question);
+    }
+
+    public function returnEditenum(Request $request)
+    {
+        $question = DB::table('lessonquizquestions')
+            ->where('id', $request->get('id'))
+            ->select('id','question' , 'ordered' , 'item')
+            ->where('deleted', 0)
+            ->first();
+
+
+            $answer = DB::table('lesson_quiz_enum_answer')
+                ->where('headerid', $question->id)
+                ->orderBy('sortid')
+                ->pluck('answer');
+
+            $answerString = implode(',', $answer->toArray());
+
+            $question->answer = $answerString;
+
+        return response()->json($question);
+    }
+
+    public function setPoints(Request $request)
+    {
+        DB::table('lessonquizquestions')
+            ->where('id', $request->get('dataid'))
+            ->update([
+                'points'   => $request->get('points')
+            ]);
+    }
+
+    public function setGuideanswer(Request $request)
+    {
+        DB::table('lessonquizquestions')
+            ->where('id', $request->get('dataid'))
+            ->update([
+                'quideanswer'   => $request->get('answer')
+            ]);
     }
 }

@@ -22,9 +22,9 @@ class StudentBookController extends Controller
 
         return '1';
     }
-    public function studentQuizContentattempt(Request $request , $quizid, $classroomid){
 
-
+    public function studentQuizContentattempt(Request $request , $quizid, $classroomid)
+    {
         $recordid = $request->get('recordid');
 
         $quizInfo = DB::table('lesssonquiz')
@@ -305,14 +305,15 @@ class StudentBookController extends Controller
         // dd($quizQuestions);
 
         return view('global.viewbook.quizcontent.studentquizcontent')
-                    ->with('quizInfo',$quizInfo)
-                    ->with('headerid',$recordid)
-                    ->with('classroomid',$classroomid)
-                    ->with('quizQuestions',$quizQuestions);
+            ->with('quizInfo',$quizInfo)
+            ->with('headerid',$recordid)
+            ->with('classroomid',$classroomid)
+            ->with('quizQuestions',$quizQuestions);
 
-        }
+    }
 
-    public function studentQuizContent($quizid, $clasroomid){
+    public function studentQuizContent($quizid, $clasroomid)
+    {
 
             $chapterquizsched = DB::table('chapterquizsched')
                 ->where('chapterquizid',$quizid)
@@ -401,9 +402,10 @@ class StudentBookController extends Controller
                         //  ->with('quizAnswersInfo',$quizAnswersInfo)
                         // ->with('quizQuestions',$quizQuestions);
 
-        }
+    }
 
-    public function retakeQuiz($id){
+    public function retakeQuiz($id)
+    {
 
         DB::table('chapterquizrecords')
             ->where('id',$id)
@@ -419,7 +421,8 @@ class StudentBookController extends Controller
 
     }
 
-    public function attemptQuiz(Request $request){
+    public function attemptQuiz(Request $request)
+    {
 
         if($request->get('id') != NULL) {
             $id = $request->get('id');
@@ -446,8 +449,8 @@ class StudentBookController extends Controller
 
     }
 
-
-    public function saveAnswer(Request $request){
+    public function saveAnswer(Request $request)
+    {
 
         $checkIfexist =  DB::table('chapterquizrecordsdetail')
             ->where('headerid',$request->get('headerId'))
