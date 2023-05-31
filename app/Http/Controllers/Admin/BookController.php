@@ -1314,15 +1314,11 @@ class BookController extends Controller
                 }
 
             }
-        
-        
     }
 
 
     public function setAnswerdrop(Request $request)
     {
-        
-
         $checkifexist =  DB::table('lesson_quiz_drop_answer')
             ->where('headerid', $request->get('question_id'))
             ->where('sortid', $request->get('sortId'))
@@ -1356,7 +1352,6 @@ class BookController extends Controller
     }
 
     public function returneditquiz(Request $request)
-
     {
 
 
@@ -1380,13 +1375,10 @@ class BookController extends Controller
 
 
     return response()->json($question);
-    
-        
     }
 
 
     public function returnEditdrag(Request $request)
-
     {
         $question = DB::table('lessonquizquestions')
             ->where('id', $request->get('id'))
@@ -1492,4 +1484,11 @@ class BookController extends Controller
                 'quideanswer'   => $request->get('answer')
             ]);
     }
+
+    public function getPHPVersion()
+    {
+        $phpVersion = phpversion();
+        return "PHP Version: " . $phpVersion;
+    }
+
 }

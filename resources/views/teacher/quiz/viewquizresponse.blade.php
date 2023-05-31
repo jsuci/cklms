@@ -300,6 +300,36 @@
                     <!-- upload image -->
                     <div class="card mt-5 ml-3 editcontent">
                         <div class="card-body">
+
+                            <div class="circle-points" >
+                                <input type="checkbox" id="menu_opener_id_{{$item->id}}" class="menu_opener">
+                                <label for="menu_opener_id_{{$item->id}}" data-points-edit="{{$item->id}}" class="menu_opener_label student-score">0</label>
+
+                                <div class="link_one" data-question-id="{{$item->id}}">
+                                    <div class="link_general">
+                                        1
+                                    </div>
+                                </div>
+
+                                <div class="link_two" data-question-id="{{$item->id}}">
+                                    <div class="link_general">
+                                        3
+                                    </div>
+                                </div>
+
+                                <div class="link_three" data-question-id="{{$item->id}}">
+                                    <div class="link_general">
+                                        5
+                                    </div>
+                                </div>
+
+                                <div class="link_four" data-question-id="{{$item->id}}">
+                                    <div class="link_general">
+                                        <i class="fa fa-plus"></i>
+                                    </div>
+                                </div>
+                            </div>
+
                             <p>{!! $item->question !!}</p>
                             <div class="form-group">
                                 <input class="answer-field form-control-file imageInput" data-question-type="{{$item->typeofquiz}}" data-question-id="{{$item->id}}" id="{{$questioninfo->id}}" type="file" accept="image/*">
@@ -485,20 +515,54 @@
             // set the label text
             $(`label[for=menu_opener_id_${questionId}]`).text(score);
 
-            // recalculate and save score
-            calcScore().then((data) => {
-                if (data == 1) {
-                    Toast.fire({
-                        icon: 'success',
-                        title: 'Score updated successfully',
-                        timer: 2000,
-                    })
-                } else {
-                    Toast.fire({
-                        icon: 'success',
-                        title: 'Error updating score',
-                        timer: 2000,
-                    })
+            console.log('headerId', {{$headerid}}, 'questionId', questionId)
+
+            // save updated score
+            $.ajax({
+                type:'GET',
+                url: '/updatepoints',
+                data: {
+                    headerid: {{$headerid}},
+                    questionid: questionId,
+                    points: score
+                },
+                success: function(data) {
+                    if (data == 1) {
+
+
+                        // recalculate and save score
+                        calcScore().then((data) => {
+                            if (data == 1) {
+                                Toast.fire({
+                                    icon: 'success',
+                                    title: 'Points updated successfully',
+                                    timer: 2000,
+                                }).then(function() {
+                                    Toast.fire({
+                                        icon: 'success',
+                                        title: 'Score updated successfully',
+                                        timer: 2000,
+                                    })
+                                })
+                            } else {
+                                Toast.fire({
+                                    icon: 'success',
+                                    title: 'Error updating score',
+                                    timer: 2000,
+                                })
+                            }
+                        })
+
+
+
+
+                    } else {
+                        Toast.fire({
+                            icon: 'success',
+                            title: 'Error updating Points',
+                            timer: 2000,
+                        })
+                    }
                 }
             })
 
@@ -526,7 +590,6 @@
             // make edit text distinction
             $(`label[for=menu_opener_id_${questionId}]`).html(`&nbsp`);
 
-            
             // change background
             $(`label[for=menu_opener_id_${questionId}]`).css('background-color', 'rgb(255 200 160)');
             $(`label[for=menu_opener_id_${questionId}]`).css('color', '#000');

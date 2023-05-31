@@ -968,20 +968,23 @@ class ViewBookController extends Controller
     {
 
         try {
-            $recordid = $request->get('recordid');
+            $headerid = $request->get('headerid');
+            $questionid = $request->get('questionid');
             $points = $request->get('points');
             
             $items = DB::table('chapterquizrecordsdetail')
-                ->where('questionid', $recordid)
+                ->where('headerid', $headerid)
+                ->where('questionid', $questionid)
                 ->where('deleted', 0)
                 ->get();
+
+            // dd($items);
             
             foreach ($items as $item) {
                 DB::table('chapterquizrecordsdetail')
                     ->where('id', $item->id)
                     ->update(['points' => $points]);
             }
-            
 
             return 1;
         } catch (\Exception $e) {
@@ -1194,4 +1197,5 @@ class ViewBookController extends Controller
             ->with('quizinfo', $quizinfo);
         
     }
+
 }

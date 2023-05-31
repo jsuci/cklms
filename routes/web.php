@@ -136,7 +136,8 @@ Route::middleware(['auth', 'isAdministrator','isDefaultPass'])->group(function (
 
     Route::get('/adminviewbook/addpart', 'Admin\BookController@addpart');  
     Route::get('/adminviewbook/addchapter', 'Admin\BookController@addchapter');  
-    Route::get('/adminviewbook/addlesson', 'Admin\BookController@addlesson');  
+    Route::get('/adminviewbook/addlesson', 'Admin\BookController@addlesson');
+    Route::get('/adminviewbook/getPHPVersion', 'Admin\BookController@getPHPVersion');
     
     //admin create quiz
     Route::get('/adminviewbook/addquiz/{id}', 'Admin\BookController@addquiz');
