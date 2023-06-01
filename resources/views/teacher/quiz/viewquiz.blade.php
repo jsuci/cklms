@@ -347,6 +347,9 @@
                 order: [[0, 'asc']],
                 lengthChange: false,
                 responsive: true,
+                rowReorder: {
+                    selector: 'td:nth-child(0)'
+                },
                 ordering: false,
                 columns: [
                     { "data": null},
